@@ -15,10 +15,25 @@ export default function Layout() {
   return (
     <div className="flex flex-row mt-5 px-16">
       <ul className="flex flex-row justify-between w-full">
-        <li onClick={() => router.push("/")}>HOME</li>
-        <li onClick={() => router.push("/blogs")}>BLOG</li>
-        <li onClick={() => router.push("/resume")}>RESUME</li>
-        <li>
+        <li
+          className="cursor-pointer hover:shadow-xl w-1/5 text-center"
+          onClick={() => router.push("/")}
+        >
+          HOME
+        </li>
+        <li
+          className="cursor-pointer hover:shadow-xl w-1/5 text-center"
+          onClick={() => router.push("/blogs")}
+        >
+          BLOG
+        </li>
+        <li
+          className="cursor-pointer hover:shadow-xl w-1/5 text-center"
+          onClick={() => router.push("/resume")}
+        >
+          RESUME
+        </li>
+        <li className="">
           {load ? (
             <svg
               className="w-6 h-6"
