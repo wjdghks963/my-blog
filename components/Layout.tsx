@@ -16,10 +16,8 @@ export default function Layout({
   return (
     <>
       <SEO title={title} url={url} description={description} image={image} />
-      <div>
-        <div className="">
-          <Header />
-        </div>
+      <div className="flex flex-col">
+        <Header />
         {children}
       </div>
     </>
