@@ -7,7 +7,7 @@ import "@uiw/react-markdown-preview/markdown.css";
 import { useMutation } from "@libs/client/useMutation";
 import { useRouter } from "next/router";
 
-interface IPostJson {
+export interface IPostJson {
   title?: string;
   markdown: string | undefined;
   tags?: string[] | void;
