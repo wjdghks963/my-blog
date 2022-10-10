@@ -9,6 +9,17 @@ export default async function Delete(
   if (req.method === "POST") {
     const { id } = req.body.query;
 
-    return res.status(200).json({ ok: true });
+    //     const deleted = await prismaclient.post.delete({
+    //       where: {
+    //         id: +id,
+    //       },
+    //     });
+    //     if (deleted) {
+    //       return res.status(200).json({ ok: true });
+    //     }
+
+    await prismaclient.post.deleteMany();
+    await prismaclient.tag.deleteMany();
+    await prismaclient.postTag.deleteMany();
   }
 }

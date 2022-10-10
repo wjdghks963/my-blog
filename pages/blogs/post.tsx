@@ -29,7 +29,8 @@ export default function Post() {
     let { value } = tagsRef?.current!;
 
     if (value === "") return;
-    return value.split(", ");
+    const set = new Set(value.split(", "));
+    return [...set];
   };
 
   const handleSubmit = (e: any) => {

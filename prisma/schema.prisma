@@ -19,12 +19,20 @@ model Post {
   content String 
   createdAt DateTime @default(now())
   updateAt DateTime @default(now())
-  tags Tag[]
+  posttag PostTag[]
+
 }
 
 model Tag {
   id Int @id @unique @default(autoincrement()) 
-  post Post @relation(fields: [postId],references: [id])
-  postId Int
   tag String
+  posttag PostTag[]
+}
+
+model PostTag {
+  id Int @id @unique @default(autoincrement()) 
+  tag Tag? @relation(fields: [tagId], references: [id])
+  tagId Int 
+  post Post? @relation(fields: [postId], references: [id])
+  postId Int 
 }
