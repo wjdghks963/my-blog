@@ -2,5 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log(req.body);
-  res.status(200).json({ name: "John Doe" });
+
+  // TODO:: prisma 정상 저장완료시 ok 반환
+  return res.status(200).json({ ok: true });
 }

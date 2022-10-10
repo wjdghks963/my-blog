@@ -1,157 +1,87 @@
-import React, { useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import React, { useCallback, useState } from "react";
 import dynamic from "next/dynamic";
 import { useRef } from "react";
+import "@uiw/react-md-editor/markdown-editor.css";
+import "@uiw/react-markdown-preview/markdown.css";
+import { useMutation } from "@libs/client/useMutation";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-const QuillWrapper = dynamic(() => import("react-quill"), {
-  ssr: false,
-  loading: () => <p>Loading ...</p>,
-});
+interface IPostJson {
+  title?: string;
+  markdown: string | undefined;
+  tags?: string[] | void;
+}
+
+type MutationResult = { ok: boolean };
+
+const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
 export default function Post() {
-  const imageHandler = () => {
-    const input = document.createElement("input");
-    input.setAttribute("type", "file");
-    input.setAttribute("accept", "image/*");
-    input.click();
-    input.onchange = async () => {
-      if (input.files) {
-        var file: any = input.files[0];
-        var formData = new FormData();
-        formData.append("image", file);
-        var fileName = file.name;
-        console.log(formData);
-      }
-    };
-  };
+  const router = useRouter();
+  const tagsRef = useRef<HTMLInputElement>(null);
+  const titleRef = useRef<HTMLInputElement>(null);
+  const [markdown, setMarkdwon] = useState<string | undefined>("");
+  const [post, { data, loading, error }] =
+    useMutation<MutationResult>("/api/blogs/post");
 
-  const modules = {
-    toolbar: {
-      container: [
-        [{ header: [1, 2, 3, 4, 5, 6, false] }],
-        [{ font: [] }],
-        [{ align: [] }],
-        ["bold", "italic", "underline", "strike", "blockquote", "codeblock"],
-        [{ list: "ordered" }, { list: "bullet" }, "link"],
-        [
-          {
-            color: [
-              "#000000",
-              "#e60000",
-              "#ff9900",
-              "#ffff00",
-              "#008a00",
-              "#0066cc",
-              "#9933ff",
-              "#ffffff",
-              "#facccc",
-              "#ffebcc",
-              "#ffffcc",
-              "#cce8cc",
-              "#cce0f5",
-              "#ebd6ff",
-              "#bbbbbb",
-              "#f06666",
-              "#ffc266",
-              "#ffff66",
-              "#66b966",
-              "#66a3e0",
-              "#c285ff",
-              "#888888",
-              "#a10000",
-              "#b26b00",
-              "#b2b200",
-              "#006100",
-              "#0047b2",
-              "#6b24b2",
-              "#444444",
-              "#5c0000",
-              "#663d00",
-              "#666600",
-              "#003700",
-              "#002966",
-              "#3d1466",
-              "custom-color",
-            ],
-          },
-          { background: [] },
-        ],
-        ["image", "video"],
-        ["clean"],
-      ],
-    },
-  };
-  const formats = [
-    //'font',
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "align",
-    "color",
-    "background",
-  ];
-
-  const [text, setText] = useState<string>("");
-  const [title, setTitle] = useState<string>("");
-  const tagsRef = useRef();
-
-  const splitTags = () => {
-    let { value } = tagsRef.current;
+  const splitTags = (): string[] | void => {
+    let { value } = tagsRef?.current!;
 
     if (value === "") return;
-    return value.split(",");
+    return value.split(", ");
   };
 
-  const handleText = (value: any) => {
-    setText(value);
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(splitTags());
+    const postJson: IPostJson = {
+      title: titleRef?.current?.value,
+      markdown,
+      tags: splitTags(),
+    };
+
+    post(postJson);
+
+    if (data?.ok === false) {
+      alert("인터넷 오류");
+      console.log(error);
+    } else {
+      router.replace("/blogs");
+    }
+    console.log(data);
   };
 
   return (
     <form className="items-center justify-center flex flex-col ">
-      <QuillWrapper
-        className="mt-10"
-        modules={modules}
-        theme="snow"
-        value={text}
-        onChange={handleText}
-        formats={formats}
-      />
-      <div className="flex mt-5 gap-4">
+      <div className="flex mt-5 gap-10 mb-10">
         <div>
           <span>Title - </span>
           <input
-            className="outline-none border-2 border-solid border-black focus:border-green-500 p-1"
+            className="outline-none border-2 border-solid border-black focus:border-gray-300 p-1"
             type="text"
-            onChange={(e) => setTitle(e.target.value)}
+            ref={titleRef}
           />
         </div>
         <div>
           <span>Tags - </span>
           <input
-            className="outline-none border-2 border-solid border-black focus:border-green-500 p-1"
+            className="outline-none border-2 border-solid border-black focus:border-gray-300 p-1"
             type="text"
             ref={tagsRef}
             placeholder="tag들은 , 로 분리함"
           />
         </div>
       </div>
+
+      <MDEditor
+        className="w-4/5"
+        value={markdown}
+        onChange={(value) => setMarkdwon(value)}
+      />
+
       <button
         onClick={handleSubmit}
-        className="text-center w-1/3 mt-10 ring-2 ring-green-400 py-2 block hover:bg-green-400 hover:text-green-50"
+        className="text-center w-1/3 my-10 ring-2 ring-offset-2 ring-gray-400 py-2 block hover:bg-gray-400 hover:text-green-50"
       >
         Submit
       </button>
