@@ -16,7 +16,6 @@ export default function Layout({
   image,
   footer,
 }: ILayout) {
-  console.log(footer);
   return (
     <>
       <SEO title={title} url={url} description={description} image={image} />
