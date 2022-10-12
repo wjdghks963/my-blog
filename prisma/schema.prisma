@@ -16,7 +16,8 @@ datasource db {
 model Post {
   id Int @id @unique @default(autoincrement()) 
   title String
-  content String 
+  content String @db.LongText 
+  views Int
   createdAt DateTime @default(now())
   updateAt DateTime @default(now())
   posttag PostTag[]

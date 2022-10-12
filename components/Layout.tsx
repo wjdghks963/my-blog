@@ -6,6 +6,7 @@ import Footer from "./Footer";
 interface ILayout extends ISEO {
   children: React.ReactNode;
   footer?: boolean;
+  keywords?: string;
 }
 
 export default function Layout({
@@ -15,10 +16,17 @@ export default function Layout({
   description,
   image,
   footer,
+  keywords,
 }: ILayout) {
   return (
     <>
-      <SEO title={title} url={url} description={description} image={image} />
+      <SEO
+        title={title}
+        url={url}
+        description={description}
+        image={image}
+        keywords={keywords}
+      />
       <div className="flex flex-col h-screen">
         <Header />
         <div className="grow">{children}</div>

@@ -13,22 +13,22 @@ export default function Layout() {
   }, [load]);
 
   return (
-    <div className="flex flex-row mt-5 px-16">
+    <div className="flex flex-row mt-5 px-16 pb-4">
       <ul className="flex flex-row justify-between w-full">
         <li
-          className="cursor-pointer hover:shadow-xl w-1/5 text-center"
+          className="cursor-pointer hover:shadow-xl w-1/5 text-center dark:hover:bg-white dark:hover:text-black dark:hover:shadow-slate-100"
           onClick={() => router.push("/")}
         >
           HOME
         </li>
         <li
-          className="cursor-pointer hover:shadow-xl w-1/5 text-center"
+          className="cursor-pointer hover:shadow-xl w-1/5 text-center dark:hover:bg-white dark:hover:text-black dark:hover:shadow-slate-100"
           onClick={() => router.push("/blogs")}
         >
           BLOG
         </li>
         <li
-          className="cursor-pointer hover:shadow-xl w-1/5 text-center"
+          className="cursor-pointer hover:shadow-xl w-1/5 text-center dark:hover:bg-white dark:hover:text-black dark:hover:shadow-slate-100"
           onClick={() => router.push("/resume")}
         >
           RESUME

@@ -6,24 +6,19 @@ import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import { useMutation } from "@libs/client/useMutation";
 import { useRouter } from "next/router";
-
-export interface IPostJson {
-  title?: string;
-  markdown: string | undefined;
-  tags?: string[] | void;
-}
+import { IPostJson } from ".";
 
 type MutationResult = { ok: boolean };
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
-export default function Post() {
+export default function Edit() {
   const router = useRouter();
   const tagsRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const [markdown, setMarkdwon] = useState<string | undefined>("");
   const [post, { data, loading, error }] =
-    useMutation<MutationResult>("/api/blogs/post");
+    useMutation<MutationResult>(`/api/blogs/edit`);
 
   const splitTags = (): string[] | void => {
     let { value } = tagsRef?.current!;
@@ -48,7 +43,7 @@ export default function Post() {
       alert("인터넷 오류");
       console.log(error);
     } else {
-      router.replace("/blogs");
+      //router.replace("/blogs");
     }
     console.log(data);
   };

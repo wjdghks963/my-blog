@@ -4,28 +4,78 @@ import { IPostJson } from "pages/blogs/post";
 
 export default async function Edit(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    const { id } = req.body.query;
+    const { id: editPostId } = req.body.query;
     const { title, markdown, tags }: IPostJson = req.body;
+    console.log(editPostId);
+    try {
+      //   const tagsIdArray = await prismaclient.tag.findMany({
+      //     where: {
+      //       tag: { in: tags },
+      //     },
+      //     select: {
+      //       id: true,
+      //       tag: true,
+      //     },
+      //   });
 
-    // await prismaclient.post.upsert({
-    //   where: {
-    //     id: +id,
-    //   },
-    //   update: {
-    //     title,
-    //     content: markdown,
-    //   },
-    //   create: {},
-    // });
+      //   const tagsTag = tagsIdArray.map((tag) => tag.tag);
+      //   const tagsId = tagsIdArray.map((tag) => Number(tag.id));
 
-    // tags?.map(async (tag) => {
-    //     await prismaclient.tag.create({
-    //       data: {
-    //         tag,
-    //         postId: postId.id,
-    //       },
-    //     });
-    //   });
+      //   // 만약 해당하는 tag id가 없거나 tags, tagsTag 길이다 다르다면 추가한다.
+      //   if (tagsTag === null || (tags && tags?.length > [tagsTag].length)) {
+      //     let filterTags = tags?.filter((tag) => !tagsTag.includes(tag));
+      //     filterTags?.map(async (tag) => {
+      //       const plusId = await prismaclient.tag.create({
+      //         data: {
+      //           tag,
+      //         },
+      //         select: {
+      //           id: true,
+      //         },
+      //       });
+      //       tagsId.push(plusId.id);
+      //     });
+      //   }
+
+      //   const postId = await prismaclient.post.update({
+      //     where: {
+      //       id: +editPostId,
+      //     },
+      //     data: {
+      //       title: title!,
+      //       content: markdown!,
+      //     },
+      //     select: {
+      //       id: true,
+      //     },
+      //   });
+
+      const postTagId = await prismaclient.postTag.findMany({
+        where: {
+          postId: +editPostId,
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      //   tagsId.map(async (tagId) => {
+      //     await prismaclient.postTag.update({
+      //       where: {
+      //         id: +postTagId,
+      //       },
+      //       data: {
+      //         tagId: +tagId,
+      //         postId: +postId.id,
+      //       },
+      //     });
+      //   });
+    } catch (err) {
+      console.log(err);
+      return res
+        .status(400)
+        .json({ ok: false, message: `error occurred ${err}` });
+    }
 
     return res.status(200).json({ ok: true });
   }
