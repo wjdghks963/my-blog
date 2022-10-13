@@ -20,20 +20,21 @@ model Post {
   views Int
   createdAt DateTime @default(now())
   updateAt DateTime @default(now())
-  posttag PostTag[]
-
+  //posttag PostTag[]
+  tags Tag[]
 }
 
 model Tag {
   id Int @id @unique @default(autoincrement()) 
   tag String
-  posttag PostTag[]
+  posts Post[]
+  //posttag PostTag[]
 }
 
-model PostTag {
-  id Int @id @unique @default(autoincrement()) 
-  tag Tag? @relation(fields: [tagId], references: [id])
-  tagId Int 
-  post Post? @relation(fields: [postId], references: [id])
-  postId Int 
-}
+// model PostTag {
+//   id Int @id @unique @default(autoincrement()) 
+//   tag Tag? @relation(fields: [tagId], references: [id])
+//   tagId Int 
+//   post Post? @relation(fields: [postId], references: [id])
+//   postId Int 
+// }
