@@ -6,6 +6,7 @@ import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import { useMutation } from "@libs/client/useMutation";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 export interface IPostJson {
   title?: string;
@@ -24,6 +25,7 @@ export default function Post() {
   const [markdown, setMarkdwon] = useState<string | undefined>("");
   const [post, { data, loading, error }] =
     useMutation<MutationResult>("/api/blogs/post");
+  const { data: session } = useSession();
 
   const splitTags = (): string[] | void => {
     let { value } = tagsRef?.current!;
@@ -41,14 +43,14 @@ export default function Post() {
       tags: splitTags(),
     };
 
+    if (session?.user?.email !== process.env.MY_EMAIL)
+      return alert("email 확인해주세요");
     post(postJson);
 
-    // TODO:: error message 띄우기
     if (data?.ok === false) {
       alert("인터넷 오류");
-      console.log(error);
     } else {
-      // router.replace("/blogs");
+      //router.replace("/blogs");
     }
   };
 

@@ -1,3 +1,4 @@
+import { findTags } from "@libs/server/findTags";
 import prismaclient from "@libs/server/prismaclient";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { IPostJson } from "pages/blogs/post";
@@ -8,55 +9,59 @@ export default async function Post(req: NextApiRequest, res: NextApiResponse) {
 
     try {
       // 같은 tag가 존재한다면 해당 tag id 반환
-      const tagsIdArray = await prismaclient.tag.findMany({
-        where: {
-          tag: { in: tags },
-        },
-        select: {
-          id: true,
-          tag: true,
-        },
-      });
-
-      const tagsTag = tagsIdArray.map((tag) => tag.tag);
-      const tagsId = tagsIdArray.map((tag) => Number(tag.id));
+      const [tagsTag, tagsId] = await findTags(tags);
 
       // 만약 해당하는 tag id가 없거나 tags, tagsTag 길이다 다르다면 추가한다.
-      if (tagsTag === null || (tags && tags?.length > [tagsTag].length)) {
-        let filterTags = tags?.filter((tag) => !tagsTag.includes(tag));
-        filterTags?.map(async (tag) => {
-          const plusId = await prismaclient.tag.create({
-            data: {
-              tag,
+      if (tagsTag?.length === 0 || (tags && tags.length > [tagsTag].length)) {
+        let filterTags = tags?.filter((tag) => !tagsTag?.includes(tag));
+
+        await prismaclient.tag.createMany({
+          data: filterTags?.map((tag) => ({ tag })),
+          skipDuplicates: true,
+        });
+
+        const combinedTags = [...new Set(tagsTag.concat(filterTags))];
+
+        const relatedTags = await prismaclient.tag.findMany({
+          where: {
+            tag: { in: combinedTags },
+          },
+        });
+
+        await prismaclient.post.create({
+          data: {
+            title: title!,
+            content: markdown!,
+            views: 0,
+            tags: {
+              connect: relatedTags.map((tag) => ({ id: +tag.id })),
             },
-            select: {
-              id: true,
+          },
+        });
+      } else {
+        // 전부 있던 태그로 이루어진 post
+        await prismaclient.post.create({
+          data: {
+            title: title!,
+            content: markdown!,
+            views: 0,
+            tags: {
+              connect: tagsId?.map((tag) => ({ id: +tag })),
             },
-          });
-          tagsId.push(plusId.id);
+          },
         });
       }
 
-      const postId = await prismaclient.post.create({
-        data: {
-          title: title!,
-          content: markdown!,
-          views: 0,
-        },
-        select: {
-          id: true,
-        },
-      });
-
-      tagsId.map(async (tagId) => {
-        console.log(postId);
-        await prismaclient.postTag.create({
+      // 태그가 없는 post
+      if (tags?.length === 0) {
+        await prismaclient.post.create({
           data: {
-            tagId: +tagId,
-            postId: +postId.id,
+            title: title!,
+            content: markdown!,
+            views: 0,
           },
         });
-      });
+      }
     } catch (err) {
       console.log(err);
 

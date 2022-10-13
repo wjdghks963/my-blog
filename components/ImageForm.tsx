@@ -1,13 +1,15 @@
 import { useMutation } from "@libs/client/useMutation";
+import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 
 export default function ImageForm() {
   const [image, setImage] = useState("");
   const [imgUrl, setImgUrl] = useState<string>("");
+  const { data: session } = useSession();
 
-  console.log(process.env.CLOUD_PRESET_NAME);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (session?.user?.email === process.env.MY_EMAIL) return;
     const form = new FormData();
     form.append("file", image);
     form.append("upload_preset", `${process.env.CLOUD_PRESET_NAME}`);

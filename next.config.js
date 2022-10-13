@@ -4,6 +4,7 @@ const nextConfig = {
   env: {
     CLOUD_NAME: process.env.CLOUD_NAME,
     CLOUD_PRESET_NAME: process.env.CLOUD_PRESET_NAME,
+    MY_EMAIL: process.env.MY_EMAIL,
   },
 };
 

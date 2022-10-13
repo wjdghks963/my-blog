@@ -7,19 +7,18 @@ export default async function Delete(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const { id } = req.body.query;
+    const { id } = req.body;
 
-    //     const deleted = await prismaclient.post.delete({
-    //       where: {
-    //         id: +id,
-    //       },
-    //     });
-    //     if (deleted) {
-    //       return res.status(200).json({ ok: true });
-    //     }
-
-    await prismaclient.post.deleteMany();
-    await prismaclient.tag.deleteMany();
-    await prismaclient.postTag.deleteMany();
+    try {
+      await prismaclient.post.delete({
+        where: {
+          id,
+        },
+      });
+      return res.status(200).json({ ok: true });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ ok: false });
+    }
   }
 }

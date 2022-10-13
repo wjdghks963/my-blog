@@ -1,9 +1,4 @@
 import React, { useRef, useState } from "react";
-import { useMutation } from "@libs/client/useMutation";
-import { useRouter } from "next/router";
-import Layout from "@components/Layout";
-import type { GetStaticProps, InferGetStaticPropsType } from "next";
-import { IPost } from "pages/api/blogs/[id]";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import SyntaxHighlighter from "react-syntax-highlighter";
@@ -76,12 +71,9 @@ export default function MarkdownParser({ markdown }: any) {
         },
         code({ node, inline, className, children, ...props }) {
           return (
-            <SyntaxHighlighter
-              children={String(children).replace(/\n$/, "")}
-              language="javascript"
-              PreTag="div"
-              {...props}
-            />
+            <SyntaxHighlighter language="javascript" PreTag="div" {...props}>
+              {String(children).replace(/\n$/, "")}
+            </SyntaxHighlighter>
           );
         },
       }}

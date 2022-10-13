@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImageForm from "@components/ImageForm";
 import dynamic from "next/dynamic";
 import { useRef } from "react";
@@ -6,7 +6,8 @@ import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import { useMutation } from "@libs/client/useMutation";
 import { useRouter } from "next/router";
-import { IPostJson } from ".";
+import { useSelector } from "react-redux";
+import { EditPost } from "store/modules/post";
 
 type MutationResult = { ok: boolean };
 
@@ -17,8 +18,10 @@ export default function Edit() {
   const tagsRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const [markdown, setMarkdwon] = useState<string | undefined>("");
-  const [post, { data, loading, error }] =
+  const [edit, { data: res, loading, error }] =
     useMutation<MutationResult>(`/api/blogs/edit`);
+
+  const postJson: EditPost = useSelector((state) => state.postReducer);
 
   const splitTags = (): string[] | void => {
     let { value } = tagsRef?.current!;
@@ -30,23 +33,27 @@ export default function Edit() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    const postJson: IPostJson = {
+    const data = {
+      id: postJson.id,
       title: titleRef?.current?.value,
       markdown,
       tags: splitTags(),
     };
 
-    post(postJson);
+    edit(data);
 
-    // TODO:: error message 띄우기
-    if (data?.ok === false) {
+    if (res?.ok === false) {
       alert("인터넷 오류");
       console.log(error);
     } else {
-      //router.replace("/blogs");
+      router.replace("/blogs");
     }
-    console.log(data);
+    console.log(res);
   };
+
+  useEffect(() => {
+    setMarkdwon(postJson.markdown);
+  }, []);
 
   return (
     <>
@@ -58,6 +65,7 @@ export default function Edit() {
               className="outline-none border-2 border-solid border-black focus:border-gray-300 p-1"
               type="text"
               ref={titleRef}
+              defaultValue={postJson.title}
             />
           </div>
           <div>
@@ -67,6 +75,7 @@ export default function Edit() {
               type="text"
               ref={tagsRef}
               placeholder="tag들은 , 로 분리함"
+              defaultValue={postJson.tags?.join(", ")}
             />
           </div>
         </div>

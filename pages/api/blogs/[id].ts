@@ -1,14 +1,14 @@
 import prismaclient from "@libs/server/prismaclient";
+import { Tag } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export interface IPost {
-  tags: any;
   title: string;
   content: string;
-  posttag: [{ tag: string }] | undefined;
+  tags: Tag[];
   views: number;
-  createdAt: string;
-  updateAt: string;
+  createdAt: Date;
+  updateAt: Date;
 }
 
 export default async function BlogPost(
@@ -26,21 +26,13 @@ export default async function BlogPost(
           },
         },
         where: {
-          id: +id,
+          id: +id!,
         },
         select: {
           title: true,
           content: true,
           views: true,
-          posttag: {
-            select: {
-              tag: {
-                select: {
-                  tag: true,
-                },
-              },
-            },
-          },
+          tags: true,
           createdAt: true,
           updateAt: true,
         },
@@ -51,11 +43,12 @@ export default async function BlogPost(
         title: post?.title,
         content: post?.content,
         views: post?.views,
-        tags: post?.posttag,
+        tags: post?.tags,
         createdAt: post?.createdAt,
         updateAt: post?.updateAt,
       });
     } catch (err) {
+      console.log(err);
       return res
         .status(400)
         .json({ ok: false, message: `error occurred ${err}` });

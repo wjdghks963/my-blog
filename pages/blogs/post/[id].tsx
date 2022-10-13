@@ -1,26 +1,46 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useMutation } from "@libs/client/useMutation";
 import { useRouter } from "next/router";
 import Layout from "@components/Layout";
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
 import { IPost } from "pages/api/blogs/[id]";
 import MarkdownParser from "@components/MarkdownParser";
+import { useSession } from "next-auth/react";
+import { cls } from "@libs/client/utils";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { setPostJson } from "store/modules/post";
 
 type MutationResult = { ok: boolean };
 type PostData = { postData: IPost };
 
 export default function Post({ postData }: PostData) {
+  const router = useRouter();
   const [delPost, { data: resData, loading, error }] =
     useMutation<MutationResult>("/api/blogs/delete");
-  console.log(postData);
+  const { data: session } = useSession();
 
-  const tags = postData.tags.map((tag) => tag.tag.tag);
-  const localeDate = (date: string) => new Date(date).toLocaleDateString();
+  const localeDate = (date: Date) => new Date(date).toLocaleDateString();
+  const tags =
+    postData.tags.length !== 0 ? postData.tags.map((tag) => tag.tag) : [];
 
   const date =
     postData.createdAt !== postData.updateAt
       ? localeDate(postData.updateAt)
       : localeDate(postData.createdAt);
+
+  const dispatch = useDispatch();
+  const editPost = useCallback(() => {
+    dispatch(
+      setPostJson({
+        id: +router.query.id!,
+        markdown: postData.content,
+        tags: tags,
+        title: postData.title,
+      })
+    );
+    return router.push("/blogs/post/edit");
+  }, [dispatch, postData.content, postData.title, router, tags]);
 
   return (
     <Layout
@@ -48,6 +68,16 @@ export default function Post({ postData }: PostData) {
           <MarkdownParser markdown={postData.content} />
         </div>
       </div>
+      <div
+        className={cls(
+          session?.user?.email === process.env.MY_EMAIL
+            ? "visible"
+            : "invisible"
+        )}
+      >
+        <span onClick={editPost}>수정</span>
+        <span onClick={() => delPost({ id: +router.query.id! })}>삭제</span>
+      </div>
     </Layout>
   );
 }
@@ -57,7 +87,7 @@ export async function getStaticPaths() {
   const res = await fetch("http://localhost:3000/api/blogs/post");
   const list = await res.json();
 
-  const paths = list.map((post) => ({
+  const paths = list.map((post: { id: { toString: () => any } }) => ({
     params: {
       id: post.id.toString(),
     },
@@ -67,7 +97,6 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }): GetStaticProps {
   const response = await fetch(`http://localhost:3000/api/blogs/${params.id}`);
-
   const postData = await response.json();
 
   return {
