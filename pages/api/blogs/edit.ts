@@ -1,7 +1,7 @@
 import { findTags } from "@libs/server/findTags";
-import prismaclient from "@libs/server/prismaclient";
+import prismaclient from "@libs/server/prismaClient";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { IPostJson } from "pages/blogs/post";
+
 import { EditPost } from "store/modules/post";
 
 export default async function Edit(req: NextApiRequest, res: NextApiResponse) {

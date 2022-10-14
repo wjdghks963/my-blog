@@ -1,4 +1,4 @@
-import prismaclient from "@libs/server/prismaclient";
+import prismaclient from "@libs/server/prismaClient";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { IPostJson } from "pages/blogs/post";
 

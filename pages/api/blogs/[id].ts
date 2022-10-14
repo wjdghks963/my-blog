@@ -1,4 +1,4 @@
-import prismaclient from "@libs/server/prismaclient";
+import prismaclient from "@libs/server/prismaClient";
 import { Tag } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -8,7 +8,7 @@ export interface IPost {
   tags: Tag[];
   views: number;
   createdAt: Date;
-  updateAt: Date;
+  updatedAt: Date;
 }
 
 export default async function BlogPost(
@@ -34,7 +34,7 @@ export default async function BlogPost(
           views: true,
           tags: true,
           createdAt: true,
-          updateAt: true,
+          updatedAt: true,
         },
       });
 
@@ -45,7 +45,7 @@ export default async function BlogPost(
         views: post?.views,
         tags: post?.tags,
         createdAt: post?.createdAt,
-        updateAt: post?.updateAt,
+        updatedAt: post?.updatedAt,
       });
     } catch (err) {
       console.log(err);
