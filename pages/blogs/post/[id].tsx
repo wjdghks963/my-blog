@@ -4,12 +4,12 @@ import { useRouter } from "next/router";
 import Layout from "@components/Layout";
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
 import { IPost } from "pages/api/blogs/[id]";
-import MarkdownParser from "@components/MarkdownParser";
+import MarkdownParser from "@components/Post/MarkdownParser";
 import { useSession } from "next-auth/react";
 import { cls } from "@libs/client/utils";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
 import { setPostJson } from "store/modules/post";
+import localeDate from "@libs/client/localeDate";
 
 type MutationResult = { ok: boolean };
 type PostData = { postData: IPost };
@@ -20,13 +20,13 @@ export default function Post({ postData }: PostData) {
     useMutation<MutationResult>("/api/blogs/delete");
   const { data: session } = useSession();
 
-  const localeDate = (date: Date) => new Date(date).toLocaleDateString();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const tags =
     postData.tags.length !== 0 ? postData.tags.map((tag) => tag.tag) : [];
 
   const date =
-    postData.createdAt !== postData.updateAt
-      ? localeDate(postData.updateAt)
+    postData.createdAt !== postData.updatedAt
+      ? localeDate(postData.updatedAt)
       : localeDate(postData.createdAt);
 
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ export default function Post({ postData }: PostData) {
     >
       <div className="flex flex-col mx-10  p-5 border-2 border-gray-700 dark:border-white ">
         <div className="flex w-full ">
-          <span className="w-1/2">{date.substring(0, date.length - 1)}</span>
+          <span className="w-1/2">{date}</span>
           <div className="flex flex-row gap-4 w-1/2 justify-end">
             {tags.map((tag: string, index: number) => (
               <span
