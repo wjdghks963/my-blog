@@ -10,6 +10,7 @@ import { cls } from "@libs/client/utils";
 import { useDispatch } from "react-redux";
 import { setPostJson } from "store/modules/post";
 import localeDate from "@libs/client/localeDate";
+import TagSpan from "@components/Post/TagSpan";
 
 type MutationResult = { ok: boolean };
 type PostData = { postData: IPost };
@@ -53,12 +54,7 @@ export default function Post({ postData }: PostData) {
           <span className="w-1/2">{date}</span>
           <div className="flex flex-row gap-4 w-1/2 justify-end">
             {tags.map((tag: string, index: number) => (
-              <span
-                className="px-1 ring-2 ring-offset-4 ring-gray-500 rounded-md dark:ring-white dark:ring-2 dark:ring-offset-1 dark:px-2"
-                key={index}
-              >
-                {tag}
-              </span>
+              <TagSpan key={index} tag={tag} />
             ))}
           </div>
         </div>
@@ -75,8 +71,23 @@ export default function Post({ postData }: PostData) {
             : "invisible"
         )}
       >
-        <span onClick={editPost}>수정</span>
-        <span onClick={() => delPost({ id: +router.query.id! })}>삭제</span>
+        <div className="flex w-full justify-center mt-10 gap-10">
+          <span
+            className="border-black border-2 rounded-xl p-2"
+            onClick={editPost}
+          >
+            수정
+          </span>
+          <span
+            className="border-black border-2 rounded-xl p-2"
+            onClick={() => {
+              delPost({ id: +router.query.id! });
+              router.replace("/");
+            }}
+          >
+            삭제
+          </span>
+        </div>
       </div>
     </Layout>
   );
@@ -87,7 +98,7 @@ export async function getStaticPaths() {
   const res = await fetch("http://localhost:3000/api/blogs/post");
   const list = await res.json();
 
-  const paths = list.map((post: { id: { toString: () => any } }) => ({
+  const paths = list.map((post) => ({
     params: {
       id: post.id.toString(),
     },

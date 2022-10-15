@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ImageForm from "@components/ImageForm";
+import ImageForm from "@components/Post/ImageForm";
 import dynamic from "next/dynamic";
 import { useRef } from "react";
 import "@uiw/react-md-editor/markdown-editor.css";
