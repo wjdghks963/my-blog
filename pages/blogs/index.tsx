@@ -1,5 +1,13 @@
+import Layout from "@components/Layout";
 import MiniPost from "@components/Post/MiniPost";
-import React, { useEffect } from "react";
+import { GetServerSideProps } from "next";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import useSWRInfinite, { SWRInfiniteResponse } from "swr/infinite";
 
 export type Blog = {
@@ -9,6 +17,7 @@ export type Blog = {
   views: number;
   createdAt: Date;
   updatedAt: Date;
+  tags: { tag: string }[];
 };
 
 interface IBlogArr {
@@ -27,16 +36,68 @@ const getKey = (
   return `/api/blogs/post?cursor=${previousPageData.nextCursor}&limit=2`;
 };
 
-export default function Blogs() {
-  const { data, size, setSize }: SWRInfiniteResponse<IBlogArr> =
+export default function Blogs({ firstPosts }) {
+  const { data, setSize }: SWRInfiniteResponse<IBlogArr> =
     useSWRInfinite(getKey);
-  const posts = data?.map((data) => data?.data && data.data)[0];
+  const [loading, setLoading] = useState(true);
+
+  const posts = useMemo(() => {
+    const postData: Blog[] = [];
+    data?.map((data) => postData.push(...data.data));
+    return postData;
+  }, [data]);
+
+  console.log(firstPosts);
+
+  // data[data?.length - 1].nextCursor === "done"
+
+  const laodingRef = useRef(null);
+
+  const handleObserver: IntersectionObserverCallback = useCallback(
+    (entries) => {
+      const target = entries[0];
+
+      console.log(target.isIntersecting);
+      if (target.isIntersecting) {
+        setSize((size) => size + 1);
+        setLoading(true);
+      } else {
+        setLoading(false);
+      }
+    },
+    [setSize]
+  );
+
+  useEffect(() => {
+    const option = {
+      root: null,
+      rootMargin: "20px",
+      threshold: 0,
+    };
+    const observer = new IntersectionObserver(handleObserver, option);
+    if (laodingRef.current) observer.observe(laodingRef.current);
+    return () => observer.disconnect();
+  }, [handleObserver]);
 
   return (
-    <div className="flex flex-col">
-      {posts?.map((data) => (
-        <MiniPost key={data.id} data={data} />
-      ))}
-    </div>
+    <Layout title={"블로그"} url={""} description={"블로그 모음"}>
+      <div className="flex flex-col items-center mt-20 gap-14 h-full">
+        {posts?.map((data) => (
+          <MiniPost key={data.id} data={data} />
+        ))}
+        <div ref={laodingRef}>{loading ? "loading" : ""}</div>
+      </div>
+    </Layout>
   );
+}
+
+export async function getServerSideProps(context): GetServerSideProps {
+  const res = await fetch("http://localhost:3000/api/blogs/post?limit=2");
+  console.log(res);
+  //const firstPosts = res.json();
+  return {
+    props: {
+      //  firstPosts,
+    },
+  };
 }
