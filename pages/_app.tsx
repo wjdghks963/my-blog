@@ -6,12 +6,9 @@ import { SessionProvider } from "next-auth/react";
 import { SWRConfig } from "swr";
 import { Provider } from "react-redux";
 import { wrapper } from "../store/index";
-import { PersistGate } from "redux-persist/integration/react";
-import { persistStore } from "redux-persist";
 
 function MyApp({ Component, ...rest }: AppProps) {
   const { store, props } = wrapper.useWrappedStore(rest);
-  const persistor = persistStore(store);
   return (
     <SWRConfig
       value={{
@@ -19,13 +16,11 @@ function MyApp({ Component, ...rest }: AppProps) {
       }}
     >
       <Provider store={store}>
-        <PersistGate persistor={persistor} loading={null}>
-          <ThemeProvider attribute="class">
-            <SessionProvider session={props.session}>
-              <Component {...props.pageProps} />
-            </SessionProvider>
-          </ThemeProvider>
-        </PersistGate>
+        <ThemeProvider attribute="class">
+          <SessionProvider session={props.session}>
+            <Component {...props.pageProps} />
+          </SessionProvider>
+        </ThemeProvider>
       </Provider>
     </SWRConfig>
   );
