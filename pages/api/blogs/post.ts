@@ -76,26 +76,37 @@ export default async function Post(req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method === "GET") {
     const { page, limit, cursor }: PagenationQuery = req.query;
-    console.log(req.query);
+
     const firstPost = await prismaclient.post.findMany({
       take: limit ? +limit : 5,
       orderBy: {
         createdAt: "desc",
       },
+      include: {
+        tags: {
+          select: {
+            tag: true,
+          },
+        },
+      },
     });
 
     const firstCursor = firstPost[firstPost.length - 1].id;
 
-    const posts = await prismaclient.post.findMany({
-      take: limit ? +limit : 5,
-      skip: 1,
-      cursor: {
-        id: +firstCursor,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    // const posts = await prismaclient.post.findMany({
+    //   take: limit ? +limit : 5,
+    //   skip: 1,
+    //   cursor: {
+    //     id: +firstCursor,
+    //   },
+    //   orderBy: {
+    //     createdAt: "desc",
+    //   },
+    //   select: {
+    //     tags: true,
+    //   },
+    // });
+    // console.log(posts);
 
     if (cursor) {
       const posts = await prismaclient.post.findMany({
@@ -106,6 +117,13 @@ export default async function Post(req: NextApiRequest, res: NextApiResponse) {
         },
         orderBy: {
           createdAt: "desc",
+        },
+        include: {
+          tags: {
+            select: {
+              tag: true,
+            },
+          },
         },
       });
 
