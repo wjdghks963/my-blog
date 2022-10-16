@@ -6,9 +6,20 @@ const nextConfig = {
     CLOUD_PRESET_NAME: process.env.CLOUD_PRESET_NAME,
     MY_EMAIL: process.env.MY_EMAIL,
   },
+  images: {
+    domains: ["res.cloudinary.com"],
+    formats: ["image/avif", "image/webp"],
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/api/postImage/:postImageUrl*",
+        destination: `https://res.cloudinary.com/:postImageUrl*`,
+      },
+    ];
+  },
 };
 
-// ref: https://uiwjs.github.io/react-md-editor/#support-nextjs
 const removeImports = require("next-remove-imports")();
 
 module.exports = removeImports({ ...nextConfig });
