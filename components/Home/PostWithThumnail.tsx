@@ -2,20 +2,16 @@ import { PostWithId } from "pages/blogs";
 import Image from "next/image";
 import { cls } from "@libs/client/utils";
 import router from "next/router";
+import { replaceStartWithImageUrl } from "@libs/client/replaceStartWithImageUrl";
+import { RegImageSrc } from "@libs/client/RegImage";
 
 export default function PostWithThumnail({ data }: { data: PostWithId }) {
-  const findUrl = RegExp(
-    `!\[[^\]]*\]\((?<filename>.*?)(?=\"|\))(?<optionalpart>\".*\")?[)]`,
-    "g"
+  const src = RegImageSrc(data.content);
+  console.log(src);
+  let content = replaceStartWithImageUrl(
+    data.content.substring(0, 30),
+    data.title
   );
-
-  const src = findUrl.exec(data.content);
-
-  let content = data.content.substring(0, 30);
-
-  if (data.content.startsWith("![]")) {
-    content = `이 포스트는 ${data.title}의 내용입니다.`;
-  }
 
   const moveToPost = (id: number) => {
     return router.push(`/blogs/post/${id}`);
@@ -24,7 +20,7 @@ export default function PostWithThumnail({ data }: { data: PostWithId }) {
   return (
     <div
       onClick={() => moveToPost(data.id)}
-      className="flex flex-col items-center w-full group border-black border-2 rounded-md shadow-xl"
+      className="flex flex-col items-center w-full group border-black border-2 rounded-md shadow-xl dark:border-white dark:shadow-neutral-600"
     >
       {src ? (
         <div className="w-full h-[200px] relative group-hover:sm:animate-[ping_1s_forwards]">
@@ -46,8 +42,8 @@ export default function PostWithThumnail({ data }: { data: PostWithId }) {
           <div className="w-16 h-16 border-black border-4 rounded-full  group-hover:sm:animate-[ping_1s_forwards] dark:border-white"></div>
         </div>
       )}
-      <div className="invisible absolute w-28 group-hover:sm:delay-300 group-hover:sm:visible  flex flex-col items-center">
-        <span className="my-3">{data.title}</span>
+      <div className="invisible absolute w-28 group-hover:sm:delay-500 group-hover:sm:visible  flex flex-col items-center">
+        <span className="my-5 font-bold text-md">{data.title}</span>
         <span className="break-all">{content}..</span>
       </div>
     </div>
