@@ -1,12 +1,14 @@
 import React from "react";
-import Header from "@components/Header";
-import SEO, { ISEO } from "@components/SEO";
+import Header from "@components/Base/Header";
+import SEO, { ISEO } from "@components/Base/SEO";
 import Footer from "./Footer";
+import { cls } from "@libs/client/utils";
 
 interface ILayout extends ISEO {
   children: React.ReactNode;
   footer?: boolean;
   keywords?: string;
+  className?: string;
 }
 
 export default function Layout({
@@ -17,6 +19,7 @@ export default function Layout({
   image,
   footer,
   keywords,
+  className,
 }: ILayout) {
   return (
     <>
@@ -27,11 +30,13 @@ export default function Layout({
         image={image}
         keywords={keywords}
       />
-      <div className="flex flex-col h-screen">
-        <Header />
+      <Header />
+      <div
+        className={cls(className ? className : "", "flex flex-col h-screen")}
+      >
         <div className="grow">{children}</div>
-        {footer === false ? "" : <Footer />}
       </div>
+      {footer === false ? "" : <Footer />}
     </>
   );
 }

@@ -1,15 +1,24 @@
 import localeDate from "@libs/client/localeDate";
+import { useRouter } from "next/router";
 import { Blog } from "pages/blogs";
 import TagSpan from "./TagSpan";
 
 export default function MiniPost({ data }: { data: Blog }) {
+  const router = useRouter();
   const date =
     data.createdAt !== data.updatedAt
       ? localeDate(data.updatedAt)
       : localeDate(data.createdAt);
 
+  const moveToPost = (id: number) => {
+    return router.push(`/blogs/post/${id}`);
+  };
+
   return (
-    <div className="flex flex-col gap-3 w-2/3 border-solid border-black border-2 rounded-md p-5  shadow-xl hover:ring-2 hover:ring-offset-2 hover:ring-black dark:border-white">
+    <div
+      onClick={() => moveToPost(data.id)}
+      className="flex flex-col gap-3 w-2/3 border-solid border-black border-2 rounded-md p-5  shadow-xl cursor-pointer hover:ring-2 hover:ring-offset-2 hover:ring-black dark:border-white"
+    >
       <div className="flex flex-row justify-between">
         <span>Title - {data.title}</span>
         <div className="hidden md:flex flex-row gap-4 ">
