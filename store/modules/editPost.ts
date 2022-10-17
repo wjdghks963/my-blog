@@ -12,8 +12,8 @@ const initialState: EditPost = {
   tags: [""],
 };
 
-const postSlice = createSlice({
-  name: "post",
+const editPostSlice = createSlice({
+  name: "editPost",
   initialState,
   reducers: {
     setPostJson: (state, action: PayloadAction<EditPost>) => {
@@ -26,5 +26,5 @@ const postSlice = createSlice({
   },
 });
 
-export const { setPostJson } = postSlice.actions;
-export default postSlice.reducer;
+export const { setPostJson } = editPostSlice.actions;
+export default editPostSlice.reducer;

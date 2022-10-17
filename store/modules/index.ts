@@ -1,6 +1,6 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
-import postReducer from "./post";
+import editPostReducer from "./editPost";
 
 const reducer = (state, action) => {
   if (action.type === HYDRATE) {
@@ -12,7 +12,7 @@ const reducer = (state, action) => {
 
   // slcie한 reducer 모듈을 결합한다.
   return combineReducers({
-    postReducer,
+    editPostReducer,
   })(state, action);
 };
 
