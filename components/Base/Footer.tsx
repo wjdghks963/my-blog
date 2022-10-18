@@ -8,13 +8,13 @@ export default function Footer() {
     <footer className="py-5">
       <ul className="flex flex-row justify-between px-10">
         <li
-          className="cursor-pointer"
+          className="cursor-pointer font-bold text-lg"
           onClick={() => router.push("https://github.com/wjdghks963")}
         >
           Github
         </li>
         <li
-          className="cursor-pointer"
+          className="cursor-pointer font-bold text-lg"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
           TOP

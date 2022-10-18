@@ -35,8 +35,8 @@ export default function Layout({
         className={cls(className ? className : "", "flex flex-col h-screen")}
       >
         <div className="grow">{children}</div>
+        {footer === false ? "" : <Footer />}
       </div>
-      {footer === false ? "" : <Footer />}
     </>
   );
 }

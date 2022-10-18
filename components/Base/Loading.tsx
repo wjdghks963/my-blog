@@ -1,10 +1,17 @@
+import { cls } from "@libs/client/utils";
+
 export default function Loading({
   loadingRef,
+  className,
 }: {
-  loadingRef: React.RefObject<HTMLDivElement>;
+  loadingRef?: React.RefObject<HTMLDivElement>;
+  className?: string;
 }) {
   return (
-    <div ref={loadingRef} className="animate-bounce">
+    <div
+      ref={loadingRef ? loadingRef : null}
+      className={cls("animate-bounce", className ? className : "")}
+    >
       Loading ...
     </div>
   );

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useEffect } from "react";
 
-export default function Layout() {
+export default function Header() {
   const { theme, setTheme } = useTheme();
   const [load, setLoad] = useState(true);
   const router = useRouter();
