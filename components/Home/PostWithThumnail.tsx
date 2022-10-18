@@ -7,7 +7,7 @@ import { RegImageSrc } from "@libs/client/RegImage";
 
 export default function PostWithThumnail({ data }: { data: PostWithId }) {
   const src = RegImageSrc(data.content);
-  console.log(src);
+
   let content = replaceStartWithImageUrl(
     data.content.substring(0, 30),
     data.title
