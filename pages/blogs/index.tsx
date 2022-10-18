@@ -1,7 +1,7 @@
-import Layout from "@components/Layout";
-import Loading from "@components/Loading";
+import Layout from "@components/Base/Layout";
+import Loading from "@components/Base/Loading";
 import MiniPost from "@components/Post/MiniPost";
-import { GetServerSideProps } from "next";
+import { Tag } from "@prisma/client";
 import React, {
   useCallback,
   useEffect,
@@ -11,18 +11,18 @@ import React, {
 } from "react";
 import useSWRInfinite, { SWRInfiniteResponse } from "swr/infinite";
 
-export type Blog = {
+export type PostWithId = {
   id: number;
   title: string;
   content: string;
   views: number;
   createdAt: Date;
   updatedAt: Date;
-  tags: { tag: string }[];
+  tags: Tag[];
 };
 
-interface IBlogArr {
-  data: Blog[];
+interface IPostArr {
+  data: PostWithId[];
 }
 
 const getKey = (
@@ -38,12 +38,12 @@ const getKey = (
 };
 
 export default function Blogs({ firstPosts }) {
-  const { data, setSize }: SWRInfiniteResponse<IBlogArr> =
+  const { data, setSize }: SWRInfiniteResponse<IPostArr> =
     useSWRInfinite(getKey);
   const [loading, setLoading] = useState(true);
 
   const posts = useMemo(() => {
-    const postData: Blog[] = [];
+    const postData: PostWithId[] = [];
     data?.map((data) => postData.push(...data.data));
     data && data[data?.length - 1].nextCursor === "done"
       ? setLoading(false)
@@ -87,14 +87,3 @@ export default function Blogs({ firstPosts }) {
     </Layout>
   );
 }
-
-// export async function getServerSideProps(context): GetServerSideProps {
-//   const res = await fetch("http://localhost:3000/api/blogs/post?limit=2");
-//   console.log(res);
-//   //const firstPosts = res.json();
-//   return {
-//     props: {
-//       //  firstPosts,
-//     },
-//   };
-// }
