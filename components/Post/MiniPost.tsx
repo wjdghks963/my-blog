@@ -1,14 +1,20 @@
 import localeDate from "@libs/client/localeDate";
+import { replaceStartWithImageUrl } from "@libs/client/replaceStartWithImageUrl";
 import { useRouter } from "next/router";
-import { Blog } from "pages/blogs";
+import { PostWithId } from "pages/blogs";
 import TagSpan from "./TagSpan";
 
-export default function MiniPost({ data }: { data: Blog }) {
+export default function MiniPost({ data }: { data: PostWithId }) {
   const router = useRouter();
   const date =
     data.createdAt !== data.updatedAt
       ? localeDate(data.updatedAt)
       : localeDate(data.createdAt);
+
+  const content = replaceStartWithImageUrl(
+    data.content.substring(0, 20),
+    data.title
+  );
 
   const moveToPost = (id: number) => {
     return router.push(`/blogs/post/${id}`);
@@ -17,7 +23,7 @@ export default function MiniPost({ data }: { data: Blog }) {
   return (
     <div
       onClick={() => moveToPost(data.id)}
-      className="flex flex-col gap-3 w-2/3 border-solid border-black border-2 rounded-md p-5  shadow-xl cursor-pointer hover:ring-2 hover:ring-offset-2 hover:ring-black dark:border-white"
+      className="flex flex-col gap-3 w-2/3 border-solid border-black border-2 rounded-md p-5  shadow-xl cursor-pointer hover:ring-2 hover:ring-offset-2 hover:ring-black dark:border-white dark:shadow-neutral-600"
     >
       <div className="flex flex-row justify-between">
         <span>Title - {data.title}</span>
@@ -45,7 +51,7 @@ export default function MiniPost({ data }: { data: Blog }) {
           })}
         </div>
       </div>
-      <span>Content - {data.content.substring(0, 20)} ...</span>
+      <span>Content - {content}</span>
       <span>{date}</span>
     </div>
   );
