@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 declare global {
   var prismaclient: PrismaClient | undefined;
 }
+
 let prismaclient;
 
 if (process.env.NODE_ENV === "production") {
