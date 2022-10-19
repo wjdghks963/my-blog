@@ -1,4 +1,4 @@
-import prismaclient from "./prismaClient";
+import prismaclient from "@libs/server/prismaClient";
 
 export const findTags = async (
   tags: string[] | undefined | void
