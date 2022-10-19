@@ -50,8 +50,7 @@ export default function Header() {
               ></path>
             </svg>
           ) : (
-            <button
-              type="button"
+            <div
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               className="text-gray-500 dark:text-gray-400"
             >
@@ -86,7 +85,7 @@ export default function Header() {
                   ></path>
                 </svg>
               )}
-            </button>
+            </div>
           )}
         </li>
       </ul>
