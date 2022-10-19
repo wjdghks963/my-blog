@@ -1,16 +1,17 @@
-import React, { useCallback, useRef, useState } from "react";
-import { useMutation } from "@libs/client/useMutation";
+import React, { useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
-import Layout from "@components/Layout";
-import type { GetStaticProps, InferGetStaticPropsType } from "next";
-import { IPost } from "pages/api/blogs/[id]";
-import MarkdownParser from "@components/Post/MarkdownParser";
-import { useSession } from "next-auth/react";
-import { cls } from "@libs/client/utils";
+import type { GetStaticProps } from "next";
 import { useDispatch } from "react-redux";
-import { setPostJson } from "store/modules/post";
+import { useSession } from "next-auth/react";
+import { useMutation } from "@libs/client/useMutation";
+import { cls } from "@libs/client/utils";
 import localeDate from "@libs/client/localeDate";
+import MarkdownParser from "@components/Post/MarkdownParser";
+import Layout from "@components/Base/Layout";
 import TagSpan from "@components/Post/TagSpan";
+import { IPost } from "pages/api/blogs/[id]";
+import { setPostJson } from "store/modules/editPost";
+import { RegImageSrc } from "@libs/client/RegImage";
 
 type MutationResult = { ok: boolean };
 type PostData = { postData: IPost };
@@ -43,11 +44,15 @@ export default function Post({ postData }: PostData) {
     return router.push("/blogs/post/edit");
   }, [dispatch, postData.content, postData.title, router, tags]);
 
+  const ImageSrc = RegImageSrc(postData.content)?.groups.filename;
+  const SEOImage = ImageSrc?.substring(1, ImageSrc.length);
+
   return (
     <Layout
       title={postData.title}
-      url=""
+      url={""}
       description={postData.content.substring(0, 75) + "..."}
+      image={SEOImage}
     >
       <div className="flex flex-col mx-10  p-5 border-2 border-gray-700 dark:border-white ">
         <div className="flex w-full ">

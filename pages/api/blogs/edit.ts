@@ -2,7 +2,7 @@ import { findTags } from "@libs/server/findTags";
 import prismaclient from "@libs/server/prismaClient";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { EditPost } from "store/modules/post";
+import { EditPost } from "store/modules/editPost";
 
 export default async function Edit(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {

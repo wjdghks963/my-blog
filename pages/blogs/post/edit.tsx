@@ -7,7 +7,7 @@ import "@uiw/react-markdown-preview/markdown.css";
 import { useMutation } from "@libs/client/useMutation";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { EditPost } from "store/modules/post";
+import { EditPost } from "store/modules/editPost";
 
 type MutationResult = { ok: boolean };
 
@@ -21,7 +21,7 @@ export default function Edit() {
   const [edit, { data: res, loading, error }] =
     useMutation<MutationResult>(`/api/blogs/edit`);
 
-  const postJson: EditPost = useSelector((state) => state.postReducer);
+  const postJson: EditPost = useSelector((state) => state.editPostReducer);
 
   const splitTags = (): string[] | void => {
     let { value } = tagsRef?.current!;

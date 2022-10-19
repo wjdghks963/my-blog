@@ -50,7 +50,7 @@ export default function Post() {
     if (data?.ok === false) {
       alert("인터넷 오류");
     } else {
-      //router.replace("/blogs");
+      router.replace("/blogs");
     }
   };
 
@@ -64,6 +64,7 @@ export default function Post() {
               className="outline-none border-2 border-solid border-black focus:border-gray-300 p-1"
               type="text"
               ref={titleRef}
+              required
             />
           </div>
           <div>
@@ -73,6 +74,7 @@ export default function Post() {
               type="text"
               ref={tagsRef}
               placeholder="tag들은 , 로 분리함"
+              required
             />
           </div>
         </div>
@@ -90,7 +92,7 @@ export default function Post() {
           Submit
         </button>
       </form>
-      <ImageForm />
+      {session?.user?.email === process.env.MY_EMAIL ? <ImageForm /> : null}
     </>
   );
 }

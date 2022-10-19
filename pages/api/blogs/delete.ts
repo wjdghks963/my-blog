@@ -1,6 +1,5 @@
 import prismaclient from "@libs/server/prismaClient";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { IPostJson } from "pages/blogs/post";
 
 export default async function Delete(
   req: NextApiRequest,
