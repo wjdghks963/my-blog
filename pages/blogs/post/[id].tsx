@@ -102,7 +102,7 @@ export default function Post({ postData }: PostData) {
 
 // eslint-disable-next-line @next/next/no-typos
 export async function getStaticPaths() {
-  const res = await fetch("/api/blogs/post");
+  const res = await fetch("http://localhost:3000/api/blogs/post");
   const list = await res.json();
 
   const paths = list.map((post: any) => ({
@@ -118,7 +118,7 @@ export async function getStaticProps({
 }: {
   params: any;
 }): Promise<GetStaticPropsResult<PostData>> {
-  const response = await fetch(`/api/blogs/${params.id}`);
+  const response = await fetch(`http://localhost:3000/api/blogs/${params.id}`);
   const postData = await response.json();
 
   return {

@@ -122,7 +122,7 @@ export default function Blogs({ tags }: { tags: { tag: string }[] }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch("/api/blogs/tags");
+  const res = await fetch("http://localhost:3000/api/blogs/tags");
   const tags = await res.json();
   return { props: { tags } };
 }
