@@ -5,8 +5,8 @@ type PagenationQuery = { tag?: string; limit?: string; cursor?: string };
 
 export default async function Blogs(req: NextApiRequest, res: NextApiResponse) {
   const { tag, limit, cursor }: PagenationQuery = req.query;
-  console.log(tag);
-  if (tag === undefined) {
+  console.log(tag, "cursor", cursor);
+  if (tag === "all") {
     const firstPost = await prismaclient.post.findMany({
       take: limit ? +limit : 5,
       orderBy: {
@@ -95,6 +95,8 @@ export default async function Blogs(req: NextApiRequest, res: NextApiResponse) {
           },
         },
       });
+
+      console.log("cusor", posts);
 
       const nextCursor =
         posts.length !== 0 && posts.length === +limit!

@@ -1,6 +1,5 @@
 import { PostWithId } from "pages/blogs";
 import Image from "next/image";
-import { cls } from "@libs/client/utils";
 import router from "next/router";
 import { replaceStartWithImageUrl } from "@libs/client/replaceStartWithImageUrl";
 import { RegImageSrc } from "@libs/client/RegImage";

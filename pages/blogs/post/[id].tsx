@@ -18,8 +18,7 @@ type PostData = { postData: IPost };
 
 export default function Post({ postData }: PostData) {
   const router = useRouter();
-  const [delPost, { data: resData, loading, error }] =
-    useMutation<MutationResult>("/api/blogs/delete");
+  const [delPost] = useMutation<MutationResult>("/api/blogs/delete");
   const { data: session } = useSession();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,7 +58,7 @@ export default function Post({ postData }: PostData) {
           <span className="w-1/2">{date}</span>
           <div className="flex flex-row gap-4 w-1/2 justify-end">
             {tags.map((tag: string, index: number) => (
-              <TagSpan key={index} tag={tag} />
+              <TagSpan key={index} tag={tag} clickOk={true} goBlog={true} />
             ))}
           </div>
         </div>
