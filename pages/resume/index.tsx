@@ -148,7 +148,9 @@ export default function Resume() {
                   : Node.js, Express, mongoDB
                 </span>
                 <span className="dark:text-white font-bold mt-3">설명</span>
-                fullstack으로 웹에 대한 전체적인 플로우 지식을 습득함
+                fullstack으로 클론코딩을 진행하여 웹에 대한 전체적인 플로우
+                지식과 프론트와 벡엔드의 역할을 알게되고 라이브러리의 편의성을
+                알게됨
                 <Link href={"https://github.com/wjdghks963/minitu"}>
                   <a className="dark:text-white mt-3">깃헙 레포 &rarr;</a>
                 </Link>
@@ -172,7 +174,6 @@ export default function Resume() {
                 화장품 사이트 aritaum를 모티브한 팀 프로젝트
                 <span className="font-bold mt-3">역할</span>
                 <li>제품 상세 페이지</li>
-                <li>리뷰 Create, Read, Delete</li>
                 <li>리뷰 작성 팝업</li>
                 <li>메인 페이지 추천 캐로셀</li>
                 <br />
