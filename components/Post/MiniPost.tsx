@@ -2,6 +2,7 @@ import localeDate from "@libs/client/localeDate";
 import { replaceStartWithImageUrl } from "@libs/client/replaceStartWithImageUrl";
 import { useRouter } from "next/router";
 import { PostWithId } from "pages/blogs";
+
 import TagSpan from "./TagSpan";
 
 export default function MiniPost({ data }: { data: PostWithId }) {
