@@ -31,11 +31,11 @@ export default function TagSpan({
         tag,
       })
     );
-  }, [dispatch, mutate, tag]);
+  }, [dispatch, tag]);
 
   const filterMutate = () => {
     filterTag();
-    mutate([]);
+    mutate && mutate([]);
   };
 
   const filterGoBlog = () => {

@@ -15,12 +15,13 @@ export default async function Edit(req: NextApiRequest, res: NextApiResponse) {
       if (tagsTag?.length === 0 || (tags && tags.length > [tagsTag].length)) {
         let filterTags = tags?.filter((tag) => !tagsTag?.includes(tag));
 
-        await prismaclient.tag.createMany({
-          data: filterTags?.map((tag) => ({ tag })),
-          skipDuplicates: true,
-        });
+        filterTags &&
+          (await prismaclient.tag.createMany({
+            data: filterTags?.map((tag) => ({ tag })),
+            skipDuplicates: true,
+          }));
 
-        const combinedTags = [...new Set(tagsTag.concat(filterTags))];
+        const combinedTags = [...new Set(tagsTag!.concat(filterTags!))];
 
         const relatedTags = await prismaclient.tag.findMany({
           where: {
@@ -47,7 +48,7 @@ export default async function Edit(req: NextApiRequest, res: NextApiResponse) {
             content: markdown!,
             views: 0,
             tags: {
-              connect: tagsId.map((tag) => ({ id: +tag })),
+              connect: tagsId!.map((tag) => ({ id: +tag })),
             },
           },
           where: {

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
-import type { GetStaticProps } from "next";
+import type { GetStaticProps, GetStaticPropsResult } from "next";
 import { useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
 import { useMutation } from "@libs/client/useMutation";
@@ -43,7 +43,10 @@ export default function Post({ postData }: PostData) {
     return router.push("/blogs/post/edit");
   }, [dispatch, postData.content, postData.title, router, tags]);
 
-  const ImageSrc = RegImageSrc(postData.content)?.groups.filename;
+  const ImageSrc =
+    RegImageSrc(postData.content) !== null || undefined
+      ? RegImageSrc(postData.content)?.groups?.filename
+      : "";
   const SEOImage = ImageSrc?.substring(1, ImageSrc.length);
 
   return (
@@ -102,7 +105,7 @@ export async function getStaticPaths() {
   const res = await fetch("http://localhost:3000/api/blogs/post");
   const list = await res.json();
 
-  const paths = list.map((post) => ({
+  const paths = list.map((post: any) => ({
     params: {
       id: post.id.toString(),
     },
@@ -110,7 +113,11 @@ export async function getStaticPaths() {
   return { paths, fallback: "blocking" };
 }
 
-export async function getStaticProps({ params }): GetStaticProps {
+export async function getStaticProps({
+  params,
+}: {
+  params: any;
+}): Promise<GetStaticPropsResult<PostData>> {
   const response = await fetch(`http://localhost:3000/api/blogs/${params.id}`);
   const postData = await response.json();
 

@@ -1,7 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { CSSProperties } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import SyntaxHighlighter from "react-syntax-highlighter";
+import { dark } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 
 export default function MarkdownParser({ markdown }: any) {
   return (
@@ -60,9 +61,14 @@ export default function MarkdownParser({ markdown }: any) {
         },
         code({ node, inline, className, children, ...props }) {
           return (
-            <SyntaxHighlighter language="javascript" PreTag="div" {...props}>
-              {String(children).replace(/\n$/, "")}
-            </SyntaxHighlighter>
+            <SyntaxHighlighter
+              // eslint-disable-next-line react/no-children-prop
+              children={String(children).replace(/\n$/, "")}
+              style={dark as any}
+              language="javascript"
+              PreTag="div"
+              {...props}
+            />
           );
         },
       }}

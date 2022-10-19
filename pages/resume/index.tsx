@@ -1,5 +1,6 @@
 import Layout from "@components/Base/Layout";
 import Link from "next/link";
+import React from "react";
 
 export default function Resume() {
   return (

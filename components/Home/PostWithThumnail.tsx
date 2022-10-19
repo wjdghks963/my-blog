@@ -29,7 +29,7 @@ export default function PostWithThumnail({ data }: { data: PostWithId }) {
             objectFit="cover"
             src={
               "/api/postImage/" +
-              src?.groups.filename.substring(
+              src?.groups!.filename.substring(
                 "(https://res.cloudinary.com/".length
               )
             }

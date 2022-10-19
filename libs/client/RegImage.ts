@@ -1,7 +1,7 @@
 type ImageUrl = string | undefined;
 
 export const RegImageSrc = (data: ImageUrl) => {
-  if (data === undefined) return "";
+  if (data === undefined) return null;
   const findUrl = new RegExp(
     `!\[[^\]]*\]\((?<filename>.*?)(?=\"|\))(?<optionalpart>\".*\")?[)]`,
     "g"

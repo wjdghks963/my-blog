@@ -31,8 +31,11 @@ export default function Post() {
     let { value } = tagsRef?.current!;
 
     if (value === "") return;
-    const set = new Set(value.split(", "));
-    return [...set];
+    const splitArr = value.split(", ");
+    const set = splitArr.filter((el, index) => {
+      return splitArr.indexOf(el) === index;
+    });
+    return set;
   };
 
   const handleSubmit = (e: any) => {

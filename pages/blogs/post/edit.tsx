@@ -18,17 +18,22 @@ export default function Edit() {
   const tagsRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const [markdown, setMarkdwon] = useState<string | undefined>("");
-  const [edit, { data: res, loading, error }] =
+  const [edit, { data: res, error }] =
     useMutation<MutationResult>(`/api/blogs/edit`);
 
-  const postJson: EditPost = useSelector((state) => state.editPostReducer);
+  const postJson: EditPost = useSelector(
+    (state: { editPostReducer: EditPost }) => state.editPostReducer
+  );
 
   const splitTags = (): string[] | void => {
     let { value } = tagsRef?.current!;
 
     if (value === "") return;
-    const set = new Set(value.split(", "));
-    return [...set];
+    const splitArr = value.split(", ");
+    const set = splitArr.filter((el, index) => {
+      return splitArr.indexOf(el) === index;
+    });
+    return set;
   };
 
   const handleSubmit = (e: any) => {
@@ -53,7 +58,7 @@ export default function Edit() {
 
   useEffect(() => {
     setMarkdwon(postJson.markdown);
-  }, []);
+  }, [postJson.markdown]);
 
   return (
     <>

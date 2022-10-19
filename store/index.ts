@@ -3,7 +3,7 @@ import { createWrapper } from "next-redux-wrapper";
 import reducer from "./modules";
 import logger from "redux-logger";
 
-const makeStore = (context) =>
+const makeStore = () =>
   // store 생성
   configureStore({
     reducer,

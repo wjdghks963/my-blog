@@ -18,7 +18,8 @@
     "paths": {
       "@libs/*": ["libs/*"],
       "@components/*": ["components/*"]
-    }
+    },
+    "downlevelIteration": true
   },
   "include": [
     "next-env.d.ts",

@@ -28,9 +28,11 @@ export interface IPostArr {
   data: PostWithId[];
 }
 
-export default function Blogs({ tags }) {
+export default function Blogs({ tags }: { tags: { tag: string }[] }) {
   const tagRef = useRef("all");
-  const selecetedTag = useSelector((state) => state.tagFilterReducer.tag);
+  const selecetedTag = useSelector(
+    (state: { tagFilterReducer: { tag: string } }) => state.tagFilterReducer.tag
+  );
 
   useEffect(() => {
     tagRef.current = selecetedTag;

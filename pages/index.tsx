@@ -4,7 +4,6 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import useSWR, { SWRResponse } from "swr";
 import { PostWithId } from "./blogs";
 import PostWithThumnail from "@components/Home/PostWithThumnail";
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Loading from "@components/Base/Loading";

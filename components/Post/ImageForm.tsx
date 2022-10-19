@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 
 export default function ImageForm() {
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState<any>("");
   const [imgUrl, setImgUrl] = useState<string>("");
   const { data: session } = useSession();
 
@@ -27,7 +27,12 @@ export default function ImageForm() {
   return (
     <div className="items-center w-full flex flex-col gap-5">
       <form onSubmit={(e) => handleSubmit(e)}>
-        <input type="file" onChange={(e) => setImage(e.target.files[0])} />
+        <input
+          type="file"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setImage(e.currentTarget.files![0]);
+          }}
+        />
         <button className=" hover:ring-green-400 hover:ring-2 hover:ring-offset-2 hover:bg-green-400 hover:text-white px-2">
           url 생성
         </button>
