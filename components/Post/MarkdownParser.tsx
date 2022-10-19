@@ -35,13 +35,7 @@ export default function MarkdownParser({ markdown }: any) {
             </h4>
           );
         },
-        h5({ node, children, ...props }) {
-          return (
-            <h5 {...props} className="dark:text-white">
-              {children}
-            </h5>
-          );
-        },
+
         p({ node, children, ...props }) {
           return (
             <p {...props} className="dark:text-white">
@@ -49,12 +43,7 @@ export default function MarkdownParser({ markdown }: any) {
             </p>
           );
         },
-        br({ node }) {
-          return <br />;
-        },
-        hr({}) {
-          return <hr />;
-        },
+
         li({ node, children, ...props }) {
           return (
             <li {...props} className="dark:text-white">
@@ -79,7 +68,6 @@ export default function MarkdownParser({ markdown }: any) {
       }}
       remarkPlugins={[remarkGfm]}
     >
-      {/* {postData.content} */}
       {markdown}
     </ReactMarkdown>
   );
