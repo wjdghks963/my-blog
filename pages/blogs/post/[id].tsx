@@ -16,6 +16,7 @@ import TagSpan from "@components/Post/TagSpan";
 import { IPost } from "pages/api/blogs/[id]";
 import { setPostJson } from "store/modules/editPost";
 import { RegImageSrc } from "@libs/client/RegImage";
+import AllPostId from "pages/api/blogs/post/getAllPostsId";
 
 type MutationResult = { ok: boolean };
 type PostData = { postData: IPost };
@@ -104,12 +105,10 @@ export default function Post({ postData }: PostData) {
   );
 }
 
-// eslint-disable-next-line @next/next/no-typos
 export async function getStaticPaths() {
-  const res = await fetch("/api/blogs/post");
-  const list = await res.json();
+  const res = await AllPostId();
 
-  const paths = list.map((post: any) => ({
+  const paths = res?.map((post: any) => ({
     params: {
       id: post.id.toString(),
     },

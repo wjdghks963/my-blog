@@ -72,14 +72,4 @@ export default async function Post(req: NextApiRequest, res: NextApiResponse) {
     }
     return res.status(200).json({ ok: true });
   }
-
-  if (req.method === "GET") {
-    const postsId = await prismaclient.post.findMany({
-      select: {
-        id: true,
-      },
-    });
-
-    return res.status(200).json(postsId);
-  }
 }
