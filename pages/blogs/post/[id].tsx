@@ -68,9 +68,11 @@ export default function Post({ postData }: { postData: PostData }) {
         <div className="flex w-full ">
           <span className="w-1/2">{date}</span>
           <div className="flex flex-row gap-4 w-1/2 justify-end">
-            {tags.map((tag: string, index: number) => (
-              <TagSpan key={index} tag={tag} clickOk={true} goBlog={true} />
-            ))}
+            {tags
+              ? tags.map((tag: string, index: number) => (
+                  <TagSpan key={index} tag={tag} clickOk={true} goBlog={true} />
+                ))
+              : null}
           </div>
         </div>
         <span className="my-3">조회 : {postData.views}</span>
