@@ -3,6 +3,7 @@ import Loading from "@components/Base/Loading";
 import TagNavBar from "@components/Blog/TagNavBar";
 import MiniPost from "@components/Post/MiniPost";
 import { Tag } from "@prisma/client";
+import Tags from "pages/api/blogs/tags";
 import React, {
   useCallback,
   useEffect,
@@ -11,6 +12,7 @@ import React, {
   useState,
 } from "react";
 import { useSelector } from "react-redux";
+import useSWR from "swr";
 import useSWRInfinite, { SWRInfiniteResponse } from "swr/infinite";
 
 export type PostWithId = {
@@ -70,6 +72,8 @@ export default function Blogs({ tags }: { tags: { tag: string }[] }) {
 
   const { data, setSize, mutate }: SWRInfiniteResponse<IPostArr> =
     useSWRInfinite(getKey);
+
+  console.log(tags);
   const [loading, setLoading] = useState(true);
 
   const posts = useMemo(() => {
@@ -122,7 +126,7 @@ export default function Blogs({ tags }: { tags: { tag: string }[] }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch("/api/blogs/tags");
-  const tags = await res.json();
+  const tags = await Tags();
+
   return { props: { tags } };
 }

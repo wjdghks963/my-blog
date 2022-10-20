@@ -13,15 +13,18 @@ import localeDate from "@libs/client/localeDate";
 import MarkdownParser from "@components/Post/MarkdownParser";
 import Layout from "@components/Base/Layout";
 import TagSpan from "@components/Post/TagSpan";
-import { IPost } from "pages/api/blogs/[id]";
+import BlogPostById, { IPost } from "pages/api/blogs/[id]";
 import { setPostJson } from "store/modules/editPost";
 import { RegImageSrc } from "@libs/client/RegImage";
 import AllPostId from "pages/api/blogs/post/getAllPostsId";
 
 type MutationResult = { ok: boolean };
-type PostData = { postData: IPost };
+interface PostData extends IPost {
+  ok: boolean;
+  message?: string;
+}
 
-export default function Post({ postData }: PostData) {
+export default function Post({ postData }: { postData: PostData }) {
   const router = useRouter();
   const [delPost] = useMutation<MutationResult>("/api/blogs/delete");
   const { data: session } = useSession();
@@ -120,13 +123,19 @@ export async function getStaticProps({
   params,
 }: {
   params: any;
-}): Promise<GetStaticPropsResult<PostData>> {
-  const response = await fetch(`/api/blogs/${params.id}`);
-  const postData = await response.json();
+}): Promise<GetStaticPropsResult<any>> {
+  const postData = await BlogPostById(params.id);
 
   return {
     props: {
-      postData,
+      postData: {
+        title: postData.title,
+        content: postData.content,
+        tags: postData.tags,
+        views: postData.views,
+        createdAt: postData.createdAt + "",
+        updatedAt: postData.updatedAt + "",
+      },
     },
   };
 }
