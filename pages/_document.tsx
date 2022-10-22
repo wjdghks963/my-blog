@@ -1,10 +1,25 @@
-import Document, { Html, Head, Main, NextScript } from "next/document";
+import Document, {
+  Html,
+  Head,
+  Main,
+  NextScript,
+  DocumentContext,
+} from "next/document";
 
 class MyDocument extends Document {
+  static async getInitialProps(ctx: DocumentContext) {
+    const initialProps = await Document.getInitialProps(ctx);
+
+    return { ...initialProps };
+  }
   render() {
     return (
       <Html lang="en">
-        <Head></Head>
+        <Head>
+          <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+          <link rel="apple-touch-icon-precomposed" href="favicon.ico" />
+          <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        </Head>
         <body>
           <Main />
           <NextScript />

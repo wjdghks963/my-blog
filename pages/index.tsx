@@ -60,7 +60,7 @@ const Home: NextPage = () => {
         </span>
 
         <Link href={"/blogs/post"}>
-          <a className="block mt-4 cursor-pointer font-bold">
+          <a className="hidden  sm:block mt-4 cursor-pointer font-bold">
             글 쓰는 페이지 구경가기 &rarr;{" "}
           </a>
         </Link>

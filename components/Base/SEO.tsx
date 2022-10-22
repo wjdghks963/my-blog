@@ -3,12 +3,12 @@ import Head from "next/head";
 export interface ISEO {
   title: string;
   description?: string;
-  url: string;
+  url?: string;
   image?: string;
   keywords?: string;
 }
 
-// TODO:: 나중에 url meta 바꿔야함
+// TODO:: 나중에 트위터 추가 파비콘 골라야함
 const SEO = ({ title, description, url, image, keywords }: ISEO) => {
   return (
     <Head>
@@ -21,7 +21,14 @@ const SEO = ({ title, description, url, image, keywords }: ISEO) => {
       <meta name="og:site_name" content="jung의 블로그" />
       <meta property="og:title" content={title || "jung의 블로그"} />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content={url || "https://"} />
+      <meta
+        property="og:url"
+        content={
+          url
+            ? "https://www.sabgilnote.xyz/" + url
+            : "https://www.sabgilnote.xyz/"
+        }
+      />
       <meta property="og:image" content={image} />
       <meta
         property="og:description"
