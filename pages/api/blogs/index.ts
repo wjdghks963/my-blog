@@ -96,8 +96,6 @@ export default async function Blogs(req: NextApiRequest, res: NextApiResponse) {
         },
       });
 
-      console.log("cusor", posts);
-
       const nextCursor =
         posts.length !== 0 && posts.length === +limit!
           ? posts[posts.length - 1].id

@@ -44,7 +44,6 @@ export default function Blogs({ tags }: { tags: { tag: string }[] }) {
     pageIndex: any,
     previousPageData: { nextCursor: string } | null
   ): string | null => {
-    console.log(previousPageData);
     // nextCoursor가 done이면 종료
     if (previousPageData && previousPageData.nextCursor === "done") return null;
     // 전 데이터 없을때 맨 처음 받아옴 tag는 all로
@@ -57,7 +56,6 @@ export default function Blogs({ tags }: { tags: { tag: string }[] }) {
     }
     // 전 데이터 없고 tag가 all이 아니라면
     if (previousPageData === null && tagRef.current !== "") {
-      console.log(tagRef.current);
       return `/api/blogs?tag=${selecetedTag}&limit=5`;
     }
 
@@ -73,7 +71,6 @@ export default function Blogs({ tags }: { tags: { tag: string }[] }) {
   const { data, setSize, mutate }: SWRInfiniteResponse<IPostArr> =
     useSWRInfinite(getKey);
 
-  console.log(tags);
   const [loading, setLoading] = useState(true);
 
   const posts = useMemo(() => {
@@ -93,7 +90,7 @@ export default function Blogs({ tags }: { tags: { tag: string }[] }) {
   const handleObserver: IntersectionObserverCallback = useCallback(
     (entries) => {
       const target = entries[0];
-      console.log(target.isIntersecting);
+
       if (target.isIntersecting) {
         setSize((size) => size + 1);
       }
