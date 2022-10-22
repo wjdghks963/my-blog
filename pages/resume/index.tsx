@@ -70,8 +70,8 @@ export default function Resume() {
                   받아 정규직으로 들어가 배우면서 일을 시작했습니다.
                 </span>
 
-                <li className=" mt-5">
-                  <span className="font-bold">코고 로또</span>
+                <ul className=" mt-5">
+                  <span className="font-bold">- 코고 로또</span>
                   <span className="block">
                     코인 고스트 모바일에서만 운영하는 이벤트 페이지로 회사가
                     발생한 GST 코인을 통해 경품을 응모할 수 있는 이벤트입니다.
@@ -82,16 +82,16 @@ export default function Resume() {
                     통해 소통을 하며 협업하는 방법을 알게되었습니다.
                   </span>
                   <li>전체적인 UI와 벡엔드와 통신을 하는 역할을 맡았습니다.</li>
-                </li>
-                <li className="mt-5">
-                  <span className="font-bold">개인 충전 지갑 페이지</span>
+                </ul>
+                <li className="mt-5 list-none">
+                  <span className="font-bold">- 개인 충전 지갑 페이지</span>
                   <span className="block">
                     코인 고스트의 화폐인 pop와 코인인 GST를 교환 충전하는 내역
                     페이지
                   </span>
                 </li>
-                <li className="mt-5">
-                  <span className="font-bold">코고 갤러리</span>
+                <ul className="mt-5">
+                  <span className="font-bold"> - 코고 갤러리</span>
                   <span className="block">
                     pop과 GST를 이용해 NFT를 거래할 수 있는 플랫폼
                   </span>
@@ -107,7 +107,7 @@ export default function Resume() {
                     <br />
                     민팅 예정인 NFT를 볼 수 있는 페이지
                   </li>
-                </li>
+                </ul>
               </div>
             </div>
           </div>
