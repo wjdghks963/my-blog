@@ -1,10 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
-import type {
-  GetStaticPaths,
-  GetStaticProps,
-  GetStaticPropsResult,
-} from "next";
+import type { GetStaticPropsResult } from "next";
 import { useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
 import { useMutation } from "@libs/client/useMutation";
@@ -60,9 +56,10 @@ export default function Post({ postData }: { postData: PostData }) {
   return (
     <Layout
       title={postData.title}
-      url={""}
+      url={`/blogs/post/${router.query.id}`}
       description={postData.content.substring(0, 75) + "..."}
       image={SEOImage}
+      keywords={tags.join(",")}
     >
       <div className="flex flex-col mx-10  p-5 border-2 border-gray-700 dark:border-white ">
         <div className="flex w-full ">

@@ -4,7 +4,12 @@ import React from "react";
 
 export default function Resume() {
   return (
-    <Layout title="최정환 이력서" url="" className="px-10 mt-10 ">
+    <Layout
+      title="최정환 이력서"
+      url="/resume"
+      className="px-10 mt-10"
+      keywords="이력서"
+    >
       <div className="mt-5 prose-h3:dark:text-white prose-h2:dark:text-white prose-li:dark:text-white  ">
         <div className="pb-5 flex font-extrabold text-2xl">
           안녕하세요

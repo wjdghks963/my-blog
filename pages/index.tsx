@@ -20,7 +20,11 @@ const Home: NextPage = () => {
   }, [loading, data]);
 
   return (
-    <Layout title={"Jung's Blog"} url={""} className={"mt-3 px-10"}>
+    <Layout
+      title={"Jung's Blog"}
+      className={"mt-3 px-10"}
+      keywords="프론트 엔드 기술 블로그"
+    >
       <div className="flex flex-col mt-10">
         <h1 className="font-bold text-4xl">Recent Posts</h1>
         <div className="flex flex-row gap-5 mt-10 ">

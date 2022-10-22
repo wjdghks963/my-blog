@@ -25,8 +25,8 @@ const SEO = ({ title, description, url, image, keywords }: ISEO) => {
         property="og:url"
         content={
           url
-            ? "https://www.sabgilnote.xyz/" + url
-            : "https://www.sabgilnote.xyz/"
+            ? "https://www.sabgilnote.xyz" + url
+            : "https://www.sabgilnote.xyz"
         }
       />
       <meta property="og:image" content={image} />

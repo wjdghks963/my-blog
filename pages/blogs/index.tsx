@@ -12,7 +12,6 @@ import React, {
   useState,
 } from "react";
 import { useSelector } from "react-redux";
-import useSWR from "swr";
 import useSWRInfinite, { SWRInfiniteResponse } from "swr/infinite";
 
 export type PostWithId = {
@@ -110,7 +109,7 @@ export default function Blogs({ tags }: { tags: { tag: string }[] }) {
   }, [handleObserver]);
 
   return (
-    <Layout title={"블로그"} url={""} description={"블로그 모음"}>
+    <Layout title={"블로그"} url={"/blogs"} description={"블로그 모음"}>
       <TagNavBar tags={tags} mutate={mutate} />
       <div className="flex flex-col items-center mt-20 pb-10 gap-14 h-full">
         {data && data[0]?.data.length === 0
