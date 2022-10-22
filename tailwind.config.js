@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        mobile: "420px",
+      },
       keyframes: {
         wave: {
           "0%": { transform: "rotate(0.0deg)" },

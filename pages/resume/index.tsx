@@ -21,15 +21,15 @@ export default function Resume() {
           향상시키기 위해서 새로운 것을 배우는데 거부감이 없습니다.
         </span>
 
-        <div className="prose flex w-full justify-between">
+        <div className="prose flex w-full justify-between mt-5 gap-5">
           <div className="">
-            <h3 className="">가지고 있는 스킬</h3>
+            <h3 className="mobile:font-bold text-lg">가지고 있는 스킬</h3>
             <ul>
               <li>React</li>
               <li>HTML,CSS</li>
               <li>Next.js</li>
             </ul>
-            <h3>익히고 있는 스킬</h3>
+            <h3 className="mobile:font-bold text-lg">익히고 있는 스킬</h3>
             <ul>
               <li>TailwindCSS</li>
               <li>Redcux</li>
@@ -37,12 +37,14 @@ export default function Resume() {
             </ul>
           </div>
           <div>
-            <h3>익숙한 프로그래밍 언어</h3>
+            <h3 className="mobile:font-bold text-lg">익숙한 프로그래밍 언어</h3>
             <ul>
               <li>JS</li>
               <li>Kotlin</li>
             </ul>
-            <h3>익히고 있거나 배우고 싶은 프로그래밍 언어</h3>
+            <h3 className="mobile:font-bold text-lg">
+              익히고 있거나 배우고 싶은 프로그래밍 언어
+            </h3>
             <ul>
               <li>Rust</li>
             </ul>
