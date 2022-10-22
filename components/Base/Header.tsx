@@ -9,6 +9,7 @@ export default function Header() {
   const router = useRouter();
 
   useEffect(() => {
+    if (localStorage.getItem("theme")) return;
     const prefersDarkMode = window.matchMedia(
       "(prefers-color-scheme:dark)"
     ).matches;
