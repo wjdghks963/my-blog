@@ -51,7 +51,7 @@ export default function Edit() {
       alert("인터넷 오류");
       console.log(error);
     } else {
-      router.replace("/blogs");
+      router.replace("/");
     }
     console.log(res);
   };
