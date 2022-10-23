@@ -23,8 +23,7 @@ export default function Post() {
   const tagsRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const [markdown, setMarkdwon] = useState<string | undefined>("");
-  const [post, { data, loading, error }] =
-    useMutation<MutationResult>("/api/blogs/post");
+  const [post, { data }] = useMutation<MutationResult>("/api/blogs/post");
   const { data: session } = useSession();
 
   const splitTags = (): string[] | void => {
@@ -53,7 +52,7 @@ export default function Post() {
     if (data?.ok === false) {
       alert("인터넷 오류");
     } else {
-      router.replace("/blogs");
+      router.replace("/");
     }
   };
 
