@@ -5,17 +5,18 @@ import { useEffect } from "react";
 
 export default function Header() {
   const { theme, setTheme } = useTheme();
-
+  const [svgLoad, setSvgLoad] = useState<boolean>(true);
   const router = useRouter();
 
   useEffect(() => {
+    setSvgLoad(false);
     if (localStorage.getItem("theme")) return;
     const prefersDarkMode = window.matchMedia(
       "(prefers-color-scheme:dark)"
     ).matches;
 
     setTheme(prefersDarkMode ? "dark" : "light");
-  }, []);
+  }, [setTheme]);
 
   return (
     <div className="flex flex-row mt-5 px-16 pb-4">
@@ -43,7 +44,9 @@ export default function Header() {
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className="text-gray-500 dark:text-gray-400"
           >
-            {theme === "dark" ? (
+            {svgLoad ? (
+              ""
+            ) : theme === "dark" ? (
               <svg
                 className="w-6 h-6 "
                 fill="none"
