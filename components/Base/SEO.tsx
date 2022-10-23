@@ -8,7 +8,6 @@ export interface ISEO {
   keywords?: string;
 }
 
-// TODO:: 나중에 트위터 추가 파비콘 골라야함
 const SEO = ({ title, description, url, image, keywords }: ISEO) => {
   return (
     <Head>
@@ -35,6 +34,7 @@ const SEO = ({ title, description, url, image, keywords }: ISEO) => {
         content={description || "jung의 블로그"}
       />
       <meta property="og:article:author" content="jung" />
+      <meta name="twitter:card" content="summary" />
     </Head>
   );
 };
