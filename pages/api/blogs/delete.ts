@@ -28,20 +28,16 @@ export default async function Delete(
         where: {
           tag: { in: tags },
         },
-        select: {
-          posts: true,
-        },
+        include: { _count: true },
       });
 
-      if (tagsPosts.length) {
-        await prismaclient.tag.deleteMany({
-          where: {
-            tag: {
-              in: tags,
-            },
-          },
-        });
-      }
+      tagsPosts.map(async (post) => {
+        if (+post._count.posts === 0) {
+          await prismaclient.tag.delete({
+            where: { id: post.id },
+          });
+        }
+      });
 
       return res.status(200).json({ ok: true });
     } catch (err) {
