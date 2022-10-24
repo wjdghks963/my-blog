@@ -1,5 +1,5 @@
 import prismaclient from "@libs/server/prismaClient";
-import { Tag } from "@prisma/client";
+import { Post, Tag } from "@prisma/client";
 
 export interface IPost {
   title: string;
