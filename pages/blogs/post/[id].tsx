@@ -37,8 +37,6 @@ export default function Post({ postData }: { postData: PostData }) {
       ? localeDate(postData.updatedAt)
       : localeDate(postData.createdAt);
 
-  console.log(postData);
-
   const dispatch = useDispatch();
   const editPost = useCallback(() => {
     dispatch(

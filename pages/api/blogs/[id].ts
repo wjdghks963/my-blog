@@ -1,12 +1,11 @@
 import prismaclient from "@libs/server/prismaClient";
 import { Tag } from "@prisma/client";
-import type { NextApiRequest, NextApiResponse } from "next";
 
 export interface IPost {
   title: string;
   content: string;
-  tags: Tag[];
   views: number;
+  tags: Tag[];
   description: string;
   createdAt: Date;
   updatedAt: Date;
@@ -14,7 +13,7 @@ export interface IPost {
 
 export default async function BlogPostById(id: number) {
   try {
-    const post: IPost | undefined = await prismaclient.post.update({
+    const post: IPost = await prismaclient.post.update({
       data: {
         views: {
           increment: 1,

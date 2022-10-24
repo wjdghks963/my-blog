@@ -54,7 +54,6 @@ export default function Edit() {
     } else {
       router.replace("/");
     }
-    console.log(res);
   };
 
   useEffect(() => {
