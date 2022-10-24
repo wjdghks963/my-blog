@@ -72,7 +72,7 @@ export default function Post({ postData }: { postData: PostData }) {
       image={SEOImage}
       keywords={tags.join(",")}
     >
-      <div className="flex flex-col mx-10 p-5 border-2 border-gray-700 dark:border-white w-full ">
+      <div className="flex flex-col mx-10 p-5 border-2 border-gray-700 dark:border-white">
         <div className="flex w-full">
           <span className="w-1/2">{date}</span>
           <div className="flex flex-row gap-4 w-1/2 justify-end">
