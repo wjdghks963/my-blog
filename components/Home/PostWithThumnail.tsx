@@ -10,6 +10,7 @@ export default function PostWithThumnail({ data }: { data: PostWithId }) {
   const moveToPost = (id: number) => {
     return router.push(`/blogs/post/${id}`);
   };
+  console.log();
 
   return (
     <div
@@ -23,10 +24,12 @@ export default function PostWithThumnail({ data }: { data: PostWithId }) {
             layout="fill"
             objectFit="cover"
             src={
-              "/api/postImage/" +
-              src?.groups!.filename.substring(
-                "(https://res.cloudinary.com/".length
-              )
+              src?.groups!.filename.startsWith("(https://res.cloudinary.com/")
+                ? "/api/postImage/" +
+                  src?.groups!.filename.substring(
+                    "(https://res.cloudinary.com/".length
+                  )
+                : src?.groups!.filename.substring(1)
             }
             alt="d"
           />
