@@ -7,6 +7,7 @@ export interface IPost {
   content: string;
   tags: Tag[];
   views: number;
+  description: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -27,6 +28,7 @@ export default async function BlogPostById(id: number) {
         content: true,
         views: true,
         tags: true,
+        description: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -38,6 +40,7 @@ export default async function BlogPostById(id: number) {
       content: post?.content,
       views: post?.views,
       tags: post?.tags,
+      description: post?.description,
       createdAt: post?.createdAt,
       updatedAt: post?.updatedAt,
     };

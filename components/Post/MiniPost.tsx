@@ -1,4 +1,5 @@
 import localeDate from "@libs/client/localeDate";
+
 import { replaceStartWithImageUrl } from "@libs/client/replaceStartWithImageUrl";
 import { useRouter } from "next/router";
 import { PostWithId } from "pages/blogs";
@@ -11,11 +12,6 @@ export default function MiniPost({ data }: { data: PostWithId }) {
     data.createdAt !== data.updatedAt
       ? localeDate(data.updatedAt)
       : localeDate(data.createdAt);
-
-  const content = replaceStartWithImageUrl(
-    data.content.substring(0, 20),
-    data.title
-  );
 
   const moveToPost = (id: number) => {
     return router.push(`/blogs/post/${id}`);
@@ -52,7 +48,7 @@ export default function MiniPost({ data }: { data: PostWithId }) {
           })}
         </div>
       </div>
-      <span>Content - {content}</span>
+      <span>Content - {data?.description}</span>
       <span>{date}</span>
     </div>
   );

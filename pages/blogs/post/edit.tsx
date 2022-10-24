@@ -17,6 +17,7 @@ export default function Edit() {
   const router = useRouter();
   const tagsRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
+  const descriptionRef = useRef<HTMLInputElement>(null);
   const [markdown, setMarkdwon] = useState<string | undefined>("");
   const [edit, { data: res, error }] =
     useMutation<MutationResult>(`/api/blogs/edit`);
@@ -71,6 +72,7 @@ export default function Edit() {
               type="text"
               ref={titleRef}
               defaultValue={postJson.title}
+              required
             />
           </div>
           <div>
@@ -81,6 +83,18 @@ export default function Edit() {
               ref={tagsRef}
               placeholder="tag들은 , 로 분리함"
               defaultValue={postJson.tags?.join(", ")}
+              required
+            />
+          </div>
+          <div>
+            <span>Description - </span>
+            <input
+              className="outline-none border-2 border-solid border-black focus:border-gray-300 p-1"
+              type="text"
+              ref={descriptionRef}
+              placeholder="줄거리 입력"
+              defaultValue={postJson.description}
+              required
             />
           </div>
         </div>

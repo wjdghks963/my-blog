@@ -19,6 +19,7 @@ export type PostWithId = {
   title: string;
   content: string;
   views: number;
+  description: string;
   createdAt: Date;
   updatedAt: Date;
   tags: Tag[];

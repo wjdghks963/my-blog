@@ -9,9 +9,10 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 
 export interface IPostJson {
-  title?: string;
+  title: string;
   markdown: string | undefined;
   tags?: string[] | void;
+  description: string;
 }
 
 type MutationResult = { ok: boolean };
@@ -22,6 +23,7 @@ export default function Post() {
   const router = useRouter();
   const tagsRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
+  const descriptionRef = useRef<HTMLInputElement>(null);
   const [markdown, setMarkdwon] = useState<string | undefined>("");
   const [post, { data }] = useMutation<MutationResult>("/api/blogs/post");
   const { data: session } = useSession();
@@ -40,8 +42,9 @@ export default function Post() {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     const postJson: IPostJson = {
-      title: titleRef?.current?.value,
+      title: titleRef.current?.value!,
       markdown,
+      description: descriptionRef.current?.value!,
       tags: splitTags(),
     };
 
@@ -76,6 +79,16 @@ export default function Post() {
               type="text"
               ref={tagsRef}
               placeholder="tag들은 , 로 분리함"
+              required
+            />
+          </div>
+          <div>
+            <span>Description - </span>
+            <input
+              className="outline-none border-2 border-solid border-black focus:border-gray-300 p-1"
+              type="text"
+              ref={descriptionRef}
+              placeholder="줄거리 입력"
               required
             />
           </div>

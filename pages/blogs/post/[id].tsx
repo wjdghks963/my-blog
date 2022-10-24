@@ -6,19 +6,22 @@ import { useSession } from "next-auth/react";
 import { useMutation } from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import localeDate from "@libs/client/localeDate";
-import MarkdownParser from "@components/Post/MarkdownParser";
+
 import Layout from "@components/Base/Layout";
 import TagSpan from "@components/Post/TagSpan";
 import BlogPostById, { IPost } from "pages/api/blogs/[id]";
 import { setPostJson } from "store/modules/editPost";
 import { RegImageSrc } from "@libs/client/RegImage";
 import AllPostId from "pages/api/blogs/post/getAllPostsId";
+import dynamic from "next/dynamic";
 
 type MutationResult = { ok: boolean };
 interface PostData extends IPost {
   ok: boolean;
   message?: string;
 }
+
+const MarkdownParser = dynamic(() => import("@components/Post/MarkdownParser"));
 
 export default function Post({ postData }: { postData: PostData }) {
   const router = useRouter();
@@ -34,6 +37,8 @@ export default function Post({ postData }: { postData: PostData }) {
       ? localeDate(postData.updatedAt)
       : localeDate(postData.createdAt);
 
+  console.log(postData);
+
   const dispatch = useDispatch();
   const editPost = useCallback(() => {
     dispatch(
@@ -42,10 +47,18 @@ export default function Post({ postData }: { postData: PostData }) {
         markdown: postData.content,
         tags: tags,
         title: postData.title,
+        description: postData.description,
       })
     );
     return router.push("/blogs/post/edit");
-  }, [dispatch, postData.content, postData.title, router, tags]);
+  }, [
+    dispatch,
+    postData.content,
+    postData.description,
+    postData.title,
+    router,
+    tags,
+  ]);
 
   const ImageSrc =
     RegImageSrc(postData.content) !== null || undefined
@@ -61,8 +74,8 @@ export default function Post({ postData }: { postData: PostData }) {
       image={SEOImage}
       keywords={tags.join(",")}
     >
-      <div className="flex flex-col mx-10  p-5 border-2 border-gray-700 dark:border-white ">
-        <div className="flex w-full ">
+      <div className="flex flex-col mx-10 p-5 border-2 border-gray-700 dark:border-white w-full ">
+        <div className="flex w-full">
           <span className="w-1/2">{date}</span>
           <div className="flex flex-row gap-4 w-1/2 justify-end">
             {tags
@@ -73,8 +86,8 @@ export default function Post({ postData }: { postData: PostData }) {
           </div>
         </div>
         <span className="my-3">조회 : {postData.views}</span>
-        <h1 className="font-extrabold text-7xl mt-10">{postData.title}</h1>
-        <div className="mt-20 prose h-full">
+        <h1 className="font-bold text-5xl mx-10 mt-10">{postData.title}</h1>
+        <div className="mt-20 prose h-full mx-10">
           <MarkdownParser markdown={postData.content} />
         </div>
       </div>
@@ -132,6 +145,7 @@ export async function getStaticProps({
         content: postData.content,
         tags: postData.tags,
         views: postData.views,
+        description: postData.description,
         createdAt: postData.createdAt + "",
         updatedAt: postData.updatedAt + "",
       },

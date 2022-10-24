@@ -10,6 +10,7 @@ const initialState: EditPost = {
   title: "",
   markdown: "",
   tags: [""],
+  description: "",
 };
 
 const editPostSlice = createSlice({
@@ -17,11 +18,12 @@ const editPostSlice = createSlice({
   initialState,
   reducers: {
     setPostJson: (state, action: PayloadAction<EditPost>) => {
-      const { id, markdown, tags, title } = action.payload;
+      const { id, markdown, tags, title, description } = action.payload;
       state.id = id;
       state.markdown = markdown;
       state.tags = tags;
       state.title = title;
+      state.description = description;
     },
   },
 });

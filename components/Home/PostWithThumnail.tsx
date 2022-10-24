@@ -7,11 +7,6 @@ import { RegImageSrc } from "@libs/client/RegImage";
 export default function PostWithThumnail({ data }: { data: PostWithId }) {
   const src = RegImageSrc(data.content);
 
-  let content = replaceStartWithImageUrl(
-    data.content.substring(0, 30),
-    data.title
-  );
-
   const moveToPost = (id: number) => {
     return router.push(`/blogs/post/${id}`);
   };
@@ -43,7 +38,7 @@ export default function PostWithThumnail({ data }: { data: PostWithId }) {
       )}
       <div className="invisible absolute w-28 group-hover:sm:delay-500 group-hover:sm:visible  flex flex-col items-center">
         <span className="my-5 font-bold text-md">{data.title}</span>
-        <span className="break-all">{content}..</span>
+        <span className="break-all">{data.description}..</span>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import { IPostJson } from "pages/blogs/post";
 
 export default async function Post(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    const { title, markdown, tags }: IPostJson = req.body;
+    const { title, markdown, tags, description }: IPostJson = req.body;
 
     try {
       // 같은 tag가 존재한다면 해당 tag id 반환
@@ -34,6 +34,7 @@ export default async function Post(req: NextApiRequest, res: NextApiResponse) {
             title: title!,
             content: markdown!,
             views: 0,
+            description,
             tags: {
               connect: relatedTags.map((tag) => ({ id: +tag.id })),
             },
@@ -46,6 +47,7 @@ export default async function Post(req: NextApiRequest, res: NextApiResponse) {
             title: title!,
             content: markdown!,
             views: 0,
+            description,
             tags: {
               connect: tagsId?.map((tag) => ({ id: +tag })),
             },
@@ -60,6 +62,7 @@ export default async function Post(req: NextApiRequest, res: NextApiResponse) {
             title: title!,
             content: markdown!,
             views: 0,
+            description,
           },
         });
       }

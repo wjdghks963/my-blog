@@ -6,7 +6,7 @@ import { EditPost } from "store/modules/editPost";
 
 export default async function Edit(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    const { id, title, markdown, tags }: EditPost = req.body;
+    const { id, title, markdown, tags, description }: EditPost = req.body;
 
     try {
       // 같은 tag가 존재한다면 해당 tag id 반환
@@ -36,6 +36,7 @@ export default async function Edit(req: NextApiRequest, res: NextApiResponse) {
             tags: {
               connect: relatedTags.map((tag) => ({ id: +tag.id })),
             },
+            description,
           },
           where: {
             id,
@@ -47,6 +48,7 @@ export default async function Edit(req: NextApiRequest, res: NextApiResponse) {
             title: title!,
             content: markdown!,
             views: 0,
+            description,
             tags: {
               connect: tagsId!.map((tag) => ({ id: +tag })),
             },
@@ -63,6 +65,7 @@ export default async function Edit(req: NextApiRequest, res: NextApiResponse) {
             title: title!,
             content: markdown!,
             views: 0,
+            description,
           },
           where: {
             id,
