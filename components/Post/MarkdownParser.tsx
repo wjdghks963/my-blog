@@ -3,6 +3,9 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { dark } from "react-syntax-highlighter/dist/cjs/styles/hljs";
+import { cls } from "@libs/client/utils";
+import rehypeRaw from "rehype-raw";
+import Image from "next/image";
 
 export default function MarkdownParser({ markdown }: any) {
   return (
@@ -37,6 +40,18 @@ export default function MarkdownParser({ markdown }: any) {
           );
         },
 
+        img({ node, ...props }) {
+          return (
+            <Image
+              className=""
+              src={props?.src + ""}
+              layout="responsive"
+              width={100}
+              height={100}
+              alt="/favicon.ico"
+            />
+          );
+        },
         p({ node, children, ...props }) {
           return (
             <p {...props} className="dark:text-white">
@@ -52,26 +67,34 @@ export default function MarkdownParser({ markdown }: any) {
             </li>
           );
         },
-        span({ node, children, ...props }) {
+        span({ node, children, style, ...props }) {
+          const backColor = `bg-[${style?.backgroundColor}]`;
+
           return (
-            <span className="dark:text-white" {...props}>
+            <span className={cls("dark:text-white", backColor)}>
               {children}
             </span>
           );
         },
         code({ node, inline, className, children, ...props }) {
-          return (
+          const match = /language-(\w+)/.exec(className || "");
+          return !inline && match ? (
             <SyntaxHighlighter
               // eslint-disable-next-line react/no-children-prop
               children={String(children).replace(/\n$/, "")}
               style={dark as any}
-              language="javascript"
+              language={match[1]}
               PreTag="div"
               {...props}
             />
+          ) : (
+            <code className={className} {...props}>
+              {children}
+            </code>
           );
         },
       }}
+      rehypePlugins={[rehypeRaw]}
       remarkPlugins={[remarkGfm]}
     >
       {markdown}
