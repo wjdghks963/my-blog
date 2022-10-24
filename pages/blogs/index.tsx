@@ -37,6 +37,7 @@ export default function Blogs({ tags }: { tags: { tag: string }[] }) {
   );
 
   useEffect(() => {
+    if (tagRef.current.valueOf() === "all" && selecetedTag === "") return;
     tagRef.current = selecetedTag;
   }, [selecetedTag]);
 
@@ -47,15 +48,15 @@ export default function Blogs({ tags }: { tags: { tag: string }[] }) {
     // nextCoursor가 done이면 종료
     if (previousPageData && previousPageData.nextCursor === "done") return null;
     // 전 데이터 없을때 맨 처음 받아옴 tag는 all로
-    if (previousPageData === null && tagRef.current === "") {
+    if (previousPageData === null && tagRef.current.valueOf() === "all") {
       return "/api/blogs?tag=all&limit=5";
     }
 
-    if (previousPageData !== null && tagRef.current === "") {
+    if (previousPageData !== null && tagRef.current.valueOf() === "all") {
       return `/api/blogs?tag=all&cursor=${previousPageData?.nextCursor}&limit=5`;
     }
     // 전 데이터 없고 tag가 all이 아니라면
-    if (previousPageData === null && tagRef.current !== "") {
+    if (previousPageData === null && tagRef.current.valueOf() !== "all") {
       return `/api/blogs?tag=${selecetedTag}&limit=5`;
     }
 
