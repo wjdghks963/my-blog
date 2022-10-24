@@ -10,12 +10,11 @@ export default function PostWithThumnail({ data }: { data: PostWithId }) {
   const moveToPost = (id: number) => {
     return router.push(`/blogs/post/${id}`);
   };
-  console.log();
 
   return (
     <div
       onClick={() => moveToPost(data.id)}
-      className="flex flex-col items-center w-full group border-black border-2 rounded-md shadow-xl dark:border-white dark:shadow-neutral-600"
+      className="flex flex-col items-center w-full group border-black border-2 rounded-md shadow-xl cursor-pointer dark:border-white dark:shadow-neutral-600"
     >
       {src ? (
         <div className="w-full h-[200px] relative group-hover:sm:animate-[ping_1s_forwards]">
@@ -41,7 +40,9 @@ export default function PostWithThumnail({ data }: { data: PostWithId }) {
       )}
       <div className="invisible absolute w-28 group-hover:sm:delay-500 group-hover:sm:visible  flex flex-col items-center">
         <span className="my-5 font-bold text-md">{data.title}</span>
-        <span className="break-all">{data.description}</span>
+        <span className="break-words">
+          {data.description.substring(0, 40)}...
+        </span>
       </div>
     </div>
   );
