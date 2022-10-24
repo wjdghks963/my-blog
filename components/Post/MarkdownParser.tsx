@@ -6,6 +6,8 @@ import { dark } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import { cls } from "@libs/client/utils";
 import rehypeRaw from "rehype-raw";
 import Image from "next/image";
+import Link from "next/link";
+import { Url } from "url";
 
 export default function MarkdownParser({ markdown }: any) {
   return (
@@ -59,7 +61,13 @@ export default function MarkdownParser({ markdown }: any) {
             </p>
           );
         },
-
+        a({ node, children, ...props }) {
+          return (
+            <Link href={props.href as unknown as Url}>
+              <a className="dark:text-white">{children}</a>
+            </Link>
+          );
+        },
         li({ node, children, ...props }) {
           return (
             <li {...props} className="dark:text-white">
