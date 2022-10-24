@@ -56,13 +56,19 @@ export default function Blogs({ tags }: { tags: { tag: string }[] }) {
       return `/api/blogs?tag=all&cursor=${previousPageData?.nextCursor}&limit=5`;
     }
     // 전 데이터 없고 tag가 all이 아니라면
-    if (previousPageData === null && tagRef.current.valueOf() !== "all") {
-      return `/api/blogs?tag=${selecetedTag}&limit=5`;
+    if (
+      previousPageData === null &&
+      tagRef.current.valueOf() !== "all" &&
+      selecetedTag !== ""
+    ) {
+      return `/api/blogs?tag=${tagRef.current.valueOf()}&limit=5`;
     }
 
     // 전 데이터 있고 tag 있다면
     if (previousPageData !== null && tagRef.current !== "") {
-      return `/api/blogs?cursor=${previousPageData.nextCursor}&tag=${selecetedTag}&limit=5`;
+      return `/api/blogs?cursor=${
+        previousPageData.nextCursor
+      }&tag=${tagRef.current.valueOf()}&limit=5`;
     }
 
     // 위의 상황이 아니라면 all을 기준으로 다음 데이터 받아옴
