@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import Layout from "@components/Base/Layout";
-import { useSession, signIn, signOut } from "next-auth/react";
-import useSWR, { SWRResponse } from "swr";
+import useSWR from "swr";
 import { PostWithId } from "./blogs";
 import PostWithThumnail from "@components/Home/PostWithThumnail";
 import { useEffect, useState } from "react";
