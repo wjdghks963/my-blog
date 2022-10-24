@@ -38,10 +38,15 @@ export default function PostWithThumnail({ data }: { data: PostWithId }) {
           <div className="w-16 h-16 border-black border-4 rounded-full  group-hover:sm:animate-[ping_1s_forwards] dark:border-white"></div>
         </div>
       )}
-      <div className="invisible absolute w-28 group-hover:sm:delay-500 group-hover:sm:visible  flex flex-col items-center">
-        <span className="my-5 font-bold text-md">{data.title}</span>
-        <span className="break-words">
-          {data.description.substring(0, 40)}...
+      <div className="invisible absolute w-28 group-hover:sm:delay-500 group-hover:sm:visible flex flex-col items-center">
+        <span className="my-3 font-bold text-md md:w-full sm:w-2/3">
+          {data.title}
+        </span>
+        <span className="break-words md:w-full sm:w-2/3">
+          {data.title.length > 9
+            ? data.description.substring(0, 30)
+            : data.description.substring(0, 40)}
+          ...
         </span>
       </div>
     </div>
