@@ -16,9 +16,13 @@ export default function Resume() {
           <span className="ml-10 animate-[wave_2s_linear_infinite]">👋</span>
         </div>
         <span>Front-End 개발자 최정환입니다.</span>
-        <span className="block break-words h-10">
-          사용자 경험과 개발자로서의 경험을 중요하게 생각하며 이것들을 계속
-          향상시키기 위해서 새로운 것을 배우는데 거부감이 없습니다.
+
+        <span className="block break-words mt-3">
+          새로운 것을 체험하는 것을 좋아하고 내 손으로 무언가를 만드는 데에
+          재미를 느껴 프론트엔드 개발자가 되었습니다.
+          <br />
+          사용자들의 입장이 되어서 다양한 상황을 생각하고 필요한 기능과 UI를
+          만들고 다른 개발자들도 알아볼 수 있게 코드를 작성하기 위해 노력합니다.
         </span>
 
         <div className="prose flex w-full justify-between mt-5 gap-5">

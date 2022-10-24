@@ -38,7 +38,7 @@ export default function PostWithThumnail({ data }: { data: PostWithId }) {
       )}
       <div className="invisible absolute w-28 group-hover:sm:delay-500 group-hover:sm:visible  flex flex-col items-center">
         <span className="my-5 font-bold text-md">{data.title}</span>
-        <span className="break-all">{data.description}..</span>
+        <span className="break-all">{data.description}</span>
       </div>
     </div>
   );
