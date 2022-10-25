@@ -51,7 +51,7 @@ export default function MarkdownParser({ markdown }: any) {
               width={100}
               height={100}
               priority={true}
-              alt="/favicon.ico"
+              alt="관련된 사진"
             />
           );
         },
@@ -89,7 +89,6 @@ export default function MarkdownParser({ markdown }: any) {
               children={String(children).replace(/\n$/, "")}
               style={dark as any}
               language={match[1]}
-              PreTag="div"
               {...props}
             />
           ) : (
