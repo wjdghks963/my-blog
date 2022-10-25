@@ -64,7 +64,7 @@ export default function MarkdownParser({ markdown }: any) {
         a({ node, children, ...props }) {
           return (
             <Link href={props.href as unknown as Url}>
-              <a className="dark:text-white">{children}</a>
+              <a className="dark:text-white break-words">{children}</a>
             </Link>
           );
         },

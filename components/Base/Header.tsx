@@ -22,24 +22,24 @@ export default function Header() {
     <div className="flex flex-row mt-5 px-16 pb-4">
       <ul className="flex flex-row justify-between w-full">
         <li
-          className="cursor-pointer py-1  hover:shadow-xl w-1/5 text-center dark:hover:bg-white dark:hover:text-black dark:hover:shadow-slate-100"
+          className="cursor-pointer py-1  hover:shadow-xl w-1/3 text-center dark:hover:bg-white dark:hover:text-black dark:hover:shadow-slate-100"
           onClick={() => router.push("/")}
         >
           HOME
         </li>
         <li
-          className="cursor-pointer  py-1 hover:shadow-xl w-1/5 text-center dark:hover:bg-white dark:hover:text-black dark:hover:shadow-slate-100"
+          className="cursor-pointer  py-1 hover:shadow-xl w-1/3 text-center dark:hover:bg-white dark:hover:text-black dark:hover:shadow-slate-100"
           onClick={() => router.push("/blogs")}
         >
           BLOG
         </li>
         <li
-          className="cursor-pointer py-1 hover:shadow-xl w-1/5 text-center dark:hover:bg-white dark:hover:text-black dark:hover:shadow-slate-100"
+          className="cursor-pointer py-1 hover:shadow-xl w-1/3 text-center dark:hover:bg-white dark:hover:text-black dark:hover:shadow-slate-100"
           onClick={() => router.push("/resume")}
         >
           RESUME
         </li>
-        <li className="">
+        <li className="ml-5">
           <div
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className="text-gray-500 dark:text-gray-400"

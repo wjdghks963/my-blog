@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        mobile: "420px",
+        mobile: "400px",
       },
       keyframes: {
         wave: {

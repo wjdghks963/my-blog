@@ -30,9 +30,14 @@ const Home: NextPage = () => {
           {loading ? (
             <Loading className="w-full flex items-center justify-center font-bold" />
           ) : (
-            data?.recentPosts.map((post, index) => (
-              <PostWithThumnail key={index} data={post} />
-            ))
+            data?.recentPosts.map((post, index) => {
+              if (index === 4) {
+                return (
+                  <PostWithThumnail key={index} data={post} isMobile={true} />
+                );
+              }
+              return <PostWithThumnail key={index} data={post} />;
+            })
           )}
         </div>
       </div>
@@ -42,9 +47,14 @@ const Home: NextPage = () => {
           {loading ? (
             <Loading className="w-full flex items-center justify-center font-bold" />
           ) : (
-            data?.popularPosts.map((post, index) => (
-              <PostWithThumnail key={index} data={post} />
-            ))
+            data?.popularPosts.map((post, index) => {
+              if (index === 4) {
+                return (
+                  <PostWithThumnail key={index} data={post} isMobile={true} />
+                );
+              }
+              return <PostWithThumnail key={index} data={post} />;
+            })
           )}
         </div>
       </div>

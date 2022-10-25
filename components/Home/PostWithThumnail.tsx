@@ -1,10 +1,16 @@
 import { PostWithId } from "pages/blogs";
 import Image from "next/image";
 import router from "next/router";
-import { replaceStartWithImageUrl } from "@libs/client/replaceStartWithImageUrl";
 import { RegImageSrc } from "@libs/client/RegImage";
+import { cls } from "@libs/client/utils";
 
-export default function PostWithThumnail({ data }: { data: PostWithId }) {
+export default function PostWithThumnail({
+  data,
+  isMobile,
+}: {
+  data: PostWithId;
+  isMobile?: boolean;
+}) {
   const src = RegImageSrc(data.content);
 
   const moveToPost = (id: number) => {
@@ -14,10 +20,13 @@ export default function PostWithThumnail({ data }: { data: PostWithId }) {
   return (
     <div
       onClick={() => moveToPost(data.id)}
-      className="flex flex-col items-center w-full group border-black border-2 rounded-md shadow-xl cursor-pointer dark:border-white dark:shadow-neutral-600"
+      className={cls(
+        "flex flex-col items-center w-full group border-black border-2 rounded-md shadow-xl cursor-pointer dark:border-white dark:shadow-neutral-600",
+        isMobile ? "hidden mobile:flex" : ""
+      )}
     >
       {src ? (
-        <div className="w-full h-[200px] relative group-hover:sm:animate-[ping_1s_forwards]">
+        <div className="w-full h-[200px] relative group-hover:sm:animate-[ping_1s_forwards] invisible sm:visible">
           <div className="w-16"></div>
           <Image
             layout="fill"
@@ -34,15 +43,15 @@ export default function PostWithThumnail({ data }: { data: PostWithId }) {
           />
         </div>
       ) : (
-        <div className="w-full h-[200px] flex items-center justify-center">
+        <div className="w-full h-[200px] flex items-center justify-center invisible sm:visible">
           <div className="w-16 h-16 border-black border-4 rounded-full  group-hover:sm:animate-[ping_1s_forwards] dark:border-white"></div>
         </div>
       )}
-      <div className="invisible absolute w-28 group-hover:sm:delay-500 group-hover:sm:visible flex flex-col items-center">
-        <span className="my-3 font-bold text-md md:w-full sm:w-2/3">
+      <div className="absolute w-28  flex flex-col items-center invisible">
+        <span className="break-words my-3 font-bold text-md md:w-full sm:w-2/3 w-12 visible sm:invisible group-hover:sm:delay-500 group-hover:sm:visible">
           {data.title}
         </span>
-        <span className="break-words md:w-full sm:w-2/3">
+        <span className="break-words md:w-full sm:w-2/3 invisible group-hover:sm:visible group-hover:sm:delay-500">
           {data.title.length > 9
             ? data.description.substring(0, 30)
             : data.description.substring(0, 40)}
