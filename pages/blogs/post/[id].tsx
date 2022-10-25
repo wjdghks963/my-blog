@@ -35,10 +35,10 @@ export default function Post({ postData }: { postData: PostData }) {
   const tags =
     postData.tags.length !== 0 ? postData.tags.map((tag) => tag.tag) : [];
 
-  const date =
-    postData.createdAt !== postData.updatedAt
-      ? localeDate(postData.updatedAt)
-      : localeDate(postData.createdAt);
+  // const date =
+  //   postData.createdAt !== postData.updatedAt
+  //     ? localeDate(postData.updatedAt)
+  //     : localeDate(postData.createdAt);
 
   const dispatch = useDispatch();
   const editPost = useCallback(() => {
@@ -77,7 +77,7 @@ export default function Post({ postData }: { postData: PostData }) {
     >
       <div className="flex flex-col mx-10 p-5 border-2 border-gray-700 dark:border-white">
         <div className="flex w-full">
-          <span className="w-1/2">{date}</span>
+          <span className="w-1/2">{22}</span>
           <div className="flex flex-row gap-4 w-1/2 justify-end">
             {tags
               ? tags.map((tag: string, index: number) => (
