@@ -50,15 +50,16 @@ export default function MarkdownParser({ markdown }: any) {
               layout="responsive"
               width={100}
               height={100}
+              priority={true}
               alt="/favicon.ico"
             />
           );
         },
         p({ node, children, ...props }) {
           return (
-            <p {...props} className="dark:text-white">
+            <div {...props} className="dark:text-white">
               {children}
-            </p>
+            </div>
           );
         },
         a({ node, children, ...props }) {
@@ -69,11 +70,7 @@ export default function MarkdownParser({ markdown }: any) {
           );
         },
         li({ node, children, ...props }) {
-          return (
-            <li {...props} className="dark:text-white">
-              {children}
-            </li>
-          );
+          return <li className="dark:text-white">{children}</li>;
         },
         span({ node, children, style, ...props }) {
           const backColor = `bg-[${style?.backgroundColor}]`;
@@ -96,7 +93,10 @@ export default function MarkdownParser({ markdown }: any) {
               {...props}
             />
           ) : (
-            <code className={className} {...props}>
+            <code
+              className={cls(className ? className : "", "dark:text-white")}
+              {...props}
+            >
               {children}
             </code>
           );
