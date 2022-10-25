@@ -57,9 +57,9 @@ export default function MarkdownParser({ markdown }: any) {
         },
         p({ node, children, ...props }) {
           return (
-            <div {...props} className="dark:text-white">
+            <p {...props} className="dark:text-white">
               {children}
-            </div>
+            </p>
           );
         },
         a({ node, children, ...props }) {

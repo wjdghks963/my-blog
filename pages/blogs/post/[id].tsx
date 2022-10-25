@@ -65,7 +65,7 @@ export default function Post({ postData }: { postData: PostData }) {
       ? RegImageSrc(postData.content)?.groups?.filename
       : "";
   const SEOImage = ImageSrc?.substring(1, ImageSrc.length);
-
+  console.log(postData.content);
   return (
     <Layout
       title={postData.title}
