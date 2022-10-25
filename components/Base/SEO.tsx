@@ -28,12 +28,14 @@ const SEO = ({ title, description, url, image, keywords }: ISEO) => {
             : "https://www.sabgilnote.xyz"
         }
       />
-      <meta property="og:image" content={image} />
       <meta
         property="og:description"
         content={description || "jung의 블로그"}
       />
       <meta property="og:article:author" content="jung" />
+      <meta property="og:image" content={image} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
       <meta name="twitter:card" content="summary" />
     </Head>
   );

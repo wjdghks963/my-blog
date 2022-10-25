@@ -67,7 +67,7 @@ export default function Post({ postData }: { postData: PostData }) {
     <Layout
       title={postData.title}
       url={`/blogs/post/${router.query.id}`}
-      description={postData.content.substring(0, 75) + "..."}
+      description={postData.description}
       image={SEOImage}
       keywords={tags.join(",")}
     >
