@@ -12,15 +12,13 @@ import BlogPostById, { IPost } from "pages/api/blogs/[id]";
 import { setPostJson } from "store/modules/editPost";
 import { RegImageSrc } from "@libs/client/RegImage";
 import AllPostId from "pages/api/blogs/post/getAllPostsId";
-import dynamic from "next/dynamic";
+import MarkdownParser from "@components/Post/MarkdownParser";
 
 type MutationResult = { ok: boolean };
 interface PostData extends IPost {
   ok: boolean;
   message?: string;
 }
-
-const MarkdownParser = dynamic(() => import("@components/Post/MarkdownParser"));
 
 export default function Post({ postData }: { postData: PostData }) {
   const router = useRouter();
