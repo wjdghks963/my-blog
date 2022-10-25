@@ -86,8 +86,8 @@ export default function Post({ postData }: { postData: PostData }) {
           </div>
         </div>
         <span className="my-3">조회 : {postData.views}</span>
-        <h1 className="font-bold text-5xl mx-10 mt-10">{postData.title}</h1>
-        <div className="mt-20 prose h-full mx-10">
+        <h1 className="font-bold text-5xl mx-3 mt-10">{postData.title}</h1>
+        <div className="mt-20 prose h-full mx-3">
           <MarkdownParser markdown={postData.content} />
         </div>
       </div>
