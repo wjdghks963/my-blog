@@ -1,7 +1,10 @@
 import prismaclient from "@libs/server/prismaClient";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function Main(req: NextApiRequest, res: NextApiResponse) {
+export default async function MainPosts(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   try {
     const popularPosts = await prismaclient.post.findMany({
       take: 5,

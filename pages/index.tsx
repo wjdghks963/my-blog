@@ -1,23 +1,14 @@
-import type { NextPage } from "next";
 import Layout from "@components/Base/Layout";
-import useSWR from "swr";
 import { PostWithId } from "./blogs";
 import PostWithThumnail from "@components/Home/PostWithThumnail";
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import Loading from "@components/Base/Loading";
+
 interface Posts {
   popularPosts: PostWithId[];
   recentPosts: PostWithId[];
 }
 
-const Home: NextPage = () => {
-  const { data } = useSWR<Posts>("/api/");
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    data !== undefined ? setLoading(false) : setLoading(true);
-  }, [loading, data]);
-
+export default function Home({ data }: { data: Posts }) {
   return (
     <Layout
       title={"Jung's Blog"}
@@ -27,35 +18,27 @@ const Home: NextPage = () => {
       <div className="flex flex-col mt-10">
         <h1 className="font-bold text-4xl">Recent Posts</h1>
         <div className="flex flex-row gap-5 mt-10 ">
-          {loading ? (
-            <Loading className="w-full flex items-center justify-center font-bold" />
-          ) : (
-            data?.recentPosts.map((post, index) => {
-              if (index === 4) {
-                return (
-                  <PostWithThumnail key={index} data={post} isMobile={true} />
-                );
-              }
-              return <PostWithThumnail key={index} data={post} />;
-            })
-          )}
+          {data?.recentPosts.map((post, index) => {
+            if (index === 4) {
+              return (
+                <PostWithThumnail key={index} data={post} isMobile={true} />
+              );
+            }
+            return <PostWithThumnail key={index} data={post} />;
+          })}
         </div>
       </div>
       <div className=" flex flex-col mt-10 pb-10">
         <h1 className="font-bold text-4xl">Popular Posts</h1>
         <div className="flex flex-row gap-5 mt-10">
-          {loading ? (
-            <Loading className="w-full flex items-center justify-center font-bold" />
-          ) : (
-            data?.popularPosts.map((post, index) => {
-              if (index === 4) {
-                return (
-                  <PostWithThumnail key={index} data={post} isMobile={true} />
-                );
-              }
-              return <PostWithThumnail key={index} data={post} />;
-            })
-          )}
+          {data?.popularPosts.map((post, index) => {
+            if (index === 4) {
+              return (
+                <PostWithThumnail key={index} data={post} isMobile={true} />
+              );
+            }
+            return <PostWithThumnail key={index} data={post} />;
+          })}
         </div>
       </div>
       <div className="my-5">
@@ -83,6 +66,13 @@ const Home: NextPage = () => {
       </div>
     </Layout>
   );
-};
+}
 
-export default Home;
+export async function getServerSideProps(): Promise<{
+  props: { data: Posts };
+}> {
+  const res = await fetch("https://www.sabgilnote.xyz/api");
+  const data = await res.json();
+
+  return { props: { data } };
+}
