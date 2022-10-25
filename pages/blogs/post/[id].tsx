@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import type { GetStaticPropsResult } from "next";
 import { useDispatch } from "react-redux";
@@ -21,24 +21,21 @@ interface PostData extends IPost {
   message?: string;
 }
 
-// const MarkdownParser = dynamic(
-//   () => import("@components/Post/MarkdownParser"),
-//   { ssr: false }
-// );
-
 export default function Post({ postData }: { postData: PostData }) {
   const router = useRouter();
   const [delPost] = useMutation<MutationResult>("/api/blogs/delete");
+  const [date, setDate] = useState("");
   const { data: session } = useSession();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const tags =
     postData.tags.length !== 0 ? postData.tags.map((tag) => tag.tag) : [];
 
-  // const date =
-  //   postData.createdAt !== postData.updatedAt
-  //     ? localeDate(postData.updatedAt)
-  //     : localeDate(postData.createdAt);
+  useEffect(() => {
+    postData.createdAt !== postData.updatedAt
+      ? setDate(localeDate(postData.updatedAt))
+      : setDate(localeDate(postData.createdAt));
+  }, []);
 
   const dispatch = useDispatch();
   const editPost = useCallback(() => {
@@ -77,7 +74,7 @@ export default function Post({ postData }: { postData: PostData }) {
     >
       <div className="flex flex-col mx-10 p-5 border-2 border-gray-700 dark:border-white">
         <div className="flex w-full">
-          <span className="w-1/2">{22}</span>
+          <span className="w-1/2">{date}</span>
           <div className="flex flex-row gap-4 w-1/2 justify-end">
             {tags
               ? tags.map((tag: string, index: number) => (
