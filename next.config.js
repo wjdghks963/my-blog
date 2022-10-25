@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
   env: {
     CLOUD_NAME: process.env.CLOUD_NAME,
     CLOUD_PRESET_NAME: process.env.CLOUD_PRESET_NAME,
