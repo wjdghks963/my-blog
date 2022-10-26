@@ -1,11 +1,11 @@
 const compareLocaleDate = (create: Date, update: Date): string => {
   if (create !== update) {
-    const convert = new Date(update).toLocaleDateString();
-    return convert.substring(0, convert.length - 1);
+    const convert = new Intl.DateTimeFormat("kr").format(new Date(update));
+    return convert;
   }
 
-  const convert = new Date(create).toLocaleTimeString();
-  return convert.substring(0, convert.length - 1);
+  const convert = new Intl.DateTimeFormat("kr").format(new Date(create));
+  return convert;
 };
 
 export default compareLocaleDate;
