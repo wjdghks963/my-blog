@@ -7,6 +7,7 @@ export interface IPost {
   views: number;
   tags: Tag[];
   description: string;
+  category: { category: string } | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -30,6 +31,11 @@ export default async function BlogPostById(id: number) {
         description: true,
         createdAt: true,
         updatedAt: true,
+        category: {
+          select: {
+            category: true,
+          },
+        },
       },
     });
 
@@ -40,6 +46,7 @@ export default async function BlogPostById(id: number) {
       views: post?.views,
       tags: post?.tags,
       description: post?.description,
+      category: post?.category,
       createdAt: post?.createdAt,
       updatedAt: post?.updatedAt,
     };
