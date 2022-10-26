@@ -13,6 +13,7 @@ export interface IPostJson {
   markdown: string | undefined;
   tags?: string[] | void;
   description: string;
+  category?: string;
 }
 
 type MutationResult = { ok: boolean };
@@ -24,6 +25,7 @@ export default function Post() {
   const tagsRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
+  const categoryRef = useRef<HTMLInputElement>(null);
   const [markdown, setMarkdwon] = useState<string | undefined>("");
   const [post, { data }] = useMutation<MutationResult>("/api/blogs/post");
   const { data: session } = useSession();
@@ -46,10 +48,12 @@ export default function Post() {
       markdown,
       description: descriptionRef.current?.value!,
       tags: splitTags(),
+      category: categoryRef.current?.value!,
     };
 
-    if (session?.user?.email !== process.env.MY_EMAIL)
-      return alert("email 확인해주세요");
+    // TODO:: 주석 다시 돌려놔야함
+    // if (session?.user?.email !== process.env.MY_EMAIL)
+    //   return alert("email 확인해주세요");
     post(postJson);
 
     if (data?.ok === false) {
@@ -92,8 +96,18 @@ export default function Post() {
               required
             />
           </div>
-        </div>
 
+          <div>
+            <span>Category - </span>
+            <input
+              className="outline-none border-2 border-solid border-black focus:border-gray-300 p-1"
+              type="text"
+              ref={categoryRef}
+              placeholder="카테고리 입력"
+              required
+            />
+          </div>
+        </div>
         <MDEditor
           className="w-4/5 prose"
           value={markdown}

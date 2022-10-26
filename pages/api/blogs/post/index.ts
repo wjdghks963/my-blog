@@ -1,3 +1,4 @@
+import { findCategory } from "@libs/server/findCategoryId";
 import { findTags } from "@libs/server/findTags";
 import prismaclient from "@libs/server/prismaClient";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -5,11 +6,24 @@ import { IPostJson } from "pages/blogs/post";
 
 export default async function Post(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    const { title, markdown, tags, description }: IPostJson = req.body;
+    const { title, markdown, tags, description, category }: IPostJson =
+      req.body;
 
     try {
       // 같은 tag가 존재한다면 해당 tag id 반환
       const [tagsTag, tagsId] = await findTags(tags);
+      const CategoryId = await findCategory(category ? category : "");
+      const confirmCategoryId =
+        CategoryId === null && category !== ""
+          ? await prismaclient.category.create({
+              data: {
+                category: category!,
+              },
+              select: {
+                id: true,
+              },
+            })
+          : CategoryId;
 
       // 만약 해당하는 tag id가 없거나 tags, tagsTag 길이다 다르다면 추가한다.
       if (tagsTag?.length === 0 || (tags && tags.length > [tagsTag].length)) {
@@ -38,6 +52,8 @@ export default async function Post(req: NextApiRequest, res: NextApiResponse) {
             tags: {
               connect: relatedTags.map((tag) => ({ id: +tag.id })),
             },
+            category:
+              category !== "" ? { connect: { id: confirmCategoryId?.id } } : {},
           },
         });
       } else {
@@ -51,6 +67,8 @@ export default async function Post(req: NextApiRequest, res: NextApiResponse) {
             tags: {
               connect: tagsId?.map((tag) => ({ id: +tag })),
             },
+            category:
+              category !== "" ? { connect: { id: confirmCategoryId?.id } } : {},
           },
         });
       }
@@ -63,6 +81,8 @@ export default async function Post(req: NextApiRequest, res: NextApiResponse) {
             content: markdown!,
             views: 0,
             description,
+            category:
+              category !== "" ? { connect: { id: confirmCategoryId?.id } } : {},
           },
         });
       }
