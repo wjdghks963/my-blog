@@ -71,7 +71,7 @@ export default function Resume() {
                 </span>
                 <span>
                   웹 프론트 엔드로 인턴을 진행했지만 안드로이드 개발자를 제의
-                  받아 정규직으로 들어가 배우면서 일을 시작했습니다.
+                  받아 앱에 대해 배우면서 안드로이드 개발을 시작했습니다.
                 </span>
 
                 <ul className=" mt-5">
