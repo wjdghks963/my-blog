@@ -71,7 +71,12 @@ export default function Home({ data }: { data: Posts }) {
 export async function getServerSideProps(): Promise<{
   props: { data: Posts };
 }> {
-  const res = await fetch("https://www.sabgilnote.xyz/api");
+  const URL =
+    process.env.NODE_ENV === "production"
+      ? "https://www.sabgilnote.xyz/api"
+      : "http://localhost:3000/api";
+
+  const res = await fetch(URL);
   const data = await res.json();
 
   return { props: { data } };

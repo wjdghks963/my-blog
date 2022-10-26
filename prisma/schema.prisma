@@ -22,9 +22,17 @@ model Post {
   updatedAt DateTime @default(now())
   description String 
   tags Tag[]
+  category Category @relation(fields: [categoryId],references: [id])
+  categoryId Int
 }
 
 model Tag {
+  id Int @id @unique @default(autoincrement()) 
+  tag String
+  posts Post[]
+}
+
+model Category {
   id Int @id @unique @default(autoincrement()) 
   tag String
   posts Post[]
