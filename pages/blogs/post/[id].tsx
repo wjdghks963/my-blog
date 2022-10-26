@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
 import { useMutation } from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
-import CompareLocaleDate from "@libs/client/CompareLocaleDate";
+import compareLocaleDate from "@libs/client/CompareLocaleDate";
 import Layout from "@components/Base/Layout";
 import TagSpan from "@components/Post/TagSpan";
 import BlogPostById, { IPost } from "pages/api/blogs/[id]";
@@ -129,7 +129,7 @@ export async function getStaticProps({
   params: any;
 }): Promise<GetStaticPropsResult<any>> {
   const postData = await BlogPostById(params.id);
-  const date = CompareLocaleDate(postData.createdAt!, postData.updatedAt!);
+  const date = compareLocaleDate(postData.createdAt!, postData.updatedAt!);
   return {
     props: {
       postData: {

@@ -1,4 +1,4 @@
-import localeDate from "@libs/client/CompareLocaleDate";
+import compareLocaleDate from "@libs/client/CompareLocaleDate";
 import { useRouter } from "next/router";
 import { PostWithId } from "pages/blogs";
 
@@ -6,10 +6,7 @@ import TagSpan from "./TagSpan";
 
 export default function MiniPost({ data }: { data: PostWithId }) {
   const router = useRouter();
-  const date =
-    data.createdAt !== data.updatedAt
-      ? localeDate(data.updatedAt)
-      : localeDate(data.createdAt);
+  const date = compareLocaleDate(data.updatedAt, data.createdAt);
 
   const moveToPost = (id: number) => {
     return router.push(`/blogs/post/${id}`);
