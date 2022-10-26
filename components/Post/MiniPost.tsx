@@ -1,4 +1,4 @@
-import localeDate from "@libs/client/localeDate";
+import localeDate from "@libs/client/CompareLocaleDate";
 import { useRouter } from "next/router";
 import { PostWithId } from "pages/blogs";
 

@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
 import { useMutation } from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
-import localeDate from "@libs/client/localeDate";
+import CompareLocaleDate from "@libs/client/CompareLocaleDate";
 import Layout from "@components/Base/Layout";
 import TagSpan from "@components/Post/TagSpan";
 import BlogPostById, { IPost } from "pages/api/blogs/[id]";
@@ -13,10 +13,11 @@ import { setPostJson } from "store/modules/editPost";
 import { RegImageSrc } from "@libs/client/RegImage";
 import AllPostId from "pages/api/blogs/post/getAllPostsId";
 import MarkdownParser from "@components/Post/MarkdownParser";
-import dynamic from "next/dynamic";
 
 type MutationResult = { ok: boolean };
-interface PostData extends IPost {
+
+interface PostData extends Omit<IPost, "createdAt" | "updatedAt"> {
+  date: string;
   ok: boolean;
   message?: string;
 }
@@ -24,18 +25,11 @@ interface PostData extends IPost {
 export default function Post({ postData }: { postData: PostData }) {
   const router = useRouter();
   const [delPost] = useMutation<MutationResult>("/api/blogs/delete");
-  const [date, setDate] = useState("");
   const { data: session } = useSession();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const tags =
     postData.tags.length !== 0 ? postData.tags.map((tag) => tag.tag) : [];
-
-  useEffect(() => {
-    postData.createdAt !== postData.updatedAt
-      ? setDate(localeDate(postData.updatedAt))
-      : setDate(localeDate(postData.createdAt));
-  }, []);
 
   const dispatch = useDispatch();
   const editPost = useCallback(() => {
@@ -74,7 +68,7 @@ export default function Post({ postData }: { postData: PostData }) {
     >
       <div className="flex flex-col mx-10 p-5 border-2 border-gray-700 dark:border-white">
         <div className="flex w-full">
-          <span className="w-1/2">{date}</span>
+          <span className="w-1/2">{postData.date}</span>
           <div className="flex flex-row gap-4 w-1/2 justify-end">
             {tags
               ? tags.map((tag: string, index: number) => (
@@ -135,7 +129,7 @@ export async function getStaticProps({
   params: any;
 }): Promise<GetStaticPropsResult<any>> {
   const postData = await BlogPostById(params.id);
-
+  const date = CompareLocaleDate(postData.createdAt!, postData.updatedAt!);
   return {
     props: {
       postData: {
@@ -144,8 +138,7 @@ export async function getStaticProps({
         tags: postData.tags,
         views: postData.views,
         description: postData.description,
-        createdAt: postData.createdAt + "",
-        updatedAt: postData.updatedAt + "",
+        date,
       },
     },
   };
