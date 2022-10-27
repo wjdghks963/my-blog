@@ -30,7 +30,7 @@ export default function Post({ postData }: { postData: PostData }) {
 
   useEffect(() => {
     setDate(compareLocaleDate(postData.createdAt, postData.updatedAt));
-  }, []);
+  }, [postData.createdAt, postData.updatedAt]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const tags =
