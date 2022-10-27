@@ -17,7 +17,7 @@ import MarkdownParser from "@components/Post/MarkdownParser";
 type MutationResult = { ok: boolean };
 
 interface PostData extends Omit<IPost, "createdAt" | "updatedAt" | "category"> {
-  category: string;
+  category?: string;
   date: string;
   ok: boolean;
   message?: string;
@@ -134,7 +134,8 @@ export async function getStaticProps({
 }): Promise<GetStaticPropsResult<any>> {
   const postData = await BlogPostById(params.id);
   const date = compareLocaleDate(postData.createdAt!, postData.updatedAt!);
-  const category = postData.category?.category;
+  const category = postData.category ? postData.category.category : null;
+
   return {
     props: {
       postData: {
