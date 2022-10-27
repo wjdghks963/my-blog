@@ -16,9 +16,8 @@ import MarkdownParser from "@components/Post/MarkdownParser";
 
 type MutationResult = { ok: boolean };
 
-interface PostData extends Omit<IPost, "createdAt" | "updatedAt" | "category"> {
+interface PostData extends Omit<IPost, "category"> {
   category?: string;
-  date: string;
   ok: boolean;
   message?: string;
 }
@@ -27,7 +26,7 @@ export default function Post({ postData }: { postData: PostData }) {
   const router = useRouter();
   const [delPost] = useMutation<MutationResult>("/api/blogs/delete");
   const { data: session } = useSession();
-
+  const date = compareLocaleDate(postData.createdAt, postData.updatedAt);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const tags =
     postData.tags.length !== 0 ? postData.tags.map((tag) => tag.tag) : [];
@@ -69,7 +68,7 @@ export default function Post({ postData }: { postData: PostData }) {
     >
       <div className="flex flex-col mx-3 mobile:mx-10 p-5 border-2 border-gray-700 dark:border-white">
         <div className="flex w-full">
-          <span className="w-1/2">{postData.date}</span>
+          <span className="w-1/2">{date}</span>
           <div className="flex flex-row gap-4 w-1/2 justify-end">
             {tags
               ? tags.map((tag: string, index: number) => (
@@ -133,7 +132,6 @@ export async function getStaticProps({
   params: any;
 }): Promise<GetStaticPropsResult<any>> {
   const postData = await BlogPostById(params.id);
-  const date = compareLocaleDate(postData.createdAt!, postData.updatedAt!);
   const category = postData.category ? postData.category.category : null;
 
   return {
@@ -144,7 +142,8 @@ export async function getStaticProps({
         tags: postData.tags,
         views: postData.views,
         description: postData.description,
-        date,
+        createdAt: postData.createdAt,
+        updatedAt: postData.updatedAt,
         category,
       },
     },
