@@ -51,9 +51,12 @@ export default function Post() {
       category: categoryRef.current?.value!,
     };
 
-    // TODO:: 주석 다시 돌려놔야함
-    // if (session?.user?.email !== process.env.MY_EMAIL)
-    //   return alert("email 확인해주세요");
+    if (session?.user?.email !== process.env.MY_EMAIL) {
+      if (process.env.NODE_ENV === "production") {
+        return alert("email 확인해주세요");
+      }
+    }
+
     post(postJson);
 
     if (data?.ok === false) {

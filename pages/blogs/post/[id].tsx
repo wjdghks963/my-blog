@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import { useRouter } from "next/router";
 import type { GetStaticPropsResult } from "next";
 import { useDispatch } from "react-redux";
@@ -83,7 +83,7 @@ export default function Post({ postData }: { postData: PostData }) {
         ) : null}
         <span className="my-3">조회 : {postData.views}</span>
         <h1 className="font-bold text-5xl mx-3 mt-10">{postData.title}</h1>
-        <div className="mt-20 prose h-full mx-3">
+        <div className="mt-20 prose h-full ml-3">
           <MarkdownParser markdown={postData.content} />
         </div>
       </div>

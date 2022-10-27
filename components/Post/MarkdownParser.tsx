@@ -12,6 +12,7 @@ import { Url } from "url";
 export default function MarkdownParser({ markdown }: any) {
   return (
     <ReactMarkdown
+      className="w-[80vw]"
       components={{
         h1({ node, children, ...props }) {
           return (
