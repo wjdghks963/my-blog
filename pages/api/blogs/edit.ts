@@ -47,7 +47,6 @@ export default async function Edit(req: NextApiRequest, res: NextApiResponse) {
           data: {
             title: title!,
             content: markdown!,
-            views: 0,
             description,
             tags: {
               connect: tagsId!.map((tag) => ({ id: +tag })),
@@ -64,7 +63,6 @@ export default async function Edit(req: NextApiRequest, res: NextApiResponse) {
           data: {
             title: title!,
             content: markdown!,
-            views: 0,
             description,
           },
           where: {
