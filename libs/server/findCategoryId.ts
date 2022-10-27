@@ -1,4 +1,3 @@
-import { Category } from "@prisma/client";
 import prismaclient from "./prismaClient";
 
 export const findCategory = async (
