@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import type { GetStaticPropsResult } from "next";
 import { useDispatch } from "react-redux";
@@ -26,7 +26,12 @@ export default function Post({ postData }: { postData: PostData }) {
   const router = useRouter();
   const [delPost] = useMutation<MutationResult>("/api/blogs/delete");
   const { data: session } = useSession();
-  const date = compareLocaleDate(postData.createdAt, postData.updatedAt);
+  const [date, setDate] = useState("");
+
+  useEffect(() => {
+    setDate(compareLocaleDate(postData.createdAt, postData.updatedAt));
+  }, []);
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const tags =
     postData.tags.length !== 0 ? postData.tags.map((tag) => tag.tag) : [];
@@ -142,8 +147,8 @@ export async function getStaticProps({
         tags: postData.tags,
         views: postData.views,
         description: postData.description,
-        createdAt: postData.createdAt,
-        updatedAt: postData.updatedAt,
+        createdAt: postData.createdAt + "",
+        updatedAt: postData.updatedAt + "",
         category,
       },
     },
