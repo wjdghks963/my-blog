@@ -16,7 +16,6 @@ interface SSRData {
 }
 
 export default function Home({ data }: { data: SSRData }) {
-  console.log(data.categories);
   return (
     <Layout
       title={"Jung's Blog"}
