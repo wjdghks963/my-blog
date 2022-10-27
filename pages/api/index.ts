@@ -26,7 +26,20 @@ export default async function MainPosts(
       },
     });
 
-    return res.status(200).json({ popularPosts, recentPosts });
+    const categories = await prismaclient.category.findMany({
+      orderBy: { category: "desc" },
+      select: {
+        category: true,
+        posts: {
+          select: {
+            title: true,
+            id: true,
+          },
+        },
+      },
+    });
+
+    return res.status(200).json({ popularPosts, recentPosts, categories });
   } catch (err) {
     console.log(err);
     return res.status(400).json({ ok: false, errormessage: err });

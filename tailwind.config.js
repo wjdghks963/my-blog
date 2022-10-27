@@ -10,6 +10,9 @@ module.exports = {
       screens: {
         mobile: "420px",
       },
+      animation: {
+        openCategory: "openCategory 1s ease-in",
+      },
       keyframes: {
         wave: {
           "0%": { transform: "rotate(0.0deg)" },
@@ -21,6 +24,7 @@ module.exports = {
           "60%": { transform: "rotate(0.0deg)" },
           "100%": { transform: "rotate(0.0deg)" },
         },
+        openCategory: {},
       },
     },
   },

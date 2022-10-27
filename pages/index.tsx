@@ -2,13 +2,21 @@ import Layout from "@components/Base/Layout";
 import { PostWithId } from "./blogs";
 import PostWithThumnail from "@components/Home/PostWithThumnail";
 import Link from "next/link";
+import { CategoryBox } from "@components/Home/CategoryBox";
 
-interface Posts {
+export type category = {
+  category: string;
+  posts: { id: number; title: string }[];
+};
+
+interface SSRData {
   popularPosts: PostWithId[];
   recentPosts: PostWithId[];
+  categories: category[];
 }
 
-export default function Home({ data }: { data: Posts }) {
+export default function Home({ data }: { data: SSRData }) {
+  console.log(data.categories);
   return (
     <Layout
       title={"Jung's Blog"}
@@ -28,7 +36,7 @@ export default function Home({ data }: { data: Posts }) {
           })}
         </div>
       </div>
-      <div className=" flex flex-col mt-10 pb-10">
+      <div className=" flex flex-col mt-10">
         <h1 className="font-bold text-4xl">Popular Posts</h1>
         <div className="flex flex-row gap-5 mt-10">
           {data?.popularPosts.map((post, index) => {
@@ -39,6 +47,15 @@ export default function Home({ data }: { data: Posts }) {
             }
             return <PostWithThumnail key={index} data={post} />;
           })}
+        </div>
+      </div>
+
+      <div className=" flex flex-col mt-10 pb-10">
+        <h1 className="font-bold text-4xl">By Category</h1>
+        <div className="flex flex-row gap-5 mt-10 overflow-x-scroll scrollbar-hide overflow-clip">
+          {data.categories.map((category, index) => (
+            <CategoryBox key={index} category={category} />
+          ))}
         </div>
       </div>
       <div className="my-5">
@@ -69,7 +86,7 @@ export default function Home({ data }: { data: Posts }) {
 }
 
 export async function getServerSideProps(): Promise<{
-  props: { data: Posts };
+  props: { data: SSRData };
 }> {
   const URL =
     process.env.NODE_ENV === "production"
