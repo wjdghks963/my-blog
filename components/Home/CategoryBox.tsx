@@ -59,7 +59,9 @@ export function CategoryBox({ category }: { category: category }) {
             key={post.id}
             onClick={() => (open ? goToPost(post.id) : null)}
           >
-            {post.title.substring(0, 10)}
+            {post.title.length > 15
+              ? `${post.title.substring(0, 15)}..`
+              : post.title}
           </span>
         ))}
       </div>
