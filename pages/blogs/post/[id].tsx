@@ -67,7 +67,7 @@ export default function Post({ postData }: { postData: PostData }) {
       image={SEOImage}
       keywords={tags.join(",")}
     >
-      <div className="flex flex-col mx-10 p-5 border-2 border-gray-700 dark:border-white">
+      <div className="flex flex-col mx-3 mobile:mx-10 p-5 border-2 border-gray-700 dark:border-white">
         <div className="flex w-full">
           <span className="w-1/2">{postData.date}</span>
           <div className="flex flex-row gap-4 w-1/2 justify-end">
@@ -82,8 +82,8 @@ export default function Post({ postData }: { postData: PostData }) {
           <span className="">카테고리 : {postData.category}</span>
         ) : null}
         <span className="my-3">조회 : {postData.views}</span>
-        <h1 className="font-bold text-5xl mx-3 mt-10">{postData.title}</h1>
-        <div className="mt-20 prose h-full ml-3">
+        <h1 className="font-bold text-5xl mt-10">{postData.title}</h1>
+        <div className="mt-20 prose h-full">
           <MarkdownParser markdown={postData.content} />
         </div>
       </div>

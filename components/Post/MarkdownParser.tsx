@@ -45,20 +45,21 @@ export default function MarkdownParser({ markdown }: any) {
 
         img({ node, ...props }) {
           return (
-            <Image
-              className=""
-              src={props?.src + ""}
-              layout="responsive"
-              width={100}
-              height={100}
-              priority={true}
-              alt="관련된 사진"
-            />
+            <div className="w-2/3">
+              <Image
+                src={props?.src + ""}
+                layout="responsive"
+                width={100}
+                height={100}
+                priority={true}
+                alt="관련된 사진"
+              />
+            </div>
           );
         },
         p({ node, children, ...props }) {
           return (
-            <p {...props} className="dark:text-white">
+            <p {...props} className="dark:text-white break-words">
               {children}
             </p>
           );
