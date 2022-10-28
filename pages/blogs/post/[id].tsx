@@ -147,5 +147,6 @@ export async function getStaticProps({
         category,
       },
     },
+    revalidate: 60,
   };
 }
