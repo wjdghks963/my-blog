@@ -45,7 +45,7 @@ export default function MarkdownParser({ markdown }: any) {
 
         img({ node, ...props }) {
           return (
-            <div className="w-2/3">
+            <div className="w-4/5">
               <Image
                 src={props?.src + ""}
                 layout="responsive"
@@ -59,9 +59,9 @@ export default function MarkdownParser({ markdown }: any) {
         },
         p({ node, children, ...props }) {
           return (
-            <p {...props} className="dark:text-white break-words">
+            <div {...props} className="dark:text-white break-words">
               {children}
-            </p>
+            </div>
           );
         },
         a({ node, children, ...props }) {
