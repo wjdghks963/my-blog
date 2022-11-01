@@ -1,8 +1,6 @@
 import Loading from "@components/Base/Loading";
 import { ComponentStory } from "@storybook/react";
 
-import "@styles/globals.css";
-
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   title: "Components/Loading",

@@ -1,6 +1,5 @@
 import { CategoryBox } from "@components/Home/CategoryBox";
 import React from "react";
-import "@styles/globals.css";
 import { ComponentStory } from "@storybook/react";
 
 // eslint-disable-next-line import/no-anonymous-default-export
