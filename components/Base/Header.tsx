@@ -2,11 +2,19 @@ import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { HeaderLi } from "./HeaderLi";
+
+type HeaderMap = [title: string, fn: () => Promise<boolean>][];
 
 export default function Header() {
   const { theme, setTheme } = useTheme();
   const [svgLoad, setSvgLoad] = useState<boolean>(true);
   const router = useRouter();
+  const headerMap: HeaderMap = [
+    ["HOME", () => router.push("/")],
+    ["BLOG", () => router.push("/blogs")],
+    ["RESUME", () => router.push("/resume")],
+  ];
 
   useEffect(() => {
     setSvgLoad(false);
@@ -21,24 +29,9 @@ export default function Header() {
   return (
     <div className="flex flex-row mt-5 px-16 pb-4">
       <ul className="flex flex-row justify-between w-full">
-        <li
-          className="cursor-pointer py-1  hover:shadow-xl w-1/3 text-center dark:hover:bg-white dark:hover:text-black dark:hover:shadow-slate-100"
-          onClick={() => router.push("/")}
-        >
-          HOME
-        </li>
-        <li
-          className="cursor-pointer  py-1 hover:shadow-xl w-1/3 text-center dark:hover:bg-white dark:hover:text-black dark:hover:shadow-slate-100"
-          onClick={() => router.push("/blogs")}
-        >
-          BLOG
-        </li>
-        <li
-          className="cursor-pointer py-1 hover:shadow-xl w-1/3 text-center dark:hover:bg-white dark:hover:text-black dark:hover:shadow-slate-100"
-          onClick={() => router.push("/resume")}
-        >
-          RESUME
-        </li>
+        {headerMap.map((value, key) => (
+          <HeaderLi key={key} name={value[0]} routerFn={value[1]} />
+        ))}
         <li className="ml-5">
           <div
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
