@@ -3,7 +3,7 @@ import { ComponentStory } from "@storybook/react";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  title: "Components/Layout",
+  title: "Components/Base/Layout",
   component: "Layout",
 };
 
@@ -13,5 +13,5 @@ export const Normal = Template.bind({});
 Normal.args = {
   footer: false,
   className: "",
-  children: <div>sadds</div>,
+  children: <div>Something</div>,
 };

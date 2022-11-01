@@ -52,9 +52,9 @@ export default function TagSpan({
       onClick={() => clickFunction()}
       className={cls(
         hiddenFlex,
-        "px-2 cursor-pointer border-2 border-black rounded-md dark:border-white",
+        "px-2  border-2 border-black rounded-md dark:border-white dark:text-white",
         clickOk
-          ? "hover:ring-2 ring-black ring-offset-2 ring-blackdark:hover:ring-1 dark:hover:ring-white dark:hover:ring-offset-2"
+          ? "hover:ring-2 cursor-pointer ring-black ring-offset-2 ring-blackdark:hover:ring-1 dark:hover:ring-white dark:hover:ring-offset-2"
           : ""
       )}
     >

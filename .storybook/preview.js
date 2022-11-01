@@ -9,6 +9,16 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  backgrounds: {
+    default: "light",
+    values: [
+      {
+        name: "dark",
+        value: "#000000",
+      },
+      { name: "light", value: "#FFFFFF" },
+    ],
+  },
   darkMode: {
     // Override the default dark theme
     dark: { ...themes.dark, appBg: "black" },

@@ -3,7 +3,7 @@ import { ComponentStory } from "@storybook/react";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  title: "Components/Loading",
+  title: "Components/Base/Loading",
   component: "Loading",
 };
 
