@@ -9,6 +9,13 @@ export default {
     name: { control: { type: "text" } },
     router: { control: { type: "text" } },
   },
+  decorators: [
+    (Story) => (
+      <div className="flex flex-row gap-4">
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 const Template: ComponentStory<typeof HeaderLi> = (args) => (

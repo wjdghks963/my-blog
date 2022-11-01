@@ -28,14 +28,14 @@ export default function Header() {
 
   return (
     <div className="flex flex-row mt-5 px-16 pb-4">
-      <ul className="flex flex-row justify-between w-full">
+      <ul className="flex flex-row justify-between w-full py-1">
         {headerMap.map((value, key) => (
           <HeaderLi key={key} name={value[0]} routerFn={value[1]} />
         ))}
         <li className="ml-5">
           <div
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="text-gray-500 dark:text-gray-400"
+            className="text-gray-500 dark:text-gray-400 "
           >
             {svgLoad ? (
               ""
