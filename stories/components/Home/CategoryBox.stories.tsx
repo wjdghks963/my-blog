@@ -1,14 +1,21 @@
 import { CategoryBox } from "@components/Home/CategoryBox";
 import React from "react";
-import { ComponentStory } from "@storybook/react";
+import { ComponentStory, Story } from "@storybook/react";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  title: "Component/Home/CategoryBox",
+  title: "Components/Home/CategoryBox",
   component: "CategoryBox",
   argTypes: {
     isClicked: { control: { type: "boolean" } },
   },
+  decorators: [
+    (Story: Story) => (
+      <div className="border-2 border-red-400">
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 const Template: ComponentStory<typeof CategoryBox> = (args) => (

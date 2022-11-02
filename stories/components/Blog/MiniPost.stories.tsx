@@ -1,6 +1,5 @@
-import React from "react";
-import TagSpan from "@components/Post/TagSpan";
-import { ComponentMeta, ComponentStory, Story } from "@storybook/react";
+import MiniPost from "@components/Post/MiniPost";
+import { ComponentStory, Story } from "@storybook/react";
 import { Provider } from "react-redux";
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
@@ -31,20 +30,23 @@ const Mockstore = ({
   </Provider>
 );
 
+export interface MiniPostProps {
+  children: React.ReactNode;
+  /** 제목 */
+  title: string;
+  /** 요약 */
+  description: string;
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  title: "Components/Base/TagSpan",
-  component: TagSpan,
+  name: "Component/Blog/MiniPost",
+  component: "MiniPost",
   argsType: {
-    className: { description: "ss", control: { type: "text" } },
-    tag: { description: "Data로 받은 태그 이름", control: { type: "text" } },
-    clickOk: { control: { type: "boolean" } },
-  },
-  parameters: {
-    docs: {
-      description: {
-        component: "Span으로 만든 Tag component",
-      },
+    title: {
+      name: "title",
+      type: { name: "string", required: true },
+      controls: { type: "text" },
     },
   },
   decorators: [
@@ -54,16 +56,21 @@ export default {
       </Mockstore>
     ),
   ],
-} as ComponentMeta<typeof TagSpan>;
-
-const Template: ComponentStory<typeof TagSpan> = (args) => (
-  <TagSpan {...args} />
+};
+const Template: ComponentStory<typeof MiniPost> = (args) => (
+  <MiniPost {...args} />
 );
 
 export const Normal = Template.bind({});
 Normal.args = {
-  tag: "이것은 태그 네임입니다.",
-  tagName: "dk",
-  className: "",
-  clickOk: true,
+  data: {
+    id: 1,
+    title: "post title",
+    content: "post djdjoasjdoasjdosadjoajsdojas",
+    description: "post에 대한 간략 내용",
+    tags: [{ id: 1, tag: "dsds" }],
+    views: 1212,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
 };

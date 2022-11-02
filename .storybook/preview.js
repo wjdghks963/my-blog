@@ -19,6 +19,7 @@ export const parameters = {
       { name: "light", value: "#FFFFFF" },
     ],
   },
+
   darkMode: {
     // Override the default dark theme
     dark: { ...themes.dark, appBg: "black" },

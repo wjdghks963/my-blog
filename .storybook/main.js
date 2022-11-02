@@ -8,7 +8,7 @@ module.exports = {
   addons: [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-
+    "@storybook/addon-docs",
     {
       name: "@storybook/addon-postcss",
       options: {
@@ -23,10 +23,11 @@ module.exports = {
   core: {
     builder: "@storybook/builder-webpack5",
   },
+
   typescript: {
     check: false,
     checkOptions: {},
-    reactDocgen: false,
+    reactDocgen: "react-docgen",
     reactDocgenTypescriptOptions: {
       shouldExtractLiteralValuesFromEnum: true,
       propFilter: (prop) =>
@@ -34,7 +35,7 @@ module.exports = {
     },
   },
   webpackFinal: async (config, { configType }) => {
-    config.resolve.plugins = [new TsconfigPathsPlugin()];
+    config.resolve.plugins = [new TsconfigPathsPlugin({})];
     return config;
   },
 };

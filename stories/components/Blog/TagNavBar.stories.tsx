@@ -1,6 +1,7 @@
 import React from "react";
 import { ComponentStory, Story } from "@storybook/react";
 import TagNavBar from "@components/Blog/TagNavBar";
+import TagSpan from "@components/Post/TagSpan";
 import { IPostArr } from "pages/blogs";
 import { KeyedMutator } from "swr";
 import { Provider } from "react-redux";
@@ -37,6 +38,7 @@ const Mockstore = ({
 export default {
   title: "Components/Blog/TagNavBar",
   component: "TagNavBar",
+  subcomponents: { TagSpan },
   argsType: {},
   decorators: [
     (Story: Story) => (
