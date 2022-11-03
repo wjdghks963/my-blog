@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { createWrapper } from "next-redux-wrapper";
 import reducer from "./modules";
 
-const makeStore = () =>
+export const makeStore = () =>
   // store 생성
   configureStore({
     reducer,

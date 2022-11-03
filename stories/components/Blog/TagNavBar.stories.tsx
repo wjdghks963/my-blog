@@ -5,7 +5,7 @@ import TagSpan from "@components/Post/TagSpan";
 import { IPostArr } from "pages/blogs";
 import { KeyedMutator } from "swr";
 import { Provider } from "react-redux";
-import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { makeStore } from "store";
 
 const Mockstore = ({
   tagState,
@@ -13,26 +13,7 @@ const Mockstore = ({
 }: {
   tagState: any;
   children: any;
-}) => (
-  <Provider
-    store={configureStore({
-      reducer: {
-        taskbox: createSlice({
-          name: "tagFilter",
-          initialState: tagState,
-          reducers: {
-            setFilterTag: (state, action: PayloadAction<{ tag: string }>) => {
-              const { tag } = action.payload;
-              state.tag = tag;
-            },
-          },
-        }).reducer,
-      },
-    })}
-  >
-    {children}
-  </Provider>
-);
+}) => <Provider store={makeStore()}>{children}</Provider>;
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {

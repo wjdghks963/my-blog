@@ -9,6 +9,7 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-docs",
+    "@storybook/addon-actions",
     {
       name: "@storybook/addon-postcss",
       options: {

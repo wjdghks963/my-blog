@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import TagSpan from "@components/Post/TagSpan";
 import { ComponentMeta, ComponentStory, Story } from "@storybook/react";
 import { Provider } from "react-redux";
-import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { makeStore } from "store";
 
 const Mockstore = ({
   tagState,
@@ -10,36 +10,13 @@ const Mockstore = ({
 }: {
   tagState: any;
   children: any;
-}) => (
-  <Provider
-    store={configureStore({
-      reducer: {
-        taskbox: createSlice({
-          name: "tagFilter",
-          initialState: tagState,
-          reducers: {
-            setFilterTag: (state, action: PayloadAction<{ tag: string }>) => {
-              const { tag } = action.payload;
-              state.tag = tag;
-            },
-          },
-        }).reducer,
-      },
-    })}
-  >
-    {children}
-  </Provider>
-);
+}) => <Provider store={makeStore()}>{children}</Provider>;
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   title: "Components/Base/TagSpan",
   component: TagSpan,
-  argsType: {
-    className: { description: "ss", control: { type: "text" } },
-    tag: { description: "Data로 받은 태그 이름", control: { type: "text" } },
-    clickOk: { control: { type: "boolean" } },
-  },
+  argTypes: {},
   parameters: {
     docs: {
       description: {
@@ -48,11 +25,16 @@ export default {
     },
   },
   decorators: [
-    (Story: Story) => (
-      <Mockstore tagState={[{ tag: "ss" }]}>
-        <Story />
-      </Mockstore>
-    ),
+    (Story: Story) => {
+      const [tag, setTag] = useState("dsad");
+      return (
+        <Mockstore tagState={[{ tag: "ss" }]}>
+          <div onClick={() => setTag(tag)}>
+            <Story />
+          </div>
+        </Mockstore>
+      );
+    },
   ],
 } as ComponentMeta<typeof TagSpan>;
 
@@ -66,4 +48,5 @@ Normal.args = {
   tagName: "dk",
   className: "",
   clickOk: true,
+  goBlog: false,
 };
