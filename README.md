@@ -1,5 +1,10 @@
 # 블로그 만들기
 
+## StoryBook
+
+[깃헙 링크](https://github.com/wjdghks963/my_blog_design_system)
+[chromatic 링크](https://63635e18291535f4d01657be-csrykgcgxo.chromatic.com/?path=/story/components-base-headerli--normal)
+
 ## 스택
 
 Front : Next.js, TailwindCSS, Redux, Redux Tool Kit, NextAuth
