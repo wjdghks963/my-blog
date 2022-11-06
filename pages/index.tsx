@@ -65,7 +65,8 @@ export default function Home({ data }: { data: SSRData }) {
         <span>Front-End 개발자 최정환입니다.</span>
         <span className="block break-words">
           <br />이 블로그는 Next.js, TailwindCSS, Redux Tool Kit, Prisma 로
-          만들어졌습니다.
+          만들어졌습니다. 호스팅과 ssl은 CloudFlare, 프론트는 vercel, DB 서버는
+          PlanetScale을 사용했습니다.
           <br /> 궁금한 점이 있다면 chsw000@gmail.com로 연락주세요.
         </span>
 
@@ -77,6 +78,15 @@ export default function Home({ data }: { data: SSRData }) {
         <Link href={"https://github.com/wjdghks963/my-blog"}>
           <a className="block mt-4 cursor-pointer font-bold">
             깃헙 레포 구경가기 &rarr;{" "}
+          </a>
+        </Link>
+        <Link
+          href={
+            "https://63635e18291535f4d01657be-csrykgcgxo.chromatic.com/?path=/story/components-base-headerli--normal"
+          }
+        >
+          <a className="block mt-4 cursor-pointer font-bold">
+            Story Book 구경가기 &rarr;{" "}
           </a>
         </Link>
       </div>
