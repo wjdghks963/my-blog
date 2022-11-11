@@ -44,13 +44,17 @@ Devops : Vercel(front), PlanetScale(BD), CloudFlare(DNS, CDN, SSL)
 
 <img width="490" alt="스크린샷 2022-10-25 오후 5 33 31" src="https://user-images.githubusercontent.com/74060017/198501101-21bca8d2-1208-47ae-b443-95dee1795d9e.png">
 
+![스크린샷 2022-11-07 오후 4 30 50](https://user-images.githubusercontent.com/74060017/200260970-072bd6c7-b8d1-4937-af53-28458113db47.png)
+
 - 이미지와 코드가 들어있는 post
 
 <img width="835" alt="스크린샷 2022-10-25 오후 8 14 26" src="https://user-images.githubusercontent.com/74060017/198501113-58bcff29-2038-404c-8b50-29c54898d872.png">
 
+![스크린샷 2022-11-07 오후 4 42 09](https://user-images.githubusercontent.com/74060017/200260973-f7e63ddb-2b93-4640-b1fd-295636c7a666.png)
+
 접근성 까인 이유 :
 
-- markdown을 사용하면서 header을 내 마음대로 사용하는데 이게 html의 시멘틱 규칙을 지기키 않았기 떄문에 감점
+- markdown을 사용하면서 header을 내 마음대로 사용하는데 이게 html의 시멘틱 규칙을 지키지 않았기 떄문에 감점
 - code tag를 꾸며주는 라이브러리가 백그라운드와 포그라운드의 색상 대비율이 충분하지 않았기 떄문에 감점
 
 ## 반응형
