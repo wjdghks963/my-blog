@@ -83,6 +83,10 @@ export default function MarkdownParser({ markdown }: any) {
             </span>
           );
         },
+        strong({ node, className, children, ...props }) {
+          return <strong className="dark:text-white">{children}</strong>;
+        },
+
         code({ node, inline, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || "");
           return !inline && match ? (
