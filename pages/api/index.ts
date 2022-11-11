@@ -1,10 +1,12 @@
 import prismaclient from "@libs/server/prismaClient";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { SSRData } from "pages";
 
-export default async function MainPosts(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+type error = {
+  ok: boolean;
+  errormessage: unknown;
+};
+
+export default async function MainPosts(): Promise<SSRData | error> {
   try {
     const popularPosts = await prismaclient.post.findMany({
       take: 5,
@@ -39,9 +41,9 @@ export default async function MainPosts(
       },
     });
 
-    return res.status(200).json({ popularPosts, recentPosts, categories });
+    return { popularPosts, recentPosts, categories };
   } catch (err) {
     console.log(err);
-    return res.status(400).json({ ok: false, errormessage: err });
+    return { ok: false, errormessage: err };
   }
 }

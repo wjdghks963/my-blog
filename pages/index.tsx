@@ -3,13 +3,14 @@ import { PostWithId } from "./blogs";
 import PostWithThumnail from "@components/Home/PostWithThumnail";
 import Link from "next/link";
 import { CategoryBox } from "@components/Home/CategoryBox";
+import MainPosts from "./api";
 
 export type category = {
   category: string;
   posts: { id: number; title: string }[];
 };
 
-interface SSRData {
+export interface SSRData {
   popularPosts: PostWithId[];
   recentPosts: PostWithId[];
   categories: category[];
@@ -97,13 +98,7 @@ export default function Home({ data }: { data: SSRData }) {
 export async function getServerSideProps(): Promise<{
   props: { data: SSRData };
 }> {
-  const URL =
-    process.env.NODE_ENV === "production"
-      ? "https://www.sabgilnote.xyz/api"
-      : "http://localhost:3000/api";
+  const postsData = await MainPosts();
 
-  const res = await fetch(URL);
-  const data = await res.json();
-
-  return { props: { data } };
+  return { props: { data: JSON.parse(JSON.stringify(postsData)) } };
 }
