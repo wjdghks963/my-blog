@@ -45,12 +45,11 @@ export default function MarkdownParser({ markdown }: any) {
 
         img({ node, ...props }) {
           return (
-            <div className="w-4/5">
+            <div className="w-full h-[50vh] relative my-4 ">
               <Image
                 src={props?.src + ""}
-                layout="responsive"
-                width={100}
-                height={100}
+                layout="fill"
+                objectFit="fill"
                 priority={true}
                 alt="관련된 사진"
               />
