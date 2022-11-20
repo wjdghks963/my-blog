@@ -26,7 +26,7 @@ export default function Home({ data }: { data: SSRData }) {
       <div className="flex flex-col mt-10">
         <h1 className="font-bold text-4xl">Recent Posts</h1>
         <div className="flex flex-row gap-5 mt-10 ">
-          {data?.recentPosts.map((post, index) => {
+          {data?.recentPosts?.map((post, index) => {
             if (index === 4) {
               return (
                 <PostWithThumnail key={index} data={post} isMobile={true} />
@@ -39,7 +39,7 @@ export default function Home({ data }: { data: SSRData }) {
       <div className=" flex flex-col mt-10">
         <h1 className="font-bold text-4xl">Popular Posts</h1>
         <div className="flex flex-row gap-5 mt-10">
-          {data?.popularPosts.map((post, index) => {
+          {data?.popularPosts?.map((post, index) => {
             if (index === 4) {
               return (
                 <PostWithThumnail key={index} data={post} isMobile={true} />
