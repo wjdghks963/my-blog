@@ -55,7 +55,7 @@ export function CategoryBox({ category }: { category: category }) {
       >
         {category.posts.map((post) => (
           <span
-            className="border-black border-2 rounded-md text-center cursor-pointer p-2 mb-3 break-words"
+            className="border-black border-2 rounded-md text-center cursor-pointer p-2 mb-3 break-words dark:border-white"
             key={post.id}
             onClick={() => (open ? goToPost(post.id) : null)}
           >
