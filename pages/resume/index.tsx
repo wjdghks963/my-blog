@@ -50,7 +50,7 @@ export default function Resume() {
               익히고 있거나 배우고 싶은 프로그래밍 언어
             </h3>
             <ul>
-              <li>Rust</li>
+              <li>Swift</li>
             </ul>
           </div>
         </div>
