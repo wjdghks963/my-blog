@@ -58,9 +58,9 @@ export default function MarkdownParser({ markdown }: any) {
         },
         p({ node, children, ...props }) {
           return (
-            <div {...props} className="dark:text-white break-words">
+            <p {...props} className="dark:text-white break-words">
               {children}
-            </div>
+            </p>
           );
         },
         a({ node, children, ...props }) {
@@ -85,7 +85,6 @@ export default function MarkdownParser({ markdown }: any) {
         strong({ node, className, children, ...props }) {
           return <strong className="dark:text-white">{children}</strong>;
         },
-
         code({ node, inline, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || "");
           return !inline && match ? (
