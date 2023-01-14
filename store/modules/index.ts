@@ -2,10 +2,12 @@ import { AnyAction, CombinedState, combineReducers } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 import editPostReducer, { EditPost } from "./editPost";
 import tagFilterReducer from "./tagFilter";
+import searchQueryReducer from "./searchQuery";
 
 interface ReduxSliceState {
   editPostReducer: EditPost;
   tagFilterReducer: { tag: string };
+  searchQueryReducer: { query: string };
 }
 
 const reducer = (
@@ -23,6 +25,7 @@ const reducer = (
   return combineReducers({
     editPostReducer,
     tagFilterReducer,
+    searchQueryReducer,
   })(state, action);
 };
 
