@@ -30,7 +30,7 @@ export default async function Blogs(req: NextApiRequest, res: NextApiResponse) {
    * tag가 전체이거나 query가 빈문자열일때 모든 포스트들을 보여줌
    * else if => tag가 all이 아니거나
    */
-  if (tag === "all" || query === "") {
+  if (tag === "all" || query === "all") {
     const firstPost = await prismaclient.post.findMany({
       take: limit ? +limit : 5,
       orderBy: {
@@ -141,7 +141,6 @@ export default async function Blogs(req: NextApiRequest, res: NextApiResponse) {
         },
       },
     });
-    console.log("first" + firstPost);
 
     const firstCursor = getCursor(firstPost, +limit!!);
 
