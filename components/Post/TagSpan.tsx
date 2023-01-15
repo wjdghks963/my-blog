@@ -2,7 +2,7 @@ import { cls } from "@libs/client/utils";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import React, { useCallback } from "react";
-import { setFilterTag } from "store/modules/tagFilter";
+import { setFilterTag, setSelected } from "store/modules/tagFilter";
 import { IPostArr } from "pages/blogs";
 import { KeyedMutator } from "swr";
 
@@ -40,9 +40,13 @@ export default function TagSpan({
       })
     );
   }, [dispatch, tag]);
+  const tagSelected = useCallback(() => {
+    dispatch(setSelected({ isSelected: true }));
+  }, [dispatch]);
 
   const filterMutate = () => {
     filterTag();
+    tagSelected();
     mutate && mutate([]);
   };
 
