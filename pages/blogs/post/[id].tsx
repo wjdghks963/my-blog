@@ -1,17 +1,17 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback } from "react";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import type { GetStaticPropsResult } from "next";
-import { useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
 import { useMutation } from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import compareLocaleDate from "@libs/client/CompareLocaleDate";
+import { RegImageSrc } from "@libs/client/RegImage";
+import { setPostJson } from "store/modules/editPost";
+import BlogPostById, { IPost } from "pages/api/blogs/[id]";
+import AllPostId from "pages/api/blogs/post/getAllPostsId";
 import Layout from "@components/Base/Layout";
 import TagSpan from "@components/Post/TagSpan";
-import BlogPostById, { IPost } from "pages/api/blogs/[id]";
-import { setPostJson } from "store/modules/editPost";
-import { RegImageSrc } from "@libs/client/RegImage";
-import AllPostId from "pages/api/blogs/post/getAllPostsId";
 import MarkdownParser from "@components/Post/MarkdownParser";
 
 type MutationResult = { ok: boolean };

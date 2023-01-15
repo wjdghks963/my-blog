@@ -2,6 +2,8 @@ import Layout from "@components/Base/Layout";
 import Loading from "@components/Base/Loading";
 import TagNavBar from "@components/Blog/TagNavBar";
 import MiniPost from "@components/Post/MiniPost";
+import { SearchBar } from "@components/Post/SearchBar";
+import infiniteBlogsGetKey from "@libs/client/infiniteBlogsGetKey";
 import { Tag } from "@prisma/client";
 import Tags from "pages/api/blogs/tags";
 import React, {
@@ -31,48 +33,48 @@ export interface IPostArr {
 }
 
 export default function Blogs({ tags }: { tags: { tag: string }[] }) {
-  const tagRef = useRef("all");
+  /**
+   * RTX 선택된 태그 분리
+   */
   const selecetedTag = useSelector(
     (state: { tagFilterReducer: { tag: string } }) => state.tagFilterReducer.tag
   );
+  const isTagSelected = useSelector(
+    (state: { tagFilterReducer: { isSelected: string } }) =>
+      state.tagFilterReducer.isSelected
+  );
 
-  useEffect(() => {
-    if (tagRef.current.valueOf() === "all" && selecetedTag === "") return;
-    tagRef.current = selecetedTag;
-  }, [selecetedTag]);
+  /**
+   * RTX 검색된 값 엔터하면 들어온 값
+   */
+  const searchQuery = useSelector(
+    (state: { searchQueryReducer: { query: string } }) =>
+      state.searchQueryReducer.query
+  );
+  const isQuerySelected = useSelector(
+    (state: { searchQueryReducer: { isSelected: string } }) =>
+      state.searchQueryReducer.isSelected
+  );
 
   const getKey = (
     pageIndex: any,
     previousPageData: { nextCursor: string } | null
   ): string | null => {
-    // nextCoursor가 done이면 종료
-    if (previousPageData && previousPageData.nextCursor === "done") return null;
-    // 전 데이터 없을때 맨 처음 받아옴 tag는 all로
-    if (previousPageData === null && tagRef.current.valueOf() === "all") {
-      return "/api/blogs?tag=all&limit=5";
+    if (isTagSelected) {
+      return infiniteBlogsGetKey(
+        pageIndex,
+        previousPageData,
+        "tag",
+        selecetedTag
+      );
     }
 
-    if (previousPageData !== null && tagRef.current.valueOf() === "all") {
-      return `/api/blogs?tag=all&cursor=${previousPageData?.nextCursor}&limit=5`;
-    }
-    // 전 데이터 없고 tag가 all이 아니라면
-    if (
-      previousPageData === null &&
-      tagRef.current.valueOf() !== "all" &&
-      selecetedTag !== ""
-    ) {
-      return `/api/blogs?tag=${tagRef.current.valueOf()}&limit=5`;
-    }
-
-    // 전 데이터 있고 tag 있다면
-    if (previousPageData !== null && tagRef.current !== "") {
-      return `/api/blogs?cursor=${
-        previousPageData.nextCursor
-      }&tag=${tagRef.current.valueOf()}&limit=5`;
-    }
-
-    // 위의 상황이 아니라면 all을 기준으로 다음 데이터 받아옴
-    return `/api/blogs?tag=all&cursor=${previousPageData?.nextCursor}&limit=5`;
+    return infiniteBlogsGetKey(
+      pageIndex,
+      previousPageData,
+      "query",
+      searchQuery
+    );
   };
 
   const { data, setSize, mutate }: SWRInfiniteResponse<IPostArr> =
@@ -80,6 +82,9 @@ export default function Blogs({ tags }: { tags: { tag: string }[] }) {
 
   const [loading, setLoading] = useState(true);
 
+  /**
+   * PostData 재사용
+   */
   const posts = useMemo(() => {
     const postData: PostWithId[] = [];
 
@@ -94,6 +99,9 @@ export default function Blogs({ tags }: { tags: { tag: string }[] }) {
 
   const loadingRef = useRef<HTMLDivElement>(null);
 
+  /**
+   * 무한 스크롤 Observer & useEffect로 생성, 지우기
+   */
   const handleObserver: IntersectionObserverCallback = useCallback(
     (entries) => {
       const target = entries[0];
@@ -119,6 +127,7 @@ export default function Blogs({ tags }: { tags: { tag: string }[] }) {
   return (
     <Layout title={"블로그"} url={"/blogs"} description={"블로그 모음"}>
       <TagNavBar tags={tags} mutate={mutate} />
+      <SearchBar />
       <div className="flex flex-col items-center mt-20 pb-10 gap-14 h-full">
         {data && data[0]?.data.length === 0
           ? "결과 없음"
