@@ -37,7 +37,7 @@ Devops : Vercel(front), PlanetScale(BD), CloudFlare(DNS, CDN, SSL)
 
 ## Architecture 
 
-![Architecture of my_blog](https://user-images.githubusercontent.com/74060017/214211912-fd70fe5d-6041-45d7-8ddd-9e0f491e1584.png)
+![Architecture of my_blog](https://user-images.githubusercontent.com/74060017/214212353-e66694d8-4ee9-4689-9873-e4bfb8999b4d.png)
 
 ## 성능
 
