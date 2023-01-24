@@ -27,12 +27,17 @@ Devops : Vercel(front), PlanetScale(BD), CloudFlare(DNS, CDN, SSL)
 
   - [x] 태그들을 보여주고 그것을 클릭하면 해당하는 태그를 가진 포스트들만 인피니티
   - [x] 존재하는 태그들은 SSR을 통해 데이터 가져옴
+  - [x] 연관 검색어로 검색 기능
 
 - [x] 이력서
 
 - [x] 포스트
   - [x] SSG로 구현하지만 프로젝트 내에는 데이터 X & fallback="blocking"을 통해 ISR로 구현
   - [x] Markdown을 예쁘게 표현하기 위해 라이브러리 사용
+
+## Architecture 
+
+![Architecture of my_blog](https://user-images.githubusercontent.com/74060017/214211912-fd70fe5d-6041-45d7-8ddd-9e0f491e1584.png)
 
 ## 성능
 
