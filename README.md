@@ -8,11 +8,91 @@
 
 ## 스택
 
-Front : Next.js, TailwindCSS, Redux, Redux Tool Kit, NextAuth
+Front : Next.js, TailwindCSS, SWR, Redux, Redux Tool Kit, NextAuth
+
+Next.js
+
+장점
+
+1. front와 back을 한번에 만들어서 배포 가능 -> Vercel을 이용하면 aws 인스턴스를 사용하지 않아도 되며 한 프로젝트 안에서 두 서버(font, back)를 올리고 관리가 가능함
+2. 리액트를 이용하며 SSR의 이점을 챙길 수 있음 -> 정적 파일로 만들어 serving 가능, SEO 최적화 가능, bandwidth 줄임
+3. 디렉토리로 route 설정 가능
+4. 이미지나 컴포넌트에 대한 최적화 기능 제공 -> 이미지 자동 최적화(avif, webp)로 바꿔줌, 캐싱 등
+5. rewrites, redirection을 설정 레벨에서 제공해줘 보안에도 장점을 가짐
+
+단점
+
+1. build 타임이 오래걸림
+
+
+TailwindCSS
+
+장점
+
+1. css 문법이 적용되어 있는 문법을 사용해 간단하고 빠르게 스타일링 가능
+2. css 파일을 줄여주고 적용되지 않는 스타일들을 자동적으로 없애줘 가벼움
+3. 반응형에 최적화된 프레임워크 -> 모바일 친화적
+
+단점
+
+1. 상태에 의한 스타일링 동적 변경 약간 어려움
+2. className이 너무 어려워지고 유지보수 약간 어려움
+3. 런닝 커브가 존재했던 편
+
+
+SWR
+
+장점
+
+1. 자동 통신 결과 캐싱과 전역적으로 사용가능
+2. data, error 등 데이터 통신에 대한 결과를 바로 사용할 수 있는 훅 제공
+
+
+Redux, Redux Tool Kit
+
+장점
+
+1. RTK를 사용하면서 리덕스가 가진 단점 중 하나인 보일러 플레이트를 확 줄일 수 있음
+2. slice로 상태를 관리 저장하며 간단하게 사용할 수 있음 -> recoil과 비슷하거나 더 쉬움
+3. extraReducer를 이용해 다른 상태(slice가 동작했는지)에 변경을 알 수 있고 특정 기능을 수행할 수 있음
+4. 간단한 기능들만 사용해서 그런지 사용하기 쉬웠음
+
+
 
 Back : Next.js, Prisma
 
+Next.js
+
+장점
+
+1. express나 다른 백엔드 프레임워크와 같이 uri에 대한 요청이 들어오면 req, res를 구분해 준다. 
+
+단점
+
+1. back-end는 api만 만들어서 사용하기 때문에 복잡한 비지니스 로직을 만들기 어려움
+2. 미들웨어 적용 어려움
+3. 한 파일 내에서 GET, POST 같은 http 요청이 들어온다면 분기 처리를 해야함
+
+
+Prisma
+
+장점
+
+1. SQL 문을 사용하지 않고 쉽게 데이터 추출이 가능하고 다양한 기능을 제공함 (contains, where ... )
+2. Schema를 작성할 때 다대다에 대한 테이블을 따로 생성하지 않아도 임시 테이블을 자동적으로 만들어줘 사용이 가능하다.
+3. index를 지원한다.
+4. prisma studio로 테이블 스키마, 어떤 데이터가 저장되어 있는지 등 확인이 가능하고 수정 추가 제거도 가능하다.
+
+
 Devops : Vercel(front), PlanetScale(BD), CloudFlare(DNS, CDN, SSL)
+
+
+Vercel : CI/CD 제공, 배포
+
+PlanetScale : MySQL 기반 서버리스 데이터 베이스 & branch 기능 제공
+
+CloudFlare : DNS, CDN, SSL 및 JS 파일 축소 등 다양하고 product에 효과적인 기능과 admin 패널(트래픽, 캐싱 퍼센트, 고유 방문자 ) 제공
+
 
 ## 만들 기능
 
@@ -37,7 +117,7 @@ Devops : Vercel(front), PlanetScale(BD), CloudFlare(DNS, CDN, SSL)
 
 ## Architecture 
 
-![Architecture of my_blog](https://user-images.githubusercontent.com/74060017/214212353-e66694d8-4ee9-4689-9873-e4bfb8999b4d.png)
+![Architecture of my_blog](https://user-images.githubusercontent.com/74060017/215678005-1f71a67a-8628-4338-8dbb-48a3d6228395.png)
 
 ## 성능
 
