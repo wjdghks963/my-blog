@@ -45,8 +45,8 @@ export default function MarkdownParser({ markdown }: any) {
 
         img({ node, ...props }) {
           return (
-            <div className="w-full h-[50vh] relative my-4 ">
-              <Image
+            <div className="w-1/2 h-[50vh] relative my-4 ">
+              <Image className={""}
                 src={props?.src + ""}
                 layout="fill"
                 objectFit="fill"
