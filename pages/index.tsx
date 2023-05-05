@@ -50,7 +50,7 @@ export default function Home({ data }: { data: SSRData }) {
         </div>
       </div>
 
-      <div className=" flex flex-col mt-10 pb-10">
+      <div className="hidden mobile:flex flex-col mt-10 pb-10">
         <h1 className="font-bold text-4xl">By Category</h1>
         <div className="flex flex-row gap-5 mt-10 overflow-x-scroll scrollbar-hide overflow-clip">
           {data.categories.map((category, index) => (
