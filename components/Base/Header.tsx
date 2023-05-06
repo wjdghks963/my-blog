@@ -32,16 +32,17 @@ export default function Header() {
         {headerMap.map((value, key) => (
           <HeaderLi key={key} name={value[0]} routerFn={value[1]} />
         ))}
-        <li className="ml-5">
+        <li className="flex m-auto p-2.5 group hover:bg-gray-400 hover:rounded-xl dark:hover:bg-blue-300 hover:shadow-md hover:shadow-slate-300 ">
           <div
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="text-gray-500 dark:text-gray-400 "
+            className="text-gray-500 group-hover:animate-spin"
           >
             {svgLoad ? (
               ""
             ) : theme === "dark" ? (
               <svg
-                className="w-6 h-6 "
+                  id="sun"
+                className="w-6 h-6"
                 fill="none"
                 stroke="yellow"
                 viewBox="0 0 24 24"
@@ -56,7 +57,8 @@ export default function Header() {
               </svg>
             ) : (
               <svg
-                className="w-6 h-6"
+                  id="moon"
+                className="w-6 h-6 group-hover:text-white"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
