@@ -2,7 +2,10 @@ import { PostWithId } from "pages/blogs";
 import Image from "next/image";
 import router from "next/router";
 import { RegImageSrc } from "@libs/client/RegImage";
-import { cls } from "@libs/client/utils";
+import {cls, setCollapse} from "@libs/client/utils";
+
+const titleLimitLength = 20;
+const descriptionLimitLength = 30;
 
 export default function PostWithThumnail({
   data,
@@ -49,13 +52,10 @@ export default function PostWithThumnail({
       )}
       <div className="absolute w-28  flex flex-col items-center invisible">
         <span className="break-words my-3 font-bold text-md md:w-full sm:w-2/3 w-12 visible sm:invisible group-hover:sm:delay-500 group-hover:sm:visible">
-          {data.title}
+          {setCollapse(data.title, titleLimitLength)}
         </span>
         <span className="break-words md:w-full sm:w-2/3 invisible group-hover:sm:visible group-hover:sm:delay-500">
-          {data.title.length > 9
-            ? data.description.substring(0, 30)
-            : data.description.substring(0, 40)}
-          ...
+          {setCollapse(data.description, descriptionLimitLength)}
         </span>
       </div>
     </div>
