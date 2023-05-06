@@ -32,7 +32,7 @@ export default function Header() {
         {headerMap.map((value, key) => (
           <HeaderLi key={key} name={value[0]} routerFn={value[1]} />
         ))}
-        <li className="flex m-auto p-2.5 group hover:bg-gray-400 hover:rounded-xl dark:hover:bg-blue-300 hover:shadow-md hover:shadow-slate-300 ">
+        <li className="flex m-auto p-2.5 cursor-pointer group hover:bg-gray-400 hover:rounded-xl dark:hover:bg-blue-300 hover:shadow-md hover:shadow-slate-300 ">
           <div
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className="text-gray-500 group-hover:animate-spin"
