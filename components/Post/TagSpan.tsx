@@ -66,7 +66,7 @@ export default function TagSpan({
         hiddenFlex,
         "px-2  border-2 border-black rounded-md dark:border-white dark:text-white",
         clickOk
-          ? "hover:ring-2 cursor-pointer ring-black ring-offset-2 ring-blackdark:hover:ring-1 dark:hover:ring-white dark:hover:ring-offset-2"
+          ? "hover:ring-2 cursor-pointer ring-black ring-offset-2 ring-black dark:hover:ring-1 dark:hover:ring-white dark:hover:ring-offset-2"
           : ""
       )}
     >
