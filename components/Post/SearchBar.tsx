@@ -42,10 +42,10 @@ export function SearchBar() {
         value={text}
         onChange={(e) => setText(e.currentTarget.value)}
         onKeyDown={(e) => keyDown(e)}
-        placeholder="제목을 입력 후 엔터"
+        placeholder="제목 입력 후 엔터"
         className="w-2/3 py-4 px-4 bg-transparent focus:outline-none"
       />
-      <button className="w-8 ml-2" onClick={clearInput}>
+      <button className={`${text === "" || null ? "hidden" : "flex"} w-8 ml-2 my-auto`} onClick={clearInput}>
         <svg
           fill="none"
           stroke="currentColor"
