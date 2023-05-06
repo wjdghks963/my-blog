@@ -13,7 +13,7 @@ export default function Login() {
         </>
       ) : (
         <>
-          Not signed in <br />
+          로그인 해주세요 <br />
           <button onClick={() => signIn()}>Sign in</button>
         </>
       )}
