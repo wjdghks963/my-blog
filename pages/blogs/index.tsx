@@ -128,11 +128,11 @@ export default function Blogs({ tags }: { tags: { tag: string }[] }) {
     <Layout title={"블로그"} url={"/blogs"} description={"블로그 모음"}>
       <TagNavBar tags={tags} mutate={mutate} />
       <SearchBar />
-      <div className="flex flex-col items-center mt-20 pb-10 gap-14 h-full">
+      <div className="flex flex-col items-center mt-20 pb-10 gap-14">
         {data && data[0]?.data.length === 0
           ? "결과 없음"
           : posts?.map((data) => <MiniPost key={data.id} data={data} />)}
-        {loading ? <Loading loadingRef={loadingRef} /> : null}
+        {loading ? <Loading  loadingRef={loadingRef} /> : null}
       </div>
     </Layout>
   );
