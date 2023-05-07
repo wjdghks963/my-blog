@@ -30,12 +30,15 @@ export default function Layout({
         image={image}
         keywords={keywords}
       />
-      <Header />
       <div
         className={cls(className ? className : "", "flex flex-col h-screen")}
       >
-        <div className="grow">{children}</div>
-        {footer === false ? "" : <Footer />}
+          <Header />
+        <div className="grow flex flex-col">
+            {children}
+        </div>
+            {footer === false ? "" : <Footer />}
+
       </div>
     </>
   );
