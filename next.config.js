@@ -7,7 +7,7 @@ const nextConfig = {
     MY_EMAIL: process.env.MY_EMAIL,
   },
   images: {
-    domains: ["res.cloudinary.com", "velog.velcdn.com", "images.velog.io"],
+    domains: ["res.cloudinary.com", "velog.velcdn.com", "images.velog.io","k.kakaocdn.net","lh3.googleusercontent.com","avatars.githubusercontent.com","pbs.twimg.com"],
     formats: ["image/avif", "image/webp"],
   },
   async rewrites() {
