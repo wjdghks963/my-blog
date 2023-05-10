@@ -1,8 +1,8 @@
-import React, { useCallback } from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import type { GetStaticPropsResult } from "next";
-import { useSession } from "next-auth/react";
+import {useSession} from "next-auth/react";
 import { useMutation } from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import compareLocaleDate from "@libs/client/CompareLocaleDate";
@@ -13,7 +13,12 @@ import AllPostId from "pages/api/blogs/post/getAllPostsId";
 import Layout from "@components/Base/Layout";
 import TagSpan from "@components/Post/TagSpan";
 import MarkdownParser from "@components/Post/MarkdownParser";
+import dynamic from "next/dynamic";
 
+
+
+const CommentWriter = dynamic(()=>import('../../../components/Post/CommentWriter'),{ssr:false})
+const CommentList = dynamic(()=>import('../../../components/Post/CommentList'),{ssr:false})
 type MutationResult = { ok: boolean };
 
 interface PostData extends Omit<IPost, "createdAt" | "updatedAt" | "category"> {
@@ -26,7 +31,7 @@ interface PostData extends Omit<IPost, "createdAt" | "updatedAt" | "category"> {
 export default function Post({ postData }: { postData: PostData }) {
   const router = useRouter();
   const [delPost] = useMutation<MutationResult>("/api/blogs/delete");
-  const { data: session } = useSession();
+  const [isSessionLoading, setIsSessionLoading] = useState<boolean>(true);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const tags =
@@ -52,6 +57,13 @@ export default function Post({ postData }: { postData: PostData }) {
     router,
     tags,
   ]);
+
+  const {data:userSessionData,status:userSessionStatus}= useSession();
+
+  // session 정보를 받기 위해 사용
+  useEffect(()=>{
+    setIsSessionLoading(false)
+  },[userSessionStatus])
 
   const ImageSrc =
     RegImageSrc(postData.content) !== null || undefined
@@ -89,7 +101,7 @@ export default function Post({ postData }: { postData: PostData }) {
       </div>
       <div
         className={cls(
-          session?.user?.email === process.env.MY_EMAIL
+            userSessionData?.email === process.env.MY_EMAIL
             ? "visible"
             : "invisible"
         )}
@@ -112,26 +124,18 @@ export default function Post({ postData }: { postData: PostData }) {
           </span>
         </div>
       </div>
+      {isSessionLoading ? null :
+          <div className={'flex flex-col mx-3 '}>
+        <CommentWriter session={userSessionData}/>
+        <CommentList/>
+      </div>
+      }
     </Layout>
   );
 }
 
-export async function getStaticPaths() {
-  const res = await AllPostId();
 
-  const paths = res?.map((post: any) => ({
-    params: {
-      id: post.id.toString(),
-    },
-  }));
-  return { paths, fallback: "blocking" };
-}
-
-export async function getStaticProps({
-  params,
-}: {
-  params: any;
-}): Promise<GetStaticPropsResult<any>> {
+export async function getStaticProps({params}:{params:any}): Promise<GetStaticPropsResult<any>> {
   const postData = await BlogPostById(params.id);
   const category = postData.category ? postData.category.category : null;
   const date = compareLocaleDate(postData.createdAt!, postData.updatedAt!);
@@ -149,4 +153,15 @@ export async function getStaticProps({
     },
     revalidate: 60,
   };
+}
+
+export async function getStaticPaths() {
+  const res = await AllPostId();
+
+  const paths = res?.map((post: any) => ({
+    params: {
+      id: post.id.toString(),
+    },
+  }));
+  return { paths, fallback: "blocking" };
 }
