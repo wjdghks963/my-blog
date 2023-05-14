@@ -1,9 +1,9 @@
 import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import TwitterProvider from "next-auth/providers/twitter";
 import KakaoProvider from "next-auth/providers/kakao";
 import prismaclient from "@libs/server/prismaClient";
+
 
 
 interface SessionData {
@@ -12,6 +12,7 @@ interface SessionData {
   image?:string
   domain?:string
 }
+
 
 
 export default NextAuth({
@@ -28,11 +29,11 @@ export default NextAuth({
       clientId: process.env.KAKAO_ID as string,
       clientSecret: process.env.KAKAO_SECRET as string
     }),
-    TwitterProvider({
-        clientId: process.env.TWITTER_ID as string,
-        clientSecret: process.env.TWITTER_SECRET as string,
-        version:"2.0"
-    })
+    // TwitterProvider({
+    //     clientId: process.env.TWITTER_ID as string,
+    //     clientSecret: process.env.TWITTER_SECRET as string,
+    //     version:"2.0"
+    // })
   ],
   session: { strategy: "jwt", maxAge: 14 * 24 * 60 * 60 },
   secret: process.env.SECRET,
@@ -54,6 +55,7 @@ export default NextAuth({
       if(user){
         // INFO:: twitter에서는 oauth에서 email을 제공해주지 않는다. 따라서 고유 id를 이메일 대신 저장한다. 나중에 기능 만들때 꼭 참고
         if(account.provider === 'twitter'){
+
           return await userTransaction({email: user.id!, name: user.name!, image: user.image!, domain:account.provider});
         }
        return await userTransaction({email: user.email!, name: user.name!, image: user.image!, domain:account.provider});
