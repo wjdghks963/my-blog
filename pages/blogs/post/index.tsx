@@ -26,8 +26,8 @@ export default function Post() {
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
   const categoryRef = useRef<HTMLInputElement>(null);
-  const [markdown, setMarkdwon] = useState<string | undefined>("");
-  const [post, { data }] = useMutation<MutationResult>("/api/blogs/post");
+  const [markdown, setMarkdown] = useState<string | undefined>("");
+  const [postBlog, { data }] = useMutation<MutationResult>("/api/blogs/post");
   const { data: session } = useSession();
 
   const splitTags = (): string[] | void => {
@@ -41,8 +41,16 @@ export default function Post() {
     return set;
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+
+    if (session?.user?.email !== process.env.MY_EMAIL) {
+      if (process.env.NODE_ENV === "production") {
+        return alert("email 확인해주세요");
+      }
+    }
+
     const postJson: IPostJson = {
       title: titleRef.current?.value!,
       markdown,
@@ -51,13 +59,7 @@ export default function Post() {
       category: categoryRef.current?.value!,
     };
 
-    if (session?.user?.email !== process.env.MY_EMAIL) {
-      if (process.env.NODE_ENV === "production") {
-        return alert("email 확인해주세요");
-      }
-    }
-
-    post(postJson);
+    await postBlog(postJson);
 
     if (data?.ok === false) {
       alert("인터넷 오류");
@@ -114,7 +116,7 @@ export default function Post() {
         <MDEditor
           className="w-4/5 prose"
           value={markdown}
-          onChange={(value) => setMarkdwon(value)}
+          onChange={(value) => setMarkdown(value)}
         />
 
         <button
