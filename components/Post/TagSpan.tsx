@@ -30,7 +30,7 @@ export default function TagSpan({
   goBlog,
 }: ITagSpan) {
   const router = useRouter();
-  const hiddenFlex = className ? className : "";
+  const hiddenFlex = className ?? "";
 
   const dispatch = useDispatch();
   const filterTag = useCallback(() => {

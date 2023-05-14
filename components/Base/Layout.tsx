@@ -31,7 +31,7 @@ export default function Layout({
         keywords={keywords}
       />
       <div
-        className={cls(className ? className : "", "flex flex-col h-screen")}
+        className={cls(className ?? "", "flex flex-col h-screen")}
       >
           <Header />
         <div className="grow flex flex-col">

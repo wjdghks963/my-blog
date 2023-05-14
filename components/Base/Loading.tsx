@@ -10,7 +10,7 @@ export default function Loading({
   return (
     <div
       ref={loadingRef ? loadingRef : null}
-      className={cls("animate-bounce", className ? className : "")}
+      className={cls("animate-bounce", className ?? "")}
     >
       Loading ...
     </div>

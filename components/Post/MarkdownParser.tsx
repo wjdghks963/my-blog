@@ -97,7 +97,7 @@ export default function MarkdownParser({ markdown }: any) {
             />
           ) : (
             <code
-              className={cls(className ? className : "", "dark:text-white")}
+              className={cls(className ?? "", "dark:text-white")}
               {...props}
             >
               {children}
