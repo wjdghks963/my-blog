@@ -31,7 +31,6 @@ interface PostData extends Omit<IPost, "createdAt" | "updatedAt" | "category"> {
 export default function Post({ postData }: { postData: PostData }) {
   const router = useRouter();
   const [delPost] = useMutation<MutationResult>("/api/blogs/delete");
-  const [isSessionLoading, setIsSessionLoading] = useState<boolean>(true);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const tags =
@@ -58,12 +57,7 @@ export default function Post({ postData }: { postData: PostData }) {
     tags,
   ]);
 
-  const {data:userSessionData,status:userSessionStatus}= useSession();
-
-  // session 정보를 받기 위해 사용
-  useEffect(()=>{
-    setIsSessionLoading(false)
-  },[userSessionStatus])
+  const {data:userSessionData}= useSession();
 
   const ImageSrc =
     RegImageSrc(postData.content) !== null || undefined
@@ -124,12 +118,10 @@ export default function Post({ postData }: { postData: PostData }) {
           </span>
         </div>
       </div>
-      {isSessionLoading ? null :
-          <div className={'flex flex-col mx-3 '}>
-        <CommentWriter session={userSessionData}/>
-        <CommentList/>
+      <div className={'flex flex-col items-center justify-center p-5  mx-3 mobile:mx-10'}>
+            <CommentWriter session={userSessionData}/>
+            <CommentList className={'mt-16'} commentList={postData.comments}/>
       </div>
-      }
     </Layout>
   );
 }
@@ -149,6 +141,7 @@ export async function getStaticProps({params}:{params:any}): Promise<GetStaticPr
         description: postData.description,
         date,
         category,
+        comments:postData.comments
       },
     },
     revalidate: 60,
