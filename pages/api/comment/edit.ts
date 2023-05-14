@@ -1,7 +1,7 @@
 import prismaclient from "@libs/server/prismaClient";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function post(
+export default async function edit(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
