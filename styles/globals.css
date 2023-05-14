@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer utilities {
+
+
+    .thin-round-border {
+        @apply border-solid border-black rounded-md border-[1px] dark:border-white
+
+    }
+
+}
