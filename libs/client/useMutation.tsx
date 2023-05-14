@@ -16,6 +16,7 @@ export function useMutation<T = any>(url: string): MutationResult<T> {
   });
 
   const mutation = async (data: any) => {
+    setResponse(prev=>({...prev, loading:true}))
     await fetch(url, {
       headers: { "Content-Type": "application/json" },
       method: "POST",
