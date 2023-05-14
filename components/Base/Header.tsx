@@ -27,7 +27,7 @@ export default function Header() {
   }, [setTheme]);
 
   return (
-    <div className="flex flex-row mt-5 px-16 pb-4">
+    <div className="flex flex-row mt-5 mobile:px-16 px-3 pb-4">
       <ul className="flex flex-row justify-between w-full py-1">
         {headerMap.map((value, key) => (
           <HeaderLi key={key} name={value[0]} routerFn={value[1]} />

@@ -20,7 +20,7 @@ export default function Home({ data }: { data: SSRData }) {
   return (
     <Layout
       title={"Jung's Blog"}
-      className={"mt-3 px-10"}
+      className={"mt-3 mobile:px-10 px-3"}
       keywords="프론트 엔드 기술 블로그"
     >
       <div className="flex flex-col mt-10">
