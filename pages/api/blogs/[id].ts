@@ -1,7 +1,17 @@
 import prismaclient from "@libs/server/prismaClient";
 import { Tag } from "@prisma/client";
 
-export interface IPost {
+
+export interface UserInfo {
+  email:string,
+  name:string,
+  image:string
+}
+
+export interface Comment{id:number, user:UserInfo,content:string }
+
+
+  export interface IPost {
   title: string;
   content: string;
   views: number;
@@ -10,6 +20,7 @@ export interface IPost {
   category: { category: string } | null;
   createdAt: Date;
   updatedAt: Date;
+  comments: (Comment | null) [];
 }
 
 export default async function BlogPostById(id: number) {
@@ -36,15 +47,28 @@ export default async function BlogPostById(id: number) {
             category: true,
           },
         },
+        comments:{
+          select: {
+            id:true,
+            content:true,
+            user:{
+              select:{
+                email:true,
+                name:true,
+                image:true,
+              }
+            }
+          }
+        }
       },
     });
-
     return {
       ok: true,
       title: post?.title,
       content: post?.content,
       views: post?.views,
       tags: post?.tags,
+      comments:post?.comments,
       description: post?.description,
       category: post?.category,
       createdAt: post?.createdAt,
