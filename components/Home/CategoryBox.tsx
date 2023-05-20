@@ -26,7 +26,6 @@ export function CategoryBox({ category }: { category: Category }) {
       >
           <motion.span
               className="font-bold text-lg cursor-pointer flex justify-between items-center"
-
               onClick={toggleDropdown}
           >
               {category.category}
@@ -49,7 +48,7 @@ export function CategoryBox({ category }: { category: Category }) {
           > {category.posts.map((post) => (
               <motion.span
                   initial={{scale: 1}}
-                  whileHover={{ scale: 1.1 }}
+                  whileHover={{ scale: 1.03 }}
                   className="border-black border-2 rounded-md text-center cursor-pointer p-2 mb-3 break-words dark:border-white"
                   key={post.id}
                   onClick={() => goToPost(post.id)}
