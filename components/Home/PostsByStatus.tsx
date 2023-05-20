@@ -10,7 +10,7 @@ export default async function PostsByStatus({status}:{status:PostStatus}) :any {
 
     return <div className="flex gap-2">
         {data?.json?.map((post : ThumbnailPostData, index:number) => {
-            return <PostWithThumbnail key={index} data={post} className={index===8 ? "hidden mobile:flex":""}/>;
+            return <PostWithThumbnail key={index} data={post} className={index===4 ? "hidden mobile:flex":""}/>;
         })}
     </div>
 }
