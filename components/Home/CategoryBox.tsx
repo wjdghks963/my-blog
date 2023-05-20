@@ -1,70 +1,63 @@
-import { cls } from "@libs/client/utils";
-import { useRouter } from "next/router";
-import { category } from "pages";
-import React, { useState } from "react";
+"use client"
 
-export function CategoryBox({ category }: { category: category }) {
+import {  useRouter } from 'next/navigation';
+import React, { useState } from "react";
+import {Category} from '@types'
+import { motion } from "framer-motion";
+
+
+
+export function CategoryBox({ category }: { category: Category }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+
+    const toggleDropdown = () => {
+        setOpen((prevOpen) => !prevOpen);
+    };
 
   const goToPost = (id: number) => {
     return router.push(`blogs/post/${id}`);
   };
 
   return (
-    <div className="" onClick={() => setOpen((prev) => !prev)}>
-      <span className="font-bold text-lg cursor-pointer flex justify-between items-center">
-        {category.category}
-        {open ? (
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z"
-            ></path>
-          </svg>
-        ) : (
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"
-            ></path>
-          </svg>
-        )}
-      </span>
-      <div
-        className={cls(
-          "transition-all duration-300 flex flex-col mt-3",
-          open ? "flex translate-y-2 h-auto" : "-translate-y-10 opacity-0 h-20"
-        )}
+      <motion.div
+          initial={{scale: 0}}
+          animate={{scale: 1, rotateZ: 360}}
       >
-        {category.posts.map((post) => (
-          <span
-            className="border-black border-2 rounded-md text-center cursor-pointer p-2 mb-3 break-words dark:border-white"
-            key={post.id}
-            onClick={() => (open ? goToPost(post.id) : null)}
+          <motion.span
+              className="font-bold text-lg cursor-pointer flex justify-between items-center"
+
+              onClick={toggleDropdown}
           >
-            {post.title.length > 15
-              ? `${post.title.substring(0, 15)}..`
-              : post.title}
-          </span>
-        ))}
-      </div>
-    </div>
+              {category.category}
+              <motion.svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  animate={{ rotate: open ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+              >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </motion.svg>
+          </motion.span>
+          <motion.div
+              className="flex flex-col mt-3"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
+          > {category.posts.map((post) => (
+              <motion.span
+                  initial={{scale: 1}}
+                  whileHover={{ scale: 1.1 }}
+                  className="border-black border-2 rounded-md text-center cursor-pointer p-2 mb-3 break-words dark:border-white"
+                  key={post.id}
+                  onClick={() => goToPost(post.id)}
+              >
+                  {post.title.length > 15 ? `${post.title.substring(0, 15)}..` : post.title}
+              </motion.span>
+          ))}
+          </motion.div>
+      </motion.div>
   );
 }
