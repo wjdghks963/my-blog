@@ -1,20 +1,21 @@
+"use client"
+
 import { cls } from "@libs/client/utils";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import React, { useCallback } from "react";
-import { setFilterTag, setSelected } from "store/modules/tagFilter";
-import { IPostArr } from "pages/blogs";
-import { KeyedMutator } from "swr";
+import { setFilterTag } from "store/modules/tagFilter";
+import {setSearchQuery} from '../../store/modules/searchQuery'
 
-export interface ITagSpan {
+
+
+export interface TagSpan {
   /** 데이터로 받은 태그 이름 */
   tag: string;
   /** 프론트로 나오는 태그 이름 데이터와 바꾸고 싶다면 바꿈*/
   tagName?: string;
   /** 스타일 바꿀것이 있다면 */
   className?: string;
-  /** /blog에서 캐싱되어 있는 데이터를 조작하는 함수 */
-  mutate?: KeyedMutator<IPostArr[]>;
   /** 클릭이 가능한지 가능하다면 해당하는 태그가 설정되어 있는 /blog로 */
   clickOk?: boolean;
   /** 해당하는 태그로 설정이 되어있는 /blog에 갈 수 있는지 */
@@ -25,29 +26,27 @@ export default function TagSpan({
   tag,
   tagName,
   className,
-  mutate,
   clickOk,
   goBlog,
-}: ITagSpan) {
+}: TagSpan) {
   const router = useRouter();
   const hiddenFlex = className ?? "";
 
   const dispatch = useDispatch();
+
   const filterTag = useCallback(() => {
     dispatch(
       setFilterTag({
         tag,
       })
     );
+    dispatch(setSearchQuery({query:""}))
   }, [dispatch, tag]);
-  const tagSelected = useCallback(() => {
-    dispatch(setSelected({ isSelected: true }));
-  }, [dispatch]);
+
+
 
   const filterMutate = () => {
     filterTag();
-    tagSelected();
-    mutate && mutate([]);
   };
 
   const filterGoBlog = () => {

@@ -1,6 +1,9 @@
+"use client"
+
 import React, { useRef, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setSearchQuery, setSelected } from "store/modules/searchQuery";
+import { setSearchQuery } from "store/modules/searchQuery";
+import {setFilterTag} from '../../store/modules/tagFilter'
 
 export function SearchBar() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -11,19 +14,17 @@ export function SearchBar() {
   const filterQuery = useCallback(
     (query: string) => {
       dispatch(setSearchQuery({ query }));
+      dispatch(setFilterTag({tag:""}))
     },
     [dispatch]
   );
-  const searchQuerySelected = useCallback(() => {
-    dispatch(setSelected({ isSelected: true }));
-  }, [dispatch]);
+
 
   const keyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.code !== "Enter") return;
     filterQuery(
       inputRef?.current?.value === "" ? "all" : inputRef?.current?.value!!
     );
-    searchQuerySelected();
   };
 
   /**

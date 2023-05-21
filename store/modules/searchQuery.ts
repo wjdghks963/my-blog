@@ -18,11 +18,7 @@ const searchQuerySlice = createSlice({
       state.isSelected = isSelected;
     },
   },
-  extraReducers: {
-    ["tagFilter/setSelected"]: (state: any) => {
-      state.isSelected = false;
-    },
-  },
+
 });
 
 export const { setSearchQuery, setSelected } = searchQuerySlice.actions;
