@@ -1,4 +1,5 @@
-import {Comment} from "../../pages/api/blogs/[id]";
+"use client"
+
 import CommentBox from "@components/Post/Comment";
 import {cls} from "@libs/client/utils";
 

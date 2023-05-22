@@ -1,15 +1,18 @@
+"use client"
+
 import {useMutation} from "@libs/client/useMutation";
 import {FormEvent, useRef} from "react";
-import {CommentPostJson} from "../../pages/api/comment/post";
-import {useRouter} from "next/router";
+import {useRouter} from "next/navigation";
 import {Session} from "next-auth";
 import {cls} from "@libs/client/utils";
 import LoadingSpinner from "@components/Base/LoadingSpinner";
 import UserInfoBox from "@components/Comment/UserInfoBox";
-import {UserInfo} from "../../pages/api/blogs/[id]";
+import {CommentPostJson, UserInfo} from '@types'
+import {useSession} from 'next-auth/react'
 
 
-export default function CommentWriter({session, className}:{session: Session | null, className?:string}){
+export default function CommentWriter({a, className}:{a?: Session | null, className?:string}){
+    const session = useSession();
     const router = useRouter();
     const commentRef = useRef<HTMLTextAreaElement>(null);
     const [postComment, {data:postResponseData, loading:postLoading, error:postError}] =useMutation('/api/comment/post');
