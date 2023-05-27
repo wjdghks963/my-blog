@@ -1,10 +1,15 @@
+'use client'
+
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { dark } from "react-syntax-highlighter/dist/cjs/styles/hljs";
+import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
+import {darcula} from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { cls } from "@libs/client/utils";
 import rehypeRaw from "rehype-raw";
+import remarkAutolinkHeadings from 'remark-autolink-headings';
+import remarkToc from 'remark-toc';
+import remarkSlug from 'remark-slug';
 import Image from "next/image";
 import Link from "next/link";
 import { Url } from "url";
@@ -14,7 +19,8 @@ export default function MarkdownParser({ markdown }: any) {
     <ReactMarkdown
       className="w-[80vw]"
       components={{
-        h1({ node, children, ...props }) {
+          bdo: undefined,
+          h1({ node, children, ...props }) {
           return (
             <h1 {...props} className="dark:text-white">
               {children}
@@ -45,15 +51,18 @@ export default function MarkdownParser({ markdown }: any) {
 
         img({ node, ...props }) {
           return (
-            <div className="w-1/2 h-[50vh] relative my-4 ">
-              <Image className={""}
-                src={props?.src + ""}
-                layout="fill"
-                objectFit="fill"
-                priority={true}
-                alt="관련된 사진"
-              />
-            </div>
+                   <div className={'relative w-full h-32 my-10 '}>
+                       <Image
+                           className={'w-full h-full my-auto'}
+                           fill
+                           // width={300}
+                           // height={300}
+                           style={{objectFit: "contain",objectPosition:"center"}}
+                           src={props?.src + ""}
+                           quality={100}
+                           alt="관련된 사진"
+                       />
+                   </div>
           );
         },
         p({ node, children, ...props }) {
@@ -66,14 +75,14 @@ export default function MarkdownParser({ markdown }: any) {
         a({ node, children, ...props }) {
           return (
             <Link href={props.href as unknown as Url}>
-              <a className="dark:text-white break-words">{children}</a>
+              <span className="dark:text-white break-words">{children}</span>
             </Link>
           );
         },
-        li({ node, children, ...props }) {
+        li({ node, children }) {
           return <li className="dark:text-white">{children}</li>;
         },
-        span({ node, children, style, ...props }) {
+        span({ node, children, style }) {
           const backColor = `bg-[${style?.backgroundColor}]`;
 
           return (
@@ -82,19 +91,31 @@ export default function MarkdownParser({ markdown }: any) {
             </span>
           );
         },
-        strong({ node, className, children, ...props }) {
+        strong({ node, className, children  }) {
           return <strong className="dark:text-white">{children}</strong>;
         },
         code({ node, inline, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || "");
           return !inline && match ? (
+              <div>
+
+                  <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                      <span className="bg-red-500 rounded-full w-3 h-3 mr-1"></span>
+                      <span className="bg-yellow-500 rounded-full w-3 h-3 mr-1"></span>
+                      <span className="bg-green-500 rounded-full w-3 h-3"></span>
+
+                      <span className={'ml-3'}>{match[1]}</span>
+                  </div>
+
             <SyntaxHighlighter
               // eslint-disable-next-line react/no-children-prop
               children={String(children).replace(/\n$/, "")}
-              style={dark as any}
+              style={darcula as any}
               language={match[1]}
+              showLineNumbers
               {...props}
             />
+              </div>
           ) : (
             <code
               className={cls(className ?? "", "dark:text-white")}
@@ -103,12 +124,12 @@ export default function MarkdownParser({ markdown }: any) {
               {children}
             </code>
           );
-        },
+        }
       }}
       rehypePlugins={[rehypeRaw]}
-      remarkPlugins={[remarkGfm]}
+      remarkPlugins={[remarkGfm, remarkSlug,[remarkToc,{heading:"toc",nav:true, }], [remarkAutolinkHeadings,{}]]}
     >
-      {markdown}
+        {markdown}
     </ReactMarkdown>
   );
 }
