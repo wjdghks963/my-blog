@@ -1,6 +1,10 @@
+const removeImports = require("next-remove-imports")();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    mdxRs: true,
+  },
   env: {
     CLOUD_NAME: process.env.CLOUD_NAME,
     CLOUD_PRESET_NAME: process.env.CLOUD_PRESET_NAME,
@@ -18,8 +22,11 @@ const nextConfig = {
       },
     ];
   },
+
 };
 
-const removeImports = require("next-remove-imports")();
 
-module.exports = removeImports({ ...nextConfig });
+
+
+//module.exports = withMDX({ ...nextConfig })
+module.exports = removeImports({ ...nextConfig })

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import React, { useCallback } from "react";
 import { setFilterTag } from "store/modules/tagFilter";
-import {setSearchQuery} from '../../store/modules/searchQuery'
+import {setSearchQuery} from '../store/modules/searchQuery'
 
 
 
