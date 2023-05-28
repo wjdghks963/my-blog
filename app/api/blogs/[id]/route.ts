@@ -25,7 +25,6 @@ export  async function GET(request:NextRequest) {
   const params = pathname.split("/")
   const id = params[params.length-1];
 
-  console.log(id)
 
   try {
     const post: IPost = await prismaclient.post.update({
