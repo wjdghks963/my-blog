@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  mode: "jit",
+  mode: 'jit',
   darkMode: "class",
   safelist: [
     {
@@ -8,13 +8,14 @@ module.exports = {
     },
   ],
   content: [
+    "./app/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
       screens: {
-        mobile: "420px",
+        mobile: "560px",
       },
 
       keyframes: {
