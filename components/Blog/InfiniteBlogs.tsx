@@ -31,8 +31,8 @@ export default function InfiniteBlogs() {
         },
     );
 
-    const allData = useMemo(() => (data ? data.pages.reduce((prev, curr) => prev.concat(curr.data), []) : []), [data]);
-    const halfOfAllDataLength = Math.floor(allData.length / 2);
+    const allData = data ? data.pages.reduce((prev, curr) => prev.concat(curr.data), []) : []
+
 
 
     const handleObserver: IntersectionObserverCallback = useCallback(
@@ -40,10 +40,10 @@ export default function InfiniteBlogs() {
             const target = entries[0];
 
             if (target.isIntersecting && hasNextPage) {
-               return fetchNextPage()
+                return fetchNextPage()
             }
         },
-        [isLoading, loading]
+        [isLoading, loading, data]
     );
 
     useEffect(() => {
@@ -62,13 +62,12 @@ export default function InfiniteBlogs() {
         setLoading(false)
     },[isLoading])
 
-
     return(
         <>
         <div className="flex flex-col items-center mt-20 pb-10 gap-14">
             {allData.length === 0 && !isLoading
                 ? "결과 없음"
-                : allData?.map((data:PostWithId, index:number) => <MiniPost key={data.id} data={data} isRef={index === halfOfAllDataLength ? loadingRef : null}/>)}
+                : allData?.map((data:PostWithId, index:number) => <MiniPost key={data.id} data={data} isRef={index === allData.length - 2 ? loadingRef : null}/>)}
             {isLoading ? <Loading/> : null}
         </div>
     </>
