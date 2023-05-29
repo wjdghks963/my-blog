@@ -1,10 +1,8 @@
 import { findCategory } from "@libs/server/findCategoryId";
 import { findTags } from "@libs/server/findTags";
 import prismaclient from "@libs/server/prismaClient";
-import type { NextApiRequest, NextApiResponse } from "next";
 import {IPostJson} from '../../../blogs/post/page'
 import {NextResponse} from 'next/server'
-import {CommentPostJson} from '@types'
 
 export  async function POST(req: Request) {
   const { title, markdown, tags, description, category }: IPostJson = await req.json();

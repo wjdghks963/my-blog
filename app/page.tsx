@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     }
 }
 
-export default function Home() {
+export default function Page() {
     return (
         <div className={'mx-10 mt-16'}>
             <div className="flex flex-col my-10">

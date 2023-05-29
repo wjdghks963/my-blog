@@ -2,7 +2,6 @@ import "../styles/globals.css"
 import Provider from '@components/Provider'
 import SlideHeaderNavBar from '@components/Base/NavBar/SlideHeaderNavBar'
 import React from 'react'
-import Footer from '@components/Base/Footer'
 import {Metadata} from 'next'
 
 export const metadata: Metadata = {
