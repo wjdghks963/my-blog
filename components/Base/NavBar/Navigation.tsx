@@ -3,7 +3,7 @@ import ListItem from '@components/Base/NavBar/ListItem'
 import {useRouter} from 'next/navigation'
 import DarkModeBtn from '@components/Base/NavBar/darkModeBtn'
 
-const variants = {
+const variants:Variants = {
     open: {
         transition: { staggerChildren: 0.07, delayChildren: 0.2 }
     },
@@ -30,6 +30,12 @@ export default function Navigation ({isOpen,toggleOpen}:{isOpen:boolean,toggleOp
         {
             text: "GUEST BOOK", fn: () => {
                 router.push("/guest-book")
+                toggleOpen()
+            }
+        },
+        {
+            text: "Your Profile", fn: () => {
+                router.push("/profile")
                 toggleOpen()
             }
         }

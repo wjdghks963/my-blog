@@ -4,10 +4,11 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import React from "react";
 import UserImageBox from "@components/Comment/UserImageBox";
 
+
 export default function Profile() {
     const { data: session } = useSession();
     return (
-            <div className="flex flex-col justify-center items-center gap-5 h-full">
+            <div className="flex flex-col justify-center items-center gap-5 h-[90vh]">
                 {session ? (
                     <div className={"flex flex-col gap-4"}>
                         <UserImageBox src={`${session.user?.image}`}/>

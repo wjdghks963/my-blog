@@ -51,13 +51,12 @@ export default function MarkdownParser({ markdown }: any) {
 
         img({ node, ...props }) {
           return (
-                   <div className={'relative w-full h-32 my-10 '}>
+                   <div className={'relative w-full h-80 my-10'}>
                        <Image
-                           className={'w-full h-full my-auto'}
                            fill
                            // width={300}
                            // height={300}
-                           style={{objectFit: "contain",objectPosition:"center"}}
+                           style={{objectFit: "scale-down",objectPosition:"center"}}
                            src={props?.src + ""}
                            quality={100}
                            alt="관련된 사진"

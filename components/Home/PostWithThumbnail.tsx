@@ -25,8 +25,12 @@ export default function PostWithThumbnail({
         <motion.div
             initial={{scale: 0}}
             animate={{scale: 1, rotateZ: 360}}
-            whileHover={{translateY: -2, scale: 1.1}}
-            className={cls(className ?? '', 'w-1/4 mobile:w-1/5 flex flex-col px-2 bg-white text-center thin-round-black-border cursor-pointer')}
+            whileHover={{
+                translateY: -2, scale: 1.1,
+                zIndex: 3
+            }}
+            transition={{ type: "spring", stiffness: 100 }}
+            className={cls(className ?? '', 'w-1/4 mobile:w-1/5 text-black flex flex-col px-2 bg-white text-center thin-round-black-border cursor-pointer')}
             onClick={() => moveToPost(data.id)}
                 >
           <span className="w-full mobile:w-1/2 max-h-16 font-semibold py-3 overflow-hidden text-ellipsis whitespace-wrap mx-auto">
