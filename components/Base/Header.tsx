@@ -1,10 +1,13 @@
+"use client"
+
 import { useTheme } from "next-themes";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { HeaderLi } from "./HeaderLi";
 
-type HeaderMap = [title: string, fn: () => Promise<boolean>][];
+// @ts-ignore
+type HeaderMap = [title: string, any][];
 
 export default function Header() {
   const { theme, setTheme } = useTheme();
