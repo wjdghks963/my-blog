@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 
 const createTableOfContents = (markdown:string) => {
-    const regex = /\n(#+)\s+(.*)/g;
+    const regex = /(#+)\s+(.*)/g;
     let match;
     const tableOfContents = [];
     while ((match = regex.exec(markdown)) !== null) {
@@ -23,18 +23,21 @@ export default function TableOfContents({markdown}: { markdown: string }) {
 
     const toc = createTableOfContents(markdown);
 
+
     const scrollTo = (headerId:string) =>{
         const header = document.getElementById(headerId);
-        return header?.scrollIntoView({ behavior: "smooth", block: "start" });
+        header?.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.history.replaceState(null, header?.title +"", `#${headerId}`);
+        return
     }
 
     return (
-        <div className="fixed right-0 top-0 min-w-md bg-white p-4 space-y-4 rounded-sm border-2 border-gray-200 shadow-sm shadow-slate-300">
-            <h2 className="text-xl">Table of Contents</h2>
+        <div className="fixed right-0 top-20 min-w-md hidden mobile:block bg-white p-4 space-y-4 rounded-sm border-2 border-gray-200 shadow-sm shadow-slate-300">
+            <h2 className="text-xl text-black">Table of Contents</h2>
             <ul>
                 {toc.map((item, index) => (
                     <motion.li whileHover={{scale: 1.1}}
-                               transition={{duration: 0.2}} key={index} className={'cursor-pointer'}>
+                               transition={{duration: 0.2}} key={index} className={'cursor-pointer text-black'}>
                         <a className={'underline underline-offset-2'} onClick={(e) => {
                             scrollTo(item.anchor)
                         }}>{item.title}</a>
