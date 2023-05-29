@@ -42,8 +42,7 @@ export default function PostEditDeleteBox({postData}:{postData:Post}) {
   dispatch
     ]);
 
-console.log(session)
-    return       <div
+    return (<div
         className={cls(
             session?.user?.email === process.env.MY_EMAIL
                 ? "visible"
@@ -54,9 +53,9 @@ console.log(session)
                   <span className="border-black border-2 rounded-xl p-2" onClick={editPost}>
                     수정
                   </span>
-            <span className="border-black border-2 rounded-xl p-2" onClick={()=>deletePostMutation.mutate()}>
+            <span className="border-black border-2 rounded-xl p-2" onClick={() => deletePostMutation.mutate()}>
                     삭제
                   </span>
         </div>
-    </div>
+    </div>)
 }
