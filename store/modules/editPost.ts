@@ -1,9 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IPostJson } from "pages/blogs/post";
+import {EditPost} from '@types'
 
-export interface EditPost extends IPostJson {
-  id?: number;
-}
+
 
 const initialState: EditPost = {
   id: 1,
@@ -11,6 +9,8 @@ const initialState: EditPost = {
   markdown: "",
   tags: [""],
   description: "",
+  category: {category: ''},
+
 };
 
 const editPostSlice = createSlice({
