@@ -7,7 +7,7 @@ export async function POST(
 ) {
 
     const {id} = await req.json();
-console.log('delete',id)
+
     try {
         if (id) {
             const comment = await prismaclient.comment.delete({
