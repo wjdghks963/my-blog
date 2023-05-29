@@ -11,7 +11,7 @@ export default async function CategoriesBox():any {
 
     const data:{categories:Category[]} = await fetchData();
 
-    return( <div className="flex flex-row gap-5 mt-10 overflow-x-scroll scrollbar-hide overflow-clip">
+    return( <div className="flex flex-row gap-5 overflow-x-scroll scrollbar-hide overflow-clip">
         {data.categories?.map((category, index) => (
             <CategoryBox key={index} category={category} />
         ))}

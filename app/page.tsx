@@ -1,17 +1,25 @@
 import React, {Suspense} from 'react'
 import PostsByStatus from '@components/Home/PostsByStatus'
-import Header from '@components/Base/Header'
 import PostsByStatusSkeleton from '@components/Home/PostsByStatusSkeleton'
 import CategoriesBox from '@components/Home/CategoriesBox'
 import Link from 'next/link'
 import CategoriesBoxSkeleton from '@components/Home/CategoriesBoxSkeleton'
+import {Metadata} from 'next'
+import Footer from '@components/Base/Footer'
+
+
+export const metadata: Metadata = {
+    title: 'Jung Blog',
+    description: '기술 블로그',
+    openGraph:{
+        title:'Jung Blog',
+        description:'기술 블로그',
+    }
+}
 
 export default function Home() {
-
-
     return (
-        <div className={'mx-10'}>
-            <Header/>
+        <div className={'mx-10 mt-16'}>
             <div className="flex flex-col my-10">
                 <h1 className="font-bold text-4xl mb-10">Recent Posts</h1>
 
@@ -27,7 +35,7 @@ export default function Home() {
             </div>
 
             <div className="hidden mobile:flex flex-col mt-10 pb-10">
-                <h1 className="font-bold text-4xl">By Category</h1>
+                <h1 className="font-bold text-4xl mb-10">By Category</h1>
                 <Suspense fallback={<CategoriesBoxSkeleton/>}>
                     <CategoriesBox/>
                 </Suspense>
@@ -65,7 +73,7 @@ export default function Home() {
           </span>
                 </Link>
             </div>
-
+            <Footer/>
         </div>
     );
 }

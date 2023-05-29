@@ -6,7 +6,7 @@
 @layer utilities {
 
 
-    .thin-round-border {
+    .thin-round-black-border {
         @apply border-solid border-black rounded-md border-[1px] dark:border-white
 
     }

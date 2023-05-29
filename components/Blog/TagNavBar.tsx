@@ -1,4 +1,4 @@
-import TagSpan from "@components/Post/TagSpan";
+import TagSpan from "../../app/TagSpan";
 import { KeyedMutator } from "swr";
 import {InfinitePostArr} from '@types'
 import process from 'process'

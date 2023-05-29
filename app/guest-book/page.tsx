@@ -1,10 +1,8 @@
-import TagNavBar from "@components/Blog/TagNavBar";
-import { SearchBar } from "@components/Post/SearchBar";
-import React, {
-    Suspense,
-} from "react";
-import TagNavBarSkeleton from '@components/Blog/TagNavBarSkeleton'
-import InfiniteBlogs from '@components/Blog/InfiniteBlogs'
+'use client'
+
+import React from "react";
+import Lottie from 'lottie-react'
+import LoadingJson from '../../public/lottie.json'
 
 
 
@@ -12,13 +10,10 @@ import InfiniteBlogs from '@components/Blog/InfiniteBlogs'
 export default function Blogs() {
 
     return (
-        < >
-            <Suspense fallback={<TagNavBarSkeleton/>}>
-                <TagNavBar  />
-            </Suspense>
-            <SearchBar />
-            <InfiniteBlogs/>
-        </>
+        <div >
+            <h1 className={'text-3xl font-bold mx-auto '}>준비 중..</h1>
+            <Lottie animationData={LoadingJson} loop={true}/>
+        </div>
     );
 }
 
