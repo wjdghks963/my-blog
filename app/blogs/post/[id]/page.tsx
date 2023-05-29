@@ -2,7 +2,7 @@ import React from "react";
 import TagSpan from "../../../TagSpan";
 import MarkdownParser from "@components/Post/MarkdownParser";
 import process from 'process'
-import {Post, PostsIds} from '@types'
+import {Post} from '@types'
 import CommentWriter from '@components/Post/CommentWriter'
 import CommentList from '@components/Post/CommentList'
 import compareLocaleDate from '@libs/client/CompareLocaleDate'
@@ -10,14 +10,17 @@ import TableOfContents from '@components/Post/MarkdownContentTable'
 import {RegImageSrc} from '@libs/server/RegImageSrc'
 import {Metadata} from 'next'
 import PostEditDeleteBox from '@components/Post/PostEditDeleteBox'
+import {getAllPostId} from '@libs/server/getAllPostId'
+
+
+
+
 
 type Props = {
     params: {
         id: string,
     },
 }
-
-
 
 
 export async function generateMetadata({params}:any):Promise<Metadata>{
@@ -93,8 +96,9 @@ async function fetchData(id: string) {
 
 
 export async function generateStaticParams() {
-    const res = await fetch(process.env.APIDOMAIN+`/api/blogs/post/all-post-id`)
-    const {postsId}:{postsId: PostsIds} = await res.json()
-
-    return postsId.map(item=>item.id+"")
+    // const res = await fetch(`/api/blogs/post/all-post-id`)
+    // const {postsId}:{postsId: PostsIds} = await res.json()
+    const {postsId} = await getAllPostId()
+        return postsId.map(item=>item.id+"")
+    //return postsId.map(item=>item.id+"")
 }
