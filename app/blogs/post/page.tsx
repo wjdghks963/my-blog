@@ -9,16 +9,11 @@ import "@uiw/react-markdown-preview/markdown.css";
 import { useMutation } from "@libs/client/useMutation";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import {MutationResult, PostPostJson} from '@types'
 
-export interface IPostJson {
-    title: string;
-    markdown: string | undefined;
-    tags?: string[] | void;
-    description: string;
-    category?: string;
-}
 
-type MutationResult = { ok: boolean };
+
+
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
@@ -53,7 +48,7 @@ export default function Page() {
             }
         }
 
-        const postJson: IPostJson = {
+        const postJson: PostPostJson = {
             title: titleRef.current?.value!,
             markdown,
             description: descriptionRef.current?.value!,
