@@ -24,8 +24,7 @@ export default function PostEditDeleteBox({postData}:{postData:Post}) {
     })
 
     const dispatch = useDispatch();
-    const editPost = useCallback(() => {
-
+    const editPost = () => {
         dispatch(
             setPostJson({
                 id: +id,
@@ -34,22 +33,21 @@ export default function PostEditDeleteBox({postData}:{postData:Post}) {
                 description: postData.description,
                 markdown: postData.content,
                 // @ts-ignore
-                tags: postData.tags,
+                tags: postData.tags.map(item=>item.tag),
             })
-        );
-        return router.push("/blogs/post/route");
-    }, [
-  dispatch
-    ]);
+        )
+        return router.push("/blogs/post/edit");
+    }
+
 
     return (<div
-        className={cls(
-            session?.user?.email === process.env.MY_EMAIL
-                ? "visible"
-                : "invisible"
-        )}
+        // className={cls(
+        //     session?.user?.email === process.env.MY_EMAIL
+        //         ? "visible"
+        //         : "invisible"
+        // )}
     >
-        <div className="flex w-full justify-center mt-10 gap-10">
+        <div className="flex w-full justify-center mt-10 gap-10 cursor-pointer">
                   <span className="border-black border-2 rounded-xl p-2" onClick={editPost}>
                     수정
                   </span>
