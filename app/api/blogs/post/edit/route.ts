@@ -16,79 +16,37 @@ export async function POST(req: Request) {
 
 
     try {
-        const tagsArray = tags?.map(item=>item);
-      // 같은 tag가 존재한다면 해당 tag id 반환
-      const [tagsTag, tagsId] = await findTags(tagsArray);
+
+        const tagsId = await findTags(tags!);
         const CategoryId = await findCategory(category ?? "");
 
-      if (tagsTag?.length === 0 || (tags && tags.length > [tagsTag].length)) {
-        let filterTags = tags?.filter((item) => !tagsTag?.includes(item))
-
-        filterTags &&
-          (await prismaclient.tag.createMany({
-            data: filterTags?.map((tag) => ({ tag})),
-            skipDuplicates: true,
-          }));
-
-          const combinedTags = [...new Set(tagsTag!.concat(filterTags!))];
-
-          const relatedTags = await prismaclient.tag.findMany({
-              where: {
-                  tag: {in: combinedTags},
-              },
-          });
-
 
           await prismaclient.post.update({
               data: {
                   title: title!,
                   content: markdown!,
                   tags: {
-                      connect: relatedTags.map((tag) => ({id: +tag.id})),
+                      set:[],
+                      connect: tagsId?.map((itemId) => ({id: itemId})),
                   },
                   description,
-                  category: category ? {connect: {id: CategoryId?.id}} : {},
+                  category: category ? {
+                      disconnect:true,
+                      connect: {id: CategoryId?.id}
+                  } : {},
               },
               where: {
                   id,
               },
           });
-      } else {
-          await prismaclient.post.update({
-              data: {
-                  title: title!,
-                  content: markdown!,
-                  description,
-                  tags: {
-                      connect: tagsId!.map((tag) => ({id: +tag})),
-                  },
-                  category: category ? {connect: {id: CategoryId?.id}} : {},
-              },
-              where: {
-                  id,
-              },
-          });
+
+        return NextResponse.json({ok: true});
       }
 
-        if (tags?.length === 0) {
-            await prismaclient.post.update({
-                data: {
-                    title: title!,
-                    content: markdown!,
-                    description,
-                    category: category ? {connect: {id: CategoryId?.id}} : {},
-
-                },
-                where: {
-                    id,
-                },
-            });
-        }
-    } catch (err) {
+    catch (err) {
         console.log(err);
         return NextResponse.json({ok: false, message: `error occurred ${err}`});
     }
 
-    return NextResponse.json({ok: true});
 }
 

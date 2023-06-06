@@ -82,7 +82,7 @@ export interface EditPost extends Omit<Post, "tags" | "comments" | "createdAt" |
 export interface PostPostJson {
     title: string;
     markdown: string | undefined;
-    tags?: string[] | void;
+    tags?: string[];
     description: string;
     category?: string;
 }

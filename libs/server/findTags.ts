@@ -1,10 +1,10 @@
 import prismaclient from "./prismaClient";
 
 export const findTags = async (
-  tags: string[] | undefined | void
-): Promise<[string[], number[]] | [null, null]> => {
-  if (tags) {
-    const tagsIdArray = await prismaclient.tag.findMany({
+  tags: string[]
+): Promise<number[] | null> => {
+  if (tags[0] !== '') {
+    const tagsObjectArray = await prismaclient.tag.findMany({
       where: {
         tag: { in: tags },
       },
@@ -14,10 +14,32 @@ export const findTags = async (
       },
     });
 
-    const tagsTag = tagsIdArray.map((tag) => tag.tag);
-    const tagsId = tagsIdArray.map((tag) => Number(tag.id));
 
-    return [tagsTag, tagsId];
+    const filterTags = tags?.filter((tag) => !tagsObjectArray.map(item=>item.tag).includes(tag));
+
+    if(filterTags.length !== 0){
+        await prismaclient.tag.createMany({
+            data: filterTags?.map((tag) => ({ tag })),
+            skipDuplicates: true,
+        })
+
+        const onlyTagsObjectArray = tagsObjectArray.map(item=>item.tag)
+
+        const combinedTags = [...new Set(onlyTagsObjectArray!.concat(filterTags))];
+        const relatedTags = await prismaclient.tag.findMany({
+            where: {
+                tag: {in: combinedTags},
+            },
+            select: {
+                id: true
+            }
+        });
+
+        return relatedTags.map(item=>item.id)
+
+    }else{
+        return tagsObjectArray.map(item=>item.id)
+    }
   }
-  return [null, null];
+  return null
 };

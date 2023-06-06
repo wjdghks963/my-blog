@@ -31,15 +31,14 @@ export default function Page() {
 
 
 
-    const splitTags = (): string[] | void => {
-        let { value } = tagsRef?.current!;
+    const splitTags = (): string[] => {
+        const { value } = tagsRef?.current!;
 
-        if (value === "") return;
+        if (value === "") return [""]
         const splitArr = value.split(", ");
-        const set = splitArr.filter((el, index) => {
+        return splitArr.filter((el, index) => {
             return splitArr.indexOf(el) === index;
         });
-        return set;
     };
 
     const handleSubmit = async (e: any) => {
