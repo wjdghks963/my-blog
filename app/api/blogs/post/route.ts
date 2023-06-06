@@ -1,27 +1,17 @@
 import { findCategory } from "@libs/server/findCategoryId";
 import { findTags } from "@libs/server/findTags";
 import prismaclient from "@libs/server/prismaClient";
-import {IPostJson} from '../../../blogs/post/page'
 import {NextResponse} from 'next/server'
+import {PostPostJson} from '@types'
 
 export  async function POST(req: Request) {
-  const { title, markdown, tags, description, category }: IPostJson = await req.json();
+  const { title, markdown, tags, description, category }: PostPostJson = await req.json();
 
   try {
     // 같은 tag가 존재한다면 해당 tag id 반환
     const [tagsTag, tagsId] = await findTags(tags);
     const CategoryId = await findCategory(category ? category : "");
-    const confirmCategoryId =
-        CategoryId === null && category !== ""
-            ? await prismaclient.category.create({
-              data: {
-                category: category!,
-              },
-              select: {
-                id: true,
-              },
-            })
-            : CategoryId;
+
 
     // 만약 해당하는 tag id가 없거나 tags, tagsTag 길이다 다르다면 추가한다.
     if (tagsTag?.length === 0 || (tags && tags.length > [tagsTag].length)) {
@@ -51,7 +41,7 @@ export  async function POST(req: Request) {
             connect: relatedTags.map((tag) => ({ id: +tag.id })),
           },
           category:
-              category !== "" ? { connect: { id: confirmCategoryId?.id } } : {},
+              category !== "" ? { connect: { id: CategoryId?.id } } : {},
         },
       });
     } else {
@@ -66,7 +56,7 @@ export  async function POST(req: Request) {
             connect: tagsId?.map((tag) => ({ id: +tag })),
           },
           category:
-              category !== "" ? { connect: { id: confirmCategoryId?.id } } : {},
+              category !== "" ? { connect: { id: CategoryId?.id } } : {},
         },
       });
     }
@@ -80,7 +70,7 @@ export  async function POST(req: Request) {
           views: 0,
           description,
           category:
-              category !== "" ? { connect: { id: confirmCategoryId?.id } } : {},
+              category !== "" ? { connect: { id: CategoryId?.id } } : {},
         },
       });
     }

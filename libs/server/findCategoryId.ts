@@ -14,7 +14,24 @@ export const findCategory = async (
       },
     });
 
-    return CategoryId === null ? null : CategoryId;
+
+      const confirmCategoryId= async () => {
+          if (CategoryId === null && category !== "") {
+              const newCategory = await prismaclient.category.create({
+                  data: {
+                      category: category!,
+                  },
+                  select: {
+                      id: true,
+                  },
+              })
+              return newCategory
+          }
+
+        return CategoryId
+      }
+
+      return confirmCategoryId()
   } catch (err) {
     console.log(err);
   }
