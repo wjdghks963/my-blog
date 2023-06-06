@@ -2,6 +2,7 @@ import { Tag} from '@prisma/client'
 
 export type PostStatus = "popular" | "recent";
 
+type MutationResult = { ok: boolean };
 
 export interface ThumbnailPostData {
     id:number
@@ -75,4 +76,13 @@ export interface EditPost extends Omit<Post, "tags" | "comments" | "createdAt" |
     id: number;
     markdown: string;
     tags: string[];
+    category?: {category:string},
+}
+
+export interface PostPostJson {
+    title: string;
+    markdown: string | undefined;
+    tags?: string[];
+    description: string;
+    category?: string;
 }

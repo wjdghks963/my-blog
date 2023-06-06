@@ -1,27 +1,35 @@
 "use client"
 
-import React, {useRef, useState} from "react";
-import ImageForm from "@components/Post/ImageForm";
-import dynamic from "next/dynamic";
+
+import dynamic from 'next/dynamic'
+import {useRouter} from 'next/navigation'
+import React, {useRef, useState} from 'react'
+import {useMutation} from '@libs/client/useMutation'
+import {useSession} from 'next-auth/react'
+import {MutationResult, PostPostJson} from '@types'
+import {useSelector} from 'react-redux'
+import {ReduxSliceState} from '../../../../store/modules'
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
-import {useMutation} from "@libs/client/useMutation";
-import {useRouter} from "next/navigation";
-import {useSession} from "next-auth/react";
-import {MutationResult, PostPostJson} from '@types'
-
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
 export default function Page() {
     const router = useRouter();
+
+    const editPostData = useSelector( (state:ReduxSliceState) => state.editPostReducer);
+
+    const editPostDataTags = editPostData.tags.join("")
+
     const tagsRef = useRef<HTMLInputElement>(null);
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
     const categoryRef = useRef<HTMLInputElement>(null);
-    const [markdown, setMarkdown] = useState<string | undefined>("");
-    const [postBlog, { data }] = useMutation<MutationResult>("/api/blogs/post");
+    const [markdown, setMarkdown] = useState<string | undefined>(editPostData.markdown);
+    const [editPost, { data }] = useMutation<MutationResult>(`/api/blogs/post/edit?id=${editPostData.id}`);
     const { data: session } = useSession();
+
+
 
     const splitTags = (): string[] => {
         const { value } = tagsRef?.current!;
@@ -34,8 +42,8 @@ export default function Page() {
     };
 
     const handleSubmit = async (e: any) => {
-        e.preventDefault();
 
+        e.preventDefault()
 
         if (session?.user?.email !== process.env.MY_EMAIL) {
             if (process.env.NODE_ENV === "production") {
@@ -51,7 +59,7 @@ export default function Page() {
             category: categoryRef.current?.value!,
         };
 
-        await postBlog(postJson);
+        await editPost(postJson);
 
         if (data?.ok === false) {
             alert("인터넷 오류");
@@ -59,6 +67,8 @@ export default function Page() {
             router.replace("/");
         }
     };
+
+
 
     return (
         <>
@@ -71,6 +81,7 @@ export default function Page() {
                             type="text"
                             ref={titleRef}
                             required
+                            defaultValue={editPostData.title}
                         />
                     </div>
                     <div>
@@ -81,6 +92,7 @@ export default function Page() {
                             ref={tagsRef}
                             placeholder="tag들은 , 로 분리함"
                             required
+                            defaultValue={editPostDataTags}
                         />
                     </div>
                     <div>
@@ -91,6 +103,7 @@ export default function Page() {
                             ref={descriptionRef}
                             placeholder="줄거리 입력"
                             required
+                            defaultValue={editPostData.description}
                         />
                     </div>
 
@@ -101,12 +114,13 @@ export default function Page() {
                             type="text"
                             ref={categoryRef}
                             placeholder="카테고리 입력"
-                            required
+                            defaultValue={editPostData.category?.category}
                         />
                     </div>
                 </div>
                 <MDEditor
                     className="w-4/5 prose"
+                    defaultValue={editPostData.markdown}
                     value={markdown}
                     onChange={(value) => setMarkdown(value)}
                 />
@@ -118,7 +132,7 @@ export default function Page() {
                     Submit
                 </button>
             </form>
-            {session?.user?.email === process.env.MY_EMAIL ? <ImageForm /> : null}
+
         </>
     );
 }
