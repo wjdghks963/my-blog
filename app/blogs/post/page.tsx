@@ -1,18 +1,14 @@
 "use client"
 
-import React, { useState } from "react";
+import React, {useRef, useState} from "react";
 import ImageForm from "@components/Post/ImageForm";
 import dynamic from "next/dynamic";
-import { useRef } from "react";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
-import { useMutation } from "@libs/client/useMutation";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import {useMutation} from "@libs/client/useMutation";
+import {useRouter} from "next/navigation";
+import {useSession} from "next-auth/react";
 import {MutationResult, PostPostJson} from '@types'
-
-
-
 
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
@@ -27,15 +23,14 @@ export default function Page() {
     const [postBlog, { data }] = useMutation<MutationResult>("/api/blogs/post");
     const { data: session } = useSession();
 
-    const splitTags = (): string[] | void => {
-        let { value } = tagsRef?.current!;
+    const splitTags = (): string[] => {
+        const { value } = tagsRef?.current!;
 
-        if (value === "") return;
+        if (value === "") return [""]
         const splitArr = value.split(", ");
-        const set = splitArr.filter((el, index) => {
+        return splitArr.filter((el, index) => {
             return splitArr.indexOf(el) === index;
         });
-        return set;
     };
 
     const handleSubmit = async (e: any) => {
