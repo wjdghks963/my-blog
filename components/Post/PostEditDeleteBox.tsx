@@ -2,7 +2,6 @@
 
 import {cls} from '@libs/client/utils'
 import process from 'process'
-import React, {useCallback} from 'react'
 import {useSession} from 'next-auth/react'
 import {useMutation} from '@tanstack/react-query'
 import {deletePost} from '@libs/client/postFn'
@@ -48,7 +47,7 @@ export default function PostEditDeleteBox({postData}:{postData:Post}) {
         )}
     >
         <div className="flex w-full justify-center mt-10 gap-10 cursor-pointer">
-                  <span className="border-black border-2 rounded-xl p-2" onClick={editPost}>
+                  <span className="border-black border-2 rounded-xl p-2" onClick={()=>editPost()}>
                     수정
                   </span>
             <span className="border-black border-2 rounded-xl p-2" onClick={() => deletePostMutation.mutate()}>
