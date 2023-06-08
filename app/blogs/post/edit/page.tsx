@@ -19,6 +19,7 @@ export default function Page() {
 
     const editPostData = useSelector( (state:ReduxSliceState) => state.editPostReducer);
 
+
     const editPostDataTags = editPostData.tags.join("")
 
     const tagsRef = useRef<HTMLInputElement>(null);
