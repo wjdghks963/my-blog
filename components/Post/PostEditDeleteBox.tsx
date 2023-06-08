@@ -2,7 +2,6 @@
 
 import {cls} from '@libs/client/utils'
 import process from 'process'
-import React, {useCallback} from 'react'
 import {useSession} from 'next-auth/react'
 import {useMutation} from '@tanstack/react-query'
 import {deletePost} from '@libs/client/postFn'
