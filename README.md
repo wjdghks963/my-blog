@@ -19,10 +19,17 @@ Next.js
 3. 디렉토리로 route 설정 가능
 4. 이미지나 컴포넌트에 대한 최적화 기능 제공 -> 이미지 자동 최적화(avif, webp)로 바꿔줌, 캐싱 등
 5. rewrites, redirection을 설정 레벨에서 제공해줘 보안에도 장점을 가짐
+6. Streaming SSR을 사용할 수 있음 -> [Streaming SSR 이란?](https://www.youtube.com/watch?v=9xl9X2pfHeI)
+7. swc를 안정적으로 지원해 컴파일 타임이 단축됨
 
 단점
 
-1. build 타임이 오래걸림
+1. ssg 파일이 많다면 build 타임이 오래걸림
+2. stable 상태에 들어간지 얼마 지나지 않아 정보가 부족함
+3. fetch를 사용할 때 상태 경로가 아닌 현재 서버가 떠있는 url을 사용해야하는 경우가 있는데 만약 떠 있지 않으면 fetch 못하는 일이 있음 이럴 경우 현재 가동되고 있는 서버가 필요한데 만약 처음 올릴 때(next 프로젝트가 production으로)라면 이 url이 인터넷에 없기 때문에 사용하지 못하는 문제가 있음 -> 서버가 하나 더 필요함 (? next는 풀스택 프레임 워크)
+
+
+reference : https://nextjs.org/docs/app/api-reference/functions/generate-static-params
 
 
 TailwindCSS
@@ -37,15 +44,31 @@ TailwindCSS
 
 1. 상태에 의한 스타일링 동적 변경 약간 어려움
 2. className이 너무 어려워지고 유지보수 약간 어려움
-3. 런닝 커브가 존재했던 편
+3. postcss를 적용하면서 컴파일 시간에 영향을 줌 (JIT 모드에서 2~5초 정도 늦으면 10초 정도 걸릴 때 있음)
 
 
-SWR
+~~SWR~~
+
+~~장점~~
+
+~~1. 자동 통신 결과 캐싱과 전역적으로 사용가능~~
+~~2. data, error 등 데이터 통신에 대한 결과를 바로 사용할 수 있는 훅 제공~~
+
+
+React Query
 
 장점
 
-1. 자동 통신 결과 캐싱과 전역적으로 사용가능
-2. data, error 등 데이터 통신에 대한 결과를 바로 사용할 수 있는 훅 제공
+1. 서버 상태 관리를 RTK를 사용하지 않아도 전역적으로 사용할 수 있음
+2. mutation function의 상태 및 함수(isLoading, mutate, isError) 직관적임 
+3. 데이터를 콘솔에 안찍어도 devTool로 확인할 수 있음
+
+
+단점
+
+1. useQuery만 사용하면 문제가 없을 것 같지만 인피니트를 사용할 때 어려움이 있었음
+2. staletime, cachetime 등 이해하기 조금 어려운 점이 있음
+3. 좋은 기능은 있지만 이 프로젝트에서 잘 사용했다고 보기 어려움 CSR에서는 좋지만 SSR에서는 모르겠음
 
 
 Redux, Redux Tool Kit
@@ -55,8 +78,12 @@ Redux, Redux Tool Kit
 1. RTK를 사용하면서 리덕스가 가진 단점 중 하나인 보일러 플레이트를 확 줄일 수 있음
 2. slice로 상태를 관리 저장하며 간단하게 사용할 수 있음 -> recoil과 비슷하거나 더 쉬움
 3. extraReducer를 이용해 다른 상태(slice가 동작했는지)에 변경을 알 수 있고 특정 기능을 수행할 수 있음
-4. 간단한 기능들만 사용해서 그런지 사용하기 쉬웠음
+4. logger 기능을 지원해 현재 어떤 상태를 dispatch하고 상태가 어떻게 바뀌었는지 쉽게 확인 가능
 
+단점
+
+1. 보일러 플레이트가 그래도 많음 다른 slice를 만들때 만들어져 있는 slice를 복붙하고 수정하며 진행함
+2. zustand와 비교해 봤을 때 사용하기 어려움
 
 
 Back : Next.js, Prisma
@@ -71,7 +98,7 @@ Next.js
 
 1. back-end는 api만 만들어서 사용하기 때문에 복잡한 비지니스 로직을 만들기 어려움
 2. 미들웨어 적용 어려움
-3. 한 파일 내에서 GET, POST 같은 http 요청이 들어온다면 분기 처리를 해야함
+
 
 
 Prisma
@@ -102,18 +129,28 @@ CloudFlare : DNS, CDN, SSL 및 JS 파일 축소 등 다양하고 product에 효�
 
   - [x] 인기, 최신순 정렬, 카테고리 정렬
   - [x] 간단한 자기 소개, 프로젝트 소개
+  - [x] Steaming SSR 적용
 
 - [x] 인피니티 스크롤 블로그 글들 표시
 
   - [x] 태그들을 보여주고 그것을 클릭하면 해당하는 태그를 가진 포스트들만 인피니티
   - [x] 존재하는 태그들은 SSR을 통해 데이터 가져옴
   - [x] 연관 검색어로 검색 기능
-
-- [x] 이력서
+  - [x] Steaming SSR 적용
+  
+- [x] ~~이력서~~
 
 - [x] 포스트
   - [x] SSG로 구현하지만 프로젝트 내에는 데이터 X & fallback="blocking"을 통해 ISR로 구현
   - [x] Markdown을 예쁘게 표현하기 위해 라이브러리 사용
+  - [x] 댓글 기능
+
+- [x] 개인 프로필
+
+ 
+- [ ] 방명록
+
+
 
 ## Architecture 
 
