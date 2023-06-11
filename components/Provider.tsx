@@ -2,7 +2,7 @@
 import { ThemeProvider } from "next-themes";
 import { SessionProvider } from "next-auth/react";
 import { Provider as ReduxProvider } from "react-redux";
-import {makeStore} from "../store";
+import {makeStore} from "@store/index";
 import {
     QueryClient,
     QueryClientProvider,

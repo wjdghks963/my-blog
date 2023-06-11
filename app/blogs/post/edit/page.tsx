@@ -8,7 +8,7 @@ import {useMutation} from '@libs/client/useMutation'
 import {useSession} from 'next-auth/react'
 import {MutationResult, PostPostJson} from '@types'
 import {useSelector} from 'react-redux'
-import {ReduxSliceState} from '../../../../store/modules'
+import {ReduxSliceState} from '@store/modules'
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 

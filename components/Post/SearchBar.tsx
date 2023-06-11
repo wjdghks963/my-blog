@@ -2,8 +2,8 @@
 
 import React, { useRef, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setSearchQuery } from "store/modules/searchQuery";
-import {setFilterTag} from '../../store/modules/tagFilter'
+import { setSearchQuery } from "@store/modules/searchQuery";
+import {setFilterTag} from "@store/modules/tagFilter"
 
 export function SearchBar() {
   const inputRef = useRef<HTMLInputElement>(null);
