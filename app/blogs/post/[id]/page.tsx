@@ -10,6 +10,7 @@ import {RegImageSrc} from '@libs/server/RegImageSrc'
 import {Metadata} from 'next'
 import PostEditDeleteBox from '@components/Post/PostEditDeleteBox'
 import {getAllPostId} from '@libs/server/getAllPostId'
+import { notFound } from 'next/navigation'
 
 
 
@@ -24,9 +25,13 @@ type Props = {
 
 export async function generateMetadata({ params: { id } }: Props):Promise<Metadata>{
     const data:Post = await fetchData(id)
+    if (!data) {
+        notFound()
+    }
 
-    const ImageSrc = RegImageSrc(data.content) ?? null
+    const ImageSrc = RegImageSrc(data?.content) ?? null
     const SEOImage = ImageSrc?.substring(1, ImageSrc.length);
+
     return {
         title:data.title,
         description:data.description,
@@ -44,6 +49,10 @@ export async function generateMetadata({ params: { id } }: Props):Promise<Metada
 export default async function Page({ params: { id } }: Props) {
 
     const postData:Post = await fetchData(id)
+
+    if (!postData) {
+        notFound()
+    }
 
     const tags = postData.tags.length !== 0 ? postData.tags.map((tag:{tag:string}) => tag.tag) : [];
 
@@ -89,7 +98,7 @@ async function fetchData(id: string) {
         process.env.APIDOMAIN+`/api/blogs/${id}`,
         { next: { revalidate: 15 } },
     );
-
+    if(!res.ok) return undefined
     return await res.json();
 }
 
