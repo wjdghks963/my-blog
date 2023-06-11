@@ -2,7 +2,7 @@
 
 import compareLocaleDate from "@libs/client/CompareLocaleDate";
 import { useRouter } from "next/navigation";
-import TagSpan from "../../app/TagSpan";
+import TagSpan from "@components/Base/TagSpan";
 import {PostWithId} from '@types'
 
 
