@@ -5,6 +5,6 @@ import LoadingJson from "@public/loadingLottie.json"
 
 export default function Loading(){
     return <div className={'h-screen'}>
-<Lottie className={'h-full'} animationData={LoadingJson} loop={true}/>
+        <Lottie className={'h-full'} animationData={LoadingJson} loop={true}/>
     </div>
 }
