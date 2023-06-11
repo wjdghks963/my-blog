@@ -1,5 +1,4 @@
-import React from "react";
-import TagSpan from "../../../TagSpan";
+import TagSpan from "@components/Base/TagSpan";
 import MarkdownParser from "@components/Post/MarkdownParser";
 import process from 'process'
 import {Post} from '@types'
@@ -11,6 +10,7 @@ import {RegImageSrc} from '@libs/server/RegImageSrc'
 import {Metadata} from 'next'
 import PostEditDeleteBox from '@components/Post/PostEditDeleteBox'
 import {getAllPostId} from '@libs/server/getAllPostId'
+import { notFound } from 'next/navigation'
 
 
 
@@ -23,11 +23,15 @@ type Props = {
 }
 
 
-export async function generateMetadata({params}:any):Promise<Metadata>{
-    const data:Post = await fetchData(params.id)
+export async function generateMetadata({ params: { id } }: Props):Promise<Metadata>{
+    const data:Post = await fetchData(id)
+    if (!data) {
+        notFound()
+    }
 
-    const ImageSrc = RegImageSrc(data.content) ?? null
+    const ImageSrc = RegImageSrc(data?.content) ?? null
     const SEOImage = ImageSrc?.substring(1, ImageSrc.length);
+
     return {
         title:data.title,
         description:data.description,
@@ -45,6 +49,10 @@ export async function generateMetadata({params}:any):Promise<Metadata>{
 export default async function Page({ params: { id } }: Props) {
 
     const postData:Post = await fetchData(id)
+
+    if (!postData) {
+        notFound()
+    }
 
     const tags = postData.tags.length !== 0 ? postData.tags.map((tag:{tag:string}) => tag.tag) : [];
 
@@ -90,15 +98,15 @@ async function fetchData(id: string) {
         process.env.APIDOMAIN+`/api/blogs/${id}`,
         { next: { revalidate: 15 } },
     );
-
+    if(!res.ok) return undefined
     return await res.json();
 }
 
-
+// only run at build time
 export async function generateStaticParams() {
-    // const res = await fetch(`/api/blogs/post/all-post-id`)
+    // const res = await fetch(process.env.APIDOMAIN+`/api/blogs/post/all-post-id`)
     // const {postsId}:{postsId: PostsIds} = await res.json()
     const {postsId} = await getAllPostId()
-        return postsId.map(item=>item.id+"")
-    //return postsId.map(item=>item.id+"")
+    return postsId.map(item=>({id: item.id + ""}))
+    // return postsId.map(item=>item.id+"")
 }

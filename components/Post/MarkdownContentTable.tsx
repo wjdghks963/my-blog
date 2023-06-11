@@ -1,7 +1,16 @@
 "use client"
+
 import { motion } from "framer-motion";
 import {cls} from '@libs/client/utils'
 import useVisibleScrollY from '@libs/client/useVisibleScrollY'
+
+
+
+enum HeaderLevel {
+    H1= 1,
+    H2= 2,
+    H3 = 3
+}
 
 const createTableOfContents = (markdown:string) => {
     const regex = /(#+)\s+(.*)/g;
@@ -36,13 +45,13 @@ const isVisible = useVisibleScrollY()
 const fontByLevel = (level:number):string =>{
 
     switch (level){
-        case 1:{
+        case HeaderLevel.H1:{
             return 'font-bold text-lg'
         }
-        case 2:{
+        case HeaderLevel.H2:{
             return 'font-semibold text-base'
         }
-        case 3:{
+        case HeaderLevel.H3:{
             return 'font-medium text-sm'
         }
         default :{

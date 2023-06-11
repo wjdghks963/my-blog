@@ -2,7 +2,7 @@
 
 import React from "react";
 import Lottie from 'lottie-react'
-import LoadingJson from '../../public/lottie.json'
+import LoadingJson from '@public/loadingLottie.json'
 
 
 
@@ -10,11 +10,12 @@ import LoadingJson from '../../public/lottie.json'
 export default function Blogs() {
 
     return (
-        <div >
-            <h1 className={'text-3xl font-bold mx-auto '}>준비 중..</h1>
-            <Lottie animationData={LoadingJson} loop={true}/>
+        <div className={'h-screen'}>
+            <h1 className={'text-3xl font-bold text-center'}>준비 중..</h1>
+            <Lottie className={'h-full'} animationData={LoadingJson} loop={true}/>
         </div>
     );
 }
+
 
 

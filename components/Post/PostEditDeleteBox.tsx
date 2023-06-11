@@ -7,7 +7,7 @@ import {useMutation} from '@tanstack/react-query'
 import {deletePost} from '@libs/client/postFn'
 import {useParams, useRouter} from 'next/navigation'
 import {useDispatch} from 'react-redux'
-import {setPostJson} from '../../store/modules/editPost'
+import {setPostJson} from '@store/modules/editPost'
 import { Post} from '@types'
 
 export const dynamic = 'force-dynamic';

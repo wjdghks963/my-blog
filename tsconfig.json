@@ -32,8 +32,11 @@
       "@types": [
         "type.d.ts"
       ],
-      "@public": [
+      "@public/*": [
         "public/*"
+      ],
+      "@store/*": [
+        "store/*"
       ]
     },
     "downlevelIteration": true,
