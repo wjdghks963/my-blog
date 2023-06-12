@@ -105,10 +105,17 @@ Prisma
 
 장점
 
-1. SQL 문을 사용하지 않고 쉽게 데이터 추출이 가능하고 다양한 기능을 제공함 (contains, where ... )
+1. SQL 문을 사용하지 않고 쉽게 데이터 추출이 가능하고 다양한 기능을 제공함 -> 추상화 수준이 높음 (contains, where ... )
 2. Schema를 작성할 때 다대다에 대한 테이블을 따로 생성하지 않아도 임시 테이블을 자동적으로 만들어줘 사용이 가능하다.
 3. index를 지원한다.
 4. prisma studio로 테이블 스키마, 어떤 데이터가 저장되어 있는지 등 확인이 가능하고 수정 추가 제거도 가능하다.
+5. 매개변수를 받아 data를 crud 하기 때문에 sql injection으로부터 안전함
+
+
+단점
+
+1. ORM의 공통적인 문제점이지만 SQL보다 prisma가 더 안좋은 경우가 존재
+2. 복잡한 쿼리 문은 SQL로 대체해야함
 
 
 Devops : Vercel(front), PlanetScale(BD), CloudFlare(DNS, CDN, SSL)
