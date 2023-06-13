@@ -148,7 +148,7 @@ CloudFlare : DNS, CDN, SSL 및 JS 파일 축소 등 다양하고 product에 효�
 - [x] ~~이력서~~
 
 - [x] 포스트
-  - [x] SSG로 구현하지만 프로젝트 내에는 데이터 X & fallback="blocking"을 통해 ISR로 구현
+  - [x] ISR로 구현 { next: { revalidate: 15 } },
   - [x] Markdown을 예쁘게 표현하기 위해 라이브러리 사용
   - [x] 댓글 기능
 
