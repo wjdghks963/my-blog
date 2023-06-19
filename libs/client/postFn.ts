@@ -23,7 +23,7 @@ export const deleteComment = async (commentId:string) => {
 };
 
 export const deletePost = async (postId:string) =>{
-    return await fetch(`/api/blogs/delete`, {
+    return await fetch(`/api/blogs/post/delete`, {
         method: 'POST',
         body: JSON.stringify({id:postId}),
     });
