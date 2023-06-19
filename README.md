@@ -21,6 +21,8 @@ Next.js
 5. rewrites, redirection을 설정 레벨에서 제공해줘 보안에도 장점을 가짐
 6. Streaming SSR을 사용할 수 있음 -> [Streaming SSR 이란?](https://www.youtube.com/watch?v=9xl9X2pfHeI)
 7. swc를 안정적으로 지원해 컴파일 타임이 단축됨
+8. React 팀에서 공식적으로 밀어주고 있어 리액트 업데이트 시 최신 기능 제일 빠르게 업데이트
+
 
 단점
 
@@ -156,6 +158,8 @@ CloudFlare : DNS, CDN, SSL 및 JS 파일 축소 등 다양하고 product에 효�
 
  
 - [ ] 방명록
+
+- [x] [404 page](https://www.sabgilnote.xyz/blogs/post/-1)
 
 
 
