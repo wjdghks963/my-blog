@@ -1,5 +1,4 @@
 User-agent: *
 Disallow: /api
 Disallow: /blog/post
-Disallow: /login
 Allow: /
