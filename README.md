@@ -6,7 +6,7 @@
 
 [chromatic 링크](https://63635e18291535f4d01657be-csrykgcgxo.chromatic.com/?path=/story/components-base-headerli--normal)
 
-## 스택
+## 메인 스택
 
 Front : Next.js, TailwindCSS, SWR, Redux, Redux Tool Kit, NextAuth
 
@@ -64,6 +64,7 @@ React Query
 1. 서버 상태 관리를 RTK를 사용하지 않아도 전역적으로 사용할 수 있음
 2. mutation function의 상태 및 함수(isLoading, mutate, isError) 직관적임 
 3. 데이터를 콘솔에 안찍어도 devTool로 확인할 수 있음
+4. select와 같은 메서드를 제공해 데이터 가공을 다시 하지 않고 불러오면서 할 수 있음
 
 
 단점
@@ -192,32 +193,4 @@ CloudFlare : DNS, CDN, SSL 및 JS 파일 축소 등 다양하고 product에 효�
 
 ## 반응형
 
-- /
-
-Iphone13 pro
-
-![스크린샷 2022-10-28 오후 1 33 19](https://user-images.githubusercontent.com/74060017/198503290-9a000d8c-a9b2-4716-92d5-99aa9b2c1243.png)
-
-DeskTop
-
-![스크린샷 2022-10-28 오후 1 33 30](https://user-images.githubusercontent.com/74060017/198503287-3e1140f2-d72a-45b5-a9e8-1b038b4fc3e1.png)
-
-- /blogs
-
-Iphone13 pro
-
-![스크린샷 2022-10-28 오후 1 34 06](https://user-images.githubusercontent.com/74060017/198503478-5a074fdc-2a41-4a8a-9f51-708a4a21df4f.png)
-
-DeskTop
-
-![스크린샷 2022-10-28 오후 1 33 57](https://user-images.githubusercontent.com/74060017/198503480-62f54a12-ccbf-4e96-bc2a-edf8073c441e.png)
-
-- /blogs/post/[id]
-
-Iphone13 pro
-
-![스크린샷 2022-10-28 오후 3 00 48](https://user-images.githubusercontent.com/74060017/198514433-71a81012-091e-4a28-9c9e-9b07c01839d1.png)
-
-DeskTop
-
-![스크린샷 2022-10-28 오후 3 00 39](https://user-images.githubusercontent.com/74060017/198514443-01c089a2-5a65-4991-bbf4-2de4ea184382.png)
+사진 준비 중
