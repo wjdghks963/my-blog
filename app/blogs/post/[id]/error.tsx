@@ -11,9 +11,10 @@ export default function Error({error, reset,}: {
     }, [error])
 
     return (
-        <div className={'w-screen h-screen prose flex flex-col justify-center'}>
-            <h2>Something went wrong!</h2>
+        <div className={'w-full h-screen flex flex-col justify-center'}>
+            <h2 className={"text-center text-4xl font-bold"}>Something went wrong!</h2>
             <button
+                className={"thin-round-black-border mt-10 py-4 w-1/3 mx-auto"}
                 onClick={
                     () => reset()
                 }
