@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {EditPost} from '@types'
-
-
+import { EditPost } from "@types";
 
 const initialState: EditPost = {
   id: 1,
@@ -9,7 +7,7 @@ const initialState: EditPost = {
   markdown: "",
   tags: [],
   description: "",
-  category: {category: ''},
+  category: { category: "" },
 };
 
 const editPostSlice = createSlice({
@@ -17,7 +15,7 @@ const editPostSlice = createSlice({
   initialState,
   reducers: {
     setPostJson: (state, action: PayloadAction<EditPost>) => {
-      const { id, markdown, tags, title, description,category } = action.payload;
+      const { id, markdown, tags, title, description, category } = action.payload;
       state.id = id;
       state.markdown = markdown;
       state.tags = tags;

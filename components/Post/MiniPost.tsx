@@ -1,12 +1,13 @@
-"use client"
+"use client";
+
+import { PostWithId } from "@types";
+import { useRouter } from "next/navigation";
 
 import compareLocaleDate from "@libs/client/CompareLocaleDate";
-import { useRouter } from "next/navigation";
+
 import TagSpan from "@components/Base/TagSpan";
-import {PostWithId} from '@types'
 
-
-export default function MiniPost({ data, isRef}: { data: PostWithId, isRef:any}) {
+export default function MiniPost({ data, isRef }: { data: PostWithId; isRef: any }) {
   const router = useRouter();
   const date = compareLocaleDate(data.updatedAt, data.createdAt);
   const moveToPost = (id: number) => {
@@ -15,7 +16,7 @@ export default function MiniPost({ data, isRef}: { data: PostWithId, isRef:any})
 
   return (
     <div
-        ref={isRef}
+      ref={isRef}
       onClick={() => moveToPost(data.id)}
       className="flex flex-col gap-3 w-2/3 border-solid border-black border-2 rounded-md p-5  shadow-xl cursor-pointer hover:ring-2 hover:ring-offset-2 hover:ring-black dark:border-white dark:shadow-neutral-600"
     >
@@ -24,7 +25,12 @@ export default function MiniPost({ data, isRef}: { data: PostWithId, isRef:any})
         <div className="hidden md:flex flex-row gap-4 ">
           {data.tags.map((tag, index, arr) => {
             if (index < 3) {
-              return <TagSpan key={index} tag={tag.tag} />;
+              return (
+                <TagSpan
+                  key={index}
+                  tag={tag.tag}
+                />
+              );
             } else if (index > 3 && index < 5) {
               return (
                 <TagSpan

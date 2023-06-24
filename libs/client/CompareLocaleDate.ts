@@ -1,7 +1,4 @@
-const compareLocaleDate = (
-  create: Date | string,
-  update: Date | string
-): string => {
+const compareLocaleDate = (create: Date | string, update: Date | string): string => {
   const options = {
     year: "numeric",
     month: "long",
@@ -9,10 +6,7 @@ const compareLocaleDate = (
   };
 
   if (create !== update) {
-    const convert = new Date(update).toLocaleDateString(
-      "ko-KR",
-      options as any
-    );
+    const convert = new Date(update).toLocaleDateString("ko-KR", options as any);
     return convert;
   }
 

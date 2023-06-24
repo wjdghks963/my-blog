@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-
-export interface TagInitialState{
-  tag: string; isSelected: boolean
+export interface TagInitialState {
+  tag: string;
+  isSelected: boolean;
 }
 
 const initialState: TagInitialState = {
@@ -23,7 +23,6 @@ const tagFilterSlice = createSlice({
       state.isSelected = isSelected;
     },
   },
-
 });
 
 export const { setFilterTag } = tagFilterSlice.actions;

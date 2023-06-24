@@ -1,20 +1,18 @@
 import { AnyAction, CombinedState, combineReducers } from "@reduxjs/toolkit";
+import { EditPost } from "@types";
 import { HYDRATE } from "next-redux-wrapper";
+
 import editPostReducer from "./editPost";
-import tagFilterReducer from "./tagFilter";
 import searchQueryReducer from "./searchQuery";
-import {EditPost} from '@types'
+import tagFilterReducer from "./tagFilter";
 
 export interface ReduxSliceState {
   editPostReducer: EditPost;
-  tagFilterReducer: { tag: string, isSelected:boolean };
-  searchQueryReducer: { query: string, isSelected:boolean };
+  tagFilterReducer: { tag: string; isSelected: boolean };
+  searchQueryReducer: { query: string; isSelected: boolean };
 }
 
-const reducer = (
-  state: any,
-  action: AnyAction
-): CombinedState<ReduxSliceState> => {
+const reducer = (state: any, action: AnyAction): CombinedState<ReduxSliceState> => {
   if (action.type === HYDRATE) {
     return {
       ...state,

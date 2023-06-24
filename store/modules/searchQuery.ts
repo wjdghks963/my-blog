@@ -18,7 +18,6 @@ const searchQuerySlice = createSlice({
       state.isSelected = isSelected;
     },
   },
-
 });
 
 export const { setSearchQuery, setSelected } = searchQuerySlice.actions;

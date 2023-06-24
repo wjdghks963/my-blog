@@ -1,13 +1,13 @@
-"use client"
+"use client";
+
+import { useRouter } from "next/navigation";
+import React, { useCallback } from "react";
+import { useDispatch } from "react-redux";
 
 import { cls } from "@libs/client/utils";
-import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
-import React, { useCallback } from "react";
+
+import { setSearchQuery } from "@store/modules/searchQuery";
 import { setFilterTag } from "@store/modules/tagFilter";
-import {setSearchQuery} from '@store/modules/searchQuery'
-
-
 
 export interface TagSpan {
   /** 데이터로 받은 태그 이름 */
@@ -22,13 +22,7 @@ export interface TagSpan {
   goBlog?: boolean;
 }
 
-export default function TagSpan({
-  tag,
-  tagName,
-  className,
-  clickOk,
-  goBlog,
-}: TagSpan) {
+export default function TagSpan({ tag, tagName, className, clickOk, goBlog }: TagSpan) {
   const router = useRouter();
   const hiddenFlex = className ?? "";
 
@@ -40,10 +34,8 @@ export default function TagSpan({
         tag,
       })
     );
-    dispatch(setSearchQuery({query:""}))
+    dispatch(setSearchQuery({ query: "" }));
   }, [dispatch, tag]);
-
-
 
   const filterMutate = () => {
     filterTag();
