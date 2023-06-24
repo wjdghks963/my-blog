@@ -1,14 +1,16 @@
-import prismaclient from "@libs/server/prismaClient";
 import { Tag } from "@prisma/client";
-import {NextRequest, NextResponse} from 'next/server'
-import {UserInfo} from '@types'
+import { UserInfo } from "@types";
+import { NextRequest, NextResponse } from "next/server";
 
+import prismaclient from "@libs/server/prismaClient";
 
+export interface Comment {
+  id: number;
+  user: UserInfo;
+  content: string;
+}
 
-export interface Comment{id:number, user:UserInfo,content:string }
-
-
-  export interface IPost {
+export interface IPost {
   title: string;
   content: string;
   views: number;
@@ -17,14 +19,13 @@ export interface Comment{id:number, user:UserInfo,content:string }
   category: { category: string } | null;
   createdAt: Date;
   updatedAt: Date;
-  comments: (Comment | null) [];
+  comments: (Comment | null)[];
 }
 
-export  async function GET(request:NextRequest) {
-  const {pathname} = new URL(request.url)
-  const params = pathname.split("/")
-  const id = params[params.length-1];
-
+export async function GET(request: NextRequest) {
+  const { pathname } = new URL(request.url);
+  const params = pathname.split("/");
+  const id = params[params.length - 1];
 
   try {
     const post: IPost = await prismaclient.post.update({
@@ -49,35 +50,33 @@ export  async function GET(request:NextRequest) {
             category: true,
           },
         },
-        comments:{
+        comments: {
           select: {
-            id:true,
-            content:true,
-            user:{
-              select:{
-                email:true,
-                name:true,
-                image:true,
-              }
-            }
-          }
-        }
+            id: true,
+            content: true,
+            user: {
+              select: {
+                email: true,
+                name: true,
+                image: true,
+              },
+            },
+          },
+        },
       },
     });
-
-
 
     return NextResponse.json({
       title: post?.title,
       content: post?.content,
       views: post?.views,
       tags: post?.tags,
-      comments:post?.comments,
+      comments: post?.comments,
       description: post?.description,
       category: post?.category,
       createdAt: post?.createdAt,
       updatedAt: post?.updatedAt,
-    })
+    });
   } catch (err) {
     console.log(err);
     return { ok: false, message: `error occurred ${err}` };

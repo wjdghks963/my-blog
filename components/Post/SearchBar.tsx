@@ -1,9 +1,10 @@
-"use client"
+"use client";
 
 import React, { useRef, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
+
 import { setSearchQuery } from "@store/modules/searchQuery";
-import {setFilterTag} from "@store/modules/tagFilter"
+import { setFilterTag } from "@store/modules/tagFilter";
 
 export function SearchBar() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -14,17 +15,14 @@ export function SearchBar() {
   const filterQuery = useCallback(
     (query: string) => {
       dispatch(setSearchQuery({ query }));
-      dispatch(setFilterTag({tag:""}))
+      dispatch(setFilterTag({ tag: "" }));
     },
     [dispatch]
   );
 
-
   const keyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.code !== "Enter") return;
-    filterQuery(
-      inputRef?.current?.value === "" ? "all" : inputRef?.current?.value!!
-    );
+    filterQuery(inputRef?.current?.value === "" ? "all" : inputRef?.current?.value!!);
   };
 
   /**
@@ -46,7 +44,10 @@ export function SearchBar() {
         placeholder="제목 입력 후 엔터"
         className="w-2/3 py-4 px-4 bg-transparent focus:outline-none"
       />
-      <button className={`${text === "" || null ? "hidden" : "flex"} w-8 ml-2 my-auto`} onClick={clearInput}>
+      <button
+        className={`${text === "" || null ? "hidden" : "flex"} w-8 ml-2 my-auto`}
+        onClick={clearInput}
+      >
         <svg
           fill="none"
           stroke="currentColor"

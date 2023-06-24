@@ -13,13 +13,10 @@ export default function ImageForm() {
     form.append("file", image);
     form.append("upload_preset", `${process.env.CLOUD_PRESET_NAME}`);
 
-    await fetch(
-      `https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/image/upload`,
-      {
-        method: "POST",
-        body: form,
-      }
-    )
+    await fetch(`https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/image/upload`, {
+      method: "POST",
+      body: form,
+    })
       .then((response) => response.json().catch(() => {}))
       .then((res) => setImgUrl(res.url));
   };

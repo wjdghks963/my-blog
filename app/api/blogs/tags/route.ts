@@ -1,5 +1,6 @@
+import { NextResponse } from "next/server";
+
 import prismaclient from "@libs/server/prismaClient";
-import {NextResponse} from 'next/server'
 
 export async function GET() {
   try {
@@ -8,12 +9,9 @@ export async function GET() {
         tag: true,
       },
     });
-    return NextResponse.json({tags});
-  }catch (e) {
-    console.error(e)
-    return  NextResponse.json({err:e})
+    return NextResponse.json({ tags });
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json({ err: e });
   }
-
 }
-
-

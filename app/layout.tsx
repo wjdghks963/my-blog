@@ -1,29 +1,30 @@
-import "../styles/globals.css"
-import Provider from '@components/Provider'
-import SlideHeaderNavBar from '@components/Base/NavBar/SlideHeaderNavBar'
-import React from 'react'
-import {Metadata} from 'next'
+import { Metadata } from "next";
+import React from "react";
+
+import SlideHeaderNavBar from "@components/Base/NavBar/SlideHeaderNavBar";
+import Provider from "@components/Provider";
+
+import "../styles/globals.css";
 
 export const metadata: Metadata = {
-    title: 'Jung Blog',
-    description: '기술 블로그',
-    openGraph:{
-        title:'Jung Blog',
-        description:'기술 블로그',
+  title: "Jung Blog",
+  description: "기술 블로그",
+  openGraph: {
+    title: "Jung Blog",
+    description: "기술 블로그",
+  },
+};
 
-    }
-}
-
-export default function RootLayout({children}: { children: React.ReactNode }) {
-    return (
-        <html>
-            <head/>
-            <body>
-                <Provider>
-                    <SlideHeaderNavBar/>
-                    {children}
-                </Provider>
-            </body>
-        </html>
-    )
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html>
+      <head />
+      <body>
+        <Provider>
+          <SlideHeaderNavBar />
+          {children}
+        </Provider>
+      </body>
+    </html>
+  );
 }

@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useEffect } from "react";
+
 import { HeaderLi } from "./HeaderLi";
 
-// @ts-ignore
-type HeaderMap = [title: string, any][];
+type HeaderMap = [title: string, fn: () => void][];
 
 export default function Header() {
   const { theme, setTheme } = useTheme();
@@ -22,9 +22,7 @@ export default function Header() {
   useEffect(() => {
     setSvgLoad(false);
     if (localStorage.getItem("theme")) return;
-    const prefersDarkMode = window.matchMedia(
-      "(prefers-color-scheme:dark)"
-    ).matches;
+    const prefersDarkMode = window.matchMedia("(prefers-color-scheme:dark)").matches;
 
     setTheme(prefersDarkMode ? "dark" : "light");
   }, [setTheme]);
@@ -33,7 +31,11 @@ export default function Header() {
     <div className="flex flex-row mt-5 mobile:px-16 px-3 pb-4">
       <ul className="flex flex-row justify-between w-full py-1">
         {headerMap.map((value, key) => (
-          <HeaderLi key={key} name={value[0]} routerFn={value[1]} />
+          <HeaderLi
+            key={key}
+            name={value[0]}
+            routerFn={value[1]}
+          />
         ))}
         <li className="flex m-auto p-2.5 cursor-pointer group hover:bg-gray-400 hover:rounded-xl dark:hover:bg-blue-300 hover:shadow-md hover:shadow-slate-300 ">
           <div
@@ -44,7 +46,7 @@ export default function Header() {
               ""
             ) : theme === "dark" ? (
               <svg
-                  id="sun"
+                id="sun"
                 className="w-6 h-6"
                 fill="none"
                 stroke="yellow"
@@ -60,7 +62,7 @@ export default function Header() {
               </svg>
             ) : (
               <svg
-                  id="moon"
+                id="moon"
                 className="w-6 h-6 group-hover:text-white"
                 fill="none"
                 stroke="currentColor"
