@@ -10,7 +10,7 @@ export  async function POST(
     try {
       const deletePostTags = await prismaclient.post.delete({
         where: {
-          id,
+          id:+id,
         },
         select: {
           tags: {
