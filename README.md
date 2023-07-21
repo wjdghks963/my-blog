@@ -28,7 +28,7 @@ Next.js
 
 1. ssg 파일이 많다면 build 타임이 오래걸림
 2. stable 상태에 들어간지 얼마 지나지 않아 정보가 부족함
-3. fetch를 사용할 때 상태 경로가 아닌 현재 서버가 떠있는 url을 사용해야하는 경우가 있는데 만약 떠 있지 않으면 fetch 못하는 일이 있음 이럴 경우 현재 가동되고 있는 서버가 필요한데 만약 처음 올릴 때(next 프로젝트가 production으로)라면 이 url이 인터넷에 없기 때문에 사용하지 못하는 문제가 있음 -> 서버가 하나 더 필요함 (? next는 풀스택 프레임 워크)
+3. fetch를 사용할 때 상태 경로가 아닌 현재 서버가 떠있는 url을 사용해야하는 경우가 있는데 만약 떠 있지 않으면 fetch 못하는 일이 있음 이럴 경우 현재 가동되고 있는 서버가 필요한데 만약 처음 올릴 때(next 프로젝트가 production으로)라면 이 url이 인터넷에 없기 때문에 사용하지 못하는 문제가 있음 -> 서버가 하나 더 필요함 -> 아니면 직접 디비 서버에 접근하는 함수를 사용해 데이터를 받아옴 (php or jsp)
 
 
 reference : https://nextjs.org/docs/app/api-reference/functions/generate-static-params
