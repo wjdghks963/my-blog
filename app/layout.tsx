@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import { Metadata } from "next";
 import React from "react";
 
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SlideHeaderNavBar />
           {children}
         </Provider>
+        <Analytics />
       </body>
     </html>
   );
