@@ -8,7 +8,17 @@ const nextConfig = {
     MY_EMAIL: process.env.MY_EMAIL,
   },
   images: {
-    domains: ["res.cloudinary.com", "velog.velcdn.com", "images.velog.io", "img.icons8.com","k.kakaocdn.net","lh3.googleusercontent.com","avatars.githubusercontent.com","pbs.twimg.com"],
+    domains: [
+      "res.cloudinary.com",
+      "velog.velcdn.com",
+      "images.velog.io",
+      "img.icons8.com",
+      "k.kakaocdn.net",
+      "github.com",
+      "lh3.googleusercontent.com",
+      "avatars.githubusercontent.com",
+      "pbs.twimg.com",
+    ],
     formats: ["image/avif", "image/webp"],
   },
   async rewrites() {
@@ -19,10 +29,6 @@ const nextConfig = {
       },
     ];
   },
-
 };
 
-
-
-
-module.exports = removeImports({ ...nextConfig })
+module.exports = removeImports({ ...nextConfig });
