@@ -10,13 +10,13 @@
 <url>
   <loc>https://www.sabgilnote.xyz/</loc>
   <lastmod>2023-05-08T12:15:03+00:00</lastmod>
-  <changefreq>daily</changefreq>
+  <changefreq>weekly</changefreq>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://www.sabgilnote.xyz/blogs/post</loc>
+  <loc>https://www.sabgilnote.xyz/blogs</loc>
   <lastmod>2023-05-08T12:15:03+00:00</lastmod>
-  <changefreq>daily</changefreq>
+  <changefreq>weekly</changefreq>
   <priority>0.80</priority>
 </url>
 
