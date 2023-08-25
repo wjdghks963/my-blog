@@ -10,10 +10,10 @@ import PostsByStatusSkeleton from "@components/Home/PostsByStatusSkeleton";
 
 export const metadata: Metadata = {
   title: "Jung Blog",
-  description: "기술 블로그",
+  description: "최정환의 기술 블로그",
   openGraph: {
     title: "Jung Blog",
-    description: "기술 블로그",
+    description: "최정환의 기술 블로그",
   },
 };
 
