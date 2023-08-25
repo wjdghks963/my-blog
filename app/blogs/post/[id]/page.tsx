@@ -26,8 +26,7 @@ export async function generateMetadata({ params: { id } }: Props): Promise<Metad
     notFound();
   }
 
-  const ImageSrc = RegImageSrc(data?.content) ?? null;
-  const SEOImage = ImageSrc?.substring(1, ImageSrc.length);
+  const ImageSrc = RegImageSrc(data?.content) ?? "";
 
   return {
     title: data.title,
@@ -36,7 +35,10 @@ export async function generateMetadata({ params: { id } }: Props): Promise<Metad
     openGraph: {
       title: data.title,
       description: data.description,
-      images: SEOImage,
+      images: {
+        url: `${ImageSrc}`,
+        alt: `${data.title}과 관련된 사진`,
+      },
     },
   };
 }
@@ -101,9 +103,6 @@ async function fetchData(id: string) {
 
 // only run at build time
 export async function generateStaticParams() {
-  // const res = await fetch(process.env.APIDOMAIN+`/api/blogs/post/all-post-id`)
-  // const {postsId}:{postsId: PostsIds} = await res.json()
   const { postsId } = await getAllPostId();
   return postsId.map((item) => ({ id: item.id + "" }));
-  // return postsId.map(item=>item.id+"")
 }
