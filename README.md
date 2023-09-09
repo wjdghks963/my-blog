@@ -1,4 +1,4 @@
-# 블로그 만들기
+# 블로그
 
 ## StoryBook
 
@@ -194,3 +194,18 @@ CloudFlare : DNS, CDN, SSL 및 JS 파일 축소 등 다양하고 product에 효�
 ## 반응형
 
 사진 준비 중
+
+
+## OG
+
+카카오톡
+
+![IMG_8406](https://github.com/wjdghks963/my-blog/assets/74060017/c3ad1169-687d-4ac8-a8dc-803c63ea75d9)
+
+페이스북
+
+![IMG_8405](https://github.com/wjdghks963/my-blog/assets/74060017/ac4a33b6-0e8b-4fa1-a427-0cebc5cc647f)
+
+
+
+
