@@ -37,6 +37,7 @@ export default function InfiniteBlogs() {
         return fetchNextPage();
       }
     },
+    // @ts-ignore
     [isLoading, loading, data]
   );
 

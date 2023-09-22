@@ -13,7 +13,7 @@ export default function CommentList({
 }) {
   return (
     <div className={cls(className ?? "", "flex flex-col gap-6 w-2/3")}>
-      {commentList.map((item) => {
+      {commentList?.map((item) => {
         return (
           <CommentBox
             key={item?.id}

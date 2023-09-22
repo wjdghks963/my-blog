@@ -22,11 +22,8 @@ export interface IPost {
   comments: (Comment | null)[];
 }
 
-export async function GET(request: Request) {
-  const { pathname } = new URL(request.url);
-  const params = pathname.split("/");
-  const id = params[params.length - 1];
-
+// @ts-ignore
+export async function ISR(id: string): Promise<{ data: string }> {
   try {
     const post: IPost = await prismaclient.post.update({
       data: {
@@ -66,19 +63,20 @@ export async function GET(request: Request) {
       },
     });
 
-    return NextResponse.json({
-      title: post?.title,
-      content: post?.content,
-      views: post?.views,
-      tags: post?.tags,
-      comments: post?.comments,
-      description: post?.description,
-      category: post?.category,
-      createdAt: post?.createdAt,
-      updatedAt: post?.updatedAt,
-    });
+    return {
+      data: JSON.stringify({
+        title: post?.title,
+        content: post?.content,
+        views: post?.views,
+        tags: post?.tags,
+        comments: post?.comments,
+        description: post?.description,
+        category: post?.category,
+        createdAt: post?.createdAt,
+        updatedAt: post?.updatedAt,
+      }),
+    };
   } catch (err) {
     console.log(err);
-    return NextResponse.json({ ok: false, message: `error occurred ${err}` });
   }
 }

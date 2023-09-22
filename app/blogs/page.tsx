@@ -8,9 +8,9 @@ import { SearchBar } from "@components/Post/SearchBar";
 export default function Blogs() {
   return (
     <>
-      <Suspense fallback={<TagNavBarSkeleton />}>
-        <TagNavBar />
-      </Suspense>
+      {/*<Suspense fallback={<TagNavBarSkeleton />}>*/}
+      {/*  <TagNavBar />*/}
+      {/*</Suspense>*/}
       <SearchBar />
       <InfiniteBlogs />
     </>

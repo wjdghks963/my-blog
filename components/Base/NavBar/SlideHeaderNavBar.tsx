@@ -40,7 +40,7 @@ export default function SlideHeaderNavBar() {
       className={cls(isVisible ? "block" : "hidden", "fixed top-0 left-0 z-10 rounded-md")}
     >
       <motion.div
-        className="absolute bg-white w-[200px] h-[100vh] "
+        className="absolute bg-white w-[200px] h-[100vh]"
         variants={sidebar}
       />
 

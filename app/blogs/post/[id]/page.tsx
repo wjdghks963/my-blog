@@ -6,6 +6,7 @@ import process from "process";
 import compareLocaleDate from "@libs/client/CompareLocaleDate";
 import { RegImageSrc } from "@libs/server/RegImageSrc";
 import { getAllPostId } from "@libs/server/getAllPostId";
+import { ISR } from "@libs/server/isr";
 
 import TagSpan from "@components/Base/TagSpan";
 import CommentList from "@components/Post/CommentList";
@@ -28,17 +29,21 @@ export async function generateMetadata({ params: { id } }: Props): Promise<Metad
 
   const ImageSrc = RegImageSrc(data?.content) ?? "";
 
+  const tags = data.tags?.length !== 0 ? data.tags?.map((tag: { tag: string }) => tag.tag) : [];
+
   return {
     title: data.title,
     description: data.description,
-    keywords: data.tags.join(","),
+    keywords: tags?.join(","),
     openGraph: {
       title: data.title,
       description: data.description,
-      images: {
-        url: `${ImageSrc}`,
-        alt: `${data.title}과 관련된 사진`,
-      },
+      // images: [
+      //   {
+      //     url: `${ImageSrc}`,
+      //     alt: `${data.title}과 관련된 사진`,
+      //   },
+      // ],
     },
   };
 }
@@ -50,7 +55,7 @@ export default async function Page({ params: { id } }: Props) {
     notFound();
   }
 
-  const tags = postData.tags.length !== 0 ? postData.tags.map((tag: { tag: string }) => tag.tag) : [];
+  const tags = postData.tags?.length !== 0 ? postData.tags?.map((tag: { tag: string }) => tag.tag) : [];
 
   const date = compareLocaleDate(postData.createdAt!, postData.updatedAt!);
 
@@ -94,11 +99,17 @@ export default async function Page({ params: { id } }: Props) {
 }
 
 async function fetchData(id: string) {
-  const res = await fetch(process.env.APIDOMAIN + `/api/blogs/${id}`, {
-    next: { revalidate: 15 },
-  });
-  if (!res.ok) return undefined;
-  return await res.json();
+  // const res = await fetch(process.env.APIDOMAIN + `/api/blogs/${id}`, {
+  //   next: { revalidate: 15 },
+  // });
+
+  const ISRData = await ISR(id);
+  // @ts-ignore
+  const res = JSON.parse(ISRData.data);
+  //if (!res.ok) return undefined;
+
+  //  return await res.json();
+  return res;
 }
 
 // only run at build time
