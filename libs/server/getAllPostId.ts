@@ -1,5 +1,3 @@
-import { NextResponse } from "next/server";
-
 import prismaclient from "@libs/server/prismaClient";
 
 export async function getAllPostId(): Promise<{ postsId: { id: number }[] }> {

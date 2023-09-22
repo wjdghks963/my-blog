@@ -20,7 +20,7 @@ export default function PostEditDeleteBox({ postData }: { postData: Post }) {
   const { data: session } = useSession();
 
   const deletePostMutation = useMutation({
-    mutationFn: () => deletePost(id),
+    mutationFn: () => deletePost(id as string),
   });
 
   const dispatch = useDispatch();

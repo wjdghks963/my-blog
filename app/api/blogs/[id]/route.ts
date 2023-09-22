@@ -79,6 +79,6 @@ export async function GET(request: NextRequest) {
     });
   } catch (err) {
     console.log(err);
-    return { ok: false, message: `error occurred ${err}` };
+    return NextResponse.json({ ok: false, message: `error occurred ${err}` });
   }
 }

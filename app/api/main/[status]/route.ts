@@ -75,7 +75,7 @@ export async function GET(_: Request, context: { params: Params }) {
       }
     }
     default: {
-      return;
+      return NextResponse.json({ err: 404 });
     }
   }
 }
