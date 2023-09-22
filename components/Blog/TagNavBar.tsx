@@ -25,6 +25,7 @@ export default async function TagNavBar(): any {
 }
 
 async function fetchData() {
+  w;
   const res = await fetch(process.env.APIDOMAIN + `/api/blogs/tags`, {
     cache: "no-store",
   });
