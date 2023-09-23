@@ -61,6 +61,7 @@ export async function GET(_: Request, context: { params: Params }) {
 
         const recentPostsJson = recentPosts.map((post) => {
           const thumbnailFromContent = RegImageSrc(post.content);
+
           return {
             id: post.id,
             title: post.title,
@@ -75,7 +76,7 @@ export async function GET(_: Request, context: { params: Params }) {
       }
     }
     default: {
-      return NextResponse.json({ err: 404 });
+      return NextResponse.json({ err: "NOT FOUND" });
     }
   }
 }

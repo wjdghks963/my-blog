@@ -20,25 +20,25 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <div className={"mx-10 mt-16"}>
-      {/*<div className="flex flex-col my-10">*/}
-      {/*  <h1 className="font-bold text-4xl mb-10">Recent Posts</h1>*/}
+      <div className="flex flex-col my-10">
+        <h1 className="font-bold text-4xl mb-10">Recent Posts</h1>
 
-      {/*  <Suspense fallback={<PostsByStatusSkeleton count={5} />}>*/}
-      {/*    <PostsByStatus status={"recent"} />*/}
-      {/*  </Suspense>*/}
-      {/*</div>*/}
-      {/*<div className=" flex flex-col my-10">*/}
-      {/*  <h1 className="font-bold text-4xl  mb-10">Popular Posts</h1>*/}
-      {/*  <Suspense fallback={<PostsByStatusSkeleton count={5} />}>*/}
-      {/*    <PostsByStatus status={"popular"} />*/}
-      {/*  </Suspense>*/}
-      {/*</div>*/}
+        <Suspense fallback={<PostsByStatusSkeleton count={5} />}>
+          <PostsByStatus status={"recent"} />
+        </Suspense>
+      </div>
+      <div className=" flex flex-col my-10">
+        <h1 className="font-bold text-4xl  mb-10">Popular Posts</h1>
+        <Suspense fallback={<PostsByStatusSkeleton count={5} />}>
+          <PostsByStatus status={"popular"} />
+        </Suspense>
+      </div>
 
       <div className="hidden mobile:flex flex-col mt-10 pb-10">
         <h1 className="font-bold text-4xl mb-10">By Category</h1>
-        {/*<Suspense fallback={<CategoriesBoxSkeleton />}>*/}
-        {/*  <CategoriesBox />*/}
-        {/*</Suspense>*/}
+        <Suspense fallback={<CategoriesBoxSkeleton />}>
+          <CategoriesBox />
+        </Suspense>
       </div>
       <div className="my-5">
         <div className="pb-5 flex font-extrabold text-2xl">
