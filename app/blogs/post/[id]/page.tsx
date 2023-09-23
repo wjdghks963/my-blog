@@ -38,12 +38,12 @@ export async function generateMetadata({ params: { id } }: Props): Promise<Metad
     openGraph: {
       title: data.title,
       description: data.description,
-      // images: [
-      //   {
-      //     url: `${ImageSrc}`,
-      //     alt: `${data.title}과 관련된 사진`,
-      //   },
-      // ],
+      images: [
+        {
+          url: `${ImageSrc}`,
+          alt: `${data.title}과 관련된 사진`,
+        },
+      ],
     },
   };
 }
