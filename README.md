@@ -8,7 +8,7 @@
 
 ## 메인 스택
 
-Front : Next.js, TailwindCSS, SWR, Redux, Redux Tool Kit, NextAuth
+Front : Next.js, TailwindCSS, Tanstack-Query, Redux, Redux Tool Kit, NextAuth
 
 Next.js
 
@@ -57,7 +57,7 @@ TailwindCSS
 ~~2. data, error 등 데이터 통신에 대한 결과를 바로 사용할 수 있는 훅 제공~~
 
 
-React Query
+Tanstack Query
 
 장점
 
