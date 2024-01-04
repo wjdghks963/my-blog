@@ -8,9 +8,14 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
   }, [error]);
 
   return (
-    <div className={"w-[100vw] min-h-screen flex flex-col justify-center gap-20"}>
-      <h2 className="font-bold text-3xl text-center">Something went wrong!</h2>
-      <button onClick={() => reset()}>Try again</button>
+    <div className={"w-full h-screen flex flex-col justify-center"}>
+      <h2 className={"text-center text-4xl font-bold"}>Something went wrong!</h2>
+      <button
+        className={"thin-round-black-border mt-10 py-4 w-1/3 mx-auto"}
+        onClick={() => reset()}
+      >
+        Try again
+      </button>
     </div>
   );
 }
