@@ -99,17 +99,16 @@ export default async function Page({ params: { id } }: Props) {
 }
 
 async function fetchData(id: string) {
-  // const res = await fetch(process.env.APIDOMAIN + `/api/blogs/${id}`, {
-  //   next: { revalidate: 15 },
-  // });
+  const res = await fetch(process.env.APIDOMAIN + `/api/blogs/${id}`, {
+    next: { revalidate: 15 },
+  });
 
   const ISRData = await ISR(id);
-  // @ts-ignore
-  const res = JSON.parse(ISRData.data);
-  //if (!res.ok) return undefined;
+  // const res = JSON.parse(ISRData.data);
+  if (!res.ok) return undefined;
 
-  //  return await res.json();
-  return res;
+  return await res.json();
+  // return res;
 }
 
 // only run at build time

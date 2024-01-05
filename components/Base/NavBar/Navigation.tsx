@@ -30,9 +30,9 @@ export default function Navigation({ isOpen, toggleOpen }: { isOpen: boolean; to
       },
     },
     {
-      text: "GUEST BOOK",
+      text: "About Me",
       fn: () => {
-        router.push("/guest-book");
+        router.push("/about-me");
         toggleOpen();
       },
     },

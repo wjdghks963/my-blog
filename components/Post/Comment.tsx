@@ -18,12 +18,12 @@ export default function CommentBox({ content, userInfo }: { content: CommentWith
   const isMine = session?.user?.email === userInfo?.email;
   const blogOwner = session?.user?.email === process.env.MY_EMAIL;
 
-  const editCommentMutation = useMutation((formData: CommentEditJson) => editComment(formData));
-  const deleteCommentMutation = useMutation((formData: string) => deleteComment(formData));
+  const editCommentMutation = useMutation({ mutationFn: (formData: CommentEditJson) => editComment(formData) });
+  const deleteCommentMutation = useMutation({ mutationFn: (formData: string) => deleteComment(formData) });
 
   // TODO:: 진짜 삭제 확인 alert
   const deleteCommentClick = async () => {
-    if (deleteCommentMutation.isLoading) return;
+    if (deleteCommentMutation.isPending) return;
     await deleteCommentMutation.mutate(content?.id + "");
     deleteCommentMutation.isError ? alert("삭제에 실패했습니다") : null;
   };
@@ -33,7 +33,7 @@ export default function CommentBox({ content, userInfo }: { content: CommentWith
   };
 
   const editCommentSubmit = async () => {
-    if (editCommentMutation.isLoading) return;
+    if (editCommentMutation.isPending) return;
     const commentContent = commentRef.current?.value;
 
     const editJson: CommentEditJson = {
@@ -64,7 +64,7 @@ export default function CommentBox({ content, userInfo }: { content: CommentWith
               className={"cursor-pointer thin-round-black-border text-center p-1 w-16 h-8 "}
               onClick={deleteCommentClick}
             >
-              {deleteCommentMutation.isLoading ? <LoadingSpinner /> : "삭제"}
+              {deleteCommentMutation.isPending ? <LoadingSpinner /> : "삭제"}
             </span>
           ) : null}
         </div>
@@ -83,7 +83,7 @@ export default function CommentBox({ content, userInfo }: { content: CommentWith
               "h-full w-16 thin-round-black-border m-auto text-center hover:ring-2 hover:ring-offset-2 hover:ring-black"
             }
           >
-            {editCommentMutation.isLoading ? <LoadingSpinner /> : "등록"}
+            {editCommentMutation.isPending ? <LoadingSpinner /> : "등록"}
           </button>
         </form>
       ) : null}

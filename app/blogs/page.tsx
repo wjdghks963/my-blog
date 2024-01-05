@@ -1,3 +1,5 @@
+"use client";
+
 import React, { Suspense } from "react";
 
 import InfiniteBlogs from "@components/Blog/InfiniteBlogs";
@@ -8,9 +10,9 @@ import { SearchBar } from "@components/Post/SearchBar";
 export default function Blogs() {
   return (
     <>
-      {/*<Suspense fallback={<TagNavBarSkeleton />}>*/}
-      {/*  <TagNavBar />*/}
-      {/*</Suspense>*/}
+      <Suspense fallback={<TagNavBarSkeleton />}>
+        <TagNavBar />
+      </Suspense>
       <SearchBar />
       <InfiniteBlogs />
     </>

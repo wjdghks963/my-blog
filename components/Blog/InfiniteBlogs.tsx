@@ -2,29 +2,38 @@
 
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { PostWithId } from "@types";
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
+import React, { useCallback, useEffect, useRef } from "react";
 
 import useQuerySelector from "@libs/client/useQuerySelector";
 import useTagSelector from "@libs/client/useTagSelector";
 
-import Loading from "@components/Base/Loading";
+import searchingCat from "@public/searching_cat.png";
+
 import MiniPost from "@components/Post/MiniPost";
 
 const getPosts = async (query?: string, tag?: string, pageParam?: number) => {
-  const response = await fetch(`/api/blogs?query=${query}&tag=${tag}&page=${pageParam}&limit=5`);
+  const response = await fetch(
+    process.env.NEXT_PUBLIC_APIDOMAIN + `/api/blogs?query=${query}&tag=${tag}&page=${pageParam}&limit=5`
+  );
   return response.json();
 };
 
 export default function InfiniteBlogs() {
-  const [loading, setLoading] = useState(true);
   const loadingRef = useRef<HTMLDivElement>(null);
   const { tag } = useTagSelector();
   const { query } = useQuerySelector();
 
-  const { data, fetchNextPage, hasNextPage, isLoading, isError } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
     queryKey: ["posts", tag, query],
     queryFn: ({ pageParam = 1 }) => getPosts(query, tag, pageParam),
-    getNextPageParam: (lastPage, pages) => (pages[pages.length - 1].hasNextPage ? pages.length + 1 : false),
+    initialPageParam: 1,
+    getNextPageParam<InfinitePostArr>(
+      lastPage: { hasNextPage: boolean },
+      allPages: Array<InfinitePostArr>
+    ): number | undefined {
+      return lastPage.hasNextPage ? allPages.length + 1 : undefined;
+    },
   });
 
   const allData = data ? data.pages.reduce((prev, curr) => prev.concat(curr.data), []) : [];
@@ -32,43 +41,53 @@ export default function InfiniteBlogs() {
   const handleObserver: IntersectionObserverCallback = useCallback(
     (entries) => {
       const target = entries[0];
-
-      if (target.isIntersecting && hasNextPage) {
+      if (target.isIntersecting && hasNextPage && !isLoading) {
         return fetchNextPage();
       }
     },
-    // @ts-ignore
-    [isLoading, loading, data]
+    [hasNextPage, isLoading, fetchNextPage]
   );
 
   useEffect(() => {
-    const option = {
+    const observer = new IntersectionObserver(handleObserver, {
       root: null,
       rootMargin: "20px",
       threshold: 0.2,
-    };
-    const observer = new IntersectionObserver(handleObserver, option);
-    if (loadingRef.current) observer.observe(loadingRef.current);
+    });
+    if (loadingRef.current) {
+      observer.observe(loadingRef.current);
+    }
     return () => observer.disconnect();
-  }, [handleObserver, loadingRef]);
-
-  useEffect(() => {
-    setLoading(false);
-  }, [isLoading]);
+  }, [handleObserver]);
 
   return (
     <>
       <div className="flex flex-col items-center mt-20 pb-10 gap-14">
-        {allData.length === 0 && !isLoading
-          ? "결과 없음"
-          : allData?.map((data: PostWithId, index: number) => (
-              <MiniPost
+        {allData.length === 0 && !isLoading ? (
+          "결과 없음"
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 w-full">
+            {allData?.map((data: PostWithId, index: number) => (
+              <div
                 key={data.id}
-                data={data}
-                isRef={index === allData.length - 2 ? loadingRef : null}
-              />
+                className={`flex justify-center col-span-1 my-14 ${index % 2 === 0 ? "lg:mb-24" : "lg:mt-24"}`}
+              >
+                <MiniPost data={data} />
+              </div>
             ))}
-        {isLoading ? <Loading /> : null}
+          </div>
+        )}
+
+        <div
+          className={hasNextPage ? "animate-bounce" : ""}
+          ref={loadingRef}
+        >
+          <Image
+            className="w-24"
+            src={searchingCat}
+            alt={"다음 페이지를 찾고 있는 고양이"}
+          />
+        </div>
       </div>
     </>
   );
