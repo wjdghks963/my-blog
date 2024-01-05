@@ -13,7 +13,7 @@ import planetImg from "@public/me/planet_img.png";
 
 export default function Blogs() {
   return (
-    <div className="flex flex-col py-16 mx-32">
+    <div className="flex flex-col py-16 mobile:mx-32 mx-10">
       <section className="flex flex-col gap-4 mt-5">
         <p>안녕하세요. 매일 배우며 어떤것이든 좋고 새롭게 만드는 것을 즐기는 개발자입니다.</p>
         <p>항상 소프트 스킬 향상을 위해 노력하고 있습니다.</p>
@@ -21,7 +21,7 @@ export default function Blogs() {
         <div className="flex gap-10">
           <Link
             href="https://github.com/wjdghks963"
-            className="flex items-center justify-center w-1/3 bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded inline-flex items-center"
+            className="mobile:w-1/3 flex items-center justify-center  bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded inline-flex items-center"
           >
             <Image
               src={githubImg}
@@ -32,7 +32,7 @@ export default function Blogs() {
           </Link>
           <Link
             href="https://www.linkedin.com/in/junghwan-choi-a238b1228"
-            className="flex items-center justify-center w-1/3 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded inline-flex items-center"
+            className="mobile:w-1/3 flex items-center justify-center bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded inline-flex items-center"
           >
             <Image
               src={linkedinImg}
@@ -70,7 +70,7 @@ export default function Blogs() {
             </p>
             <Link
               href="https://apps.apple.com/kr/app/planet-diary/id6473107463"
-              className="w-1/3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"
+              className="mobile:w-1/3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"
             >
               <Image
                 src={appleStoreImg}
@@ -81,7 +81,7 @@ export default function Blogs() {
             </Link>
             <Link
               href="https://play.google.com/store/apps/details?id=com.jung.planet"
-              className="w-1/3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"
+              className="mobile:w-1/3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"
             >
               <Image
                 src={googleStoreImg}
@@ -112,7 +112,7 @@ export default function Blogs() {
 
             <Link
               href="https://play.google.com/store/apps/details?id=com.jung.oa"
-              className="w-1/3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"
+              className="mobile:w-1/3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"
             >
               <Image
                 src={googleStoreImg}
