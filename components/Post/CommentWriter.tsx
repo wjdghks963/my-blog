@@ -19,7 +19,7 @@ export default function CommentWriter({ className }: { session?: any; className?
   const router = useRouter();
   const { id: postId } = useParams();
   const commentRef = useRef<HTMLTextAreaElement>(null);
-  const postCommentMutation = useMutation((formData: CommentPostJson) => postComment(formData));
+  const postCommentMutation = useMutation({ mutationFn: (formData: CommentPostJson) => postComment(formData) });
 
   const isLoggedIn = session.data?.user;
 
@@ -41,7 +41,7 @@ export default function CommentWriter({ className }: { session?: any; className?
 
   const submitComment = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (postCommentMutation.isLoading || !isLoggedIn) return;
+    if (postCommentMutation.isPending || !isLoggedIn) return;
 
     const commentContent = commentRef.current?.value;
 
@@ -84,7 +84,7 @@ export default function CommentWriter({ className }: { session?: any; className?
             "h-full w-16 thin-round-black-border m-auto text-center hover:ring-2 hover:ring-offset-2 hover:ring-black"
           }
         >
-          {postCommentMutation.isLoading ? <LoadingSpinner /> : "등록"}
+          {postCommentMutation.isPending ? <LoadingSpinner /> : "등록"}
         </button>
       </form>
     </div>
