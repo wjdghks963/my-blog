@@ -13,7 +13,7 @@ import planetImg from "@public/me/planet_img.png";
 
 export default function Blogs() {
   return (
-    <div className="flex flex-col py-16 mobile:mx-32 mx-10">
+    <div className="flex flex-col py-16 mobile:mx-32 mx-10 font-roboto-regular">
       <section className="flex flex-col gap-4 mt-5">
         <p>안녕하세요. 매일 배우며 어떤것이든 좋고 새롭게 만드는 것을 즐기는 개발자입니다.</p>
         <p>항상 소프트 스킬 향상을 위해 노력하고 있습니다.</p>

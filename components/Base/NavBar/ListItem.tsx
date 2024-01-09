@@ -36,7 +36,7 @@ export default function ListItem({ text, fn }: { text: string; fn: any }) {
         className={"w-full"}
         onClick={() => fn()}
       >
-        <span className={"w-full text-center text-black"}>{text}</span>
+        <span className={"w-full text-center text-black font-roboto-bold"}>{text}</span>
       </div>
     </motion.li>
   );

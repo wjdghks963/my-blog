@@ -55,7 +55,7 @@ export default function TagSpan({ tag, tagName, className, clickOk, goBlog }: Ta
       onClick={() => clickFunction()}
       className={cls(
         hiddenFlex,
-        "px-2  border-2 border-black rounded-md dark:border-white dark:text-white",
+        "px-2 border-2 border-black rounded-md dark:border-white dark:text-white font-roboto-regular",
         clickOk
           ? "hover:ring-2 cursor-pointer ring-black ring-offset-2 ring-black dark:hover:ring-1 dark:hover:ring-white dark:hover:ring-offset-2"
           : ""
