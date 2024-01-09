@@ -103,7 +103,7 @@ export default async function Page({ params: { id } }: Props) {
 
 async function fetchData(id: string) {
   const res = await fetch(process.env.APIDOMAIN + `/api/blogs/${id}`, {
-    next: { revalidate: 15 },
+    next: { revalidate: 60 },
   });
 
   const ISRData = await ISR(id);
