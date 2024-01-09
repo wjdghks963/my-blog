@@ -23,6 +23,12 @@ export default function PostEditDeleteBox({ postData }: { postData: Post }) {
     mutationFn: () => deletePost(id as string),
   });
 
+  const onDeleteClick = () => {
+    if (session?.user?.email === process.env.MY_EMAIL) {
+      deletePostMutation.mutate();
+    }
+  };
+
   const dispatch = useDispatch();
   const editPost = () => {
     dispatch(
@@ -50,7 +56,7 @@ export default function PostEditDeleteBox({ postData }: { postData: Post }) {
         </span>
         <span
           className="border-black border-2 rounded-xl p-2"
-          onClick={() => deletePostMutation.mutate()}
+          onClick={onDeleteClick}
         >
           삭제
         </span>

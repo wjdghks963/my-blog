@@ -79,7 +79,7 @@ export default function InfiniteBlogs() {
         )}
 
         <div
-          className={hasNextPage ? "animate-bounce" : ""}
+          className={hasNextPage || isLoading ? "animate-bounce" : ""}
           ref={loadingRef}
         >
           <Image
