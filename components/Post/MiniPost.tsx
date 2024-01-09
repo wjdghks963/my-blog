@@ -33,9 +33,9 @@ export default function MiniPost({ data }: { data: PostWithId }) {
       onClick={() => moveToPost(data.id)}
       className="flex flex-col gap-3 w-2/3 border-solid border-black border-2 rounded-md p-5  shadow-xl cursor-pointer hover:ring-2 hover:ring-offset-2 hover:ring-black dark:border-white dark:shadow-neutral-600"
     >
-      <span className="font-bold">{data.title}</span>
-      <span>{data?.description}</span>
-      <span>{date}</span>
+      <span className="font-bold font-roboto-bold">{data.title}</span>
+      <span className="font-roboto-regular">{data?.description}</span>
+      <span className="font-roboto-regular">{date}</span>
       <div className="hidden md:flex flex-row gap-4 ">
         {data.tags.map((tag, index, arr) => {
           if (index < 3) {

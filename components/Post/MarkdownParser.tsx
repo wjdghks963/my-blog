@@ -79,12 +79,12 @@ export default function MarkdownParser({ markdown }: any) {
         },
         p({ node, children, ...props }) {
           return (
-            <p
+            <div
               {...props}
               className="dark:text-white break-words"
             >
               {children}
-            </p>
+            </div>
           );
         },
         a({ node, children, ...props }) {

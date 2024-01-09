@@ -60,7 +60,7 @@ export default async function Page({ params: { id } }: Props) {
   const date = compareLocaleDate(postData.createdAt!, postData.updatedAt!);
 
   return (
-    <div>
+    <div className="font-roboto-regular">
       <div className="flex flex-col mx-3 mt-16 mobile:mx-10 p-5 border-2 border-gray-700 dark:border-white">
         <div className="flex w-full">
           <span className="w-1/2">{date}</span>
@@ -87,13 +87,13 @@ export default async function Page({ params: { id } }: Props) {
         </div>
       </div>
       <PostEditDeleteBox postData={postData} />
-      <div className={"flex flex-col items-center justify-center p-5  mx-3 mobile:mx-10"}>
-        <CommentWriter />
-        <CommentList
-          className={"mt-16"}
-          commentList={postData.comments}
-        />
-      </div>
+      {/*<div className={"flex flex-col items-center justify-center p-5  mx-3 mobile:mx-10"}>*/}
+      {/*  <CommentWriter />*/}
+      {/*  <CommentList*/}
+      {/*    className={"mt-16"}*/}
+      {/*    commentList={postData.comments}*/}
+      {/*  />*/}
+      {/*</div>*/}
     </div>
   );
 }

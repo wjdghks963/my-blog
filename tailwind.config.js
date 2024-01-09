@@ -1,19 +1,20 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  mode: 'jit',
+  mode: "jit",
   darkMode: "class",
   safelist: [
     {
       pattern: /^(.*?)/,
     },
   ],
-  content: [
-    "./app/**/*.{js,ts,jsx,tsx}",
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./app/**/*.{js,ts,jsx,tsx}", "./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        "roboto-regular": ["Roboto-Regular"],
+        "roboto-bold": ["Roboto-Bold"],
+      },
+
       screens: {
         mobile: "560px",
       },
@@ -32,8 +33,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require("@tailwindcss/typography"),
-    require("tailwind-scrollbar-hide"),
-  ],
+  plugins: [require("@tailwindcss/typography"), require("tailwind-scrollbar-hide")],
 };

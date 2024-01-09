@@ -30,7 +30,7 @@ export default function PostWithThumbnail({ data, className }: { data: Thumbnail
       )}
       onClick={() => moveToPost(data.id)}
     >
-      <span className="w-full mobile:w-1/2 max-h-16 font-semibold py-3 overflow-hidden text-ellipsis whitespace-wrap mx-auto">
+      <span className="w-full mobile:w-1/2 max-h-16 font-semibold py-3 overflow-hidden text-ellipsis whitespace-wrap mx-auto font-roboto-regular">
         {data.title}
       </span>
       {data.thumbnail ? (
@@ -45,7 +45,7 @@ export default function PostWithThumbnail({ data, className }: { data: Thumbnail
       ) : (
         <div className="w-2/3 h-1"></div>
       )}
-      <span className="hidden w-full mobile:block max-h-32 py-2 text-center overflow-hidden text-ellipsis whitespace-wrap mx-auto">
+      <span className="hidden w-full mobile:block max-h-32 py-2 text-center overflow-hidden text-ellipsis whitespace-wrap mx-auto font-roboto-regular">
         {data.description}
       </span>
     </motion.div>
