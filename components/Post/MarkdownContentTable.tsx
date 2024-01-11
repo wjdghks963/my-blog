@@ -95,7 +95,7 @@ export default function TableOfContents({ markdown }: { markdown: string }) {
                 scrollTo(item.anchor);
               }}
             >
-              {item.title}
+              {item.title.length > 25 ? item.title.substring(0, 25) + "..." : item.title}
             </a>
           </motion.li>
         ))}

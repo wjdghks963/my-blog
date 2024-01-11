@@ -81,7 +81,7 @@ export default function MarkdownParser({ markdown }: any) {
           return (
             <div
               {...props}
-              className="dark:text-white break-words"
+              className="dark:text-white break-words my-4"
             >
               {children}
             </div>
