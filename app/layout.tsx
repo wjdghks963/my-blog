@@ -1,6 +1,5 @@
 import { Analytics } from "@vercel/analytics/react";
 import { Metadata } from "next";
-import Head from "next/head";
 import React from "react";
 
 import SlideHeaderNavBar from "@components/Base/NavBar/SlideHeaderNavBar";
