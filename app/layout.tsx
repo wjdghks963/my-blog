@@ -8,6 +8,7 @@ import Provider from "@components/Provider";
 import "../styles/globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.junglog.xyz"),
   title: "Jung Blog",
   description: "기술 블로그",
   openGraph: {
