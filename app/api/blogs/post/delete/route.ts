@@ -2,43 +2,31 @@ import { NextResponse } from "next/server";
 
 import prismaclient from "@libs/server/prismaClient";
 
-export async function POST(req: Request) {
-  const { id } = await req.json();
+async function deletePostAndTags(id: number) {
+  const deletedPost = await prismaclient.post.delete({
+    where: { id },
+    include: { tags: true },
+  });
 
-  try {
-    const deletePostTags = await prismaclient.post.delete({
-      where: {
-        id: +id,
-      },
-      select: {
-        tags: {
-          select: {
-            tag: true,
-          },
-        },
-      },
-    });
+  const tags = deletedPost.tags;
 
-    const tags = deletePostTags.tags.map((tag) => tag.tag);
-
-    const tagsPosts = await prismaclient.tag.findMany({
-      where: {
-        tag: { in: tags },
-      },
-      include: { _count: true },
-    });
-
-    tagsPosts.map(async (post) => {
-      if (+post._count.posts === 0) {
-        await prismaclient.tag.delete({
-          where: { id: post.id },
-        });
+  await Promise.all(
+    tags.map(async (tagData) => {
+      const tagPosts = await prismaclient.tag.findUnique({ where: { id: tagData.tagId } }).posts();
+      if (tagPosts?.length === 0) {
+        await prismaclient.tag.delete({ where: { id: tagData.tagId } });
       }
-    });
+    })
+  );
+}
 
+export async function POST(req: Request) {
+  try {
+    const { id } = await req.json();
+    await deletePostAndTags(+id);
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.log(err);
+    console.error("Error deleting post:", err);
     return NextResponse.json({ ok: false });
   }
 }
