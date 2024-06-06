@@ -18,7 +18,7 @@ export async function GET(request: Request) {
         createdAt: "desc",
       },
       where: {
-        tags: { some: { tag } },
+        tags: { some: { tag: { tag } } },
       },
       include: {
         tags: {
