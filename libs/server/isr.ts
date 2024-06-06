@@ -1,6 +1,4 @@
-import { Tag } from "@prisma/client";
-import { UserInfo } from "@types";
-import { NextRequest, NextResponse } from "next/server";
+import { IPost, UserInfo } from "@types";
 
 import prismaclient from "@libs/server/prismaClient";
 
@@ -10,19 +8,6 @@ export interface Comment {
   content: string;
 }
 
-export interface IPost {
-  title: string;
-  content: string;
-  views: number;
-  tags: Tag[];
-  description: string;
-  category: { category: string } | null;
-  createdAt: Date;
-  updatedAt: Date;
-  comments: (Comment | null)[];
-}
-
-// @ts-ignore
 export async function ISR(id: string): Promise<{ data: string }> {
   try {
     const post: IPost = await prismaclient.post.update({
@@ -38,7 +23,6 @@ export async function ISR(id: string): Promise<{ data: string }> {
         title: true,
         content: true,
         views: true,
-        tags: true,
         description: true,
         createdAt: true,
         updatedAt: true,
@@ -60,6 +44,12 @@ export async function ISR(id: string): Promise<{ data: string }> {
             },
           },
         },
+        tags: {
+          select: {
+            tagId: true,
+            tag: true,
+          },
+        },
       },
     });
 
@@ -78,5 +68,6 @@ export async function ISR(id: string): Promise<{ data: string }> {
     };
   } catch (err) {
     console.log(err);
+    return { data: JSON.stringify({ err }) }; // fallback 값 반환
   }
 }
