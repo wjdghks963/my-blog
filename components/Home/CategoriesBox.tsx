@@ -21,7 +21,7 @@ export default async function CategoriesBox(): any {
 }
 
 async function fetchData() {
-  const res = await fetch(process.env.APIDOMAIN + `/api/categories`, {
+  const res = await fetch(process.env.NEXT_PUBLIC_APIDOMAIN + `/api/categories`, {
     cache: "no-store",
   });
   return await res.json();

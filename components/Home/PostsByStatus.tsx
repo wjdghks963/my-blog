@@ -24,7 +24,7 @@ export default async function PostsByStatus({ status }: { status: PostStatus }):
 }
 
 async function fetchData(status: PostStatus) {
-  const res = await fetch(process.env.APIDOMAIN + `/api/main/${status}`, {
+  const res = await fetch(process.env.NEXT_PUBLIC_APIDOMAIN + `/api/main/${status}`, {
     cache: "no-store",
   });
   return await res.json();
