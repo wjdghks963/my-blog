@@ -48,7 +48,7 @@ export default function Page() {
         <span>개발자 최정환입니다.</span>
         <span className="block break-words font-serif">
           <br />이 블로그는 Next.js, TailwindCSS, Redux Tool Kit, Prisma 로 만들어졌습니다. 호스팅과 ssl은 CloudFlare,
-          프론트, 백엔드 배포는 vercel, DB 서버는 PlanetScale을 사용했습니다.
+          프론트, 백엔드 배포는 vercel, DB 서버는 Superbase를 사용했습니다.
           <br /> 궁금한 점이 있다면 chsw000@gmail.com로 연락주세요.
         </span>
 
