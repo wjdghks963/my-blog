@@ -1,6 +1,5 @@
-import { Tag } from "@prisma/client";
-import { UserInfo } from "@types";
-import { NextRequest, NextResponse } from "next/server";
+import { IPost, UserInfo } from "@types";
+import { NextResponse } from "next/server";
 
 import prismaclient from "@libs/server/prismaClient";
 
@@ -8,18 +7,6 @@ export interface Comment {
   id: number;
   user: UserInfo;
   content: string;
-}
-
-export interface IPost {
-  title: string;
-  content: string;
-  views: number;
-  tags: Tag[];
-  description: string;
-  category: { category: string } | null;
-  createdAt: Date;
-  updatedAt: Date;
-  comments: (Comment | null)[];
 }
 
 export async function GET(request: Request) {
@@ -41,7 +28,6 @@ export async function GET(request: Request) {
         title: true,
         content: true,
         views: true,
-        tags: true,
         description: true,
         createdAt: true,
         updatedAt: true,
@@ -61,6 +47,12 @@ export async function GET(request: Request) {
                 image: true,
               },
             },
+          },
+        },
+        tags: {
+          select: {
+            tagId: true,
+            tag: true,
           },
         },
       },

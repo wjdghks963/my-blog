@@ -1,88 +1,83 @@
-import { Tag} from '@prisma/client'
+import { Tag } from "@prisma/client";
+
+import { Comment } from "./app/api/blogs/[id]/route";
 
 export type PostStatus = "popular" | "recent";
 
 type MutationResult = { ok: boolean };
 
 export interface ThumbnailPostData {
-    id:number
-    title: string,
-    description:string,
-    thumbnail?: string
+  id: number;
+  title: string;
+  description: string;
+  thumbnail?: string;
 }
 
 export type Category = {
-    category: string;
-    posts: { id: number; title: string }[];
+  category: string;
+  posts: { id: number; title: string }[];
 };
-
-
 
 export type PostWithId = {
-    id: number;
-    title: string;
-    content: string;
-    views: number;
-    description: string;
-    createdAt: Date;
-    updatedAt: Date;
-    tags: Tag[];
+  id: number;
+  title: string;
+  content: string;
+  views: number;
+  description: string;
+  createdAt: Date;
+  updatedAt: Date;
+  tags: Tag[];
 };
 
-
 export interface InfinitePostArr {
-    nextCursor?: string;
-    data: PostWithId[];
+  nextCursor?: string;
+  data: PostWithId[];
 }
 
-export type PostsIds = [{ id: number }]
+export type PostsIds = [{ id: number }];
 
 export interface UserInfo {
-    email:string,
-    name:string,
-    image:string
+  email: string;
+  name: string;
+  image: string;
 }
 
-
 export interface CommentPostJson {
-    postId:string,
-    userEmail:string,
-    content:string
+  postId: string;
+  userEmail: string;
+  content: string;
 }
 
 export interface CommentEditJson {
-    commentId :string;
-    content:string
+  commentId: string;
+  content: string;
 }
 
-
-export interface Post {
-    title: string
-    content: string;
-    views: number,
-    tags: Tag[],
-    description: string,
-    createdAt: Date,
-    updatedAt: Date,
-    category: {category:string},
-    comments: CommentWithUser[]
-
+export interface IPost {
+  title: string;
+  content: string;
+  views: number;
+  tags: { tagId: number; tag: Tag }[];
+  description: string;
+  category: { category: string } | null;
+  createdAt: Date;
+  updatedAt: Date;
+  comments: (Comment | null)[];
 }
 
-export type CommentWithUser = {id:number, content:string, user:UserInfo}
-
+export type CommentWithUser = { id: number; content: string; user: UserInfo };
 
 export interface EditPost extends Omit<Post, "tags" | "comments" | "createdAt" | "updatedAt" | "views" | "content"> {
-    id: number;
-    markdown: string;
-    tags: string[];
-    category?: {category:string},
+  id: number;
+  markdown: string;
+  tags: string[];
+  category?: { category: string };
 }
 
 export interface PostPostJson {
-    title: string;
-    markdown: string | undefined;
-    tags?: string[];
-    description: string;
-    category?: string;
+  title: string;
+  markdown: string | undefined;
+  tags?: string[];
+  description: string;
+  category?: string;
 }

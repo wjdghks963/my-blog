@@ -2,58 +2,65 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider  = "postgresql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-
 model Post {
-  id Int @id @unique @default(autoincrement())
-  title String
-  content String @db.Text
-  views Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  id          Int       @id @unique @default(autoincrement())
+  title       String
+  content     String    @db.Text
+  views       Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
   description String
-  tags Tag[]
-  category Category? @relation(fields: [categoryId],references: [id])
-  categoryId Int?
-  comments Comment[]
+  tags        PostTag[]
+  category    Category? @relation(fields: [categoryId], references: [id])
+  categoryId  Int?
+  comments    Comment[]
 }
 
 model Tag {
-  id Int @id @unique @default(autoincrement())
-  tag String
-  posts Post[]
+  id    Int       @id @unique @default(autoincrement())
+  tag   String
+  posts PostTag[]
+}
+
+model PostTag {
+  postId Int
+  tagId  Int
+  post   Post @relation(fields: [postId], references: [id])
+  tag    Tag  @relation(fields: [tagId], references: [id])
+
+  @@id([postId, tagId])
 }
 
 model Category {
-  id Int @id @unique @default(autoincrement())
+  id       Int    @id @unique @default(autoincrement())
   category String
-  posts Post[]
+  posts    Post[]
 }
 
 model Comment {
-  id Int @id @unique @default(autoincrement())
-  content String
-  user User @relation(fields: [userId],references: [id])
-  userId Int
-  post Post? @relation(fields: [postId],references: [id])
-  postId Int
+  id        Int      @id @unique @default(autoincrement())
+  content   String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  post      Post?    @relation(fields: [postId], references: [id])
+  postId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }
 
 model User {
-  id Int @id @unique @default(autoincrement())
-  email String @unique
-  name String
-  image String
+  id       Int       @id @unique @default(autoincrement())
+  email    String    @unique
+  name     String
+  image    String
   comments Comment[]
-  domain String
+  domain   String
 }
