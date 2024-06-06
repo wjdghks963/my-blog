@@ -37,6 +37,13 @@ export default function Navigation({ isOpen, toggleOpen }: { isOpen: boolean; to
       },
     },
     {
+      text: "Update Note",
+      fn: () => {
+        router.push("/update-note");
+        toggleOpen();
+      },
+    },
+    {
       text: "Your Profile",
       fn: () => {
         router.push("/profile");
