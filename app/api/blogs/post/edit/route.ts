@@ -12,33 +12,33 @@ export async function POST(req: Request) {
   const { title, markdown, tags, description, category }: PostPostJson = await req.json();
 
   try {
-    const tagsId = await findTags(tags!);
-    const CategoryId = await findCategory(category ?? "");
+    const tagsId = tags ? await findTags(tags) : [];
+    const CategoryId = category ? await findCategory(category) : undefined;
 
     await prismaclient.post.update({
+      where: { id },
       data: {
-        title: title!,
-        content: markdown!,
+        title,
+        content: markdown,
         tags: {
-          set: [],
-          connect: tagsId?.map((itemId) => ({ id: itemId })),
+          set: [], // Reset existing tags
+          connect: tagsId?.map((tagId) => ({
+            postId_tagId: { postId: id, tagId },
+          })),
         },
         description,
-        category: category
+        category: CategoryId
           ? {
               disconnect: true,
-              connect: { id: CategoryId?.id },
+              connect: { id: CategoryId.id },
             }
           : {},
-      },
-      where: {
-        id,
       },
     });
 
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.log(err);
-    return NextResponse.json({ ok: false, message: `error occurred ${err}` });
+    console.error(err);
+    return NextResponse.json({ ok: false, message: `Error occurred: ${err}` });
   }
 }
