@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { Post } from "@types";
+import { IPost } from "@types";
 import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
 import process from "process";
@@ -14,7 +14,7 @@ import { setPostJson } from "@store/modules/editPost";
 
 export const dynamic = "force-dynamic";
 
-export default function PostEditDeleteBox({ postData }: { postData: Post }) {
+export default function PostEditDeleteBox({ postData }: { postData: IPost }) {
   const router = useRouter();
   const { id } = useParams();
   const { data: session } = useSession();
@@ -35,6 +35,7 @@ export default function PostEditDeleteBox({ postData }: { postData: Post }) {
       setPostJson({
         id: +id,
         title: postData.title,
+        // @ts-ignore
         category: postData.category,
         description: postData.description,
         markdown: postData.content,
