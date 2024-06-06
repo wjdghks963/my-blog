@@ -1,4 +1,4 @@
-import { Post } from "@types";
+import { IPost } from "@types";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import process from "process";
@@ -9,8 +9,6 @@ import { getAllPostId } from "@libs/server/getAllPostId";
 import { ISR } from "@libs/server/isr";
 
 import TagSpan from "@components/Base/TagSpan";
-import CommentList from "@components/Post/CommentList";
-import CommentWriter from "@components/Post/CommentWriter";
 import TableOfContents from "@components/Post/MarkdownContentTable";
 import MarkdownParser from "@components/Post/MarkdownParser";
 import PostEditDeleteBox from "@components/Post/PostEditDeleteBox";
@@ -22,14 +20,13 @@ type Props = {
 };
 
 export async function generateMetadata({ params: { id } }: Props): Promise<Metadata> {
-  const data: Post = await fetchData(id);
+  const data: IPost = await fetchData(id);
   if (!data) {
     notFound();
   }
 
   const ImageSrc = RegImageSrc(data?.content) ?? "";
-
-  const tags = data.tags?.length !== 0 ? data.tags?.map((tag: { tag: string }) => tag.tag) : [];
+  const tags = data.tags?.length !== 0 ? data.tags?.map((tag) => tag.tag) : [];
 
   return {
     title: data.title,
@@ -49,13 +46,13 @@ export async function generateMetadata({ params: { id } }: Props): Promise<Metad
 }
 
 export default async function Page({ params: { id } }: Props) {
-  const postData: Post = await fetchData(id);
+  const postData: IPost = await fetchData(id);
 
   if (!postData) {
     notFound();
   }
 
-  const tags = postData.tags?.length !== 0 ? postData.tags?.map((tag: { tag: string }) => tag.tag) : [];
+  const tags = postData.tags?.length !== 0 ? postData.tags?.map((tag) => tag.tag) : [];
 
   const date = compareLocaleDate(postData.createdAt!, postData.updatedAt!);
 
@@ -66,10 +63,10 @@ export default async function Page({ params: { id } }: Props) {
           <span className="w-1/2">{date}</span>
           <div className="flex flex-row gap-4 w-1/2 justify-end">
             {tags
-              ? tags.map((tag: string, index: number) => (
+              ? tags.map((tag, index: number) => (
                   <TagSpan
                     key={index}
-                    tag={tag}
+                    tag={tag.tag}
                     clickOk={true}
                     goBlog={true}
                   />
@@ -90,13 +87,6 @@ export default async function Page({ params: { id } }: Props) {
         </div>
       </div>
       <PostEditDeleteBox postData={postData} />
-      {/*<div className={"flex flex-col items-center justify-center p-5  mx-3 mobile:mx-10"}>*/}
-      {/*  <CommentWriter />*/}
-      {/*  <CommentList*/}
-      {/*    className={"mt-16"}*/}
-      {/*    commentList={postData.comments}*/}
-      {/*  />*/}
-      {/*</div>*/}
     </div>
   );
 }
