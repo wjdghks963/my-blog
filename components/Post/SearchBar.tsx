@@ -34,15 +34,15 @@ export function SearchBar() {
   };
 
   return (
-    <div className="hidden sm:flex w-1/2 justify-center mx-auto my-20 group border-2 border-black dark:border-white rounded-md shadow-md focus-within:ring-offset-4 focus-within:ring-2 focus-within:ring-black">
+    <div className="flex w-1/2 justify-center mx-auto my-20 group border-2 border-black dark:border-white rounded-md shadow-md focus-within:ring-offset-4 focus-within:ring-2 focus-within:ring-black">
       <input
         ref={inputRef}
         type="text"
         value={text}
         onChange={(e) => setText(e.currentTarget.value)}
         onKeyDown={(e) => keyDown(e)}
-        placeholder="제목 입력 후 엔터"
-        className="w-2/3 py-4 px-4 bg-transparent focus:outline-none"
+        placeholder="제목 또는 내용으로 포스트 검색하기"
+        className="w-3/4 py-4 px-4 bg-transparent focus:outline-none"
       />
       <button
         className={`${text === "" || null ? "hidden" : "flex"} w-8 ml-2 my-auto`}
