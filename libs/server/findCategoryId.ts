@@ -30,7 +30,7 @@ export const findCategory = async (category?: string): Promise<{ id: number } | 
 
     return confirmCategoryId();
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
   return null;
 };

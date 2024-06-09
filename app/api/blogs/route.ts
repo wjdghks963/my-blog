@@ -28,7 +28,6 @@ export async function GET(request: Request) {
       ORDER BY p."createdAt" DESC
       LIMIT ${limit} OFFSET ${(page - 1) * limit};
 `;
-    console.log(posts);
 
     const hasNextPage = posts.length === limit;
     return NextResponse.json({ data: posts, hasNextPage });

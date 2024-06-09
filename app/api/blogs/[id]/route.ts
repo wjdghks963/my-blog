@@ -70,7 +70,7 @@ export async function GET(request: Request) {
       updatedAt: post?.updatedAt,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return NextResponse.json({ ok: false, message: `error occurred ${err}` });
   }
 }
