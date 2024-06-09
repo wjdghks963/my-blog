@@ -11,8 +11,9 @@ export async function POST(req: Request) {
   let upsertedCategory = null;
 
   // tag upsert
-  if (tags && tags.length > 0) {
-    for (const tag of tags) {
+  if (tags) {
+    const validTags = tags.filter((tag) => tag.trim() !== ""); // 공백이 아닌 태그만 필터링
+    for (const tag of validTags) {
       try {
         const upsertedTag = await prismaclient.tag.upsert({
           where: {
