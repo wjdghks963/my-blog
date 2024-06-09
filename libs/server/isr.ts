@@ -67,7 +67,7 @@ export async function ISR(id: string): Promise<{ data: string }> {
       }),
     };
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return { data: JSON.stringify({ err }) }; // fallback 값 반환
   }
 }

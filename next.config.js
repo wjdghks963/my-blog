@@ -18,6 +18,7 @@ const nextConfig = {
       "lh3.googleusercontent.com",
       "avatars.githubusercontent.com",
       "pbs.twimg.com",
+      "storage.junglog.xyz",
     ],
     formats: ["image/avif", "image/webp"],
   },
