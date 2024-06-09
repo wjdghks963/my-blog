@@ -1,4 +1,5 @@
-import { PostPostJson } from "@types";
+import { Post, Tag } from "@prisma/client";
+import { IPost, PostPostJson } from "@types";
 import { NextResponse } from "next/server";
 
 import prismaclient from "@libs/server/prismaClient";
@@ -6,55 +7,85 @@ import prismaclient from "@libs/server/prismaClient";
 export async function POST(req: Request) {
   const { title, markdown, description, tags, category }: PostPostJson = await req.json();
 
-  try {
-    let tagPromises: Promise<any>[] = [];
-    let categoryPromise: Promise<any> | null = null;
+  let upsertedTags: Tag[] = [];
+  let upsertedCategory = null;
 
-    if (tags && tags.length > 0) {
-      tagPromises = tags.map((tag) =>
-        prismaclient.tag.upsert({
-          // @ts-ignore
-          where: { tag },
+  // tag upsert
+  if (tags && tags.length > 0) {
+    for (const tag of tags) {
+      try {
+        const upsertedTag = await prismaclient.tag.upsert({
+          where: {
+            tag: tag,
+          },
           update: {},
-          create: { tag },
-        })
-      );
-    }
+          create: {
+            tag: tag,
+          },
+        });
 
-    if (category) {
-      categoryPromise = prismaclient.category.upsert({
-        // @ts-ignore
-        where: { category },
-        update: {},
-        create: { category },
+        upsertedTags.push(upsertedTag);
+      } catch (e) {
+        console.error("태그를 처리하는데 오류가 발생했습니다: ", e);
+      }
+    }
+  }
+
+  // category upsert
+  if (category) {
+    try {
+      const uniqueCategory = await prismaclient.category.findUnique({
+        where: { category: category },
       });
+
+      upsertedCategory = uniqueCategory;
+
+      if (uniqueCategory === null) {
+        let newCategory: { id: number; category: string }[] = await prismaclient.$queryRaw`
+        INSERT INTO "Category" ("category")
+        VALUES (${category})
+        RETURNING *; 
+        `;
+        upsertedCategory = newCategory[0];
+      }
+    } catch (e) {
+      console.error("카테고리를 처리하는데 오류가 발생했습니다: ", e);
     }
+  }
 
-    const [createdTags, createdCategory] = await Promise.all([Promise.all(tagPromises), categoryPromise]);
-
-    // 포스트 생성
+  // 포스트 생성
+  try {
     const postData: any = {
       title,
-      markdown,
+      content: markdown ?? "",
       views: 0,
       description,
     };
 
-    if (createdTags.length > 0) {
-      postData.tags = {
-        connectOrCreate: createdTags.map((tag) => ({ where: { tag }, create: { tag } })),
-      };
-    }
-
-    if (createdCategory) {
+    if (upsertedCategory) {
       postData.category = {
-        connectOrCreate: { where: { category }, create: { category } },
+        connect: { id: upsertedCategory.id },
       };
     }
 
     const createdPost = await prismaclient.post.create({
+      // @ts-ignore
       data: postData,
     });
+
+    // upsert한 태그들이 하나 이상이라면 중간 테이블 연결
+    if (upsertedTags.length > 0) {
+      await Promise.all(
+        upsertedTags.map((tag) =>
+          prismaclient.postTag.create({
+            data: {
+              postId: createdPost.id,
+              tagId: tag.id,
+            },
+          })
+        )
+      );
+    }
 
     return NextResponse.json({ ok: true, post: createdPost });
   } catch (error) {
