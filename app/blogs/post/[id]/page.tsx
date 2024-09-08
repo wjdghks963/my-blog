@@ -63,11 +63,10 @@ export default async function Page({ params: { id } }: Props) {
           <span className="w-1/2">{date}</span>
           <div className="flex flex-row gap-4 w-1/2 justify-end">
             {tags
-              ? // @ts-ignore
-                tags.map((tag: string, index: number) => (
+              ? tags.map((tag, index: number) => (
                   <TagSpan
                     key={index}
-                    tag={tag}
+                    tag={tag.tag}
                     clickOk={true}
                     goBlog={true}
                   />
