@@ -52,7 +52,7 @@ export default async function Page({ params: { id } }: Props) {
     notFound();
   }
 
-  const tags = postData.tags?.length !== 0 ? postData.tags?.map((tag) => tag.tag) : [];
+  const tags = postData.tags?.length !== 0 || postData.tags === undefined ? postData.tags?.map((tag) => tag.tag) : [];
 
   const date = compareLocaleDate(postData.createdAt!, postData.updatedAt!);
 
@@ -92,18 +92,22 @@ export default async function Page({ params: { id } }: Props) {
 }
 
 async function fetchData(id: string) {
-  const res = await fetch(process.env.NEXT_PUBLIC_APIDOMAIN + `/api/blogs/${id}`, {
-    next: { revalidate: 60 },
-  });
+  try {
+    const res = await fetch(process.env.NEXT_PUBLIC_APIDOMAIN + `/api/blogs/${id}`, {
+      next: { revalidate: 60 },
+    });
 
-  const ISRData = await ISR(id);
-  // const res = JSON.parse(ISRData.data);
-  if (!res.ok) return undefined;
+    if (!res.ok) {
+      console.error("Failed to fetch data:", res.status, res.statusText);
+      return undefined;
+    }
 
-  return await res.json();
-  // return res;
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return undefined;
+  }
 }
-
 // only run at build time
 export async function generateStaticParams() {
   const { postsId } = await getAllPostId();
