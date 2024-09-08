@@ -6,6 +6,13 @@ export default function UpdateNote() {
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">블로그 업데이트 노트</h1>
       <div className="space-y-6">
         <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-700">2024년 9월 업데이트</h2>
+          <ul className="mt-4 text-gray-600">
+            <li className="border-b py-2">1. 포스트 쿼리문 네이티브로 속도 개선 13.6s {">"} 77.436ms</li>
+          </ul>
+        </div>
+
+        <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-700">2024년 6월 업데이트</h2>
           <ul className="mt-4 text-gray-600">
             <li className="border-b py-2">1. 인피니티 스크롤 관련 api, 페이지 개선</li>

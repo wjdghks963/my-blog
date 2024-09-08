@@ -43,10 +43,10 @@ export default function TableOfContents({ markdown }: { markdown: string }) {
   const fontByLevel = (level: number): string => {
     switch (level) {
       case HeaderLevel.H1: {
-        return "font-bold text-lg";
+        return "font-bold text-lg border-b-2";
       }
       case HeaderLevel.H2: {
-        return "font-semibold text-base";
+        return "font-semibold text-base border-b-2";
       }
       case HeaderLevel.H3: {
         return "font-medium text-sm";
@@ -77,7 +77,7 @@ export default function TableOfContents({ markdown }: { markdown: string }) {
       transition={spring}
       className={cls(
         isVisible ? "mobile:block" : "",
-        `fixed right-0 top-32 min-w-md hidden bg-white p-4 space-y-4 rounded-sm border-2 border-gray-200 shadow-sm shadow-slate-300`
+        `fixed right-0 top-32 min-w-md hidden bg-[#fffdd0] p-4 space-y-4 rounded-sm border-2 border-[#d2b48c] shadow-sm shadow-slate-300`
       )}
     >
       <h2 className="text-xl text-black ">Table of Contents</h2>
@@ -87,10 +87,10 @@ export default function TableOfContents({ markdown }: { markdown: string }) {
             whileHover={{ scale: 1.1 }}
             transition={{ duration: 0.2 }}
             key={index}
-            className={"cursor-pointer text-black"}
+            className={"cursor-pointer text-black pb-1"}
           >
             <a
-              className={`${fontByLevel(item.level)}`}
+              className={`${fontByLevel(item.level)}  border-[#d2b48c]`}
               onClick={(e) => {
                 scrollTo(item.anchor);
               }}
