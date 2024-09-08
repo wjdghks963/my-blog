@@ -52,21 +52,22 @@ export default async function Page({ params: { id } }: Props) {
     notFound();
   }
 
-  const tags = postData.tags?.length !== 0 || postData.tags === undefined ? postData.tags?.map((tag) => tag.tag) : [];
+  const tags = postData.tags?.length !== 0 ? postData.tags?.map((tag) => tag.tag) : [];
 
   const date = compareLocaleDate(postData.createdAt!, postData.updatedAt!);
 
   return (
     <div className="font-roboto-regular">
-      <div className="flex flex-col mx-3 mt-16 mobile:mx-10 p-5 border-2 border-gray-700 dark:border-white">
+      <div className="flex flex-col mx-3 mt-16 mobile:mx-10 p-5 border-2 border-gray-700 dark:border-white bg-[#f9f9f9]">
         <div className="flex w-full">
           <span className="w-1/2">{date}</span>
           <div className="flex flex-row gap-4 w-1/2 justify-end">
             {tags
-              ? tags.map((tag, index: number) => (
+              ? // @ts-ignore
+                tags.map((tag: string, index: number) => (
                   <TagSpan
                     key={index}
-                    tag={tag.tag}
+                    tag={tag}
                     clickOk={true}
                     goBlog={true}
                   />
