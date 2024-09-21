@@ -12,6 +12,8 @@ export default function UpdateNote() {
               1. Post 쿼리(Update) 네이티브 사용해 속도 개선 (Superbase 실행 기준) 13.6s {">"} 1.2s
             </li>
             <li className="border-b py-2">2. robots.txt 개선 & sitemap.ts 적용 (동적 sitemap.xml 생성)</li>
+            <li className="border-b py-2">3. 다크모드 배경색상 변경 & Post 페이지 css 변경</li>
+            <li className="border-b py-2">4. 사용하지 않는 코드 & ISR 등 레거시 코드 삭제</li>
           </ul>
         </div>
 
