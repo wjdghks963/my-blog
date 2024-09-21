@@ -8,7 +8,10 @@ export default function UpdateNote() {
         <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-700">2024년 9월 업데이트</h2>
           <ul className="mt-4 text-gray-600">
-            <li className="border-b py-2">1. 포스트 쿼리문 네이티브로 속도 개선 13.6s {">"} 77.436ms</li>
+            <li className="border-b py-2">
+              1. Post 쿼리(Update) 네이티브 사용해 속도 개선 (Superbase 실행 기준) 13.6s {">"} 1.2s
+            </li>
+            <li className="border-b py-2">2. robots.txt 개선 & sitemap.ts 적용 (동적 sitemap.xml 생성)</li>
           </ul>
         </div>
 

@@ -9,11 +9,13 @@ import PostsByStatus from "@components/Home/PostsByStatus";
 import PostsByStatusSkeleton from "@components/Home/PostsByStatusSkeleton";
 
 export const metadata: Metadata = {
-  title: "Jung Blog",
-  description: "최정환의 기술 블로그",
+  title: "Jung’s Tech Blog: Web Dev & Beyond",
+  description:
+    "JavaScript 프론트엔드 개발을 중심으로, Java와 서버 인프라까지 다양한 기술 분야를 학습하고 다루는 최정환의 기술 블로그입니다. 최신 웹 개발 트렌드와 실전 팁을 만나보세요.",
   openGraph: {
     title: "Jung Blog",
-    description: "최정환의 기술 블로그",
+    description:
+      "JavaScript 프론트엔드 개발을 중심으로, Java와 서버 인프라까지 다양한 기술 분야를 학습하고 다루는 최정환의 기술 블로그입니다. 최신 웹 개발 트렌드와 실전 팁을 만나보세요.",
   },
 };
 
@@ -55,13 +57,6 @@ export default function Page() {
         <Link href={"https://github.com/wjdghks963/my-blog"}>
           <span className="block mt-4 cursor-pointer font-bold">깃헙 레포 구경가기 &rarr; </span>
         </Link>
-        {/*<Link*/}
-        {/*  href={*/}
-        {/*    "https://63635e18291535f4d01657be-csrykgcgxo.chromatic.com/?path=/story/components-base-headerli--normal"*/}
-        {/*  }*/}
-        {/*>*/}
-        {/*  <span className="block mt-4 cursor-pointer font-bold">Story Book 구경가기 &rarr; </span>*/}
-        {/*</Link>*/}
       </div>
       <Footer />
     </div>

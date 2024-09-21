@@ -8,12 +8,13 @@ import Provider from "@components/Provider";
 import "../styles/globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.junglog.xyz"),
-  title: "Jung Blog",
-  description: "기술 블로그",
+  title: "Jung’s Tech Blog: Web Dev & Beyond",
+  description:
+    "JavaScript 프론트엔드 개발을 중심으로, Java와 서버 인프라까지 다양한 기술 분야를 학습하고 다루는 최정환의 기술 블로그입니다. 최신 웹 개발 트렌드와 실전 팁을 만나보세요.",
   openGraph: {
     title: "Jung Blog",
-    description: "기술 블로그",
+    description:
+      "JavaScript 프론트엔드 개발을 중심으로, Java와 서버 인프라까지 다양한 기술 분야를 학습하고 다루는 최정환의 기술 블로그입니다. 최신 웹 개발 트렌드와 실전 팁을 만나보세요.",
   },
 };
 

@@ -1,6 +1,4 @@
 User-agent: *
 Disallow: /api
-Disallow: /blog/post
-Allow: /
 
-Sitemap: https://junglog.xyz/sitemap.xml
+Sitemap: https://www.junglog.xyz/sitemap.xml
