@@ -18,14 +18,14 @@ import { cls } from "@libs/client/utils";
 export default function MarkdownParser({ markdown }: any) {
   return (
     <ReactMarkdown
-      className="w-[80vw]"
+      className="w-[80vw] text-gray-800 dark:text-[#E5E7EB]"
       components={{
         bdo: undefined,
         h1({ node, children, ...props }) {
           return (
             <h1
               {...props}
-              className="dark:text-white"
+              className="text-black dark:text-white"
             >
               {children}
             </h1>
@@ -35,7 +35,7 @@ export default function MarkdownParser({ markdown }: any) {
           return (
             <h2
               {...props}
-              className="dark:text-white"
+              className="text-black dark:text-white"
             >
               {children}
             </h2>
@@ -45,7 +45,7 @@ export default function MarkdownParser({ markdown }: any) {
           return (
             <h3
               {...props}
-              className="dark:text-white"
+              className="text-black dark:text-white"
             >
               {children}
             </h3>
@@ -55,7 +55,7 @@ export default function MarkdownParser({ markdown }: any) {
           return (
             <h4
               {...props}
-              className="dark:text-white"
+              className="text-black dark:text-white"
             >
               {children}
             </h4>
@@ -67,8 +67,6 @@ export default function MarkdownParser({ markdown }: any) {
             <div className={"relative w-full h-80 my-10"}>
               <Image
                 fill
-                // width={300}
-                // height={300}
                 style={{ objectFit: "scale-down", objectPosition: "center" }}
                 src={props?.src + ""}
                 quality={100}
@@ -81,7 +79,7 @@ export default function MarkdownParser({ markdown }: any) {
           return (
             <div
               {...props}
-              className="dark:text-white break-words my-4"
+              className="break-words my-4"
             >
               {children}
             </div>
@@ -95,7 +93,7 @@ export default function MarkdownParser({ markdown }: any) {
           );
         },
         li({ node, children }) {
-          return <li className="dark:text-white">{children}</li>;
+          return <li className="">{children}</li>;
         },
         span({ node, children, style }) {
           const backColor = `bg-[${style?.backgroundColor}]`;

@@ -6,7 +6,6 @@ import process from "process";
 import compareLocaleDate from "@libs/client/CompareLocaleDate";
 import { RegImageSrc } from "@libs/server/RegImageSrc";
 import { getAllPostId } from "@libs/server/getAllPostId";
-import { ISR } from "@libs/server/isr";
 
 import TagSpan from "@components/Base/TagSpan";
 import TableOfContents from "@components/Post/MarkdownContentTable";
@@ -58,7 +57,7 @@ export default async function Page({ params: { id } }: Props) {
 
   return (
     <div className="font-roboto-regular">
-      <div className="flex flex-col mx-3 mt-16 mobile:mx-10 p-5 border-2 border-gray-700 dark:border-white bg-[#f9f9f9]">
+      <div className="flex flex-col mx-3 mt-16 mobile:mx-10 p-5 border-2 border-gray-700 bg-[#f9f9f9] dark:border-white dark:bg-[#374151]">
         <div className="flex w-full">
           <span className="w-1/2">{date}</span>
           <div className="flex flex-row gap-4 w-1/2 justify-end">
@@ -66,7 +65,7 @@ export default async function Page({ params: { id } }: Props) {
               ? tags.map((tag, index: number) => (
                   <TagSpan
                     key={index}
-                    tag={tag.tag}
+                    tag={tag}
                     clickOk={true}
                     goBlog={true}
                   />

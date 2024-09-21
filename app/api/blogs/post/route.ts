@@ -1,5 +1,5 @@
-import { Post, Tag } from "@prisma/client";
-import { IPost, PostPostJson } from "@types";
+import { Tag } from "@prisma/client";
+import { PostPostJson } from "@types";
 import { NextResponse } from "next/server";
 
 import prismaclient from "@libs/server/prismaClient";
