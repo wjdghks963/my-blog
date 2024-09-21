@@ -10,6 +10,11 @@ module.exports = {
   content: ["./app/**/*.{js,ts,jsx,tsx}", "./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      colors: {
+        darkBg: "#1f2937", // 다크 모드 배경 색상
+        lightBg: "#ffffff", // 라이트 모드 배경 색상
+      },
+
       fontFamily: {
         "roboto-regular": ["Roboto-Regular"],
         "roboto-bold": ["Roboto-Bold"],
