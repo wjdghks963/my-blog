@@ -106,7 +106,8 @@ export default function Page() {
           </div>
         </div>
         <MDEditor
-          className="w-4/5 prose"
+          className="w-full"
+          height={500}
           value={markdown}
           onChange={(value) => setMarkdown(value)}
         />

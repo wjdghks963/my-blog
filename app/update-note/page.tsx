@@ -3,7 +3,7 @@ import React from "react";
 export default function UpdateNote() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">블로그 업데이트 노트</h1>
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-10 dark:text-white">블로그 업데이트 노트</h1>
       <div className="space-y-6">
         <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-700">2024년 9월 업데이트</h2>
