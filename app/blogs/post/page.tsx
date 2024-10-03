@@ -107,7 +107,7 @@ export default function Page() {
         </div>
         <MDEditor
           className="w-full"
-          height={500}
+          height={1000}
           value={markdown}
           onChange={(value) => setMarkdown(value)}
         />

@@ -46,7 +46,7 @@ export async function GET(request: Request) {
     LEFT JOIN 
         "Tag" AS t ON t.id = pt."tagId"
     WHERE 
-        p.title ILIKE ${`%${query}%`} OR p.content ILIKE ${`%${query}%`}
+        p.title LIKE ${`%${query}%`} OR p.content LIKE ${`%${query}%`}
     GROUP BY p.id
     ORDER BY p."createdAt" DESC
     LIMIT ${limit} OFFSET ${(page - 1) * limit};

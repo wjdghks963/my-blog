@@ -20,7 +20,7 @@ export default function Page() {
 
   const editPostData = useSelector((state: ReduxSliceState) => state.editPostReducer);
 
-  const editPostDataTags = editPostData.tags.join("");
+  const editPostDataTags = editPostData.tags ? editPostData.tags.join("") : "";
 
   const tagsRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
@@ -115,7 +115,8 @@ export default function Page() {
           </div>
         </div>
         <MDEditor
-          className="w-4/5 prose"
+          className="w-full"
+          height={1000}
           defaultValue={editPostData.markdown}
           value={markdown}
           onChange={(value) => setMarkdown(value)}
