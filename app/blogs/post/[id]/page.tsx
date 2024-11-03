@@ -73,7 +73,7 @@ export default async function Page({ params: { id } }: Props) {
               : null}
           </div>
         </div>
-        {postData.category ? <span className="">카테고리 : {postData.category.category}</span> : null}
+        {postData.category ? <span className="">카테고리 : {postData.category}</span> : null}
         <span className="my-3">조회 : {postData.views}</span>
         <h1 className="font-bold text-5xl mt-10">{postData.title}</h1>
         <TableOfContents markdown={postData.content} />

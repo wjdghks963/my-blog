@@ -28,6 +28,10 @@ const nextConfig = {
         source: "/api/postImage/:postImageUrl*",
         destination: `https://res.cloudinary.com/:postImageUrl*`,
       },
+      {
+        source: "/api/npm-downloads",
+        destination: "https://api.npmjs.org/downloads/point/last-month/@wjdghks963/react-native-shuffle-pincode",
+      },
     ];
   },
 };

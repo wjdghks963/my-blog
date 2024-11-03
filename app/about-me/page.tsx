@@ -1,5 +1,6 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -12,12 +13,42 @@ import linkedinImg from "@public/me/linkedin_img.png";
 import oaImg from "@public/me/oa_img.png";
 import planetImg from "@public/me/planet_img.png";
 
+type DownloadData = {
+  downloads: number;
+};
+
+const NpmDownloads: React.FC = () => {
+  const today = new Date().toISOString().split("T")[0];
+  const url = `https://api.npmjs.org/downloads/point/2000-01-01:${today}/@wjdghks963/react-native-shuffle-pincode`;
+
+  const { data, isLoading, error } = useQuery<DownloadData>({
+    queryKey: ["npmDownloads"],
+    queryFn: async () => {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error("Failed to fetch download data");
+      }
+      return response.json();
+    },
+    staleTime: Infinity,
+  });
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading download count</p>;
+
+  return (
+    <div className="w-1/3 bg-red-500 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center">
+      Total Downloads: {data?.downloads?.toLocaleString() ?? "N/A"}
+    </div>
+  );
+};
+
 export default function Blogs() {
   return (
     <div className="flex flex-col py-16 mobile:mx-32 mx-10 font-roboto-regular">
       <section className="flex flex-col gap-4 mt-5">
-        <p>안녕하세요. 매일 배우며 어떤것이든 좋고 새롭게 만드는 것을 즐기는 개발자입니다.</p>
-        <p>항상 소프트 스킬 향상을 위해 노력하고 있습니다.</p>
+        <p>안녕하세요. 새로운 도전과 내실을 다지기를 즐기는 개발자입니다.</p>
+        <p>소프트 스킬 향상을 위해 노력하고 있습니다.</p>
 
         <div className="flex gap-10">
           <Link
@@ -47,14 +78,14 @@ export default function Blogs() {
 
       <section className="flex flex-col gap-4 mt-16">
         <h2 className="text-2xl font-semibold">경력</h2>
+        <p className="text-lg">프리텔레콤 - 웹 개발자(spring&jquery) | 2024.02 - 현재</p>
         <p className="text-lg">해커스 홀딩스 - 프론트엔드 개발자 | 2023.05 - 2023.09</p>
-        <p className="text-lg">코인 고스트 - 안드로이드 개발자 | 2022.06 - 2022.08</p>
+        <p className="text-lg">코인 고스트(인턴) - 안드로이드 개발자 | 2022.06 - 2022.08</p>
       </section>
 
       <section className="flex flex-col gap-4 mt-16">
         <h2 className="text-2xl font-semibold">기술스택</h2>
-        <p className="text-lg">익숙함 : Next.js, RN, TailwindCSS, Redux toolkit, React Query</p>
-        <p className="text-lg">덜익숙함 : Spring boot</p>
+        <p className="text-lg">익숙함 : Next.js, RN, TailwindCSS, Redux toolkit, React Query, Spring boot</p>
         <p className="text-lg">배우는 중 : Docker, SQL</p>
       </section>
 
@@ -162,6 +193,7 @@ export default function Blogs() {
             >
               NPM 주소
             </Link>
+            <NpmDownloads />
           </section>
         </div>
       </>

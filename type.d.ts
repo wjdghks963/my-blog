@@ -59,7 +59,7 @@ export interface IPost {
   views: number;
   tags: { tagId: number; tag: string }[];
   description: string;
-  category: { category: string } | null;
+  category: string | null;
   createdAt: Date;
   updatedAt: Date;
   comments: (Comment | null)[];
