@@ -11,11 +11,11 @@ import PostsByStatusSkeleton from "@components/Home/PostsByStatusSkeleton";
 export const metadata: Metadata = {
   title: "Jung’s Tech Blog: Web Dev & Beyond",
   description:
-    "JavaScript 프론트엔드 개발을 중심으로, Java와 서버 인프라까지 다양한 기술 분야를 학습하고 다루는 최정환의 기술 블로그입니다. 최신 웹 개발 트렌드와 실전 팁을 만나보세요.",
+    "프론트엔드 개발을 중심으로, 서버 인프라까지 다양한 기술 분야를 학습하고 다루는 최정환의 기술 블로그입니다.",
   openGraph: {
     title: "Jung Blog",
     description:
-      "JavaScript 프론트엔드 개발을 중심으로, Java와 서버 인프라까지 다양한 기술 분야를 학습하고 다루는 최정환의 기술 블로그입니다. 최신 웹 개발 트렌드와 실전 팁을 만나보세요.",
+      "프론트엔드 개발을 중심으로, 서버 인프라까지 다양한 기술 분야를 학습하고 다루는 최정환의 기술 블로그입니다.",
   },
 };
 
@@ -24,8 +24,7 @@ export default function Page() {
     <div className={"mx-10 mt-16"}>
       <div className="flex flex-col my-10">
         <h1 className="font-bold text-4xl mb-10 font-serif">Recent Posts</h1>
-
-        <Suspense fallback={<PostsByStatusSkeleton count={5} />}>
+        <Suspense fallback={<div className="text-white text-4xl">LOADING ...</div>}>
           <PostsByStatus status={"recent"} />
         </Suspense>
       </div>
@@ -42,6 +41,7 @@ export default function Page() {
           <CategoriesBox />
         </Suspense>
       </div>
+
       <div className="my-5">
         <div className="pb-5 flex font-extrabold text-2xl font-serif">
           안녕하세요

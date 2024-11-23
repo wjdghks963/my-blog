@@ -6,10 +6,20 @@ export default function UpdateNote() {
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-10 dark:text-white">블로그 업데이트 노트</h1>
       <div className="space-y-6">
         <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6">
+          <h2 className="text-xl font-semibold text-gray-700">2024년 11월 업데이트</h2>
+          <ul className="mt-4 text-gray-600">
+            <li className="border-b py-2">1. Post 쿼리(Detail Update) 네이티브 사용</li>
+            <li className="border-b py-2">2. 리팩토링 (불필요한 코드 삭제)</li>
+            <li className="border-b py-2">2-1. 메인 페이지 최근/조회수 포스트 CSR로 변경</li>
+            <li className="border-b py-2">2-2. react-query suspense 옵션 추가</li>
+          </ul>
+        </div>
+
+        <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6">
           <h2 className="text-xl font-semibold text-gray-700">2024년 9월 업데이트</h2>
           <ul className="mt-4 text-gray-600">
             <li className="border-b py-2">
-              1. Post 쿼리(Update) 네이티브 사용해 속도 개선 (Superbase 실행 기준) 13.6s {">"} 1.2s
+              1. Post 쿼리(View +1 Update) 네이티브 사용해 속도 개선 (Superbase 실행 기준) 13.6s {">"} 1.2s
             </li>
             <li className="border-b py-2">2. robots.txt 개선 & sitemap.ts 적용 (동적 sitemap.xml 생성)</li>
             <li className="border-b py-2">3. 다크모드 배경색상 변경 & Post 페이지 css 변경</li>

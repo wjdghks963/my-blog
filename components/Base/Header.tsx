@@ -16,7 +16,6 @@ export default function Header() {
   const headerMap: HeaderMap = [
     ["HOME", () => router.push("/")],
     ["BLOG", () => router.push("/blogs")],
-    ["RESUME", () => router.push("/resume")],
   ];
 
   useEffect(() => {

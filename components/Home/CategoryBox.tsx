@@ -49,7 +49,6 @@ export function CategoryBox({ category }: { category: Category }) {
         initial={{ height: 0, opacity: 0 }}
         animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
       >
-        {" "}
         {category.posts.map((post) => (
           <motion.span
             initial={{ scale: 1 }}
