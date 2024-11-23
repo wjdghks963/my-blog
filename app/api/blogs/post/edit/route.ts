@@ -1,8 +1,6 @@
 import { PostPostJson } from "@types";
 import { NextResponse } from "next/server";
 
-import { findCategory } from "@libs/server/findCategoryId";
-import { findTags } from "@libs/server/findTags";
 import prismaclient from "@libs/server/prismaClient";
 
 export async function POST(req: Request) {
@@ -12,28 +10,70 @@ export async function POST(req: Request) {
   const { title, markdown, tags, description, category }: PostPostJson = await req.json();
 
   try {
-    const tagsId = tags ? await findTags(tags) : [];
-    const CategoryId = category ? await findCategory(category) : undefined;
+    await prismaclient.$transaction(async (tx) => {
+      // Update post detail
+      await tx.$executeRaw`
+        UPDATE "Post"
+        SET 
+          title = ${title},
+          content = ${markdown},
+          description = ${description}
+        WHERE id = ${id}
+      `;
 
-    await prismaclient.post.update({
-      where: { id },
-      data: {
-        title,
-        content: markdown,
-        tags: {
-          set: [], // Reset existing tags
-          connect: tagsId?.map((tagId) => ({
-            postId_tagId: { postId: id, tagId },
-          })),
-        },
-        description,
-        category: CategoryId
-          ? {
-              disconnect: true,
-              connect: { id: CategoryId.id },
+      // 포스트에 엮이는 태그 처리
+      if (tags && tags.length > 0) {
+        const tagIds = await Promise.all(
+          tags.map(async (tag) => {
+            // 태그가 존재하는지 확인
+            const [existingTag] = await tx.$queryRaw<{ id: number }[]>`
+                SELECT id FROM "Tag" WHERE tag = ${tag}
+            `;
+
+            // 태그가 없으면 삽입
+            if (!existingTag) {
+              const [newTag] = await tx.$queryRaw<{ id: number }[]>`
+                    INSERT INTO "Tag" ("tag") VALUES (${tag})
+                    RETURNING id
+              `;
+              return newTag.id;
             }
-          : {},
-      },
+
+            // 존재하는 경우 태그 ID 반환
+            return existingTag.id;
+          })
+        );
+
+        // 중간 테이블 삭제
+        await tx.$executeRaw`
+        DELETE FROM "PostTag"
+        WHERE "postId" = ${id}
+      `;
+
+        // 태그 연결
+        for (const tagId of tagIds.filter((t) => t)) {
+          await tx.$executeRaw`
+            INSERT INTO "PostTag" ("postId", "tagId")
+            VALUES (${id}, ${tagId})
+            ON CONFLICT DO NOTHING
+          `;
+        }
+      }
+
+      // Update category if provided
+      if (category) {
+        const [categoryId] = await tx.$queryRaw<{ id: number }[]>`
+          SELECT id FROM "Category" WHERE name = ${category}
+        `;
+
+        if (categoryId) {
+          await tx.$executeRaw`
+            UPDATE "Post"
+            SET "categoryId" = ${categoryId.id}
+            WHERE id = ${id}
+          `;
+        }
+      }
     });
 
     return NextResponse.json({ ok: true });
