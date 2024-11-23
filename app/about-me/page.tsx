@@ -47,7 +47,7 @@ export default function Blogs() {
   return (
     <div className="flex flex-col py-16 mobile:mx-32 mx-10 font-roboto-regular">
       <section className="flex flex-col gap-4 mt-5">
-        <p>안녕하세요. 새로운 도전과 내실을 다지기를 즐기는 개발자입니다.</p>
+        <p>안녕하세요. 새로운 도전과 내실 다지기를 즐기는 개발자입니다.</p>
         <p>소프트 스킬 향상을 위해 노력하고 있습니다.</p>
 
         <div className="flex gap-10">

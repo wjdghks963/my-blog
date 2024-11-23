@@ -28,7 +28,7 @@ export default function PostsByStatus({ status }: { status: PostStatus }): any {
           <PostWithThumbnail
             key={index}
             data={post}
-            className={index === 4 ? "hidden mobile:flex" : ""}
+            className={[3, 4].includes(index) ? "hidden mobile:flex" : ""}
           />
         );
       })}

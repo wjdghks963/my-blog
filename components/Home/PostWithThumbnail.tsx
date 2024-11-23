@@ -11,43 +11,47 @@ export default function PostWithThumbnail({ data, className }: { data: Thumbnail
   const router = useRouter();
 
   const moveToPost = (id: number) => {
-    return router.push(`/blogs/post/${id}`);
+    router.push(`/blogs/post/${id}`);
   };
 
   return (
     <motion.div
-      initial={{ scale: 0 }}
-      animate={{ scale: 1, rotateZ: 360 }}
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
       whileHover={{
-        translateY: -2,
-        scale: 1.1,
+        scale: 1.05,
+        boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)",
         zIndex: 3,
       }}
-      transition={{ type: "spring", stiffness: 100 }}
+      transition={{ duration: 0.3 }}
       className={cls(
         className ?? "",
-        "w-1/4 mobile:w-1/5 text-black flex flex-col px-2 bg-white text-center thin-round-black-border cursor-pointer"
+        "group w-full mobile:w-1/5 text-black flex flex-col bg-white rounded-lg overflow-hidden shadow-md cursor-pointer transform transition-all duration-300"
       )}
       onClick={() => moveToPost(data.id)}
     >
-      <span className="w-full mobile:w-1/2 max-h-16 font-semibold py-3 overflow-hidden text-ellipsis whitespace-wrap mx-auto font-roboto-regular">
-        {data.title}
-      </span>
-      {data.thumbnail ? (
-        <Image
-          className="hidden mobile:block w-full h-32 object-cover"
-          src={data.thumbnail}
-          alt="Thumbnail"
-          width={500}
-          height={500}
-          quality={100}
-        />
-      ) : (
-        <div className="w-2/3 h-1"></div>
+      {/* Thumbnail */}
+      {data.thumbnail && (
+        <div className="relative w-full h-32 overflow-hidden hidden mobile:block">
+          <Image
+            src={data.thumbnail}
+            alt="Thumbnail"
+            layout="fill"
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+            quality={80}
+          />
+        </div>
       )}
-      <span className="hidden w-full mobile:block max-h-32 py-2 text-center overflow-hidden text-ellipsis whitespace-wrap mx-auto font-roboto-regular">
+
+      {/* Title */}
+      <h3 className="mt-3 px-4 text-lg font-bold text-center text-black group-hover:text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-500 group-hover:bg-gradient-to-r transition-all duration-300">
+        {data.title}
+      </h3>
+
+      {/* Description */}
+      <p className="hidden mobile:block px-4 mt-2 mb-4 text-sm text-gray-600 line-clamp-3 text-center">
         {data.description}
-      </span>
+      </p>
     </motion.div>
   );
 }

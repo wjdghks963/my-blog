@@ -1,57 +1,77 @@
 import React from "react";
 
+import NoteList from "@components/UpdateNote/NoteList";
+import NoteLists from "@components/UpdateNote/NoteLists";
+import NoteTitle from "@components/UpdateNote/NoteTitle";
+
 export default function UpdateNote() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 cursor-pointer">
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-10 dark:text-white">블로그 업데이트 노트</h1>
       <div className="space-y-6">
-        <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-700">2024년 11월 업데이트</h2>
-          <ul className="mt-4 text-gray-600">
-            <li className="border-b py-2">1. Post 쿼리(Detail Update) 네이티브 사용</li>
-            <li className="border-b py-2">2. 리팩토링 (불필요한 코드 삭제)</li>
-            <li className="border-b py-2">2-1. 메인 페이지 최근/조회수 포스트 CSR로 변경</li>
-            <li className="border-b py-2">2-2. react-query suspense 옵션 추가</li>
-          </ul>
+        <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6 group">
+          <NoteTitle
+            year="2024"
+            month="11"
+          />
+          <NoteLists>
+            <NoteList content="1. Post 쿼리(Detail Update) 네이티브 변경" />
+            <NoteList content="2. 리팩토링 (불필요한 코드 삭제)" />
+            <NoteList content="2-1. 메인 페이지 최근/조회수 포스트 CSR로 변경" />
+            <NoteList content="2-2. react-query suspense 옵션 추가" />
+            <NoteList content="3. 전체적인 디자인 변경" />
+          </NoteLists>
         </div>
 
-        <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-700">2024년 9월 업데이트</h2>
-          <ul className="mt-4 text-gray-600">
-            <li className="border-b py-2">
-              1. Post 쿼리(View +1 Update) 네이티브 사용해 속도 개선 (Superbase 실행 기준) 13.6s {">"} 1.2s
-            </li>
-            <li className="border-b py-2">2. robots.txt 개선 & sitemap.ts 적용 (동적 sitemap.xml 생성)</li>
-            <li className="border-b py-2">3. 다크모드 배경색상 변경 & Post 페이지 css 변경</li>
-            <li className="border-b py-2">4. 사용하지 않는 코드 & ISR 등 레거시 코드 삭제</li>
-          </ul>
+        <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6 group">
+          <NoteTitle
+            year="2024"
+            month="09"
+          />
+          <NoteLists>
+            <NoteList
+              content={`1. Post 쿼리(View +1 Update) 네이티브 사용해 속도 개선 (Superbase 실행 기준) 13.6s {">"} 1.2s`}
+            />
+            <NoteList content="2. robots.txt 개선 & sitemap.ts 적용 (동적 sitemap.xml 생성)" />
+            <NoteList content="3. 다크모드 배경색상 변경 & Post 페이지 css 변경" />
+            <NoteList content="4. 사용하지 않는 코드 & ISR 등 레거시 코드 삭제" />
+          </NoteLists>
         </div>
 
-        <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-700">2024년 6월 업데이트</h2>
-          <ul className="mt-4 text-gray-600">
-            <li className="border-b py-2">1. 인피니티 스크롤 관련 api, 페이지 개선</li>
-            <li className="border-b py-2">2. 블로그 업데이트 노트 시작</li>
-          </ul>
+        <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6 group">
+          <NoteTitle
+            year="2024"
+            month="06"
+          />
+          <NoteLists>
+            <NoteList content="1. 인피니티 스크롤 관련 api, 페이지 개선" />
+            <NoteList content="2. 블로그 업데이트 노트 시작" />
+          </NoteLists>
         </div>
 
-        <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-700">2024년 3월 업데이트</h2>
-          <ul className="mt-4 text-gray-600">
-            <li className="border-b py-2">1. PlanetScale =&gt; Superbase DB 서버 마이그레이션 </li>
-            <li className="border-b py-2">2. 프리즈마 클라이언트 버전 업그레이드</li>
-          </ul>
+        <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6 group">
+          <NoteTitle
+            year="2024"
+            month="03"
+          />
+          <NoteLists>
+            <NoteList content="1. PlanetScale =&gt; Superbase DB 서버 마이그레이션" />
+            <NoteList content="2. 프리즈마 클라이언트 버전 업그레이드" />
+          </NoteLists>
         </div>
 
-        <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-700">2024년 1월 업데이트</h2>
-          <ul className="mt-4 text-gray-600">
-            <li className="border-b py-2">1. 폰트 추가</li>
-            <li className="border-b py-2">2. 리액트 쿼리 v4 =&gt; v5 업그레이드</li>
-            <li className="border-b py-2">3. 포스트의 revalidate 시간 연장</li>
-            <li className="border-b py-2">4. 리액트 마크다운 warning 고침</li>
-            <li className="border-b py-2">5. 인피니티 스크롤 고양이 애니메이션 추가</li>
-          </ul>
+        <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6 group">
+          <NoteTitle
+            year="2024"
+            month="01"
+          />
+          <NoteLists>
+            <NoteList content="1. 폰트 추가" />
+            <NoteList content="2. 리액트 쿼리 v4 =&gt; v5 업그레이드" />
+            <NoteList content="3. 포스트의 revalidate 시간 연장" />
+            <NoteList content="4. 리액트 마크다운 warning 고침" />
+            <NoteList content="5. 인피니티 스크롤 고양이 애니메이션 추가" />
+          </NoteLists>
         </div>
       </div>
     </div>

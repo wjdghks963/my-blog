@@ -23,20 +23,49 @@ export default function Page() {
   return (
     <div className={"mx-10 mt-16"}>
       <div className="flex flex-col my-10">
-        <h1 className="font-bold text-4xl mb-10 font-serif">Recent Posts</h1>
-        <Suspense fallback={<div className="text-white text-4xl">LOADING ...</div>}>
+        <h1 className="font-bold text-4xl mb-10 font-serif relative text-black dark:text-white">
+          <span className="absolute left-1 top-1 text-gray-300 dark:hidden">Recent Posts</span>
+          <span
+            className="hidden dark:block absolute inset-0 text-white"
+            style={{
+              textShadow: "0 0 5px #00FFFF, 0 0 10px #00FFFF, 0 0 20px #00FFFF, 0 0 40px #00FFFF",
+            }}
+          >
+            Recent Posts
+          </span>
+          Recent Posts
+        </h1>
+        <Suspense fallback={<PostsByStatusSkeleton count={5} />}>
           <PostsByStatus status={"recent"} />
         </Suspense>
       </div>
       <div className=" flex flex-col my-10">
-        <h1 className="font-bold text-4xl mb-10 font-serif">Popular Posts</h1>
+        <h1 className="font-bold text-4xl mb-10 font-serif relative text-black dark:text-white">
+          <span className="absolute left-1 top-1 text-gray-300 dark:hidden">Popular Posts</span>
+          <span
+            className="hidden dark:block absolute inset-0 text-white"
+            style={{ textShadow: "0 0 10px #FF00FF, 0 0 20px #FF00FF, 0 0 30px #FF00FF" }}
+          >
+            Popular Posts
+          </span>
+          Popular Posts
+        </h1>
         <Suspense fallback={<PostsByStatusSkeleton count={5} />}>
           <PostsByStatus status={"popular"} />
         </Suspense>
       </div>
 
       <div className="hidden mobile:flex flex-col mt-10 pb-10">
-        <h1 className="font-bold text-4xl mb-10 font-serif">By Category</h1>
+        <h1 className="font-bold text-4xl mb-10 font-serif relative text-black dark:text-white">
+          <span className="absolute left-1 top-1 text-gray-300 dark:hidden">By Category</span>
+          <span
+            className="hidden dark:block absolute inset-0 text-white"
+            style={{ textShadow: "0 0 5px #FFFF00, 0 0 10px #FFFF00, 0 0 20px #FFFF00, 0 0 40px #FFFF00" }}
+          >
+            By Category
+          </span>
+          By Category
+        </h1>
         <Suspense fallback={<CategoriesBoxSkeleton />}>
           <CategoriesBox />
         </Suspense>
