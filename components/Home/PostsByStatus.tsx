@@ -1,37 +1,33 @@
-"use client";
-
-import { useQuery } from "@tanstack/react-query";
 import { PostStatus, ThumbnailPostData } from "@types";
-import process from "process";
-import React from "react";
 
 import PostWithThumbnail from "@components/Home/PostWithThumbnail";
 
-export default function PostsByStatus({ status }: { status: PostStatus }): any {
-  const { data } = useQuery<{ json: [ThumbnailPostData] }>({
-    queryKey: ["PostsByStatus", status],
-    queryFn: async () => {
-      const response = await fetch(process.env.NEXT_PUBLIC_APIDOMAIN + `/api/main/${status}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch data");
-      }
-      return response.json();
-    },
-
-    staleTime: Infinity,
+async function fetchPostsByStatus(status: PostStatus) {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APIDOMAIN}/api/main/${status}`, {
+    cache: "no-store", // 항상 최신 데이터를 가져오기 위해 no-store 사용
   });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  const data: { json: ThumbnailPostData[] } = await res.json();
+  return data.json;
+}
+
+// @ts-ignore
+export default async function PostsByStatus({ status }: { status: PostStatus }): any {
+  const posts = await fetchPostsByStatus(status);
 
   return (
     <div className="flex gap-2">
-      {data?.json?.map((post: ThumbnailPostData, index: number) => {
-        return (
-          <PostWithThumbnail
-            key={index}
-            data={post}
-            className={[3, 4].includes(index) ? "hidden mobile:flex" : ""}
-          />
-        );
-      })}
+      {posts.map((post, index) => (
+        <PostWithThumbnail
+          key={post.id}
+          data={post}
+          className={[3, 4].includes(index) ? "hidden mobile:flex" : ""}
+        />
+      ))}
     </div>
   );
 }
