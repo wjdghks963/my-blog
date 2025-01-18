@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import React, { Suspense } from "react";
+import React from "react";
 
 import Footer from "@components/Base/Footer";
 import CategoriesBox from "@components/Home/CategoriesBox";
@@ -65,12 +65,12 @@ export default function Page() {
       </div>
 
       <div className="my-5">
-        <div className="pb-5 flex font-extrabold text-2xl font-serif">
+        <div className="pb-5 flex font-extrabold text-2xl">
           안녕하세요
           <span className="ml-5 animate-[wave_2s_linear_infinite]">👋</span>
         </div>
         <span>개발자 최정환입니다.</span>
-        <span className="block break-words font-serif">
+        <span className="block break-words">
           <br />이 블로그는 Next.js, TailwindCSS, Redux Tool Kit, Prisma 로 만들어졌습니다. 호스팅과 ssl은 CloudFlare,
           Next.js 배포는 vercel, DB 서버는 Superbase를 사용했습니다.
           <br /> 궁금한 점이 있다면 chsw000@gmail.com로 연락주세요.

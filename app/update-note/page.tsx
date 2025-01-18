@@ -16,7 +16,8 @@ export default function UpdateNote() {
           />
           <NoteLists>
             <NoteList content="1. 메인 페이지 컴포넌트 CSR -> SSR변경" />
-            <NoteList content="2. LCP 해치는 img 태그 css 제거" />
+            <NoteList content="2. LCP : css 제거, tailwind.config.js safelist 수정" />
+            <NoteList content="3. 접근성 개선" />
           </NoteLists>
         </div>
 
