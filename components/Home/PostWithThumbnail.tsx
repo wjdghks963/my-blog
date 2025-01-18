@@ -16,7 +16,7 @@ export default function PostWithThumbnail({ data, className }: { data: Thumbnail
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
+      initial={false}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{
         scale: 1.05,
@@ -32,13 +32,14 @@ export default function PostWithThumbnail({ data, className }: { data: Thumbnail
     >
       {/* Thumbnail */}
       {data.thumbnail && (
-        <div className="relative w-full h-32 overflow-hidden hidden mobile:block">
+        <div className="relative w-full h-32 aspect-w-16 aspect-h-9 overflow-hidden hidden mobile:block">
           <Image
             src={data.thumbnail}
             alt="Thumbnail"
-            layout="fill"
             className="object-cover group-hover:scale-105 transition-transform duration-300"
             quality={80}
+            layout="fill"
+            priority
           />
         </div>
       )}

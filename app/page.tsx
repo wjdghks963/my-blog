@@ -4,9 +4,7 @@ import React, { Suspense } from "react";
 
 import Footer from "@components/Base/Footer";
 import CategoriesBox from "@components/Home/CategoriesBox";
-import CategoriesBoxSkeleton from "@components/Home/CategoriesBoxSkeleton";
 import PostsByStatus from "@components/Home/PostsByStatus";
-import PostsByStatusSkeleton from "@components/Home/PostsByStatusSkeleton";
 
 export const metadata: Metadata = {
   title: "Jung’s Tech Blog: Web Dev & Beyond",
@@ -19,6 +17,7 @@ export const metadata: Metadata = {
   },
 };
 
+// @ts-ignore
 export default function Page() {
   return (
     <div className={"mx-10 mt-16"}>
@@ -35,9 +34,7 @@ export default function Page() {
           </span>
           Recent Posts
         </h1>
-        <Suspense fallback={<PostsByStatusSkeleton count={5} />}>
-          <PostsByStatus status={"recent"} />
-        </Suspense>
+        <PostsByStatus status={"recent"} />
       </div>
       <div className=" flex flex-col my-10">
         <h1 className="font-bold text-4xl mb-10 font-serif relative text-black dark:text-white">
@@ -50,9 +47,7 @@ export default function Page() {
           </span>
           Popular Posts
         </h1>
-        <Suspense fallback={<PostsByStatusSkeleton count={5} />}>
-          <PostsByStatus status={"popular"} />
-        </Suspense>
+        <PostsByStatus status={"popular"} />
       </div>
 
       <div className="hidden mobile:flex flex-col mt-10 pb-10">
@@ -66,9 +61,7 @@ export default function Page() {
           </span>
           By Category
         </h1>
-        <Suspense fallback={<CategoriesBoxSkeleton />}>
-          <CategoriesBox />
-        </Suspense>
+        <CategoriesBox />
       </div>
 
       <div className="my-5">

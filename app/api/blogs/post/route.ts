@@ -88,7 +88,7 @@ export async function POST(req: Request) {
       );
     }
 
-    return NextResponse.json({ ok: true, post: createdPost });
+    return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Error creating post:", error);
     return NextResponse.json({ ok: false, error: "Error creating post" });
