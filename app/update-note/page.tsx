@@ -11,6 +11,17 @@ export default function UpdateNote() {
       <div className="space-y-6">
         <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6 group">
           <NoteTitle
+            year="2025"
+            month="01"
+          />
+          <NoteLists>
+            <NoteList content="1. 메인 페이지 컴포넌트 CSR -> SSR변경" />
+            <NoteList content="2. LCP 해치는 img 태그 css 제거" />
+          </NoteLists>
+        </div>
+
+        <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6 group">
+          <NoteTitle
             year="2024"
             month="11"
           />
