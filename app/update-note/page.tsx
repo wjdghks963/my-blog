@@ -11,6 +11,18 @@ export default function UpdateNote() {
       <div className="space-y-6">
         <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6 group">
           <NoteTitle
+            year="2025"
+            month="01"
+          />
+          <NoteLists>
+            <NoteList content="1. 메인 페이지 최근/조회수 포스트 SSR로 재변경" />
+            <NoteList content="2. LCP : 불필요한 css 제거, tailwind.config.js safelist 수정" />
+            <NoteList content="3. react-markdown 버전 업그레이드" />
+          </NoteLists>
+        </div>
+
+        <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6 group">
+          <NoteTitle
             year="2024"
             month="11"
           />

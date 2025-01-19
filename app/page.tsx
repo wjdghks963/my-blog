@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import React, { Suspense } from "react";
+import React from "react";
 
 import Footer from "@components/Base/Footer";
 import CategoriesBox from "@components/Home/CategoriesBox";
@@ -20,7 +20,10 @@ export const metadata: Metadata = {
 // @ts-ignore
 export default function Page() {
   return (
-    <div className={"mx-10 mt-16"}>
+    <div
+      className={"mx-10 mt-16"}
+      suppressHydrationWarning
+    >
       <div className="flex flex-col my-10">
         <h1 className="font-bold text-4xl mb-10 font-serif relative text-black dark:text-white">
           <span className="absolute left-1 top-1 text-gray-300 dark:hidden">Recent Posts</span>
