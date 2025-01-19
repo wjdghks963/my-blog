@@ -78,10 +78,7 @@ export default async function Page({ params: { id } }: Props) {
         <h1 className="font-bold text-5xl mt-10">{postData.title}</h1>
         <TableOfContents markdown={postData.content} />
 
-        <div
-          className="mt-20 prose h-full"
-          suppressHydrationWarning
-        >
+        <div className="mt-20 prose h-full">
           <MarkdownParser markdown={postData.content} />
         </div>
       </div>

@@ -10,17 +10,14 @@ import { Provider as ReduxProvider } from "react-redux";
 import { makeStore } from "@store/index";
 
 export default function Provider({ children }: { children: ReactNode }) {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            // @ts-ignore
-            suspense: true,
-          },
-        },
-      })
-  );
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        //@ts-ignore
+        suspense: true,
+      },
+    },
+  });
   const store = makeStore();
 
   return (
