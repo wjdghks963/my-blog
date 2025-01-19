@@ -17,7 +17,8 @@ export default function MenuToggle({ toggle }: { toggle: MouseEventHandler<HTMLB
   return (
     <button
       onClick={toggle}
-      className={"absolute top-8 left-7"}
+      className="absolute top-8 left-7"
+      aria-label="메뉴 열기 또는 닫기"
     >
       <svg
         width="23"
