@@ -6,16 +6,17 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { darcula } from "react-syntax-highlighter/dist/esm/styles/prism";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeRaw from "rehype-raw";
-import remarkAutolinkHeadings from "remark-autolink-headings";
+import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
-import remarkSlug from "remark-slug";
 import remarkToc from "remark-toc";
 import { Url } from "url";
 
 import { cls } from "@libs/client/utils";
 
 export default function MarkdownParser({ markdown }: any) {
+  // @ts-ignore
   return (
     <ReactMarkdown
       className="w-[80vw] text-gray-800 dark:text-[#E5E7EB]"
@@ -103,39 +104,39 @@ export default function MarkdownParser({ markdown }: any) {
         strong({ node, className, children }) {
           return <strong className="dark:text-white">{children}</strong>;
         },
-        code({ node, inline, className, children, ...props }) {
+        code({ node, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || "");
-          return !inline && match ? (
+          return (
             <div>
               <div style={{ display: "flex", justifyContent: "flex-start" }}>
                 <span className="bg-red-500 rounded-full w-3 h-3 mr-1"></span>
                 <span className="bg-yellow-500 rounded-full w-3 h-3 mr-1"></span>
                 <span className="bg-green-500 rounded-full w-3 h-3"></span>
 
-                <span className={"ml-3"}>{match[1]}</span>
+                <span className={"ml-3"}>{match?.[1] ?? "text"}</span>
               </div>
-
               <SyntaxHighlighter
-                // eslint-disable-next-line react/no-children-prop
-                children={String(children).replace(/\n$/, "")}
-                style={darcula as any}
-                language={match[1]}
-                showLineNumbers
-                {...props}
-              />
+                style={darcula as Record<string, any>} // 스타일 타입 캐스팅
+                language={match?.[1] ?? "plaintext"} // 기본 언어: "plaintext"
+                showLineNumbers={true}
+              >
+                {String(children).replace(/\n$/, "")}
+              </SyntaxHighlighter>
             </div>
-          ) : (
-            <code
-              className={cls(className ?? "", "dark:text-white")}
-              {...props}
-            >
-              {children}
-            </code>
           );
         },
       }}
-      rehypePlugins={[rehypeRaw]}
-      remarkPlugins={[remarkGfm, remarkSlug, [remarkToc, { heading: "toc", nav: true }], [remarkAutolinkHeadings, {}]]}
+      rehypePlugins={[
+        rehypeSlug,
+        rehypeRaw,
+        [
+          rehypeAutolinkHeadings,
+          {
+            behavior: "wrap",
+          },
+        ],
+      ]}
+      remarkPlugins={[remarkGfm, [remarkToc, { heading: "toc", nav: true }]]}
     >
       {markdown}
     </ReactMarkdown>

@@ -9,10 +9,10 @@ export const makeStore = () =>
   configureStore({
     reducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat(logger),
-    devTools: process.env.NODE_ENV !== "production",
+    devTools: process.env.NODE_ENV === "development",
   });
 
 // redux 사용을 위한 wrapper 생성
 export const wrapper = createWrapper(makeStore, {
-  debug: process.env.NODE_ENV !== "production",
+  debug: process.env.NODE_ENV === "development",
 });
