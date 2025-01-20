@@ -22,7 +22,6 @@ export default async function CategoriesBox(): any {
 
 async function fetchData() {
   const res = await fetch(process.env.NEXT_PUBLIC_APIDOMAIN + `/api/categories`, {
-    cache: "no-store",
     next: { revalidate: 60 }, // 60초마다 다시 캐싱
   });
   return await res.json();

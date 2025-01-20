@@ -38,8 +38,9 @@ export default function PostWithThumbnail({ data, className }: { data: Thumbnail
             alt="Thumbnail"
             className="object-cover group-hover:scale-105 transition-transform duration-300"
             quality={80}
-            layout="fill"
+            fill
             priority
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 20vw"
           />
         </div>
       )}

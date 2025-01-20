@@ -4,7 +4,6 @@ import PostWithThumbnail from "@components/Home/PostWithThumbnail";
 
 async function fetchPostsByStatus(status: PostStatus) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_APIDOMAIN}/api/main/${status}`, {
-    cache: "no-store", // 항상 최신 데이터를 가져오기 위해 no-store 사용
     next: { revalidate: 60 }, // 60초마다 다시 캐싱
   });
 

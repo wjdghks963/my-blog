@@ -30,7 +30,7 @@ export default function Provider({ children }: { children: ReactNode }) {
         >
           <SessionProvider>
             {children}
-            <ReactQueryDevtools initialIsOpen={false} />
+            {process.env.NODE_ENV === "development" && <ReactQueryDevtools initialIsOpen={false} />}
           </SessionProvider>
         </ThemeProvider>
       </ReduxProvider>
