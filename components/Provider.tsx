@@ -24,9 +24,10 @@ export default function Provider({ children }: { children: ReactNode }) {
     <QueryClientProvider client={queryClient}>
       <ReduxProvider store={store}>
         <ThemeProvider
-          attribute="class"
-          enableSystem={true}
-          defaultTheme="light"
+           attribute="class"
+           enableSystem={true}
+           defaultTheme="light"
+           themeStorageKey="theme"
         >
           <SessionProvider>
             {children}
