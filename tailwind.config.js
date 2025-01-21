@@ -2,11 +2,6 @@
 module.exports = {
   mode: "jit",
   darkMode: "class",
-  safelist: [
-    {
-      pattern: /^(bg|text|hover):/,
-    },
-  ],
   content: ["./app/**/*.{js,ts,jsx,tsx}", "./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {

@@ -18,7 +18,12 @@ export async function GET(_: Request) {
       },
     });
 
-    return NextResponse.json({ categories });
+    const sanitizedCategories = categories.map((category) => ({
+      ...category,
+      posts: category.posts || [], // null 방지
+    }));
+
+    return NextResponse.json({ categories: sanitizedCategories });
   } catch (err) {
     console.error(err);
     return NextResponse.json({ ok: false, error_message: err });
