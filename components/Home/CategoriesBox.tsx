@@ -1,17 +1,17 @@
 import { Category } from "@types";
-import process from "process";
+import dynamic from "next/dynamic";
 import React from "react";
 
-import { CategoryBox } from "@components/Home/CategoryBox";
+const DynamicCategoryBox = dynamic(() => import("./CategoryBox"), { ssr: false });
 
-// @ts-ignore
+//@ts-ignore
 export default async function CategoriesBox(): any {
   const data: { categories: Category[] } = await fetchData();
 
   return (
     <div className="flex flex-row gap-5 overflow-x-scroll scrollbar-hide overflow-clip">
-      {data.categories?.map((category, index) => (
-        <CategoryBox
+      {data.categories.map((category, index) => (
+        <DynamicCategoryBox
           key={index}
           category={category}
         />
@@ -21,8 +21,14 @@ export default async function CategoriesBox(): any {
 }
 
 async function fetchData() {
-  const res = await fetch(process.env.NEXT_PUBLIC_APIDOMAIN + `/api/categories`, {
-    next: { revalidate: 60 }, // 60초마다 다시 캐싱
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APIDOMAIN}/api/categories`, {
+    next: { revalidate: 60 },
   });
+
+  if (!res.ok) {
+    console.error("Failed to fetch categories:", res.status, res.statusText);
+    return { categories: [] }; // 빈 데이터를 반환
+  }
+
   return await res.json();
 }

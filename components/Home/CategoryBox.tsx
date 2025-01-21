@@ -2,19 +2,14 @@
 
 import { Category } from "@types";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import React, { useState } from "react";
 
-export function CategoryBox({ category }: { category: Category }) {
-  const router = useRouter();
+function CategoryBox({ category }: { category: Category }) {
   const [open, setOpen] = useState(false);
 
   const toggleDropdown = () => {
     setOpen((prevOpen) => !prevOpen);
-  };
-
-  const goToPost = (id: number) => {
-    return router.push(`blogs/post/${id}`);
   };
 
   return (
@@ -50,17 +45,17 @@ export function CategoryBox({ category }: { category: Category }) {
         animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
       >
         {category.posts.map((post) => (
-          <motion.span
-            initial={{ scale: 1 }}
-            whileHover={{ scale: 1.03 }}
-            className="border-black border-2 rounded-md text-center cursor-pointer p-2 mb-3 break-words dark:border-white"
+          <Link
+            href={`/blogs/post/${post.id}`}
             key={post.id}
-            onClick={() => goToPost(post.id)}
+            className="border-black border-2 rounded-md text-center cursor-pointer p-2 mb-3 break-words dark:border-white"
           >
             {post.title.length > 15 ? `${post.title.substring(0, 15)}..` : post.title}
-          </motion.span>
+          </Link>
         ))}
       </motion.div>
     </motion.div>
   );
 }
+
+export default CategoryBox;
