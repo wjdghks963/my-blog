@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ko">
       <body>
         <Provider>
-          {/*<SlideHeaderNavBar />*/}
+          <SlideHeaderNavBar />
           {children}
         </Provider>
       </body>
