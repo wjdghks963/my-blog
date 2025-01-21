@@ -19,13 +19,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="ko"
-      suppressHydrationWarning
-    >
+    <html lang="ko">
       <body>
         <Provider>
-          <SlideHeaderNavBar />
+          {/*<SlideHeaderNavBar />*/}
           {children}
         </Provider>
       </body>
