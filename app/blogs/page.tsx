@@ -13,7 +13,7 @@ export default function Blogs() {
       <Suspense fallback={<TagNavBarSkeleton />}>
         <TagNavBar />
       </Suspense>
-      <SearchBar />
+      {/*<SearchBar />*/}
       <InfiniteBlogs />
     </>
   );

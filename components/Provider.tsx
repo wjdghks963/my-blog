@@ -3,7 +3,6 @@
 import { isServer, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SessionProvider } from "next-auth/react";
-import { ThemeProvider } from "next-themes";
 import React, { ReactNode, useRef } from "react";
 import { Provider as ReduxProvider } from "react-redux";
 
@@ -45,16 +44,10 @@ export default function Provider({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <ReduxProvider store={storeRef.current}>
-        <ThemeProvider
-          attribute="class"
-          enableSystem={true}
-          defaultTheme="light"
-        >
-          <SessionProvider>
-            {children}
-            {process.env.NODE_ENV === "development" && <ReactQueryDevtools initialIsOpen={false} />}
-          </SessionProvider>
-        </ThemeProvider>
+        <SessionProvider>
+          {children}
+          {process.env.NODE_ENV === "development" && <ReactQueryDevtools initialIsOpen={false} />}
+        </SessionProvider>
       </ReduxProvider>
     </QueryClientProvider>
   );

@@ -1,7 +1,7 @@
 const removeImports = require("next-remove-imports")();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: process.env.NODE_ENV === "development",
+  reactStrictMode: false,
   env: {
     CLOUD_NAME: process.env.CLOUD_NAME,
     CLOUD_PRESET_NAME: process.env.CLOUD_PRESET_NAME,

@@ -1,3 +1,5 @@
+"use client";
+
 import { Cycle, motion, Variants } from "framer-motion";
 import { useRouter } from "next/navigation";
 
