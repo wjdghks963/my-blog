@@ -4,10 +4,10 @@ import { isServer, QueryClient, QueryClientProvider } from "@tanstack/react-quer
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useRef } from "react";
 import { Provider as ReduxProvider } from "react-redux";
 
-import { makeStore } from "@store/index";
+import { AppStore, makeStore } from "@store/index";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -37,12 +37,14 @@ function getQueryClient() {
   }
 }
 export default function Provider({ children }: { children: ReactNode }) {
-  const store = makeStore();
   const queryClient = getQueryClient();
-
+  const storeRef = useRef<AppStore | null>(null);
+  if (!storeRef.current) {
+    storeRef.current = makeStore();
+  }
   return (
     <QueryClientProvider client={queryClient}>
-      <ReduxProvider store={store}>
+      <ReduxProvider store={storeRef.current}>
         <ThemeProvider
           attribute="class"
           enableSystem={true}

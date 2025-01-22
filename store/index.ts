@@ -21,3 +21,7 @@ export const makeStore = () => {
 export const wrapper = createWrapper(makeStore, {
   debug: process.env.NODE_ENV === "development", // 디버그 모드도 개발 환경에서만 활성화
 });
+
+export type AppStore = ReturnType<typeof makeStore>;
+export type RootState = ReturnType<AppStore["getState"]>;
+export type AppDispatch = AppStore["dispatch"];
