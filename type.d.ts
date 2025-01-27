@@ -79,5 +79,5 @@ export interface PostPostJson {
   markdown: string | undefined;
   tags?: string[];
   description: string;
-  category?: string;
+  category: string | null;
 }

@@ -1,37 +1,84 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import { MutationResult, PostPostJson } from "@types";
 import "@uiw/react-markdown-preview/markdown.css";
 import "@uiw/react-md-editor/markdown-editor.css";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, ChangeEvent, KeyboardEvent } from "react";
 
 import { useMutation } from "@libs/client/useMutation";
 
 import ImageForm from "@components/Post/ImageForm";
+import ItemSelector from "@components/Post/ItemSelector";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
+interface TagsData {
+  tags: { tag: string }[];
+}
+
+interface CategoriesData {
+  categories: { id: string; category: string }[];
+}
+
+async function fetchTags() {
+  const res = await fetch(process.env.NEXT_PUBLIC_APIDOMAIN + `/api/blogs/tags`);
+  return res.json();
+}
+
+async function fetchCategories() {
+  const res = await fetch(process.env.NEXT_PUBLIC_APIDOMAIN + `/api/categories`);
+  return res.json();
+}
+
 export default function Page() {
   const router = useRouter();
-  const tagsRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
-  const categoryRef = useRef<HTMLInputElement>(null);
   const [markdown, setMarkdown] = useState<string | undefined>("");
   const [postBlog, { data }] = useMutation<MutationResult>("/api/blogs/post");
   const { data: session } = useSession();
 
-  const splitTags = (): string[] => {
-    const { value } = tagsRef?.current!;
+  const { data: tagsData } = useQuery<TagsData>({
+    queryKey: ["tags"],
+    queryFn: fetchTags,
+    staleTime: Infinity,
+  });
 
-    if (value === "") return [""];
-    const splitArr = value.split(", ");
-    return splitArr.filter((el, index) => {
-      return splitArr.indexOf(el) === index;
-    });
+  const { data: categoriesData } = useQuery<CategoriesData>({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+    staleTime: Infinity,
+  });
+
+  const [inputTag, setInputTag] = useState("");
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [inputCategory, setInputCategory] = useState("");
+  const [selectedCategory, setCategory] = useState<string[]>([]);
+
+  const addTag = (tag: string) => {
+    if (tag && !selectedTags.includes(tag)) {
+      setSelectedTags((prev) => [...prev, tag]);
+      setInputTag(""); // 입력창 초기화
+    }
+  };
+
+  const removeTag = (tag: string) => {
+    setSelectedTags((prev) => prev.filter((t) => t !== tag));
+  };
+
+  const addCategory = (tag: string) => {
+    if (tag && !selectedTags.includes(tag)) {
+      setCategory((prev) => [...prev, tag]);
+      setInputCategory(""); // 입력창 초기화
+    }
+  };
+
+  const removeCategory = (tag: string) => {
+    setCategory((prev) => prev.filter((t) => t !== tag));
   };
 
   const handleSubmit = async (e: any) => {
@@ -47,8 +94,8 @@ export default function Page() {
       title: titleRef.current?.value!,
       markdown,
       description: descriptionRef.current?.value!,
-      tags: splitTags(),
-      category: categoryRef.current?.value!,
+      tags: selectedTags,
+      category: selectedCategory[0] || null, // 카테고리는 단일 값
     };
 
     await postBlog(postJson);
@@ -73,16 +120,27 @@ export default function Page() {
               required
             />
           </div>
-          <div>
+
+          <div className="w-1/2">
             <span>Tags - </span>
-            <input
-              className="outline-none border-2 border-solid border-black focus:border-gray-300 p-1"
-              type="text"
-              ref={tagsRef}
-              placeholder="tag들은 , 로 분리함"
-              required
+            <ItemSelector
+              id="tags"
+              availableItems={tagsData?.tags.map((tag) => tag.tag)}
+              selectedItems={selectedTags} // 선택된 태그
+              inputItem={inputTag} // 입력 값
+              onInputChange={(e: ChangeEvent<HTMLInputElement>) => setInputTag(e.target.value)} // 입력 핸들러
+              onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
+                if (e.key === "Enter" && inputTag.trim()) {
+                  e.preventDefault();
+                  addTag(inputTag.trim());
+                }
+              }}
+              onAddItem={addTag}
+              onRemoveItem={removeTag}
+              placeholder="태그 입력 후 Enter"
             />
           </div>
+
           <div>
             <span>Description - </span>
             <input
@@ -96,15 +154,25 @@ export default function Page() {
 
           <div>
             <span>Category - </span>
-            <input
-              className="outline-none border-2 border-solid border-black focus:border-gray-300 p-1"
-              type="text"
-              ref={categoryRef}
-              placeholder="카테고리 입력"
-              required
+            <ItemSelector
+              id="category"
+              availableItems={categoriesData?.categories.map((category) => category.category) ?? []}
+              selectedItems={selectedCategory}
+              inputItem={inputCategory}
+              onInputChange={(e: ChangeEvent<HTMLInputElement>) => setInputCategory(e.target.value)}
+              onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
+                if (e.key === "Enter" && inputCategory.trim()) {
+                  e.preventDefault();
+                  addCategory(inputCategory.trim());
+                }
+              }}
+              onAddItem={addCategory}
+              onRemoveItem={removeCategory}
+              placeholder="카테고리 입력 후 Enter"
             />
           </div>
         </div>
+
         <MDEditor
           className="w-full"
           height={1000}
@@ -119,6 +187,7 @@ export default function Page() {
           Submit
         </button>
       </form>
+
       {session?.user?.email === process.env.MY_EMAIL ? <ImageForm /> : null}
     </>
   );
