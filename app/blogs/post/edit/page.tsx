@@ -1,43 +1,106 @@
 "use client";
 
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { MutationResult, PostPostJson } from "@types";
 import "@uiw/react-markdown-preview/markdown.css";
 import "@uiw/react-md-editor/markdown-editor.css";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import React, { useRef, useState } from "react";
+import React, { useState, ChangeEvent, KeyboardEvent } from "react";
 import { useSelector } from "react-redux";
 
 import { useMutation } from "@libs/client/useMutation";
 
 import { ReduxSliceState } from "@store/modules";
 
+import ItemSelector from "@components/Post/ItemSelector";
+
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
+
+interface TagsData {
+  tags: { tag: string }[];
+}
+
+interface CategoriesData {
+  categories: { id: string; category: string }[];
+}
+
+async function fetchTags() {
+  const res = await fetch(process.env.NEXT_PUBLIC_APIDOMAIN + `/api/blogs/tags`);
+  return res.json();
+}
+
+async function fetchCategories() {
+  const res = await fetch(process.env.NEXT_PUBLIC_APIDOMAIN + `/api/categories`);
+  return res.json();
+}
 
 export default function Page() {
   const router = useRouter();
 
   const editPostData = useSelector((state: ReduxSliceState) => state.editPostReducer);
 
-  const editPostDataTags = editPostData.tags ? editPostData.tags.join("") : "";
-
-  const tagsRef = useRef<HTMLInputElement>(null);
-  const titleRef = useRef<HTMLInputElement>(null);
-  const descriptionRef = useRef<HTMLInputElement>(null);
-  const categoryRef = useRef<HTMLInputElement>(null);
   const [markdown, setMarkdown] = useState<string | undefined>(editPostData.markdown);
   const [editPost, { data }] = useMutation<MutationResult>(`/api/blogs/post/edit?id=${editPostData.id}`);
   const { data: session } = useSession();
 
-  const splitTags = (): string[] => {
-    const { value } = tagsRef?.current!;
+  const { data: tagsData } = useSuspenseQuery<TagsData>({
+    queryKey: ["tags"],
+    queryFn: fetchTags,
+    staleTime: Infinity,
+  });
 
-    if (value === "") return [""];
-    const splitArr = value.split(", ");
-    return splitArr.filter((el, index) => {
-      return splitArr.indexOf(el) === index;
-    });
+  const { data: categoriesData } = useSuspenseQuery<CategoriesData>({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+    staleTime: Infinity,
+  });
+
+  // 태그 상태 관리
+  const [inputTag, setInputTag] = useState("");
+  const [selectedTags, setSelectedTags] = useState<string[]>(editPostData.tags ?? []);
+
+  // 카테고리 상태 관리
+  const [inputCategory, setInputCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string[]>(
+    editPostData.category ? [editPostData.category.category] : []
+  );
+
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    setInput: React.Dispatch<React.SetStateAction<string>>
+  ) => {
+    setInput(e.target.value);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>, input: string, addItem: (item: string) => void) => {
+    if (e.key === "Enter" && input.trim()) {
+      e.preventDefault();
+      addItem(input.trim());
+    }
+  };
+
+  const addTag = (tag: string) => {
+    if (tag && !selectedTags.includes(tag)) {
+      setSelectedTags((prev) => [...prev, tag]);
+      setInputTag("");
+    }
+  };
+
+  const removeTag = (tag: string) => {
+    setSelectedTags((prev) => prev.filter((t) => t !== tag));
+  };
+
+  const addCategory = (category: string) => {
+    if (category && !selectedCategory.includes(category)) {
+      setSelectedCategory([category]); // 카테고리는 하나만 선택 가능하도록 변경
+      setInputCategory("");
+    }
+  };
+
+  const removeCategory = (category: string) => {
+    setSelectedCategory((prev) => prev.filter((c) => c !== category));
   };
 
   const handleSubmit = async (e: any) => {
@@ -50,11 +113,11 @@ export default function Page() {
     }
 
     const postJson: PostPostJson = {
-      title: titleRef.current?.value!,
+      title: editPostData.title,
       markdown,
-      description: descriptionRef.current?.value!,
-      tags: splitTags(),
-      category: categoryRef.current?.value!,
+      description: editPostData.description,
+      tags: selectedTags,
+      category: selectedCategory[0] || null, // 카테고리는 단일 값
     };
 
     await editPost(postJson);
@@ -75,45 +138,53 @@ export default function Page() {
             <input
               className="outline-none border-2 border-solid border-black focus:border-gray-300 p-1"
               type="text"
-              ref={titleRef}
-              required
               defaultValue={editPostData.title}
-            />
-          </div>
-          <div>
-            <span>Tags - </span>
-            <input
-              className="outline-none border-2 border-solid border-black focus:border-gray-300 p-1"
-              type="text"
-              ref={tagsRef}
-              placeholder="tag들은 , 로 분리함"
               required
-              defaultValue={editPostDataTags}
             />
           </div>
+
+          <div className="w-1/2">
+            <span>Tags - </span>
+            <ItemSelector
+              id="tags"
+              availableItems={tagsData.tags.map((tag) => tag.tag)}
+              selectedItems={selectedTags}
+              inputItem={inputTag}
+              onInputChange={(e) => handleInputChange(e, setInputTag)}
+              onKeyDown={(e) => handleKeyDown(e, inputTag, addTag)}
+              onAddItem={addTag}
+              onRemoveItem={removeTag}
+              placeholder="태그 입력 후 Enter"
+            />
+          </div>
+
           <div>
             <span>Description - </span>
             <input
               className="outline-none border-2 border-solid border-black focus:border-gray-300 p-1"
               type="text"
-              ref={descriptionRef}
               placeholder="줄거리 입력"
-              required
               defaultValue={editPostData.description}
+              required
             />
           </div>
 
-          <div>
+          <div className="w-1/2">
             <span>Category - </span>
-            <input
-              className="outline-none border-2 border-solid border-black focus:border-gray-300 p-1"
-              type="text"
-              ref={categoryRef}
-              placeholder="카테고리 입력"
-              defaultValue={editPostData.category?.category}
+            <ItemSelector
+              id="category"
+              availableItems={categoriesData.categories.map((category) => category.category)}
+              selectedItems={selectedCategory}
+              inputItem={inputCategory}
+              onInputChange={(e) => handleInputChange(e, setInputCategory)}
+              onKeyDown={(e) => handleKeyDown(e, inputCategory, addCategory)}
+              onAddItem={addCategory}
+              onRemoveItem={removeCategory}
+              placeholder="카테고리 입력 후 Enter"
             />
           </div>
         </div>
+
         <MDEditor
           className="w-full"
           height={1000}

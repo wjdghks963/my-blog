@@ -42,18 +42,14 @@ export default function TableOfContents({ markdown }: { markdown: string }) {
 
   const fontByLevel = (level: number): string => {
     switch (level) {
-      case HeaderLevel.H1: {
-        return "font-bold text-lg border-b-2";
-      }
-      case HeaderLevel.H2: {
-        return "font-semibold text-base border-b-2";
-      }
-      case HeaderLevel.H3: {
-        return "font-medium text-sm";
-      }
-      default: {
-        return "font-normal text-sm";
-      }
+      case HeaderLevel.H1:
+        return "font-bold text-lg text-indigo-600";
+      case HeaderLevel.H2:
+        return "font-semibold text-base text-indigo-500";
+      case HeaderLevel.H3:
+        return "font-medium text-sm text-indigo-400";
+      default:
+        return "font-normal text-sm text-indigo-300";
     }
   };
 
@@ -77,25 +73,27 @@ export default function TableOfContents({ markdown }: { markdown: string }) {
       transition={spring}
       className={cls(
         isVisible ? "mobile:block" : "",
-        `fixed right-0 top-32 min-w-md hidden bg-[#fffdd0] p-4 space-y-4 rounded-sm border-2 border-[#d2b48c] shadow-sm shadow-slate-300`
+        `fixed right-6 top-32 min-w-xs hidden bg-white p-6 rounded-lg shadow-lg border border-gray-200`
       )}
     >
-      <h2 className="text-xl text-black ">Table of Contents</h2>
-      <ul>
+      <h2 className="text-2xl font-bold text-gray-800 mb-4">Table of Contents</h2>
+      <ul className="space-y-2">
         {toc.map((item, index) => (
           <motion.li
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
             key={index}
-            className={"cursor-pointer text-black pb-1"}
+            className="cursor-pointer text-gray-800 hover:text-blue-600"
           >
             <a
-              className={`${fontByLevel(item.level)}  border-[#d2b48c]`}
-              onClick={(e) => {
-                scrollTo(item.anchor);
+              className={`${fontByLevel(item.level)} block pl-${item.level * 4} truncate text-gray-800`}
+              onClick={() => scrollTo(item.anchor)}
+              style={{
+                borderLeft: `4px solid ${item.level === 1 ? "#6366F1" : item.level === 2 ? "#3B82F6" : "#60A5FA"}`,
+                paddingLeft: "8px",
               }}
             >
-              {item.title.length > 25 ? item.title.substring(0, 25) + "..." : item.title}
+              {item.title}
             </a>
           </motion.li>
         ))}

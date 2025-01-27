@@ -15,9 +15,10 @@ export default function UpdateNote() {
             month="01"
           />
           <NoteLists>
-            <NoteList content="1. 메인 페이지 최근/조회수 포스트 SSR로 재변경" />
+            <NoteList content="1. 메인 페이지 최근/조회수 포스트 SSR로 변경" />
             <NoteList content="2. LCP : 불필요한 css 제거, tailwind.config.js safelist 수정" />
-            <NoteList content="3. react-markdown 버전 업그레이드" />
+            <NoteList content="3. react-markdown 버전 업그레이드 및 테이블 스타일 변경" />
+            <NoteList content="4. 에디터 tags, categories 변경" />
           </NoteLists>
         </div>
 
@@ -42,7 +43,7 @@ export default function UpdateNote() {
           />
           <NoteLists>
             <NoteList
-              content={`1. Post 쿼리(View +1 Update) 네이티브 사용해 속도 개선 (Superbase 실행 기준) 13.6s {">"} 1.2s`}
+              content={`1. Post 쿼리(View +1 Update) 네이티브 사용해 속도 개선 (Superbase 실행 기준) 13.6s > 1.2s`}
             />
             <NoteList content="2. robots.txt 개선 & sitemap.ts 적용 (동적 sitemap.xml 생성)" />
             <NoteList content="3. 다크모드 배경색상 변경 & Post 페이지 css 변경" />
