@@ -24,9 +24,7 @@ export default function PostEditDeleteBox({ postData }: { postData: IPost }) {
   });
 
   const onDeleteClick = () => {
-    if (session?.user?.email === process.env.MY_EMAIL) {
-      deletePostMutation.mutate();
-    }
+    deletePostMutation.mutate();
   };
 
   const dispatch = useDispatch();
@@ -47,21 +45,19 @@ export default function PostEditDeleteBox({ postData }: { postData: IPost }) {
   };
 
   return (
-    <div className={cls(session?.user?.email === process.env.MY_EMAIL ? "visible" : "invisible")}>
-      <div className="flex w-full justify-center mt-10 gap-10 cursor-pointer">
-        <span
-          className="border-black border-2 rounded-xl p-2"
-          onClick={() => editPost()}
-        >
-          수정
-        </span>
-        <span
-          className="border-black border-2 rounded-xl p-2"
-          onClick={onDeleteClick}
-        >
-          삭제
-        </span>
-      </div>
+    <div className="flex w-full justify-center mt-10 gap-10 cursor-pointer">
+      <span
+        className="border-black border-2 rounded-xl p-2"
+        onClick={() => editPost()}
+      >
+        수정
+      </span>
+      <span
+        className="border-black border-2 rounded-xl p-2"
+        onClick={onDeleteClick}
+      >
+        삭제
+      </span>
     </div>
   );
 }
