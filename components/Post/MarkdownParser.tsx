@@ -13,13 +13,10 @@ import remarkGfm from "remark-gfm";
 import remarkToc from "remark-toc";
 import { Url } from "url";
 
-import { cls } from "@libs/client/utils";
-
 export default function MarkdownParser({ markdown }: any) {
-  // @ts-ignore
   return (
     <ReactMarkdown
-      className="w-[80vw] text-gray-800 dark:text-[#E5E7EB]"
+      className="w-[80vw] text-gray-900 dark:text-gray-100"
       components={{
         bdo: undefined,
         h1({ node, children, ...props }) {
@@ -62,7 +59,16 @@ export default function MarkdownParser({ markdown }: any) {
             </h4>
           );
         },
-
+        th({ node, children, ...props }) {
+          return (
+            <th
+              {...props}
+              className="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-white font-semibold"
+            >
+              {children}
+            </th>
+          );
+        },
         img({ node, ...props }) {
           return (
             <div className={"relative w-full h-80 my-10"}>
@@ -97,33 +103,51 @@ export default function MarkdownParser({ markdown }: any) {
           return <li className="">{children}</li>;
         },
         span({ node, children, style }) {
-          const backColor = `bg-[${style?.backgroundColor}]`;
-
-          return <span className={cls("dark:text-white", backColor)}>{children}</span>;
+          return (
+            <span
+              className="dark:text-black"
+              style={{ color: style?.color, backgroundColor: style?.backgroundColor }}
+            >
+              {children}
+            </span>
+          );
         },
-        strong({ node, className, children }) {
-          return <strong className="dark:text-white">{children}</strong>;
+        strong({ node, children }) {
+          return (
+            <strong
+              className="font-bold"
+              style={{ color: "inherit" }}
+            >
+              {children}
+            </strong>
+          );
         },
         code({ node, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || "");
-          return (
-            <div>
-              <div style={{ display: "flex", justifyContent: "flex-start" }}>
-                <span className="bg-red-500 rounded-full w-3 h-3 mr-1"></span>
-                <span className="bg-yellow-500 rounded-full w-3 h-3 mr-1"></span>
-                <span className="bg-green-500 rounded-full w-3 h-3"></span>
+          const lang = match?.[1];
 
-                <span className={"ml-3"}>{match?.[1] ?? "text"}</span>
+          if (lang) {
+            return (
+              <div>
+                <div style={{ display: "flex", justifyContent: "flex-start" }}>
+                  <span className="bg-red-500 rounded-full w-3 h-3 mr-1"></span>
+                  <span className="bg-yellow-500 rounded-full w-3 h-3 mr-1"></span>
+                  <span className="bg-green-500 rounded-full w-3 h-3"></span>
+
+                  <span className={"ml-3"}>{match?.[1] ?? "text"}</span>
+                </div>
+                <SyntaxHighlighter
+                  style={darcula as Record<string, any>}
+                  language={match?.[1] ?? "plaintext"}
+                  showLineNumbers={true}
+                >
+                  {String(children).replace(/\n$/, "")}
+                </SyntaxHighlighter>
               </div>
-              <SyntaxHighlighter
-                style={darcula as Record<string, any>} // 스타일 타입 캐스팅
-                language={match?.[1] ?? "plaintext"} // 기본 언어: "plaintext"
-                showLineNumbers={true}
-              >
-                {String(children).replace(/\n$/, "")}
-              </SyntaxHighlighter>
-            </div>
-          );
+            );
+          } else {
+            return <span className="bg-amber-100 text-black">{children}</span>;
+          }
         },
       }}
       rehypePlugins={[

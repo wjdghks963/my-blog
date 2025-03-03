@@ -56,7 +56,7 @@ export default async function Page({ params: { id } }: Props) {
 
   return (
     <div className="font-roboto-regular">
-      <div className="flex flex-col mx-3 mt-16 mobile:mx-10 p-5 border-2 border-gray-700 bg-[#f9f9f9] dark:border-white dark:bg-[#374151]">
+      <div className="flex flex-col mx-3 mt-16 mobile:mx-10 p-5 border-2 border-gray-500 bg-gray-100 dark:border-gray-300 dark:bg-gray-800">
         <div className="flex w-full">
           <span className="w-1/2">{date}</span>
           <div className="flex flex-row gap-4 w-1/2 justify-end">
