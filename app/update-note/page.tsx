@@ -16,6 +16,7 @@ export default function UpdateNote() {
           />
           <NoteLists>
             <NoteList content="1. 마크다운 파서 스타일링 변경" />
+            <NoteList content="2. About-Me 페이지 리뉴얼" />
           </NoteLists>
         </div>
 
