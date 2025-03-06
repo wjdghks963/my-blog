@@ -3,12 +3,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { MutationResult, PostPostJson } from "@types";
 import "@uiw/react-markdown-preview/markdown.css";
-import { title } from "@uiw/react-md-editor";
 import "@uiw/react-md-editor/markdown-editor.css";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import * as console from "node:console";
 import React, { useRef, useState, ChangeEvent, KeyboardEvent } from "react";
 
 import { useMutation } from "@libs/client/useMutation";

@@ -7,7 +7,7 @@ import "@uiw/react-md-editor/markdown-editor.css";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import React, { useState, ChangeEvent, KeyboardEvent } from "react";
+import React, { useState, ChangeEvent, KeyboardEvent, useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { useMutation } from "@libs/client/useMutation";
@@ -38,6 +38,7 @@ async function fetchCategories() {
 
 export default function Page() {
   const router = useRouter();
+  const titleRef = useRef<HTMLInputElement>(null);
 
   const editPostData = useSelector((state: ReduxSliceState) => state.editPostReducer);
 
@@ -140,6 +141,7 @@ export default function Page() {
               type="text"
               defaultValue={editPostData.title}
               required
+              ref={titleRef}
             />
           </div>
 
