@@ -1,17 +1,20 @@
 import { PostPostJson } from "@types";
 import { NextResponse } from "next/server";
 
+import { checkOwner } from "@libs/server/checkOwner";
 import prismaclient from "@libs/server/prismaClient";
 
 export async function POST(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id") ? parseInt(searchParams.get("id") + "") : 1;
-
-  const { title, markdown, tags, description, category }: PostPostJson = await req.json();
+  const ownerCheck = await checkOwner();
+  if (ownerCheck) return ownerCheck;
 
   try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id") ? parseInt(searchParams.get("id") + "") : 1;
+    const { title, markdown, tags, description, category }: PostPostJson = await req.json();
+
     await prismaclient.$transaction(async (tx) => {
-      // Update post detail
+      // 게시글 업데이트
       await tx.$executeRaw`
         UPDATE "Post"
         SET 
@@ -21,17 +24,17 @@ export async function POST(req: Request) {
         WHERE id = ${id}
       `;
 
-      // 포스트에 엮이는 태그 처리
+      // 태그 처리
       if (tags && tags.length > 0) {
         const tagIds = await Promise.all(
           tags.map(async (tag) => {
-            // 태그가 존재하는지 확인
+            // 태그 존재 여부 확인
             const [existingTag] = await tx.$queryRaw<{ id: number }[]>`
                 SELECT id FROM "Tag" WHERE tag = ${tag}
             `;
 
-            // 태그가 없으면 삽입
             if (!existingTag) {
+              // 새 태그 삽입
               const [newTag] = await tx.$queryRaw<{ id: number }[]>`
                     INSERT INTO "Tag" ("tag") VALUES (${tag})
                     RETURNING id
@@ -39,18 +42,17 @@ export async function POST(req: Request) {
               return newTag.id;
             }
 
-            // 존재하는 경우 태그 ID 반환
             return existingTag.id;
           })
         );
 
-        // 중간 테이블 삭제
+        // 기존 태그 삭제
         await tx.$executeRaw`
         DELETE FROM "PostTag"
         WHERE "postId" = ${id}
       `;
 
-        // 태그 연결
+        // 새로운 태그 연결
         for (const tagId of tagIds.filter((t) => t)) {
           await tx.$executeRaw`
             INSERT INTO "PostTag" ("postId", "tagId")
@@ -60,7 +62,7 @@ export async function POST(req: Request) {
         }
       }
 
-      // Update category if provided
+      // 카테고리 업데이트
       if (category) {
         const [categoryId] = await tx.$queryRaw<{ id: number }[]>`
           SELECT id FROM "Category" WHERE name = ${category}
@@ -79,6 +81,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ ok: false, message: `Error occurred: ${err}` });
+    return NextResponse.json({ ok: false, error: `Error occurred: ${err}` }, { status: 500 });
   }
 }

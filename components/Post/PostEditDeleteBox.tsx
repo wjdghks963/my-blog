@@ -4,11 +4,9 @@ import { useMutation } from "@tanstack/react-query";
 import { IPost } from "@types";
 import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
-import process from "process";
 import { useDispatch } from "react-redux";
 
 import { deletePost } from "@libs/client/postFn";
-import { cls } from "@libs/client/utils";
 
 import { setPostJson } from "@store/modules/editPost";
 
@@ -44,20 +42,26 @@ export default function PostEditDeleteBox({ postData }: { postData: IPost }) {
     return router.push("/blogs/post/edit");
   };
 
+  const blogOwner = session?.user?.email === process.env.MY_EMAIL;
+
   return (
-    <div className="flex w-full justify-center mt-10 gap-10 cursor-pointer">
-      <span
-        className="border-black border-2 rounded-xl p-2"
-        onClick={() => editPost()}
-      >
-        수정
-      </span>
-      <span
-        className="border-black border-2 rounded-xl p-2"
-        onClick={onDeleteClick}
-      >
-        삭제
-      </span>
-    </div>
+    <>
+      {blogOwner && (
+        <div className="flex w-full justify-center mt-10 gap-10 cursor-pointer">
+          <span
+            className="border-black border-2 rounded-xl p-2"
+            onClick={editPost}
+          >
+            수정
+          </span>
+          <span
+            className="border-black border-2 rounded-xl p-2"
+            onClick={onDeleteClick}
+          >
+            삭제
+          </span>
+        </div>
+      )}
+    </>
   );
 }

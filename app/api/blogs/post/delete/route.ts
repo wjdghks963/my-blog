@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { checkOwner } from "@libs/server/checkOwner";
 import prismaclient from "@libs/server/prismaClient";
 
 async function deletePostAndTags(id: number) {
@@ -24,8 +25,6 @@ async function deletePostAndTags(id: number) {
         where: { tagId: tagData.tagId },
       });
 
-      console.log(tagPosts);
-
       // 연결된 Post가 없으면 태그 삭제
       if (tagPosts.length === 0) {
         await prismaclient.tag.delete({ where: { id: tagData.tagId } });
@@ -35,12 +34,22 @@ async function deletePostAndTags(id: number) {
 }
 
 export async function POST(req: Request) {
+  const ownerCheck = await checkOwner();
+  if (ownerCheck) return ownerCheck;
+
   try {
     const { id } = await req.json();
-    await deletePostAndTags(+id); // 숫자로 변환하여 전달
+
+    if (!id) {
+      return NextResponse.json({ ok: false, error: "Invalid Post ID" }, { status: 400 });
+    }
+
+    // 포스트 삭제
+    await deletePostAndTags(+id);
+
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("Error deleting post:", err);
-    return NextResponse.json({ ok: false });
+    return NextResponse.json({ ok: false, error: "Internal Server Error" }, { status: 500 });
   }
 }

@@ -81,7 +81,7 @@ export default async function Page({ params: { id } }: Props) {
           <MarkdownParser markdown={postData.content} />
         </div>
       </div>
-
+      <PostEditDeleteBox postData={postData} />
     </div>
   );
 }

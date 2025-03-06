@@ -3,10 +3,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { MutationResult, PostPostJson } from "@types";
 import "@uiw/react-markdown-preview/markdown.css";
+import { title } from "@uiw/react-md-editor";
 import "@uiw/react-md-editor/markdown-editor.css";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
+import * as console from "node:console";
 import React, { useRef, useState, ChangeEvent, KeyboardEvent } from "react";
 
 import { useMutation } from "@libs/client/useMutation";
@@ -88,6 +90,13 @@ export default function Page() {
       if (process.env.NODE_ENV === "production") {
         return alert("email 확인해주세요");
       }
+    }
+
+    const titleVal = titleRef.current?.value;
+    const descVal = descriptionRef.current?.value;
+
+    if (titleVal === "" || markdown === "" || descVal === "") {
+      return alert("빈 값 확인");
     }
 
     const postJson: PostPostJson = {

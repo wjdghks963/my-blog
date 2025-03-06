@@ -2,9 +2,13 @@ import { Tag } from "@prisma/client";
 import { PostPostJson } from "@types";
 import { NextResponse } from "next/server";
 
+import { checkOwner } from "@libs/server/checkOwner";
 import prismaclient from "@libs/server/prismaClient";
 
 export async function POST(req: Request) {
+  const ownerCheck = await checkOwner();
+  if (ownerCheck) return ownerCheck;
+
   const { title, markdown, description, tags, category }: PostPostJson = await req.json();
 
   let upsertedTags: Tag[] = [];
