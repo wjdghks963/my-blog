@@ -11,7 +11,9 @@ import githubImg from "@public/me/github_img.png";
 import googleStoreImg from "@public/me/google_store_img.png";
 import linkedinImg from "@public/me/linkedin_img.png";
 import oaImg from "@public/me/oa_img.png";
+import pickaimg from "@public/me/picka_img.png";
 import planetImg from "@public/me/planet_img.png";
+import timbieImg from "@public/me/timbie_img.png";
 
 import Certificate from "@components/AboutMe/Certificate";
 import StickyHeader from "@components/AboutMe/StickyHeader";
@@ -200,6 +202,63 @@ export default function Blogs() {
               <Image
                 className="w-2/3 mt-10"
                 src={oaImg}
+                alt="앱 홍보 이미지"
+              />
+            </section>
+
+            <section className="flex flex-col gap-3">
+              <h2 className="text-2xl font-semibold">Picka</h2>
+              <p>사용한 기술 : flutter</p>
+              <p>설명 : 직접 만든 루틴들을 ‘카드’로 저장하고 매일 한 장을 랜덤으로 뽑아 실행하는 루틴 앱</p>
+              <Link
+                href="https://apps.apple.com/kr/app/picka/id6744289311"
+                className="mobile:w-1/3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"
+              >
+                <Image
+                  src={appleStoreImg}
+                  className="h-6 w-6 mr-2"
+                  alt="Apple Store"
+                />
+                애플 스토어
+              </Link>
+              <Link
+                href="https://play.google.com/store/apps/details?id=com.jung.picka"
+                className="mobile:w-1/3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"
+              >
+                <Image
+                  src={googleStoreImg}
+                  className="h-6 w-6 mr-2"
+                  alt="Google Play"
+                />
+                구글 스토어
+              </Link>
+
+              <Image
+                className="w-2/3 mt-10"
+                src={pickaimg}
+                alt="앱 홍보 이미지"
+              />
+            </section>
+
+            <section className="flex flex-col gap-3">
+              <h2 className="text-2xl font-semibold">Timbie</h2>
+              <p>사용한 기술 : flutter</p>
+              <p>설명 : 타임스탬프 카메라</p>
+              <Link
+                href="https://apps.apple.com/us/app/timbie/id6744580069"
+                className="mobile:w-1/3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"
+              >
+                <Image
+                  src={appleStoreImg}
+                  className="h-6 w-6 mr-2"
+                  alt="Apple Store"
+                />
+                애플 스토어
+              </Link>
+
+              <Image
+                className="w-2/3 mt-10"
+                src={timbieImg}
                 alt="앱 홍보 이미지"
               />
             </section>
