@@ -1,4 +1,4 @@
-import { CommentWithUser } from "@types";
+import { CommentWithUser } from "@/domains/comment/types";
 
 import { cls } from "@libs/client/utils";
 

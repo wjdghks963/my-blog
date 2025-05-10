@@ -1,4 +1,4 @@
-import { CommentEditJson } from "@types";
+import { CommentEditJson } from "@/domains/comment/types";
 import { Request } from "next/dist/compiled/@edge-runtime/primitives/fetch";
 import { NextResponse } from "next/server";
 

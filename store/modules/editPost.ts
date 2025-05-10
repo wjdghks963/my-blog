@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { EditPost } from "@types";
+import { EditPost } from "@/domains/post/types";
 
 const initialState: EditPost = {
   id: 1,

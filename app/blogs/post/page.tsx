@@ -1,7 +1,8 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { MutationResult, PostPostJson } from "@types";
+import { MutationResult } from "@/shared/types";
+import { PostPostJson } from "@/domains/post/types";
 import "@uiw/react-markdown-preview/markdown.css";
 import "@uiw/react-md-editor/markdown-editor.css";
 import { useSession } from "next-auth/react";

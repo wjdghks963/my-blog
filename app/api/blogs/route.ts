@@ -1,4 +1,4 @@
-import { PostWithId } from "@types";
+import { PostWithId } from "@/domains/post/types";
 import { NextResponse } from "next/server";
 
 import prismaclient from "@libs/server/prismaClient";

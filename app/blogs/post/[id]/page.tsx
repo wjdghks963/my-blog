@@ -1,4 +1,4 @@
-import { IPost } from "@types";
+import { IPost } from "@/domains/post/types";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import process from "process";

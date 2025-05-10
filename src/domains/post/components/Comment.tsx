@@ -1,7 +1,8 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { CommentEditJson, CommentWithUser, UserInfo } from "@types";
+import { CommentEditJson, CommentWithUser } from "@/domains/comment/types";
+import { UserInfo } from "@/shared/types";
 import { useSession } from "next-auth/react";
 import { useRef, useState } from "react";
 

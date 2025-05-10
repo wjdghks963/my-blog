@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { IPost } from "@types";
+import { IPost } from "@/domains/post/types";
 import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";

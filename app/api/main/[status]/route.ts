@@ -1,4 +1,4 @@
-import { PostStatus } from "@types";
+import { PostStatus } from "@/domains/post/types";
 import { Request } from "next/dist/compiled/@edge-runtime/primitives/fetch";
 import { NextResponse } from "next/server";
 

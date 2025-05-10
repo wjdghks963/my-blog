@@ -1,6 +1,6 @@
 "use client";
 
-import { UserInfo } from "@types";
+import { UserInfo } from "@/shared/types";
 import { useRouter } from "next/navigation";
 import React from "react";
 

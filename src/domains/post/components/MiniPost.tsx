@@ -1,6 +1,6 @@
 "use client";
 
-import { PostWithId } from "@types";
+import { PostWithId } from "@/domains/post/types";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
