@@ -1,10 +1,7 @@
 import { Tag } from "@prisma/client";
-
-import { Comment } from "./app/api/blogs/[id]/route";
+import { Comment } from "@/app/api/blogs/[id]/route";
 
 export type PostStatus = "popular" | "recent";
-
-type MutationResult = { ok: boolean };
 
 export interface ThumbnailPostData {
   id: number;
@@ -36,23 +33,6 @@ export interface InfinitePostArr {
 
 export type PostsIds = [{ id: number }];
 
-export interface UserInfo {
-  email: string;
-  name: string;
-  image: string;
-}
-
-export interface CommentPostJson {
-  postId: string;
-  userEmail: string;
-  content: string;
-}
-
-export interface CommentEditJson {
-  commentId: string;
-  content: string;
-}
-
 export interface IPost {
   title: string;
   content: string;
@@ -64,8 +44,6 @@ export interface IPost {
   updatedAt: Date;
   comments: (Comment | null)[];
 }
-
-export type CommentWithUser = { id: number; content: string; user: UserInfo };
 
 export interface EditPost extends Omit<Post, "tags" | "comments" | "createdAt" | "updatedAt" | "views" | "content"> {
   id: number;
@@ -80,4 +58,4 @@ export interface PostPostJson {
   tags?: string[];
   description: string;
   category: string | null;
-}
+} 
