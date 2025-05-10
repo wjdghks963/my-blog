@@ -1,6 +1,8 @@
-import { PostStatus, ThumbnailPostData } from "@types";
+import { PostStatus, ThumbnailPostData } from "@/domains/post/types";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
-import PostWithThumbnail from "@components/Home/PostWithThumbnail";
+import PostWithThumbnail from "./PostWithThumbnail";
 
 // @ts-ignore
 export default async function PostsByStatus({ status }: { status: PostStatus }): any {

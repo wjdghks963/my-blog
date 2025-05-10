@@ -1,16 +1,17 @@
 "use client";
 
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { PostWithId } from "@types";
+import { PostWithId } from "@/domains/post/types";
 import Image from "next/image";
 import React, { useCallback, useEffect, useRef } from "react";
+import { useInView } from "react-intersection-observer";
 
 import useQuerySelector from "@libs/client/useQuerySelector";
 import useTagSelector from "@libs/client/useTagSelector";
 
 import searchingCat from "@public/searching_cat.png";
 
-import MiniPost from "@components/Post/MiniPost";
+import MiniPost from "@/domains/post/components/MiniPost";
 
 const getPosts = async (query?: string, tag?: string, pageParam?: number) => {
   const response = await fetch(

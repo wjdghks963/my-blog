@@ -1,11 +1,12 @@
 "use client";
 
-import { ThumbnailPostData } from "@types";
+import { ThumbnailPostData } from "@/domains/post/types";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { cls } from "@libs/client/utils";
+import TagSpan from "@/shared/components/TagSpan";
 
 export default function PostWithThumbnail({ data, className }: { data: ThumbnailPostData; className?: string }) {
   const router = useRouter();

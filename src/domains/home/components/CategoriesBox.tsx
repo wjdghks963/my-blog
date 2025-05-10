@@ -1,6 +1,10 @@
-import { Category } from "@types";
+import { Category } from "@/domains/post/types";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import React from "react";
+
+import CategoryBox from "./CategoryBox";
 
 const DynamicCategoryBox = dynamic(() => import("./CategoryBox"), { ssr: false });
 
