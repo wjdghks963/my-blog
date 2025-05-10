@@ -2,8 +2,8 @@ import React from "react";
 
 import { cls } from "@libs/client/utils";
 
-import Header from "@components/Base/Header";
-import SEO, { ISEO } from "@components/Base/SEO";
+import Header from "@/shared/components/Header";
+import SEO, { ISEO } from "@/shared/components/SEO";
 
 import Footer from "./Footer";
 

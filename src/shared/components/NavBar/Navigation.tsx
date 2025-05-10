@@ -3,8 +3,8 @@
 import { Cycle, motion, Variants } from "framer-motion";
 import { useRouter } from "next/navigation";
 
-import ListItem from "@components/Base/NavBar/ListItem";
-import DarkModeBtn from "@components/Base/NavBar/darkModeBtn";
+import ListItem from "@/shared/components/NavBar/ListItem";
+import DarkModeBtn from "@/shared/components/NavBar/darkModeBtn";
 
 const variants: Variants = {
   open: {

@@ -2,10 +2,10 @@
 
 import React, { Suspense } from "react";
 
-import InfiniteBlogs from "@components/Blog/InfiniteBlogs";
-import TagNavBar from "@components/Blog/TagNavBar";
-import TagNavBarSkeleton from "@components/Blog/TagNavBarSkeleton";
-import { SearchBar } from "@components/Post/SearchBar";
+import InfiniteBlogs from "@/domains/blog/components/InfiniteBlogs";
+import TagNavBar from "@/domains/blog/components/TagNavBar";
+import TagNavBarSkeleton from "@/domains/blog/components/TagNavBarSkeleton";
+import { SearchBar } from "@/domains/post/components/SearchBar";
 
 export default function Blogs() {
   return (

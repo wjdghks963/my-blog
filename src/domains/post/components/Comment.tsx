@@ -8,8 +8,8 @@ import { useRef, useState } from "react";
 
 import { deleteComment, editComment } from "@libs/client/postFn";
 
-import LoadingSpinner from "@components/Base/LoadingSpinner";
-import UserInfoBox from "@components/Comment/UserInfoBox";
+import LoadingSpinner from "@/shared/components/LoadingSpinner";
+import UserInfoBox from "@/domains/comment/components/UserInfoBox";
 
 export default function CommentBox({ content, userInfo }: { content: CommentWithUser | null; userInfo?: UserInfo }) {
   const { data: session } = useSession();

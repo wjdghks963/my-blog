@@ -2,14 +2,14 @@ import { Metadata } from "next";
 import Link from "next/link";
 import React, { Suspense } from "react";
 
-import Footer from "@components/Base/Footer";
-import CategoriesBox from "@components/Home/CategoriesBox";
-import CategoriesBoxSkeleton from "@components/Home/CategoriesBoxSkeleton";
-import PostsByStatus from "@components/Home/PostsByStatus";
-import PostsByStatusSkeleton from "@components/Home/PostsByStatusSkeleton";
+import Footer from "@/shared/components/Footer";
+import CategoriesBox from "@/domains/home/components/CategoriesBox";
+import CategoriesBoxSkeleton from "@/domains/home/components/CategoriesBoxSkeleton";
+import PostsByStatus from "@/domains/home/components/PostsByStatus";
+import PostsByStatusSkeleton from "@/domains/home/components/PostsByStatusSkeleton";
 
 export const metadata: Metadata = {
-  title: "Jung’s Tech Blog: Web Dev & Beyond",
+  title: "Jung's Tech Blog: Web Dev & Beyond",
   description:
     "프론트엔드 개발을 중심으로, 서버 인프라까지 다양한 기술 분야를 학습하고 다루는 최정환의 기술 블로그입니다.",
   openGraph: {

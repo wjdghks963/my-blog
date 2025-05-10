@@ -7,10 +7,10 @@ import compareLocaleDate from "@libs/client/CompareLocaleDate";
 import { RegImageSrc } from "@libs/server/RegImageSrc";
 import { getAllPostId } from "@libs/server/getAllPostId";
 
-import TagSpan from "@components/Base/TagSpan";
-import TableOfContents from "@components/Post/MarkdownContentTable";
-import MarkdownParser from "@components/Post/MarkdownParser";
-import PostEditDeleteBox from "@components/Post/PostEditDeleteBox";
+import TagSpan from "@/shared/components/TagSpan";
+import TableOfContents from "@/domains/post/components/MarkdownContentTable";
+import MarkdownParser from "@/domains/post/components/MarkdownParser";
+import PostEditDeleteBox from "@/domains/post/components/PostEditDeleteBox";
 
 type Props = {
   params: {
