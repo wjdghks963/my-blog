@@ -1,13 +1,12 @@
+import SlideHeaderNavBar from "@shared/components/NavBar/SlideHeaderNavBar";
+import Provider from "@shared/components/Provider";
 import { Metadata } from "next";
 import React from "react";
 
-import SlideHeaderNavBar from "@components/Base/NavBar/SlideHeaderNavBar";
-import Provider from "@components/Provider";
-
-import "../styles/globals.css";
+import "@styles/globals.css";
 
 export const metadata: Metadata = {
-  title: "Jung’s Tech Blog: Web Dev & Beyond",
+  title: "Jung's Tech Blog: Web Dev & Beyond",
   description:
     "프론트엔드 개발을 중심으로, 서버 인프라까지 다양한 기술 분야를 학습하고 다루는 최정환의 기술 블로그입니다.",
   openGraph: {

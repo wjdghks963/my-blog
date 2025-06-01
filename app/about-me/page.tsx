@@ -1,5 +1,7 @@
 "use client";
 
+import Certificate from "@domains/about-me/components/Certificate";
+import StickyHeader from "@domains/about-me/components/StickyHeader";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,9 +16,6 @@ import oaImg from "@public/me/oa_img.png";
 import pickaimg from "@public/me/picka_img.png";
 import planetImg from "@public/me/planet_img.png";
 import timbieImg from "@public/me/timbie_img.png";
-
-import Certificate from "@components/AboutMe/Certificate";
-import StickyHeader from "@components/AboutMe/StickyHeader";
 
 type DownloadData = {
   downloads: number;
@@ -209,7 +208,7 @@ export default function Blogs() {
             <section className="flex flex-col gap-3">
               <h2 className="text-2xl font-semibold">Picka</h2>
               <p>사용한 기술 : flutter</p>
-              <p>설명 : 직접 만든 루틴들을 ‘카드’로 저장하고 매일 한 장을 랜덤으로 뽑아 실행하는 루틴 앱</p>
+              <p>설명 : 직접 만든 루틴들을 '카드'로 저장하고 매일 한 장을 랜덤으로 뽑아 실행하는 루틴 앱</p>
               <Link
                 href="https://apps.apple.com/kr/app/picka/id6744289311"
                 className="mobile:w-1/3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"

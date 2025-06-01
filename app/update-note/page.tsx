@@ -1,8 +1,7 @@
+import NoteList from "@domains/update-note/components/NoteList";
+import NoteLists from "@domains/update-note/components/NoteLists";
+import NoteTitle from "@domains/update-note/components/NoteTitle";
 import React from "react";
-
-import NoteList from "@components/UpdateNote/NoteList";
-import NoteLists from "@components/UpdateNote/NoteLists";
-import NoteTitle from "@components/UpdateNote/NoteTitle";
 
 export default function UpdateNote() {
   return (
