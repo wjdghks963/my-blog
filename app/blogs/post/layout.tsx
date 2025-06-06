@@ -1,3 +1,5 @@
+import PostLayout from "@domains/post/layouts/post.layout";
+
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <main>{children}</main>;
+  return <PostLayout>{children}</PostLayout>;
 }

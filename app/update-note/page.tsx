@@ -1,14 +1,24 @@
+import NoteList from "@domains/update-note/components/NoteList";
+import NoteLists from "@domains/update-note/components/NoteLists";
+import NoteTitle from "@domains/update-note/components/NoteTitle";
 import React from "react";
-
-import NoteList from "@components/UpdateNote/NoteList";
-import NoteLists from "@components/UpdateNote/NoteLists";
-import NoteTitle from "@components/UpdateNote/NoteTitle";
 
 export default function UpdateNote() {
   return (
     <div className="container mx-auto px-4 py-8 cursor-pointer">
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-10 dark:text-white">블로그 업데이트 노트</h1>
       <div className="space-y-6">
+        <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6 group">
+          <NoteTitle
+            year="2025"
+            month="06"
+          />
+          <NoteLists>
+            <NoteList content="1. 전체 폴더 구조 및 아키텍처 변경" />
+            <NoteList content="2. 마크다운 머메이트 추가" />
+          </NoteLists>
+        </div>
+
         <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6 group">
           <NoteTitle
             year="2025"

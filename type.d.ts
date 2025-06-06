@@ -71,7 +71,7 @@ export interface EditPost extends Omit<Post, "tags" | "comments" | "createdAt" |
   id: number;
   markdown: string;
   tags: string[];
-  category?: { category: string };
+  category?: string[];
 }
 
 export interface PostPostJson {
@@ -79,5 +79,5 @@ export interface PostPostJson {
   markdown: string | undefined;
   tags?: string[];
   description: string;
-  category: string | null;
+  category: string[] | null;
 }

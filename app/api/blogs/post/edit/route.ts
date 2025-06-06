@@ -63,18 +63,36 @@ export async function POST(req: Request) {
       }
 
       // 카테고리 업데이트
-      if (category) {
-        const [categoryId] = await tx.$queryRaw<{ id: number }[]>`
-          SELECT id FROM "Category" WHERE name = ${category}
+      if (category && Array.isArray(category) && category.length > 0) {
+        const mainCategory = category[0]; // 배열의 첫 번째 카테고리만 사용
+        const [existingCategory] = await tx.$queryRaw<{ id: number }[]>`
+            SELECT id FROM "Category" WHERE category = ${mainCategory}
         `;
 
-        if (categoryId) {
-          await tx.$executeRaw`
-            UPDATE "Post"
-            SET "categoryId" = ${categoryId.id}
-            WHERE id = ${id}
-          `;
+        let categoryIdToLink: number | null = null;
+        if (existingCategory) {
+          categoryIdToLink = existingCategory.id;
+        } else {
+          // 카테고리가 없으면 새로 생성
+          const [newCategory] = await tx.$queryRaw<{ id: number }[]>`
+                INSERT INTO "Category" (category) VALUES (${mainCategory})
+                RETURNING id
+            `;
+          categoryIdToLink = newCategory.id;
         }
+
+        await tx.$executeRaw`
+            UPDATE "Post"
+            SET "categoryId" = ${categoryIdToLink}
+            WHERE id = ${id}
+        `;
+      } else {
+        // 카테고리가 제공되지 않았거나 빈 배열인 경우, 연결을 해제
+        await tx.$executeRaw`
+            UPDATE "Post"
+            SET "categoryId" = NULL
+            WHERE id = ${id}
+        `;
       }
     });
 

@@ -1,15 +1,14 @@
+import CategoriesBox from "@domains/home/components/CategoriesBox";
+import CategoriesBoxSkeleton from "@domains/home/components/CategoriesBoxSkeleton";
+import PostsByStatus from "@domains/home/components/PostsByStatus";
+import PostsByStatusSkeleton from "@domains/home/components/PostsByStatusSkeleton";
+import Footer from "@shared/components/Footer";
 import { Metadata } from "next";
 import Link from "next/link";
 import React, { Suspense } from "react";
 
-import Footer from "@components/Base/Footer";
-import CategoriesBox from "@components/Home/CategoriesBox";
-import CategoriesBoxSkeleton from "@components/Home/CategoriesBoxSkeleton";
-import PostsByStatus from "@components/Home/PostsByStatus";
-import PostsByStatusSkeleton from "@components/Home/PostsByStatusSkeleton";
-
 export const metadata: Metadata = {
-  title: "Jung’s Tech Blog: Web Dev & Beyond",
+  title: "Jung's Tech Blog: Web Dev & Beyond",
   description:
     "프론트엔드 개발을 중심으로, 서버 인프라까지 다양한 기술 분야를 학습하고 다루는 최정환의 기술 블로그입니다.",
   openGraph: {
@@ -77,15 +76,16 @@ export default function Page() {
           안녕하세요
           <span className="ml-5 animate-[wave_2s_linear_infinite]">👋</span>
         </div>
-        <span>개발자 최정환입니다.</span>
         <span className="block break-words">
-          <br />이 블로그는 Next.js, TailwindCSS, Redux Tool Kit, Prisma 로 만들어졌습니다. 호스팅과 ssl은 CloudFlare,
-          Next.js 배포는 vercel, DB 서버는 Superbase를 사용했습니다.
-          <br /> 궁금한 점이 있다면 chsw000@gmail.com로 연락주세요.
+          사용자 경험을 고민하는 개발자입니다.
+          <br />
+          문제를 구조화하고 지속 가능한 개선을 추구합니다.
+          <br />
+          기술과 일상의 균형을 기록합니다.
         </span>
 
         <Link href={"https://github.com/wjdghks963/my-blog"}>
-          <span className="block mt-4 cursor-pointer font-bold">깃헙 레포 구경가기 &rarr; </span>
+          <span className="block mt-4 cursor-pointer font-bold">이 블로그의 깃헙 레포 구경가기 &rarr; </span>
         </Link>
       </div>
       <Footer />

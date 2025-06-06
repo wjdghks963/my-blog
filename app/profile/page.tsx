@@ -1,9 +1,8 @@
 "use client";
 
+import UserImageBox from "@domains/comment/components/UserImageBox";
 import { useSession, signIn, signOut } from "next-auth/react";
 import React from "react";
-
-import UserImageBox from "@components/Comment/UserImageBox";
 
 export default function Profile() {
   const { data: session } = useSession();
