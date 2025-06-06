@@ -32,7 +32,7 @@ export class PostService {
   }
 
   async deletePost(id: number): Promise<void> {
-    return httpService.delete(`${this.BASE_URL}/${id}`);
+    return httpService.post("/api/blogs/post/delete", { id });
   }
 
   async getPostsByCategory(category: string, cursor?: string): Promise<PostListResponse> {
