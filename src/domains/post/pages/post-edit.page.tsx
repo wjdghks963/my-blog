@@ -27,7 +27,7 @@ const postFormSchema = z.object({
   description: z.string().min(1, "게시글 요약을 입력해주세요."),
   markdown: z.string().min(1, "내용을 입력해주세요."),
   tags: z.array(z.string()).max(5, "태그는 최대 5개까지 선택할 수 있습니다."),
-  category: z.array(z.string()).min(1, "카테고리는 최소 1개 이상 선택해주세요."),
+  category: z.array(z.string()).min(0, "카테고리는 최소 1개 이상 선택해주세요."),
 });
 
 type PostFormData = z.infer<typeof postFormSchema>;
