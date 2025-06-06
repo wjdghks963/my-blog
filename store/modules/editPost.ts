@@ -7,7 +7,7 @@ const initialState: EditPost = {
   markdown: "",
   tags: [],
   description: "",
-  category: { category: "" },
+  category: [],
 };
 
 const editPostSlice = createSlice({

@@ -23,7 +23,8 @@
       "@styles/*": ["styles/*"],
       "@types": ["type.d.ts"],
       "@public/*": ["public/*"],
-      "@store/*": ["store/*"]
+      "@store/*": ["store/*"],
+      "@core/*": ["src/core/*"]
     },
     "downlevelIteration": true,
     "plugins": [
@@ -32,6 +33,6 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/ImageForm.jsx", ".next/types/**/*.ts", "type.d.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

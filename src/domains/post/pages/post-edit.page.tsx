@@ -1,110 +1,57 @@
 "use client";
 
-import ItemSelector from "@domains/post/components/ItemSelector";
+import CategoryInput from "@domains/post/components/CategoryInput";
+import TagInput from "@domains/post/components/TagInput";
 import { PostPostJson } from "@domains/post/types";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@shared/hooks/useMutation";
 import { MutationResult } from "@shared/types/common.types";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import "@uiw/react-markdown-preview/markdown.css";
 import "@uiw/react-md-editor/markdown-editor.css";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import React, { useState, ChangeEvent, KeyboardEvent, useRef } from "react";
+import React, { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
+import * as z from "zod";
 
 import { ReduxSliceState } from "@store/modules";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
-interface TagsData {
-  tags: { tag: string }[];
-}
+const postFormSchema = z.object({
+  title: z.string().min(1, "제목을 입력해주세요."),
+  description: z.string().min(1, "게시글 요약을 입력해주세요."),
+  markdown: z.string().min(1, "내용을 입력해주세요."),
+  tags: z.array(z.string()).max(5, "태그는 최대 5개까지 선택할 수 있습니다."),
+  category: z.array(z.string()).min(1, "카테고리는 최소 1개 이상 선택해주세요."),
+});
 
-interface CategoriesData {
-  categories: { id: string; category: string }[];
-}
-
-async function fetchTags() {
-  const res = await fetch(process.env.NEXT_PUBLIC_APIDOMAIN + `/api/blogs/tags`);
-  return res.json();
-}
-
-async function fetchCategories() {
-  const res = await fetch(process.env.NEXT_PUBLIC_APIDOMAIN + `/api/categories`);
-  return res.json();
-}
+type PostFormData = z.infer<typeof postFormSchema>;
 
 export default function PostEditPage() {
   const router = useRouter();
-  const titleRef = useRef<HTMLInputElement>(null);
   const editPostData = useSelector((state: ReduxSliceState) => state.editPostReducer);
-
-  const [markdown, setMarkdown] = useState<string | undefined>(editPostData.markdown);
-  const [editPost, { data }] = useMutation<MutationResult>(`/api/blogs/post/edit?id=${editPostData.id}`);
   const { data: session } = useSession();
+  const [editPost, { data: mutationData }] = useMutation<MutationResult>(`/api/blogs/post/edit?id=${editPostData.id}`);
 
-  const { data: tagsData } = useSuspenseQuery<TagsData>({
-    queryKey: ["tags"],
-    queryFn: fetchTags,
-    staleTime: Infinity,
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<PostFormData>({
+    resolver: zodResolver(postFormSchema),
+    defaultValues: {
+      title: editPostData.title || "",
+      description: editPostData.description || "",
+      markdown: editPostData.markdown || "",
+      tags: editPostData.tags || [],
+      category: editPostData.category || [],
+    },
   });
 
-  const { data: categoriesData } = useSuspenseQuery<CategoriesData>({
-    queryKey: ["categories"],
-    queryFn: fetchCategories,
-    staleTime: Infinity,
-  });
-
-  // 태그 상태 관리
-  const [inputTag, setInputTag] = useState("");
-  const [selectedTags, setSelectedTags] = useState<string[]>(editPostData.tags ?? []);
-
-  // 카테고리 상태 관리
-  const [inputCategory, setInputCategory] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string[]>(
-    editPostData.category ? [editPostData.category.category] : []
-  );
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    setInput: React.Dispatch<React.SetStateAction<string>>
-  ) => {
-    setInput(e.target.value);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, input: string, addItem: (item: string) => void) => {
-    if (e.key === "Enter" && input.trim()) {
-      e.preventDefault();
-      addItem(input.trim());
-    }
-  };
-
-  const addTag = (tag: string) => {
-    if (tag && !selectedTags.includes(tag)) {
-      setSelectedTags((prev) => [...prev, tag]);
-      setInputTag("");
-    }
-  };
-
-  const removeTag = (tag: string) => {
-    setSelectedTags((prev) => prev.filter((t) => t !== tag));
-  };
-
-  const addCategory = (category: string) => {
-    if (category && !selectedCategory.includes(category)) {
-      setSelectedCategory([category]); // 카테고리는 하나만 선택 가능하도록 변경
-      setInputCategory("");
-    }
-  };
-
-  const removeCategory = (category: string) => {
-    setSelectedCategory((prev) => prev.filter((c) => c !== category));
-  };
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-
+  const onSubmit = async (data: PostFormData) => {
     if (session?.user?.email !== process.env.MY_EMAIL) {
       if (process.env.NODE_ENV === "production") {
         return alert("email 확인해주세요");
@@ -112,90 +59,103 @@ export default function PostEditPage() {
     }
 
     const postJson: PostPostJson = {
-      title: editPostData.title,
-      markdown,
-      description: editPostData.description,
-      tags: selectedTags,
-      category: selectedCategory[0] || null, // 카테고리는 단일 값
+      ...data,
     };
 
     await editPost(postJson);
-
-    if (data?.ok === false) {
-      alert("인터넷 오류");
-    } else {
-      router.replace("/");
-    }
   };
+
+  useEffect(() => {
+    if (mutationData?.ok) {
+      router.replace("/");
+    } else if (mutationData?.ok === false) {
+      alert("인터넷 오류");
+    }
+  }, [mutationData, router]);
 
   return (
     <>
-      <form className="items-center justify-center flex flex-col ">
-        <div className="flex mt-5 gap-10 mb-10">
-          <div>
-            <span>Title - </span>
-            <input
-              className="outline-none border-2 border-solid border-black focus:border-gray-300 p-1"
-              type="text"
-              defaultValue={editPostData.title}
-              required
-              ref={titleRef}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="items-center justify-center flex flex-col px-4 md:px-0"
+      >
+        <div className="flex flex-wrap mt-5 gap-x-10 gap-y-5 mb-10 w-full max-w-4xl">
+          <div className="w-full md:w-auto">
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Title
+            </label>
+            <Controller
+              name="title"
+              control={control}
+              render={({ field }) => (
+                <input
+                  id="title"
+                  className="outline-none border-2 border-solid border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-blue-500 dark:focus:border-blue-400 p-2 rounded-md w-full"
+                  type="text"
+                  {...field}
+                  required
+                />
+              )}
             />
+            {errors.title && <p className="text-red-500 mt-1">{errors.title.message}</p>}
           </div>
 
-          <div className="w-1/2">
-            <span>Tags - </span>
-            <ItemSelector
-              id="tags"
-              availableItems={tagsData.tags.map((tag) => tag.tag)}
-              selectedItems={selectedTags}
-              inputItem={inputTag}
-              onInputChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e, setInputTag)}
-              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => handleKeyDown(e, inputTag, addTag)}
-              onAddItem={addTag}
-              onRemoveItem={removeTag}
-              placeholder="태그 입력 후 Enter"
+          <TagInput control={control} />
+        </div>
+        <div className="flex flex-wrap mt-5 gap-x-10 gap-y-5 mb-10 w-full max-w-4xl">
+          <div className="w-full md:w-auto">
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Description
+            </label>
+            <Controller
+              name="description"
+              control={control}
+              render={({ field }) => (
+                <input
+                  id="description"
+                  className="outline-none border-2 border-solid border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-blue-500 dark:focus:border-blue-400 p-2 rounded-md w-full"
+                  type="text"
+                  {...field}
+                  required
+                />
+              )}
             />
+            {errors.description && <p className="text-red-500 mt-1">{errors.description.message}</p>}
           </div>
 
-          <div>
-            <span>Description - </span>
-            <input
-              className="outline-none border-2 border-solid border-black focus:border-gray-300 p-1"
-              type="text"
-              placeholder="줄거리 입력"
-              defaultValue={editPostData.description}
-              required
-            />
-          </div>
-
-          <div className="w-1/2">
-            <span>Category - </span>
-            <ItemSelector
-              id="category"
-              availableItems={categoriesData.categories.map((category) => category.category)}
-              selectedItems={selectedCategory}
-              inputItem={inputCategory}
-              onInputChange={(e) => handleInputChange(e, setInputCategory)}
-              onKeyDown={(e) => handleKeyDown(e, inputCategory, addCategory)}
-              onAddItem={addCategory}
-              onRemoveItem={removeCategory}
-              placeholder="카테고리 입력 후 Enter"
-            />
-          </div>
+          <CategoryInput control={control} />
         </div>
 
-        <MDEditor
-          className="w-full"
-          height={1000}
-          defaultValue={editPostData.markdown}
-          value={markdown}
-          onChange={(value) => setMarkdown(value)}
-        />
+        <div
+          data-color-mode="auto"
+          className="w-full max-w-6xl"
+        >
+          <Controller
+            name="markdown"
+            control={control}
+            render={({ field }) => (
+              <MDEditor
+                height={600}
+                value={field.value}
+                onChange={field.onChange}
+                previewOptions={{
+                  className: "prose dark:prose-invert max-w-none",
+                }}
+              />
+            )}
+          />
+          {errors.markdown && <p className="text-red-500 mt-1">{errors.markdown.message}</p>}
+        </div>
 
         <button
-          onClick={handleSubmit}
-          className="text-center w-1/3 my-10 ring-2 ring-offset-2 ring-gray-400 py-2 block hover:bg-gray-400 hover:text-green-50"
+          type="submit"
+          className="text-center w-full max-w-xs my-10 ring-2 ring-offset-2 ring-gray-400 dark:ring-gray-500 py-3 px-4 block hover:bg-gray-400 dark:hover:bg-gray-600 hover:text-white dark:text-gray-200 dark:hover:text-white rounded-md transition-colors duration-150"
         >
           Submit
         </button>

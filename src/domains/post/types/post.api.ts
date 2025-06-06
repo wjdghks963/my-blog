@@ -3,7 +3,7 @@ export interface PostPostJson {
   markdown: string | undefined;
   tags?: string[];
   description: string;
-  category: string | null;
+  category: string[] | null;
 }
 
 export interface PostResponse {

@@ -51,12 +51,10 @@ export default function PostEditDeleteBox({ postData }: { postData: IPost }) {
       setPostJson({
         id: +id,
         title: postData.title,
-        // @ts-ignore
-        category: postData.category,
+        category: postData.category ? [postData.category] : [],
         description: postData.description,
         markdown: postData.content,
-        // @ts-ignore
-        tags: postData.tags?.map((item) => item.tag),
+        tags: postData.tags?.map((item) => item.tag) || [],
       })
     );
     return router.push("/blogs/post/edit");
