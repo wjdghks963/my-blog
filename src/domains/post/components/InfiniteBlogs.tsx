@@ -1,7 +1,7 @@
 "use client";
 
 import MiniPost from "@domains/post/components/MiniPost";
-import { PostWithId, InfinitePostArr } from "@domains/post/types";
+import { PostWithId } from "@domains/post/types";
 import useQuerySelector from "@shared/hooks/useQuerySelector";
 import useTagSelector from "@shared/hooks/useTagSelector";
 import { useInfiniteQuery } from "@tanstack/react-query";

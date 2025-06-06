@@ -1,5 +1,5 @@
-import { Tag } from "@prisma/client";
-import { UserInfo } from "@shared/types/common.types";
+import { Post, Tag } from "@prisma/client";
+import { Comment } from "@prisma/client";
 
 export type PostStatus = "popular" | "recent";
 

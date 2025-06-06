@@ -40,7 +40,7 @@ export async function POST(req: Request) {
   if (category) {
     try {
       const uniqueCategory = await prismaclient.category.findUnique({
-        where: { category: category },
+        where: { category: category[0] },
       });
 
       upsertedCategory = uniqueCategory;

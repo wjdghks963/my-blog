@@ -53,7 +53,7 @@ export default async function PostDetailPage({ params: { id } }: Props) {
   const date = compareLocaleDate(postData.createdAt!, postData.updatedAt!);
 
   return (
-    <div className="font-roboto-regular">
+    <div className="font-roboto-regular pb-16">
       <div className="flex flex-col mx-3 mt-16 mobile:mx-10 p-5 border-2 border-gray-500 bg-gray-100 dark:border-gray-300 dark:bg-gray-800">
         <div className="flex w-full">
           <span className="w-1/2">{date}</span>

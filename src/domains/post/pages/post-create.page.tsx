@@ -1,12 +1,13 @@
 "use client";
 
+import CategoryInput from "@domains/post/components/CategoryInput";
 import ImageForm from "@domains/post/components/ImageForm";
-import ItemSelector from "@domains/post/components/ItemSelector";
+import { Mermaid } from "@domains/post/components/Mermaid";
+import TagInput from "@domains/post/components/TagInput";
 import { PostPostJson } from "@domains/post/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@shared/hooks/useMutation";
 import { MutationResult } from "@shared/types/common.types";
-import { useQuery } from "@tanstack/react-query";
 import "@uiw/react-markdown-preview/markdown.css";
 import "@uiw/react-md-editor/markdown-editor.css";
 import { useSession } from "next-auth/react";
@@ -15,10 +16,6 @@ import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import * as z from "zod";
-
-import CategoryInput from "../components/CategoryInput";
-import { Mermaid } from "../components/Mermaid";
-import TagInput from "../components/TagInput";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 

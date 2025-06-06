@@ -11,6 +11,17 @@ export default function UpdateNote() {
         <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6 group">
           <NoteTitle
             year="2025"
+            month="06"
+          />
+          <NoteLists>
+            <NoteList content="1. 전체 폴더 구조 및 아키텍처 변경" />
+            <NoteList content="2. 마크다운 머메이트 추가" />
+          </NoteLists>
+        </div>
+
+        <div className="bg-white transition-shadow shadow-lg hover:shadow-xl rounded-lg p-6 group">
+          <NoteTitle
+            year="2025"
             month="03"
           />
           <NoteLists>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, KeyboardEvent } from "react";
+import React from "react";
 
 interface ItemSelectorProps {
   id: string;
