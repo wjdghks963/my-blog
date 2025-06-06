@@ -18,6 +18,8 @@ import * as z from "zod";
 
 import { ReduxSliceState } from "@store/modules";
 
+import { Mermaid } from "../components/Mermaid";
+
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
 const postFormSchema = z.object({
@@ -145,7 +147,21 @@ export default function PostEditPage() {
                 value={field.value}
                 onChange={field.onChange}
                 previewOptions={{
-                  className: "prose dark:prose-invert max-w-none",
+                  components: {
+                    code: ({ children = [], className, ...props }) => {
+                      if (typeof children[0] === "string" && className?.startsWith("language-mermaid")) {
+                        return <Mermaid chart={children[0]} />;
+                      }
+                      return (
+                        <code
+                          className={String(className)}
+                          {...props}
+                        >
+                          {children}
+                        </code>
+                      );
+                    },
+                  },
                 }}
               />
             )}

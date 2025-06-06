@@ -13,6 +13,8 @@ import remarkGfm from "remark-gfm";
 import remarkToc from "remark-toc";
 import { Url } from "url";
 
+import { Mermaid } from "./Mermaid";
+
 export default function MarkdownParser({ markdown }: any) {
   return (
     <ReactMarkdown
@@ -126,6 +128,10 @@ export default function MarkdownParser({ markdown }: any) {
           const match = /language-(\w+)/.exec(className || "");
           const lang = match?.[1];
 
+          if (lang === "mermaid") {
+            return <Mermaid chart={String(children).replace(/\n$/, "")} />;
+          }
+
           if (lang) {
             return (
               <div>
@@ -133,7 +139,6 @@ export default function MarkdownParser({ markdown }: any) {
                   <span className="bg-red-500 rounded-full w-3 h-3 mr-1"></span>
                   <span className="bg-yellow-500 rounded-full w-3 h-3 mr-1"></span>
                   <span className="bg-green-500 rounded-full w-3 h-3"></span>
-
                   <span className={"ml-3"}>{match?.[1] ?? "text"}</span>
                 </div>
                 <SyntaxHighlighter
