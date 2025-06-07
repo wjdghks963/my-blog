@@ -18,7 +18,6 @@ export const metadata: Metadata = {
   },
 };
 
-// @ts-ignore
 export default function Page() {
   return (
     <div className="mx-10 mt-16">
