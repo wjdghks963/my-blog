@@ -22,6 +22,29 @@ const nextConfig = {
     ],
     formats: ["image/avif", "image/webp"],
   },
+  webpack: (config, { isServer }) => {
+    // Three.js를 위한 설정
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        crypto: false,
+      };
+    }
+
+    // Three.js 모듈을 외부 의존성으로 처리하지 않음
+    config.externals = config.externals || [];
+    if (isServer) {
+      config.externals.push({
+        three: "three",
+        "@react-three/fiber": "@react-three/fiber",
+        "@react-three/drei": "@react-three/drei",
+      });
+    }
+
+    return config;
+  },
   async rewrites() {
     return [
       {
@@ -31,6 +54,10 @@ const nextConfig = {
       {
         source: "/api/npm-downloads",
         destination: "https://api.npmjs.org/downloads/point/last-month/@wjdghks963/react-native-shuffle-pincode",
+      },
+      {
+        source: "/api/3d-model/:path*",
+        destination: "https://storage.junglog.xyz/:path*",
       },
     ];
   },
