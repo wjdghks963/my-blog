@@ -55,7 +55,6 @@ export default function ThreeDModel() {
     const groundMat = new THREE.MeshPhongMaterial({
       color: 0x2d1b0e, // 어두운 갈색 (흙색)
       shininess: 5, // 반사도 낮춤
-      roughness: 0.8, // 거칠게
     });
     const ground = new THREE.Mesh(groundGeo, groundMat);
     ground.rotation.x = -Math.PI / 2;
