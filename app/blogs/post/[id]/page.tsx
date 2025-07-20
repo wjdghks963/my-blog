@@ -15,7 +15,9 @@ type Props = {
 
 async function fetchData(id: string): Promise<IPost | undefined> {
   try {
-    const res = await fetch(process.env.NEXT_PUBLIC_APIDOMAIN + `/api/blogs/${id}`, {
+    // 서버에서는 절대 URL이 필요
+    const baseUrl = process.env.NEXT_PUBLIC_APIDOMAIN || `http://localhost:${process.env.PORT || 3000}`;
+    const res = await fetch(`${baseUrl}/api/blogs/${id}`, {
       next: { revalidate: 60 },
     });
 
@@ -34,9 +36,7 @@ async function fetchData(id: string): Promise<IPost | undefined> {
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
 
-  const {
-    id
-  } = params;
+  const { id } = params;
 
   const data: IPost | undefined = await fetchData(id);
   if (!data) {
@@ -76,9 +76,7 @@ export async function generateStaticParams() {
 export default async function Page(props: Props) {
   const params = await props.params;
 
-  const {
-    id
-  } = params;
+  const { id } = params;
 
   const postData = await fetchData(id);
 

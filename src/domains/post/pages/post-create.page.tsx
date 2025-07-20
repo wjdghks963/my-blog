@@ -32,7 +32,7 @@ type PostFormData = z.infer<typeof postFormSchema>;
 export default function PostCreatePage() {
   const router = useRouter();
   const [postBlog, { data: mutationData, loading: mutationLoading, error: mutationError }] =
-    useMutation<MutationResult>(process.env.NEXT_PUBLIC_APIDOMAIN + "/api/blogs/post");
+    useMutation<MutationResult>("/api/blogs/post");
   const { data: session } = useSession();
 
   const {

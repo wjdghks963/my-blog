@@ -2,14 +2,16 @@
 
 import TagSpan from "@shared/components/TagSpan";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import process from "process";
 
 interface TagsData {
   tags: { tag: string }[];
 }
 
 async function fetchTags() {
-  const res = await fetch(process.env.NEXT_PUBLIC_APIDOMAIN + `/api/blogs/tags`);
+  const res = await fetch(`/api/blogs/tags`);
+  if (!res.ok) {
+    throw new Error(`Failed to fetch tags: ${res.status}`);
+  }
   return res.json();
 }
 

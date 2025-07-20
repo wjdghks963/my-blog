@@ -10,13 +10,6 @@ import React, { useCallback, useEffect, useRef } from "react";
 
 import searchingCat from "@public/searching_cat.png";
 
-const getPosts = async (query?: string, tag?: string, pageParam?: number) => {
-  const response = await fetch(
-    process.env.NEXT_PUBLIC_APIDOMAIN + `/api/blogs?query=${query}&tag=${tag}&page=${pageParam}&limit=5`
-  );
-  return response.json();
-};
-
 export default function InfiniteBlogs() {
   const loadingRef = useRef<HTMLDivElement>(null);
   const { tag } = useTagSelector();
@@ -24,7 +17,13 @@ export default function InfiniteBlogs() {
 
   const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
     queryKey: ["posts", tag, query],
-    queryFn: ({ pageParam = 1 }) => getPosts(query, tag, pageParam),
+    queryFn: ({ pageParam }) =>
+      fetch(`/api/blogs?query=${query}&tag=${tag}&page=${pageParam}&limit=5`).then((res) => {
+        if (!res.ok) {
+          throw new Error(`Failed to fetch blogs: ${res.status}`);
+        }
+        return res.json();
+      }),
     initialPageParam: 1,
     getNextPageParam<T extends { hasNextPage: boolean; data: any[] }>(
       lastPage: T,

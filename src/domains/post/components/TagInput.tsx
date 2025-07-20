@@ -11,8 +11,7 @@ interface TagsData {
 }
 
 async function fetchTags() {
-  const apiUrl = process.env.NEXT_PUBLIC_APIDOMAIN || "";
-  const res = await fetch(`${apiUrl}/api/blogs/tags`);
+  const res = await fetch(`/api/blogs/tags`);
   if (!res.ok) {
     throw new Error("Failed to fetch tags");
   }
