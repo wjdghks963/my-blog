@@ -1,3 +1,5 @@
+"use client";
+
 import TagNavBarSkeleton from "@domains/post/components/TagNavBarSkeleton";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
