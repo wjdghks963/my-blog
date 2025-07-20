@@ -59,9 +59,9 @@ interface SessionData {
 }
 
 const userTransaction = async ({ email, name, image, domain }: SessionData) => {
-  let nameProperty = name === "" || undefined ? "" : name + "";
-  let imageProperty = image === "" || undefined ? "" : image + "";
-  let domainProperty = image === "" || undefined ? "" : domain + "";
+  const nameProperty = name || "";
+  const imageProperty = image || "";
+  const domainProperty = domain || "";
 
   try {
     const user = await prismaclient.user.findUnique({
@@ -82,13 +82,13 @@ const userTransaction = async ({ email, name, image, domain }: SessionData) => {
       });
     } else {
       // email에 해당하는 사용자가 이미 등록되어 있는 경우
-      const updateData = {
-        name: user.name === name ? undefined : name,
-        image: user.image === image ? undefined : image,
-        domain: user.domain === domain ? undefined : domain,
-      };
+      const updateData: { name?: string; image?: string; domain?: string } = {};
 
-      if (Object.values(updateData).some((x) => x !== undefined)) {
+      if (user.name !== nameProperty) updateData.name = nameProperty;
+      if (user.image !== imageProperty) updateData.image = imageProperty;
+      if (user.domain !== domainProperty) updateData.domain = domainProperty;
+
+      if (Object.keys(updateData).length > 0) {
         // 변경할 값이 존재하는 경우, 사용자 정보 업데이트
         await prismaclient.user.update({
           where: {
@@ -100,7 +100,7 @@ const userTransaction = async ({ email, name, image, domain }: SessionData) => {
     }
     return true;
   } catch (error: any) {
-    console.error(error);
+    console.error("[AuthOptions] userTransaction error:", error);
     return false;
   }
 };

@@ -6,6 +6,9 @@ const nextConfig = {
     CLOUD_PRESET_NAME: process.env.CLOUD_PRESET_NAME,
     MY_EMAIL: process.env.MY_EMAIL,
   },
+  experimental: {
+    serverComponentsExternalPackages: ["prisma", "@prisma/client"],
+  },
   images: {
     remotePatterns: [
       {
