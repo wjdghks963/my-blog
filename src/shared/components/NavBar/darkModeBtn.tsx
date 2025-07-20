@@ -33,6 +33,10 @@ export default function DarkModeBtn({ className, toggleOpen }: { className?: str
 
   useEffect(() => {
     setSvgLoad(false);
+
+    // 브라우저 환경 체크
+    if (typeof window === "undefined") return;
+
     if (localStorage.getItem("theme")) return;
     const prefersDarkMode = window.matchMedia("(prefers-color-scheme:dark)").matches;
 

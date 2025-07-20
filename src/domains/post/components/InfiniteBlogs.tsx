@@ -46,6 +46,11 @@ export default function InfiniteBlogs() {
   );
 
   useEffect(() => {
+    // 브라우저 환경 체크
+    if (typeof window === "undefined" || typeof IntersectionObserver === "undefined") {
+      return;
+    }
+
     const observer = new IntersectionObserver(handleObserver, {
       root: null,
       rootMargin: "20px",

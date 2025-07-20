@@ -26,6 +26,11 @@ export function useIntersectionObserver({
 
   const targetRef = useCallback(
     (node: HTMLElement | null) => {
+      // 브라우저 환경 체크
+      if (typeof window === "undefined" || typeof IntersectionObserver === "undefined") {
+        return;
+      }
+
       // 기존 observer 정리
       if (observerRef.current) {
         observerRef.current.disconnect();

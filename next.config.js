@@ -9,6 +9,7 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ["prisma", "@prisma/client"],
   },
+  transpilePackages: ["lottie-react"],
   images: {
     remotePatterns: [
       {

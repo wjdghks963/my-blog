@@ -4,6 +4,9 @@ export default function useVisibleScrollY(): boolean {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
+    // 브라우저 환경 체크
+    if (typeof window === "undefined") return;
+
     let prevScrollPos = window.scrollY;
 
     const handleScroll = () => {
