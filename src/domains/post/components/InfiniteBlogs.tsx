@@ -8,8 +8,6 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import React, { useCallback, useEffect, useRef } from "react";
 
-import searchingCat from "@public/searching_cat.png";
-
 export default function InfiniteBlogs() {
   const loadingRef = useRef<HTMLDivElement>(null);
   const { tag } = useTagSelector();
@@ -68,8 +66,10 @@ export default function InfiniteBlogs() {
             <div className="backdrop-blur-xl bg-white/10 dark:bg-gray-900/20 border border-white/20 dark:border-gray-700/30 rounded-3xl p-12 shadow-2xl">
               <Image
                 className="w-32 h-32 mx-auto mb-6 opacity-70"
-                src={searchingCat}
+                src="/searching_cat.png"
                 alt={"검색 결과 없음"}
+                width={128}
+                height={128}
               />
               <h3 className="text-2xl font-bold mb-4 text-gray-700 dark:text-gray-200">검색 결과가 없습니다</h3>
               <p className="text-gray-600 dark:text-gray-400 max-w-md">다른 키워드나 태그로 검색해보세요</p>
@@ -99,8 +99,10 @@ export default function InfiniteBlogs() {
             >
               <Image
                 className="w-20 h-20 opacity-80"
-                src={searchingCat}
+                src="/searching_cat.png"
                 alt={"다음 페이지를 찾고 있는 고양이"}
+                width={80}
+                height={80}
               />
               <p className="mt-4 text-sm text-gray-600 dark:text-gray-400 font-medium">
                 더 많은 포스트를 찾고 있어요...

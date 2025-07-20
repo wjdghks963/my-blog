@@ -3,17 +3,27 @@
 import { motion, Variants } from "framer-motion";
 import Lottie from "lottie-react";
 import Link from "next/link";
-
-import notFoundLottie from "@public/notFoundLottie.json";
+import { useEffect, useState } from "react";
 
 export default function NotFound() {
+  const [animationData, setAnimationData] = useState(null);
+
+  useEffect(() => {
+    fetch("/notFoundLottie.json")
+      .then((response) => response.json())
+      .then((data) => setAnimationData(data))
+      .catch((error) => console.error("Error loading animation:", error));
+  }, []);
+
   return (
     <div className={"h-screen w-screen flex flex-col justify-center"}>
-      <Lottie
-        className={"h-1/3 w-full"}
-        animationData={notFoundLottie}
-        loop={true}
-      />
+      {animationData && (
+        <Lottie
+          className={"h-1/3 w-full"}
+          animationData={animationData}
+          loop={true}
+        />
+      )}
       <p className={"text-center font-bold text-xl"}>찾으시는 포스트가 존재하지 않습니다.</p>
       <div className={"flex flex-col gap-10 mt-5"}>
         <motion.div
