@@ -19,14 +19,15 @@ export default async function PostsByStatus({ status }: { status: PostStatus }):
 }
 
 async function fetchPostsByStatus(status: PostStatus) {
-  const res = await fetch(`/api/main/${status}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APIDOMAIN}/api/main/${status}`, {
     next: { revalidate: 60 }, // 60초마다 다시 캐싱
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    console.error("Failed to fetch posts:", res.status, res.statusText);
+    return [];
   }
 
-  const data: { json: ThumbnailPostData[] } = await res.json();
-  return data.json;
+  const result = await res.json();
+  return result.data || [];
 }

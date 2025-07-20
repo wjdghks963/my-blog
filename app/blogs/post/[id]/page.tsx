@@ -16,7 +16,7 @@ type Props = {
 async function fetchData(id: string): Promise<IPost | undefined> {
   try {
     // 서버에서는 절대 URL이 필요
-    const baseUrl = process.env.NEXT_PUBLIC_APIDOMAIN || `http://localhost:${process.env.PORT || 3000}`;
+    const baseUrl = process.env.NEXT_PUBLIC_APIDOMAIN;
     const res = await fetch(`${baseUrl}/api/blogs/${id}`, {
       next: { revalidate: 60 },
     });

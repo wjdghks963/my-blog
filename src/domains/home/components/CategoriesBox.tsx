@@ -19,7 +19,7 @@ export default async function CategoriesBox(): any {
 }
 
 async function fetchData() {
-  const res = await fetch(`/api/categories/posts`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APIDOMAIN}/api/categories/posts`, {
     next: { revalidate: 60 },
   });
 
