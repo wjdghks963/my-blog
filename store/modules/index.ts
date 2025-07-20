@@ -1,4 +1,4 @@
-import { AnyAction, CombinedState, combineReducers } from "@reduxjs/toolkit";
+import { AnyAction, combineReducers } from "@reduxjs/toolkit";
 import { EditPost } from "@types";
 import { HYDRATE } from "next-redux-wrapper";
 
@@ -12,7 +12,7 @@ export interface ReduxSliceState {
   searchQueryReducer: { query: string; isSelected: boolean };
 }
 
-const reducer = (state: any, action: AnyAction): CombinedState<ReduxSliceState> => {
+const reducer = (state: any, action: AnyAction): ReduxSliceState => {
   if (action.type === HYDRATE) {
     return {
       ...state,
@@ -20,7 +20,6 @@ const reducer = (state: any, action: AnyAction): CombinedState<ReduxSliceState> 
     };
   }
 
-  // slcie한 reducer 모듈을 결합한다.
   return combineReducers({
     editPostReducer,
     tagFilterReducer,
