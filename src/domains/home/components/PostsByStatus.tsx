@@ -7,7 +7,7 @@ export default async function PostsByStatus({ status }: { status: PostStatus }):
 
   return (
     <div className="flex gap-2">
-      {posts.map((post, index) => (
+      {posts.map((post: any, index: any) => (
         <PostWithThumbnail
           key={post.id}
           data={post}
