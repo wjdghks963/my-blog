@@ -29,5 +29,5 @@ async function fetchPostsByStatus(status: PostStatus) {
   }
 
   const result = await res.json();
-  return result.data || [];
+  return result.json || [];
 }
