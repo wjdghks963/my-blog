@@ -1,4 +1,3 @@
-const removeImports = require("next-remove-imports")();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
@@ -63,16 +62,6 @@ const nextConfig = {
       };
     }
 
-    // Three.js 모듈을 외부 의존성으로 처리하지 않음
-    config.externals = config.externals || [];
-    if (isServer) {
-      config.externals.push({
-        three: "three",
-        "@react-three/fiber": "@react-three/fiber",
-        "@react-three/drei": "@react-three/drei",
-      });
-    }
-
     return config;
   },
   async rewrites() {
@@ -93,4 +82,4 @@ const nextConfig = {
   },
 };
 
-module.exports = removeImports({ ...nextConfig });
+module.exports = nextConfig;
