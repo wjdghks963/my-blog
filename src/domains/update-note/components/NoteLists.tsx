@@ -1,9 +1,5 @@
 import React from "react";
 
 export default function NoteLists({ children }: { children: React.ReactNode }) {
-  return (
-    <ul className="mt-4 text-gray-600 group-hover:text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-800 transition-all duration-300">
-      {children}
-    </ul>
-  );
+  return <ul className="space-y-2 text-gray-700 dark:text-gray-200">{children}</ul>;
 }
