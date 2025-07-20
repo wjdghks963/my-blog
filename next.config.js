@@ -10,6 +10,9 @@ const nextConfig = {
     serverComponentsExternalPackages: ["prisma", "@prisma/client"],
   },
   transpilePackages: ["lottie-react"],
+  // 빌드 최적화
+  poweredByHeader: false,
+  compress: true,
   images: {
     remotePatterns: [
       {
