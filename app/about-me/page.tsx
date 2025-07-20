@@ -7,16 +7,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import appleStoreImg from "@public/me/apple_store_img.png";
-import flow5Img from "@public/me/flow5_img.png";
-import githubImg from "@public/me/github_img.png";
-import googleStoreImg from "@public/me/google_store_img.png";
-import linkedinImg from "@public/me/linkedin_img.png";
-import oaImg from "@public/me/oa_img.png";
-import pickaimg from "@public/me/picka_img.png";
-import planetImg from "@public/me/planet_img.png";
-import timbieImg from "@public/me/timbie_img.png";
-
 type DownloadData = {
   downloads: number;
 };
@@ -61,9 +51,11 @@ export default function Blogs() {
               className="mobile:w-1/3 flex items-center justify-center  bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded inline-flex items-center"
             >
               <Image
-                src={githubImg}
+                src="/me/github_img.png"
                 className="h-6 w-6 mr-2"
                 alt="GitHub"
+                width={24}
+                height={24}
               />
               GitHub
             </Link>
@@ -72,9 +64,11 @@ export default function Blogs() {
               className="mobile:w-1/3 flex items-center justify-center bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded inline-flex items-center"
             >
               <Image
-                src={linkedinImg}
+                src="/me/linkedin_img.png"
                 className="h-6 w-6 mr-2"
                 alt="LinkedIn"
+                width={24}
+                height={24}
               />
               LinkedIn
             </Link>
@@ -124,16 +118,20 @@ export default function Blogs() {
                 className="mobile:w-1/3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"
               >
                 <Image
-                  src={appleStoreImg}
+                  src="/me/apple_store_img.png"
                   className="h-6 w-6 mr-2"
                   alt="Apple Store"
+                  width={24}
+                  height={24}
                 />
                 애플 스토어
               </Link>
               <Image
                 className="w-2/3 mt-10"
-                src={flow5Img}
+                src="/me/flow5_img.png"
                 alt="앱 홍보 이미지"
+                width={400}
+                height={300}
               />
             </section>
 
@@ -150,9 +148,11 @@ export default function Blogs() {
                 className="mobile:w-1/3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"
               >
                 <Image
-                  src={appleStoreImg}
+                  src="/me/apple_store_img.png"
                   className="h-6 w-6 mr-2"
                   alt="Apple Store"
+                  width={24}
+                  height={24}
                 />
                 애플 스토어
               </Link>
@@ -161,17 +161,21 @@ export default function Blogs() {
                 className="mobile:w-1/3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"
               >
                 <Image
-                  src={googleStoreImg}
+                  src="/me/google_store_img.png"
                   className="h-6 w-6 mr-2"
                   alt="Google Play"
+                  width={24}
+                  height={24}
                 />
                 구글 스토어
               </Link>
 
               <Image
                 className="w-2/3 mt-10"
-                src={planetImg}
+                src="/me/planet_img.png"
                 alt="앱 홍보 이미지"
+                width={400}
+                height={300}
               />
             </section>
 
@@ -192,16 +196,20 @@ export default function Blogs() {
                 className="mobile:w-1/3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"
               >
                 <Image
-                  src={googleStoreImg}
+                  src="/me/google_store_img.png"
                   className="h-6 w-6 mr-2"
                   alt="Google Play"
+                  width={24}
+                  height={24}
                 />
                 구글 스토어
               </Link>
               <Image
                 className="w-2/3 mt-10"
-                src={oaImg}
+                src="/me/oa_img.png"
                 alt="앱 홍보 이미지"
+                width={400}
+                height={300}
               />
             </section>
 
@@ -214,9 +222,11 @@ export default function Blogs() {
                 className="mobile:w-1/3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"
               >
                 <Image
-                  src={appleStoreImg}
+                  src="/me/apple_store_img.png"
                   className="h-6 w-6 mr-2"
                   alt="Apple Store"
+                  width={24}
+                  height={24}
                 />
                 애플 스토어
               </Link>
@@ -225,17 +235,21 @@ export default function Blogs() {
                 className="mobile:w-1/3 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"
               >
                 <Image
-                  src={googleStoreImg}
+                  src="/me/google_store_img.png"
                   className="h-6 w-6 mr-2"
                   alt="Google Play"
+                  width={24}
+                  height={24}
                 />
                 구글 스토어
               </Link>
 
               <Image
                 className="w-2/3 mt-10"
-                src={pickaimg}
+                src="/me/picka_img.png"
                 alt="앱 홍보 이미지"
+                width={400}
+                height={300}
               />
             </section>
 
@@ -248,17 +262,21 @@ export default function Blogs() {
                 className="mobile:w-1/3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center justify-center"
               >
                 <Image
-                  src={appleStoreImg}
+                  src="/me/apple_store_img.png"
                   className="h-6 w-6 mr-2"
                   alt="Apple Store"
+                  width={24}
+                  height={24}
                 />
                 애플 스토어
               </Link>
 
               <Image
                 className="w-2/3 mt-10"
-                src={timbieImg}
+                src="/me/timbie_img.png"
                 alt="앱 홍보 이미지"
+                width={400}
+                height={300}
               />
             </section>
 
