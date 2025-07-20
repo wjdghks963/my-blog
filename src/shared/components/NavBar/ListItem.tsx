@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
-const variants = {
+const variants: Variants = {
   open: {
     x: 0,
     opacity: 1,

@@ -9,7 +9,7 @@ export default function ThreeDModel() {
   const mountRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
-  const frameId = useRef<number>();
+  const frameId = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     if (!mountRef.current) return;

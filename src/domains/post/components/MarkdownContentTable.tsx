@@ -2,7 +2,7 @@
 
 import useVisibleScrollY from "@shared/hooks/useVisibleScrollY";
 import { cls } from "@shared/utils/utils";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 enum HeaderLevel {
   H1 = 1,
@@ -52,7 +52,7 @@ export default function TableOfContents({ markdown }: { markdown: string }) {
     }
   };
 
-  const tableVariants = {
+  const tableVariants: Variants = {
     hidden: {
       opacity: 0,
       x: "100%",
@@ -102,7 +102,7 @@ export default function TableOfContents({ markdown }: { markdown: string }) {
 }
 
 const spring = {
-  type: "spring",
+  type: "spring" as const,
   stiffness: 500,
   damping: 30,
 };

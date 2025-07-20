@@ -158,7 +158,12 @@ export default function PostCreatePage() {
                 previewOptions={{
                   components: {
                     code: ({ children = [], className, ...props }) => {
-                      if (typeof children[0] === "string" && className?.startsWith("language-mermaid")) {
+                      if (
+                        Array.isArray(children) &&
+                        children.length > 0 &&
+                        typeof children[0] === "string" &&
+                        className?.startsWith("language-mermaid")
+                      ) {
                         return <Mermaid chart={children[0]} />;
                       }
                       // 다른 언어의 코드 블록은 MDEditor의 기본 렌더링을 따릅니다.

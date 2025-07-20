@@ -8,17 +8,47 @@ const nextConfig = {
     MY_EMAIL: process.env.MY_EMAIL,
   },
   images: {
-    domains: [
-      "res.cloudinary.com",
-      "velog.velcdn.com",
-      "images.velog.io",
-      "img.icons8.com",
-      "k.kakaocdn.net",
-      "github.com",
-      "lh3.googleusercontent.com",
-      "avatars.githubusercontent.com",
-      "pbs.twimg.com",
-      "storage.junglog.xyz",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+      {
+        protocol: "https",
+        hostname: "velog.velcdn.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.velog.io",
+      },
+      {
+        protocol: "https",
+        hostname: "img.icons8.com",
+      },
+      {
+        protocol: "https",
+        hostname: "k.kakaocdn.net",
+      },
+      {
+        protocol: "https",
+        hostname: "github.com",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "pbs.twimg.com",
+      },
+      {
+        protocol: "https",
+        hostname: "storage.junglog.xyz",
+      },
     ],
     formats: ["image/avif", "image/webp"],
   },

@@ -47,6 +47,8 @@ export default function PostEditDeleteBox({ postData }: { postData: IPost }) {
 
   const dispatch = useDispatch();
   const editPost = () => {
+    if (!id || Array.isArray(id)) return;
+
     dispatch(
       setPostJson({
         id: +id,

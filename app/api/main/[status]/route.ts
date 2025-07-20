@@ -9,8 +9,8 @@ interface Params {
   status: PostStatus;
 }
 
-export async function GET(_: Request, context: { params: Params }) {
-  const { status } = context.params;
+export async function GET(_: Request, context: { params: Promise<Params> }) {
+  const { status } = (await context.params);
 
   switch (status) {
     case "popular": {

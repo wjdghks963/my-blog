@@ -1,4 +1,5 @@
-import { Metadata } from "next";
+"use client";
+
 import dynamic from "next/dynamic";
 
 // Three.js 컴포넌트를 클라이언트 사이드에서만 렌더링하도록 동적 임포트
@@ -13,15 +14,6 @@ const ThreeDModel = dynamic(() => import("@domains/3d/components/ThreeDModel"), 
     </div>
   ),
 });
-
-export const metadata: Metadata = {
-  title: "3D Space - Jung's Tech Blog",
-  description: "Three.js를 사용한 3D 모델 체험 공간입니다.",
-  openGraph: {
-    title: "3D Space - Jung's Tech Blog",
-    description: "Three.js를 사용한 3D 모델 체험 공간입니다.",
-  },
-};
 
 export default function ThreeDSpacePage() {
   return (

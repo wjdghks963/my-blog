@@ -1,8 +1,7 @@
 import { Category } from "@types";
-import dynamic from "next/dynamic";
 import React from "react";
 
-const DynamicCategoryBox = dynamic(() => import("./CategoryBox"), { ssr: false });
+import CategoryBox from "./CategoryBox";
 
 //@ts-ignore
 export default async function CategoriesBox(): any {
@@ -10,7 +9,7 @@ export default async function CategoriesBox(): any {
   return (
     <div className="flex flex-row gap-5 overflow-x-scroll scrollbar-hide overflow-clip">
       {data.categories.map((category, index) => (
-        <DynamicCategoryBox
+        <CategoryBox
           key={index}
           category={category}
         />

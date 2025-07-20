@@ -1,11 +1,11 @@
 "use client";
 
 import { cls } from "@shared/utils/utils";
-import { Cycle, motion } from "framer-motion";
+import { Cycle, motion, Variants } from "framer-motion";
 import { useTheme } from "next-themes";
 import React, { useEffect, useState } from "react";
 
-const variants = {
+const variants: Variants = {
   open: {
     x: 0,
     opacity: 1,

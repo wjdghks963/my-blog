@@ -8,9 +8,9 @@ import { RegImageSrc } from "@libs/server/RegImageSrc";
 import { getAllPostId } from "@libs/server/getAllPostId";
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 async function fetchData(id: string): Promise<IPost | undefined> {
@@ -31,7 +31,13 @@ async function fetchData(id: string): Promise<IPost | undefined> {
   }
 }
 
-export async function generateMetadata({ params: { id } }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    id
+  } = params;
+
   const data: IPost | undefined = await fetchData(id);
   if (!data) {
     notFound();
@@ -67,7 +73,13 @@ export async function generateStaticParams() {
   return postsId.map((item: { id: number }) => ({ id: item.id + "" }));
 }
 
-export default async function Page({ params: { id } }: Props) {
+export default async function Page(props: Props) {
+  const params = await props.params;
+
+  const {
+    id
+  } = params;
+
   const postData = await fetchData(id);
 
   if (!postData) {

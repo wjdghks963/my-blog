@@ -149,7 +149,12 @@ export default function PostEditPage() {
                 previewOptions={{
                   components: {
                     code: ({ children = [], className, ...props }) => {
-                      if (typeof children[0] === "string" && className?.startsWith("language-mermaid")) {
+                      if (
+                        Array.isArray(children) &&
+                        children.length > 0 &&
+                        typeof children[0] === "string" &&
+                        className?.startsWith("language-mermaid")
+                      ) {
                         return <Mermaid chart={children[0]} />;
                       }
                       return (

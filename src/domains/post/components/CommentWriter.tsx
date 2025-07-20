@@ -55,7 +55,9 @@ export default function CommentWriter({ className }: { session?: any; className?
       };
       postCommentMutation.mutate(postData);
 
-      commentRef.current.value = "";
+      if (commentRef.current) {
+        commentRef.current.value = "";
+      }
       return;
     } else {
       return;
