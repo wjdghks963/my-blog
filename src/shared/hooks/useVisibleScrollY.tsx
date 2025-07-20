@@ -5,12 +5,23 @@ export default function useVisibleScrollY(): boolean {
 
   useEffect(() => {
     let prevScrollPos = window.scrollY;
+
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
+
+      // 페이지 상단 100px 이내에서는 항상 보이게 함
+      if (currentScrollPos <= 100) {
+        setIsVisible(true);
+        prevScrollPos = currentScrollPos;
+        return;
+      }
+
+      // 스크롤 방향에 따른 가시성 제어
       if (prevScrollPos > currentScrollPos) {
-        setIsVisible(true); // 스크롤이 위로 올라갈 때 div를 보이도록 설정
+        setIsVisible(true); // 스크롤이 위로 올라갈 때 보이도록 설정
       } else {
-        setIsVisible(false); // 스크롤이 아래로 내려갈 때 div를 숨기도록 설정
+        // 아래로 스크롤할 때만 숨김 (상단 100px 이후에만)
+        setIsVisible(false);
       }
 
       prevScrollPos = currentScrollPos;

@@ -10,7 +10,7 @@ interface Params {
 }
 
 export async function GET(_: Request, context: { params: Promise<Params> }) {
-  const { status } = (await context.params);
+  const { status } = await context.params;
 
   switch (status) {
     case "popular": {
@@ -25,6 +25,7 @@ export async function GET(_: Request, context: { params: Promise<Params> }) {
             title: true,
             description: true,
             content: true,
+            views: true,
           },
         });
 
@@ -35,6 +36,7 @@ export async function GET(_: Request, context: { params: Promise<Params> }) {
             title: post.title,
             description: post.description,
             thumbnail: thumbnailFromContent ? thumbnailFromContent : null,
+            views: post.views,
           };
         });
 
@@ -56,6 +58,7 @@ export async function GET(_: Request, context: { params: Promise<Params> }) {
             title: true,
             description: true,
             content: true,
+            views: true,
           },
         });
 
@@ -67,6 +70,7 @@ export async function GET(_: Request, context: { params: Promise<Params> }) {
             title: post.title,
             description: post.description,
             thumbnail: thumbnailFromContent ? thumbnailFromContent : null,
+            views: post.views,
           };
         });
 

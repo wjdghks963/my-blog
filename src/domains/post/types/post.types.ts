@@ -8,6 +8,7 @@ export interface ThumbnailPostData {
   title: string;
   description: string;
   thumbnail?: string;
+  views: number;
 }
 
 export type PostWithId = {

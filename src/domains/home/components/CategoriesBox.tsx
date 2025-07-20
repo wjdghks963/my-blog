@@ -1,21 +1,13 @@
 import { Category } from "@types";
 import React from "react";
 
-import CategoryBox from "./CategoryBox";
+import CategoriesBoxClient from "./CategoriesBoxClient";
 
 //@ts-ignore
 export default async function CategoriesBox(): any {
   const data: { categories: Category[] } = await fetchData();
-  return (
-    <div className="flex flex-row gap-5 overflow-x-scroll scrollbar-hide overflow-clip">
-      {data.categories.map((category, index) => (
-        <CategoryBox
-          key={index}
-          category={category}
-        />
-      ))}
-    </div>
-  );
+
+  return <CategoriesBoxClient categories={data.categories} />;
 }
 
 async function fetchData() {
