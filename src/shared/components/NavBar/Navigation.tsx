@@ -31,6 +31,13 @@ export default function Navigation({ isOpen, toggleOpen }: { isOpen: boolean; to
       },
     },
     {
+      text: "3D SPACE",
+      fn: () => {
+        router.push("/3d-space");
+        toggleOpen();
+      },
+    },
+    {
       text: "About Me",
       fn: () => {
         router.push("/about-me");
