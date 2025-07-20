@@ -1,4 +1,7 @@
+"use client";
+
 import PostWithThumbnail from "@domains/home/components/PostWithThumbnail";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 type PostStatus = "recent" | "popular";
 
@@ -64,8 +67,12 @@ async function fetchPostsByStatus(status: PostStatus) {
   return result.json || [];
 }
 
-export default async function PostsByStatus({ status, variant = "main" }: PostsByStatusProps) {
-  const posts = await fetchPostsByStatus(status);
+export default function PostsByStatus({ status, variant = "main" }: PostsByStatusProps) {
+  const { data: posts = [] } = useSuspenseQuery({
+    queryKey: ["posts", status],
+    queryFn: () => fetchPostsByStatus(status),
+    staleTime: 60 * 1000, // 60초
+  });
 
   return (
     <PostsByStatusClient
