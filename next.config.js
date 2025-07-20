@@ -6,9 +6,7 @@ const nextConfig = {
     CLOUD_PRESET_NAME: process.env.CLOUD_PRESET_NAME,
     MY_EMAIL: process.env.MY_EMAIL,
   },
-  experimental: {
-    serverComponentsExternalPackages: ["prisma", "@prisma/client"],
-  },
+  serverExternalPackages: ["prisma", "@prisma/client"],
   transpilePackages: ["lottie-react"],
   // 빌드 최적화
   poweredByHeader: false,
