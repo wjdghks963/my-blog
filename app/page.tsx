@@ -89,18 +89,6 @@ export default async function Page() {
           <div className="text-center max-w-5xl">
             {/* Glassmorphism Hero Card */}
             <div className="backdrop-blur-xl bg-white/10 dark:bg-gray-900/20 border border-white/20 dark:border-gray-700/30 rounded-3xl p-6 sm:p-10 shadow-2xl">
-              {/* Glow Effect Title */}
-              <h1 className="text-5xl sm:text-7xl font-bold mb-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent leading-tight">
-                <span
-                  className="block drop-shadow-2xl"
-                  style={{
-                    filter: "drop-shadow(0 0 30px rgba(139, 92, 246, 0.4))",
-                  }}
-                >
-                  JungHwan's Blog
-                </span>
-              </h1>
-
               {/* Subtitle */}
               <p className="text-xl sm:text-2xl text-gray-700 dark:text-gray-200 mb-8 leading-relaxed">
                 기술과 경험을 공유하는 공간입니다
@@ -205,7 +193,7 @@ export default async function Page() {
         {/* Content Grid */}
         <section className="px-6 sm:px-10 py-12">
           <div className="max-w-7xl mx-auto">
-            {/* Recent Posts Section */}
+            {/* Popular Posts Section */}
             <div className="mb-16">
               <div className="backdrop-blur-xl bg-white/5 dark:bg-gray-900/10 border border-white/10 dark:border-gray-700/20 rounded-3xl p-8 shadow-xl">
                 <h2 className="text-4xl font-bold mb-10 text-center">
@@ -215,12 +203,12 @@ export default async function Page() {
                       filter: "drop-shadow(0 0 15px rgba(6, 182, 212, 0.3))",
                     }}
                   >
-                    Recent Posts
+                    Popular Posts
                   </span>
                 </h2>
                 <Suspense fallback={<PostsByStatusSkeleton count={5} />}>
                   <PostsByStatus
-                    posts={recentPosts}
+                    posts={popularPosts}
                     variant="modern"
                   />
                 </Suspense>
@@ -229,7 +217,7 @@ export default async function Page() {
 
             {/* Two Column Layout */}
             <div className="grid lg:grid-cols-3 gap-8">
-              {/* Popular Posts - 2/3 width */}
+              {/* Recent Posts - 2/3 width */}
               <div className="lg:col-span-2">
                 <div className="backdrop-blur-xl bg-white/5 dark:bg-gray-900/10 border border-white/10 dark:border-gray-700/20 rounded-3xl p-8 shadow-xl h-full">
                   <h2 className="text-4xl font-bold mb-10 text-center">
@@ -239,12 +227,12 @@ export default async function Page() {
                         filter: "drop-shadow(0 0 15px rgba(236, 72, 153, 0.3))",
                       }}
                     >
-                      Popular Posts
+                      Recent Posts
                     </span>
                   </h2>
                   <Suspense fallback={<PostsByStatusSkeleton count={5} />}>
                     <PostsByStatus
-                      posts={popularPosts}
+                      posts={recentPosts}
                       variant="modern"
                     />
                   </Suspense>
