@@ -90,6 +90,7 @@ export default function Blogs() {
           id="certifications"
         >
           <h2 className="text-2xl font-semibold">자격증</h2>
+          <p className="text-lg">SQLD - 2025년 취득</p>
           <p className="text-lg">정보처리기사 - 2024년 취득</p>
           <Link href="https://www.credly.com/badges/5a24b923-2e52-413e-ab41-0e2fe7b21846/linked_in_profile">
             <p className="text-lg text-blue-500">AWS Certified Solutions Architect - Associate (SAA-C03) - 2023년</p>

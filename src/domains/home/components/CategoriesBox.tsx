@@ -11,14 +11,18 @@ export default async function CategoriesBox(): any {
 }
 
 async function fetchData() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APIDOMAIN}/api/categories/posts`, {
-    next: { revalidate: 60 },
-  });
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_APIDOMAIN || "http://localhost:3000";
+    const res = await fetch(`${baseUrl}/api/categories/posts`, {
+      next: { revalidate: 60 },
+    });
 
-  if (!res.ok) {
-    console.error("Failed to fetch categories:", res.status, res.statusText);
-    return { categories: [] }; // 빈 데이터를 반환
+    if (!res.ok) {
+      return { categories: [] }; // 빈 데이터를 반환
+    }
+
+    return await res.json();
+  } catch (error) {
+    return { categories: [] };
   }
-
-  return await res.json();
 }

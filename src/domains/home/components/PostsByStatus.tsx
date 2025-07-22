@@ -1,16 +1,13 @@
 "use client";
 
 import PostWithThumbnail from "@domains/home/components/PostWithThumbnail";
-import { useSuspenseQuery } from "@tanstack/react-query";
-
-type PostStatus = "recent" | "popular";
 
 interface PostsByStatusProps {
-  status: PostStatus;
+  posts: any[];
   variant?: "main" | "modern" | "sidebar";
 }
 
-function PostsByStatusClient({ posts, variant = "main" }: { posts: any[]; variant?: "main" | "modern" | "sidebar" }) {
+export default function PostsByStatus({ posts = [], variant = "main" }: PostsByStatusProps) {
   if (variant === "modern") {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -50,34 +47,5 @@ function PostsByStatusClient({ posts, variant = "main" }: { posts: any[]; varian
         />
       ))}
     </div>
-  );
-}
-
-async function fetchPostsByStatus(status: PostStatus) {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APIDOMAIN}/api/main/${status}`, {
-    next: { revalidate: 60 }, // 60초마다 다시 캐싱
-  });
-
-  if (!res.ok) {
-    console.error("Failed to fetch posts:", res.status, res.statusText);
-    return [];
-  }
-
-  const result = await res.json();
-  return result.json || [];
-}
-
-export default function PostsByStatus({ status, variant = "main" }: PostsByStatusProps) {
-  const { data: posts = [] } = useSuspenseQuery({
-    queryKey: ["posts", status],
-    queryFn: () => fetchPostsByStatus(status),
-    staleTime: 60 * 1000, // 60초
-  });
-
-  return (
-    <PostsByStatusClient
-      posts={posts}
-      variant={variant}
-    />
   );
 }

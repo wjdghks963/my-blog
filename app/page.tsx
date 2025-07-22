@@ -3,10 +3,61 @@ import CategoriesBoxSkeleton from "@domains/home/components/CategoriesBoxSkeleto
 import PostsByStatus from "@domains/home/components/PostsByStatus";
 import PostsByStatusSkeleton from "@domains/home/components/PostsByStatusSkeleton";
 import Footer from "@shared/components/Footer";
+import SkillSet from "@shared/components/SkillSet";
 import Link from "next/link";
 import React, { Suspense } from "react";
 
-export default function Page() {
+async function fetchStats() {
+  try {
+    // 서버 컴포넌트에서는 절대 URL 사용
+    const baseUrl = process.env.NEXT_PUBLIC_APIDOMAIN;
+    const response = await fetch(`${baseUrl}/api/stats/views`, {
+      next: { revalidate: 60 },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    }
+  } catch (error) {
+    // 서버 컴포넌트에서는 console.error 대신 다른 방법 사용
+  }
+
+  // 기본값 반환
+  return {
+    totalViews: 0,
+    totalPosts: 0,
+    totalCategories: 0,
+  };
+}
+
+async function fetchPostsByStatus(status: "recent" | "popular") {
+  try {
+    // 서버 컴포넌트에서는 절대 URL 사용
+    const baseUrl = process.env.NEXT_PUBLIC_APIDOMAIN;
+    const res = await fetch(`${baseUrl}/api/main/${status}`, {
+      next: { revalidate: 60 },
+    });
+
+    if (!res.ok) {
+      return [];
+    }
+
+    const result = await res.json();
+    return result.json || [];
+  } catch (error) {
+    return [];
+  }
+}
+
+export default async function Page() {
+  // 실제 API 호출로 변경
+  const [stats, recentPosts, popularPosts] = await Promise.all([
+    fetchStats(),
+    fetchPostsByStatus("recent"),
+    fetchPostsByStatus("popular"),
+  ]);
+
   return (
     <div className="min-h-screen overflow-hidden">
       {/* Animated Background with Organic Blobs */}
@@ -58,15 +109,17 @@ export default function Page() {
               {/* Stats Grid */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">15+</div>
+                  <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{stats.totalPosts}+</div>
                   <div className="text-sm text-gray-600 dark:text-gray-400">Posts</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">8</div>
+                  <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{stats.totalCategories}</div>
                   <div className="text-sm text-gray-600 dark:text-gray-400">Categories</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-pink-600 dark:text-pink-400">1.2K+</div>
+                  <div className="text-2xl font-bold text-pink-600 dark:text-pink-400">
+                    {stats.totalViews >= 1000 ? `${(stats.totalViews / 1000).toFixed(1)}K+` : `${stats.totalViews}+`}
+                  </div>
                   <div className="text-sm text-gray-600 dark:text-gray-400">Views</div>
                 </div>
                 <div className="text-center">
@@ -76,35 +129,7 @@ export default function Page() {
               </div>
 
               {/* Tech Stack Icons */}
-              <div className="flex justify-center items-center gap-3 mb-8">
-                <div className="backdrop-blur-sm bg-white/5 dark:bg-gray-800/10 rounded-xl p-3 border border-white/10 dark:border-gray-700/20 hover:bg-white/10 dark:hover:bg-gray-800/20 transition-all duration-300 group">
-                  <svg
-                    className="w-6 h-6 text-blue-500 group-hover:scale-110 transition-transform duration-300"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
-                  </svg>
-                </div>
-                <div className="backdrop-blur-sm bg-white/5 dark:bg-gray-800/10 rounded-xl p-3 border border-white/10 dark:border-gray-700/20 hover:bg-white/10 dark:hover:bg-gray-800/20 transition-all duration-300 group">
-                  <svg
-                    className="w-6 h-6 text-green-500 group-hover:scale-110 transition-transform duration-300"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                  </svg>
-                </div>
-                <div className="backdrop-blur-sm bg-white/5 dark:bg-gray-800/10 rounded-xl p-3 border border-white/10 dark:border-gray-700/20 hover:bg-white/10 dark:hover:bg-gray-800/20 transition-all duration-300 group">
-                  <svg
-                    className="w-6 h-6 text-purple-500 group-hover:scale-110 transition-transform duration-300"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                  </svg>
-                </div>
-              </div>
+              <SkillSet />
 
               {/* Social Links */}
               <div className="flex justify-center items-center gap-4 mb-8">
@@ -195,7 +220,7 @@ export default function Page() {
                 </h2>
                 <Suspense fallback={<PostsByStatusSkeleton count={5} />}>
                   <PostsByStatus
-                    status={"recent"}
+                    posts={recentPosts}
                     variant="modern"
                   />
                 </Suspense>
@@ -219,7 +244,7 @@ export default function Page() {
                   </h2>
                   <Suspense fallback={<PostsByStatusSkeleton count={5} />}>
                     <PostsByStatus
-                      status={"popular"}
+                      posts={popularPosts}
                       variant="modern"
                     />
                   </Suspense>
