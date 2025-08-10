@@ -13,7 +13,7 @@ export default async function CategoriesBox(): any {
 async function fetchData() {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_APIDOMAIN || "http://localhost:3000";
-    const res = await fetch(`${baseUrl}/api/categories/posts`);
+    const res = await fetch(`${baseUrl}/api/categories/posts`, { next: { tags: ["categories"] } });
 
     if (!res.ok) {
       return { categories: [] }; // 빈 데이터를 반환

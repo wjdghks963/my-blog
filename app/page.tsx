@@ -13,7 +13,7 @@ async function fetchStats() {
   try {
     // 서버 컴포넌트에서는 절대 URL 사용
     const baseUrl = process.env.NEXT_PUBLIC_APIDOMAIN;
-    const response = await fetch(`${baseUrl}/api/stats/views`);
+    const response = await fetch(`${baseUrl}/api/stats/views`, { next: { tags: ["stats"] } });
 
     if (response.ok) {
       const data = await response.json();
@@ -35,7 +35,7 @@ async function fetchPostsByStatus(status: "recent" | "popular") {
   try {
     // 서버 컴포넌트에서는 절대 URL 사용
     const baseUrl = process.env.NEXT_PUBLIC_APIDOMAIN;
-    const res = await fetch(`${baseUrl}/api/main/${status}`);
+    const res = await fetch(`${baseUrl}/api/main/${status}`, { next: { tags: ["posts"] } });
 
     if (!res.ok) {
       return [];

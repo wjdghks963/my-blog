@@ -1,6 +1,7 @@
 import { Tag } from "@prisma/client";
 import { PostPostJson } from "@types";
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 
 import { checkOwner } from "@libs/server/checkOwner";
 import prismaclient from "@libs/server/prismaClient";
@@ -92,6 +93,7 @@ export async function POST(req: Request) {
       );
     }
 
+    revalidateTag("posts");
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Error creating post:", error);
