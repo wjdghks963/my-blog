@@ -7,6 +7,8 @@ import process from "process";
 import { RegImageSrc } from "@libs/server/RegImageSrc";
 import { getAllPostId } from "@libs/server/getAllPostId";
 
+export const revalidate = 60;
+
 type Props = {
   params: Promise<{
     id: string;
@@ -17,9 +19,7 @@ async function fetchData(id: string): Promise<IPost | undefined> {
   try {
     // 서버에서는 절대 URL이 필요
     const baseUrl = process.env.NEXT_PUBLIC_APIDOMAIN;
-    const res = await fetch(`${baseUrl}/api/blogs/${id}`, {
-      next: { revalidate: 60 },
-    });
+    const res = await fetch(`${baseUrl}/api/blogs/${id}`);
 
     if (!res.ok) {
       console.error("Failed to fetch data:", res.status, res.statusText);

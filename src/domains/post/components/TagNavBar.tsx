@@ -1,6 +1,7 @@
 "use client";
 
 import TagSpan from "@shared/components/TagSpan";
+import { httpService } from "@shared/services/http.service";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 interface TagsData {
@@ -8,11 +9,7 @@ interface TagsData {
 }
 
 async function fetchTags() {
-  const res = await fetch(`/api/blogs/tags`);
-  if (!res.ok) {
-    throw new Error(`Failed to fetch tags: ${res.status}`);
-  }
-  return res.json();
+  return httpService.get<TagsData>(`/api/blogs/tags`);
 }
 
 export default function TagNavBar() {

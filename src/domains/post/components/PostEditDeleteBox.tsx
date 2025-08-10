@@ -1,8 +1,9 @@
 "use client";
 
 import { PostService } from "@domains/post/services/post.service";
+import { postQueryKeys } from "@domains/post/services/post.service";
 import { IPost } from "@domains/post/types";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
@@ -15,6 +16,7 @@ const postService = PostService.getInstance();
 
 export default function PostEditDeleteBox({ postData }: { postData: IPost }) {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { id } = useParams();
   const { data: session } = useSession();
 
@@ -26,7 +28,13 @@ export default function PostEditDeleteBox({ postData }: { postData: IPost }) {
       // id가 string[]이거나 undefined인 경우 에러 처리 또는 다른 로직 수행
       throw new Error("Invalid post ID for deletion");
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: postQueryKeys.all }),
+        queryClient.invalidateQueries({
+          queryKey: postQueryKeys.detail(typeof id === "string" ? Number(id) : Number(id)),
+        }),
+      ]);
       router.push("/");
     },
     onError: (error) => {

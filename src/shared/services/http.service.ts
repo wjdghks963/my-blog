@@ -23,10 +23,33 @@ class HttpService {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      // 에러 바디를 JSON으로 파싱 시도하여 메시지 노출 개선
+      try {
+        const contentType = response.headers.get("content-type") || "";
+        if (contentType.includes("application/json")) {
+          const errorBody = await response.json();
+          const message = (errorBody && (errorBody.error || errorBody.message)) || `HTTP error ${response.status}`;
+          throw new Error(message);
+        }
+      } catch (_) {
+        // noop: JSON parse 실패 시 아래로 fallthrough
+      }
+      throw new Error(`HTTP error ${response.status}`);
     }
 
-    return response.json();
+    // 204 No Content 등 본문이 없는 경우
+    if (response.status === 204) {
+      return undefined as unknown as T;
+    }
+
+    const contentType = response.headers.get("content-type") || "";
+    if (contentType.includes("application/json")) {
+      return (await response.json()) as T;
+    }
+
+    // JSON 이외의 응답은 텍스트로 반환
+    const text = await response.text();
+    return text as unknown as T;
   }
 
   async get<T>(url: string, options: RequestInit = {}): Promise<T> {
