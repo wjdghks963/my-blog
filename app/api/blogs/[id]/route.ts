@@ -1,5 +1,6 @@
 import { IPost, UserInfo } from "@types";
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 
 import prismaclient from "@libs/server/prismaClient";
 
@@ -62,6 +63,9 @@ export async function GET(request: Request) {
     let postResult: [IPost] = await query;
 
     const post: IPost = postResult[0];
+
+    // increase views affects stats
+    revalidateTag("stats");
 
     return NextResponse.json({
       title: post?.title,

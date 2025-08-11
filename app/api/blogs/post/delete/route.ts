@@ -49,6 +49,9 @@ export async function POST(req: Request) {
     });
 
     revalidateTag("posts");
+    revalidateTag("tags");
+    revalidateTag("categories");
+    revalidateTag("stats");
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("Error deleting post:", err);
