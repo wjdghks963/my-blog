@@ -56,3 +56,11 @@ export const postQueryKeys = {
   list: (filter: { tag: string; query: string }) => ["posts", filter] as const,
   detail: (id: number) => ["post", id] as const,
 };
+
+export const tagQueryKeys = {
+  all: ["tags"] as const,
+};
+
+export const categoryQueryKeys = {
+  all: ["categories"] as const,
+};

@@ -3,6 +3,7 @@
 import TagSpan from "@shared/components/TagSpan";
 import { httpService } from "@shared/services/http.service";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { tagQueryKeys } from "@domains/post/services/post.service";
 
 interface TagsData {
   tags: { tag: string }[];
@@ -14,7 +15,7 @@ async function fetchTags() {
 
 export default function TagNavBar() {
   const { data: tagsData } = useSuspenseQuery<TagsData>({
-    queryKey: ["tags"],
+    queryKey: tagQueryKeys.all,
     queryFn: fetchTags,
     staleTime: Infinity,
   });
