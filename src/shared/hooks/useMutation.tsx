@@ -1,32 +1,4 @@
-import { useState } from "react";
-
-interface IPostData<T> {
-  data?: T;
-  loading: boolean;
-  error?: Object;
-}
-
-type MutationResult<T> = [(data: any) => Promise<void>, IPostData<T>];
-
-export function useMutation<T = any>(url: string): MutationResult<T> {
-  const [response, setResponse] = useState<IPostData<T>>({
-    data: undefined,
-    loading: false,
-    error: undefined,
-  });
-
-  const mutation = async (data: any) => {
-    setResponse((prev) => ({ ...prev, loading: true }));
-    await fetch(url, {
-      headers: { "Content-Type": "application/json" },
-      method: "POST",
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json().catch(() => {}))
-      .then((json) => setResponse((prev) => ({ ...prev, data: json })))
-      .catch((error) => setResponse((prev) => ({ ...prev, error })))
-      .finally(() => setResponse((prev) => ({ ...prev, loading: false })));
-  };
-
-  return [mutation, response];
-}
+// React Query의 useMutation과 이름 충돌을 피하기 위해 제거되었습니다.
+// 모든 뮤테이션은 @tanstack/react-query의 useMutation과
+// @shared/services/http.service의 httpService를 사용해 일원화합니다.
+export {};

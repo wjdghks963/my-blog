@@ -50,3 +50,17 @@ export class PostService {
     return httpService.get<PostListResponse>(url);
   }
 }
+
+export const postQueryKeys = {
+  all: ["posts"] as const,
+  list: (filter: { tag: string; query: string }) => ["posts", filter] as const,
+  detail: (id: number) => ["post", id] as const,
+};
+
+export const tagQueryKeys = {
+  all: ["tags"] as const,
+};
+
+export const categoryQueryKeys = {
+  all: ["categories"] as const,
+};

@@ -27,6 +27,8 @@ export default function MiniPost({ data }: { data: PostWithId }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
+      onMouseEnter={() => router.prefetch(`/blogs/post/${data.id}`)}
+      onFocus={() => router.prefetch(`/blogs/post/${data.id}`)}
       onClick={() => moveToPost(data.id)}
       className="w-full max-w-md cursor-pointer"
     >

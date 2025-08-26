@@ -12,7 +12,7 @@ export interface ReduxSliceState {
   searchQueryReducer: { query: string; isSelected: boolean };
 }
 
-const reducer = (state: any, action: AnyAction): ReduxSliceState => {
+const reducer = (state: ReduxSliceState | undefined, action: AnyAction): ReduxSliceState => {
   if (action.type === HYDRATE) {
     return {
       ...state,

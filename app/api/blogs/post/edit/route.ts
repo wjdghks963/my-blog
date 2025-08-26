@@ -1,5 +1,6 @@
 import { PostPostJson } from "@types";
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 
 import { checkOwner } from "@libs/server/checkOwner";
 import prismaclient from "@libs/server/prismaClient";
@@ -96,6 +97,10 @@ export async function POST(req: Request) {
       }
     });
 
+    revalidateTag("posts");
+    revalidateTag("tags");
+    revalidateTag("categories");
+    revalidateTag("stats");
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error(err);

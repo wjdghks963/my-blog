@@ -1,9 +1,11 @@
 "use client";
 
 import MiniPost from "@domains/post/components/MiniPost";
+import { postQueryKeys } from "@domains/post/services/post.service";
 import { PostWithId } from "@domains/post/types";
 import useQuerySelector from "@shared/hooks/useQuerySelector";
 import useTagSelector from "@shared/hooks/useTagSelector";
+import { httpService } from "@shared/services/http.service";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import React, { useCallback, useEffect, useRef } from "react";
@@ -14,16 +16,15 @@ export default function InfiniteBlogs() {
   const { query } = useQuerySelector();
 
   const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
-    queryKey: ["posts", tag, query],
-    queryFn: ({ pageParam }) =>
-      fetch(`/api/blogs?query=${query}&tag=${tag}&page=${pageParam}&limit=5`).then((res) => {
-        if (!res.ok) {
-          throw new Error(`Failed to fetch blogs: ${res.status}`);
-        }
-        return res.json();
-      }),
+    queryKey: postQueryKeys.list({ tag, query }),
+    queryFn: async ({ pageParam }) => {
+      const url = `/api/blogs?query=${encodeURIComponent(query)}&tag=${encodeURIComponent(
+        tag
+      )}&page=${pageParam}&limit=5`;
+      return httpService.get<{ hasNextPage: boolean; data: PostWithId[] }>(url);
+    },
     initialPageParam: 1,
-    getNextPageParam<T extends { hasNextPage: boolean; data: any[] }>(
+    getNextPageParam<T extends { hasNextPage: boolean; data: PostWithId[] }>(
       lastPage: T,
       allPages: Array<T>
     ): number | undefined {

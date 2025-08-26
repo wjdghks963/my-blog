@@ -2,10 +2,11 @@
 
 import CategoryInput from "@domains/post/components/CategoryInput";
 import TagInput from "@domains/post/components/TagInput";
+import { postQueryKeys } from "@domains/post/services/post.service";
 import { PostPostJson } from "@domains/post/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@shared/hooks/useMutation";
-import { MutationResult } from "@shared/types/common.types";
+import { httpService } from "@shared/services/http.service";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import "@uiw/react-markdown-preview/markdown.css";
 import "@uiw/react-md-editor/markdown-editor.css";
 import { useSession } from "next-auth/react";
@@ -34,9 +35,19 @@ type PostFormData = z.infer<typeof postFormSchema>;
 
 export default function PostEditPage() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const editPostData = useSelector((state: ReduxSliceState) => state.editPostReducer);
   const { data: session } = useSession();
-  const [editPost, { data: mutationData }] = useMutation<MutationResult>(`/api/blogs/post/edit?id=${editPostData.id}`);
+  const { mutate: editPost, data: mutationData } = useMutation({
+    mutationFn: (payload: PostPostJson) =>
+      httpService.post<{ ok: boolean }>(`/api/blogs/post/edit?id=${editPostData.id}`, payload),
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: postQueryKeys.all }),
+        queryClient.invalidateQueries({ queryKey: postQueryKeys.detail(editPostData.id) }),
+      ]);
+    },
+  });
 
   const {
     handleSubmit,
@@ -64,7 +75,7 @@ export default function PostEditPage() {
       ...data,
     };
 
-    await editPost(postJson);
+    editPost(postJson);
   };
 
   useEffect(() => {

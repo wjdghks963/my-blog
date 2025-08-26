@@ -2,8 +2,15 @@
 
 import PostWithThumbnail from "@domains/home/components/PostWithThumbnail";
 
+interface PostSummary {
+  id: number;
+  title: string;
+  description: string;
+  tags: { tag: string }[];
+}
+
 interface PostsByStatusProps {
-  posts: any[];
+  posts: PostSummary[];
   variant?: "main" | "modern" | "sidebar";
 }
 
@@ -11,7 +18,7 @@ export default function PostsByStatus({ posts = [], variant = "main" }: PostsByS
   if (variant === "modern") {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {posts.slice(0, 6).map((post: any, index: any) => (
+        {posts.slice(0, 6).map((post, index) => (
           <PostWithThumbnail
             key={post.id}
             data={post}
@@ -25,7 +32,7 @@ export default function PostsByStatus({ posts = [], variant = "main" }: PostsByS
   if (variant === "sidebar") {
     return (
       <div className="space-y-4">
-        {posts.slice(0, 5).map((post: any, index: any) => (
+        {posts.slice(0, 5).map((post, index) => (
           <PostWithThumbnail
             key={post.id}
             data={post}
@@ -39,7 +46,7 @@ export default function PostsByStatus({ posts = [], variant = "main" }: PostsByS
   // Default main variant
   return (
     <div className="flex gap-2">
-      {posts.map((post: any, index: any) => (
+      {posts.map((post, index) => (
         <PostWithThumbnail
           key={post.id}
           data={post}

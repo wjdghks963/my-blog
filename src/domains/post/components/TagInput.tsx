@@ -1,6 +1,8 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { tagQueryKeys } from "@domains/post/services/post.service";
+import { httpService } from "@shared/services/http.service";
 import React, { useState, KeyboardEvent, ChangeEvent } from "react";
 import { Control, Controller } from "react-hook-form";
 
@@ -11,11 +13,7 @@ interface TagsData {
 }
 
 async function fetchTags() {
-  const res = await fetch(`/api/blogs/tags`);
-  if (!res.ok) {
-    throw new Error("Failed to fetch tags");
-  }
-  return res.json();
+  return httpService.get<TagsData>(`/api/blogs/tags`);
 }
 
 interface TagInputProps {
@@ -25,7 +23,7 @@ interface TagInputProps {
 export default function TagInput({ control }: TagInputProps) {
   const [inputItem, setInputItem] = useState("");
   const { data: tagsData, isLoading } = useQuery<TagsData, Error>({
-    queryKey: ["tags"],
+    queryKey: tagQueryKeys.all,
     queryFn: fetchTags,
     staleTime: Infinity,
   });

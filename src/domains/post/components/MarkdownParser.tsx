@@ -15,159 +15,141 @@ import { Url } from "url";
 
 import { Mermaid } from "./Mermaid";
 
-export default function MarkdownParser({ markdown }: any) {
+interface MarkdownParserProps {
+  markdown: string;
+}
+
+interface MarkdownComponentProps {
+  node?: any;
+  children?: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+  href?: string;
+  src?: string;
+  alt?: string;
+  [key: string]: any;
+}
+
+export default function MarkdownParser({ markdown }: MarkdownParserProps) {
   return (
     <div className="w-[80vw] text-gray-900 dark:text-gray-100">
       <ReactMarkdown
-        components={
-          {
-            bdo: undefined,
-            h1({ node, children, ...props }: any) {
-              return (
-                <h1
-                  {...props}
-                  className="text-black dark:text-white"
-                >
-                  {children}
-                </h1>
-              );
-            },
-            h2({ node, children, ...props }: any) {
-              return (
-                <h2
-                  {...props}
-                  className="text-black dark:text-white"
-                >
-                  {children}
-                </h2>
-              );
-            },
-            h3({ node, children, ...props }: any) {
-              return (
-                <h3
-                  {...props}
-                  className="text-black dark:text-white"
-                >
-                  {children}
-                </h3>
-              );
-            },
-            h4({ node, children, ...props }: any) {
-              return (
-                <h4
-                  {...props}
-                  className="text-black dark:text-white"
-                >
-                  {children}
-                </h4>
-              );
-            },
-            th({ node, children, ...props }: any) {
-              return (
-                <th
-                  {...props}
-                  className="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-white font-semibold"
-                >
-                  {children}
-                </th>
-              );
-            },
-            img({ node, ...props }: any) {
-              return (
-                <div className={"relative w-full h-80 my-10"}>
-                  <Image
-                    fill
-                    style={{ objectFit: "scale-down", objectPosition: "center" }}
-                    src={props?.src + ""}
-                    quality={100}
-                    alt="관련된 사진"
-                  />
-                </div>
-              );
-            },
-            p({ node, children, ...props }: any) {
-              return (
-                <div
-                  {...props}
-                  className="break-words my-4"
-                >
-                  {children}
-                </div>
-              );
-            },
-            a({ node, children, ...props }: any) {
-              return (
-                <Link href={props.href as unknown as Url}>
-                  <span className="dark:text-white break-words">{children}</span>
-                </Link>
-              );
-            },
-            li({ node, children }: any) {
-              return <li className="">{children}</li>;
-            },
-            span({ node, children, style }: any) {
-              return (
-                <span
-                  className="dark:text-black"
-                  style={{ color: style?.color, backgroundColor: style?.backgroundColor }}
-                >
-                  {children}
-                </span>
-              );
-            },
-            strong({ node, children }: any) {
-              return (
-                <strong
-                  className="font-bold"
-                  style={{ color: "inherit" }}
-                >
-                  {children}
-                </strong>
-              );
-            },
-            code({ node, className, children, ...props }: any) {
-              const match = /language-(\w+)/.exec(className || "");
-              const lang = match?.[1];
-
-              if (lang === "mermaid") {
-                return <Mermaid chart={String(children).replace(/\n$/, "")} />;
-              }
-
-              if (lang) {
-                return (
-                  <div>
-                    <div style={{ display: "flex", justifyContent: "flex-start" }}>
-                      <span className="bg-red-500 rounded-full w-3 h-3 mr-1"></span>
-                      <span className="bg-yellow-500 rounded-full w-3 h-3 mr-1"></span>
-                      <span className="bg-green-500 rounded-full w-3 h-3"></span>
-                      <span className={"ml-3"}>{match?.[1] ?? "text"}</span>
-                    </div>
-                    <SyntaxHighlighter
-                      style={darcula as Record<string, any>}
-                      language={match?.[1] ?? "plaintext"}
-                      showLineNumbers={true}
-                    >
-                      {String(children).replace(/\n$/, "")}
-                    </SyntaxHighlighter>
-                  </div>
-                );
-              } else {
-                return <span className="bg-amber-100 text-black">{children}</span>;
-              }
-            },
-          } as any
-        }
-        rehypePlugins={[
-          rehypeSlug,
-          rehypeRaw,
-          [
-            rehypeAutolinkHeadings,
-            {
-              behavior: "wrap",
-            },
-          ],
-        ]}
-        remarkPlugins={[remarkGfm, [remarkToc, { heading: "toc", nav: true }]]}
+        components={{
+          bdo: undefined,
+          h1({ node, children, ...props }: MarkdownComponentProps) {
+            return (
+              <h1
+                {...props}
+                className="text-black dark:text-white"
+              >
+                {children}
+              </h1>
+            );
+          },
+          h2({ node, children, ...props }: MarkdownComponentProps) {
+            return (
+              <h2
+                {...props}
+                className="text-black dark:text-white"
+              >
+                {children}
+              </h2>
+            );
+          },
+          h3({ node, children, ...props }: MarkdownComponentProps) {
+            return (
+              <h3
+                {...props}
+                className="text-black dark:text-white"
+              >
+                {children}
+              </h3>
+            );
+          },
+          h4({ node, children, ...props }: MarkdownComponentProps) {
+            return (
+              <h4
+                {...props}
+                className="text-black dark:text-white"
+              >
+                {children}
+              </h4>
+            );
+          },
+          th({ node, children, ...props }: MarkdownComponentProps) {
+            return (
+              <th
+                {...props}
+                className="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-white font-semibold"
+              >
+                {children}
+              </th>
+            );
+          },
+          img({ node, ...props }: MarkdownComponentProps) {
+            return (
+              <div className={"relative w-full h-80 my-10"}>
+                <Image
+                  fill
+                  style={{ objectFit: "scale-down", objectPosition: "center" }}
+                  src={props?.src + ""}
+                  quality={100}
+                  alt="관련된 사진"
+                />
+              </div>
+            );
+          },
+          p({ node, children, ...props }: MarkdownComponentProps) {
+            return (
+              <div
+                {...props}
+                className="break-words my-4"
+              >
+                {children}
+              </div>
+            );
+          },
+          a({ node, children, ...props }: MarkdownComponentProps) {
+            return <Link href={props.href as unknown as Url}>{children}</Link>;
+          },
+          li({ node, children }: MarkdownComponentProps) {
+            return <li>{children}</li>;
+          },
+          span({ node, children, style }: MarkdownComponentProps) {
+            return (
+              <span
+                style={style}
+                className="text-black dark:text-white"
+              >
+                {children}
+              </span>
+            );
+          },
+          strong({ node, children }: MarkdownComponentProps) {
+            return <strong className="text-black dark:text-white font-bold">{children}</strong>;
+          },
+          code({ node, className, children, ...props }: MarkdownComponentProps) {
+            const match = /language-(\w+)/.exec(className || "");
+            return match ? (
+              <SyntaxHighlighter
+                {...props}
+                PreTag="div"
+                children={String(children).replace(/\n$/, "")}
+                language={match[1]}
+                style={darcula}
+              />
+            ) : (
+              <code
+                {...props}
+                className={className}
+              >
+                {children}
+              </code>
+            );
+          },
+        }}
+        remarkPlugins={[remarkGfm, remarkToc]}
+        rehypePlugins={[rehypeRaw, rehypeSlug, rehypeAutolinkHeadings]}
       >
         {markdown}
       </ReactMarkdown>

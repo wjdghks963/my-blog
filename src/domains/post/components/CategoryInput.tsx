@@ -1,6 +1,8 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { categoryQueryKeys } from "@domains/post/services/post.service";
+import { httpService } from "@shared/services/http.service";
 import React, { useState, ChangeEvent, KeyboardEvent } from "react";
 import { Control, Controller } from "react-hook-form";
 
@@ -11,11 +13,7 @@ interface CategoriesData {
 }
 
 async function fetchCategories() {
-  const res = await fetch(`/api/categories`);
-  if (!res.ok) {
-    throw new Error("Failed to fetch categories");
-  }
-  return res.json();
+  return httpService.get<CategoriesData>(`/api/categories`);
 }
 
 interface CategoryInputProps {
@@ -25,7 +23,7 @@ interface CategoryInputProps {
 export default function CategoryInput({ control }: CategoryInputProps) {
   const [inputItem, setInputItem] = useState("");
   const { data: categoriesData, isLoading } = useQuery<CategoriesData, Error>({
-    queryKey: ["categories"],
+    queryKey: categoryQueryKeys.all,
     queryFn: fetchCategories,
     staleTime: Infinity,
   });

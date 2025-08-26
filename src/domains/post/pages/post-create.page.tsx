@@ -4,10 +4,11 @@ import CategoryInput from "@domains/post/components/CategoryInput";
 import ImageForm from "@domains/post/components/ImageForm";
 import { Mermaid } from "@domains/post/components/Mermaid";
 import TagInput from "@domains/post/components/TagInput";
+import { postQueryKeys } from "@domains/post/services/post.service";
 import { PostPostJson } from "@domains/post/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@shared/hooks/useMutation";
-import { MutationResult } from "@shared/types/common.types";
+import { httpService } from "@shared/services/http.service";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import "@uiw/react-markdown-preview/markdown.css";
 import "@uiw/react-md-editor/markdown-editor.css";
 import { useSession } from "next-auth/react";
@@ -31,8 +32,18 @@ type PostFormData = z.infer<typeof postFormSchema>;
 
 export default function PostCreatePage() {
   const router = useRouter();
-  const [postBlog, { data: mutationData, loading: mutationLoading, error: mutationError }] =
-    useMutation<MutationResult>("/api/blogs/post");
+  const queryClient = useQueryClient();
+  const {
+    mutate: postBlog,
+    data: mutationData,
+    isPending: mutationLoading,
+    error: mutationError,
+  } = useMutation({
+    mutationFn: (payload: PostPostJson) => httpService.post<{ ok: boolean }>("/api/blogs/post", payload),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: postQueryKeys.all });
+    },
+  });
   const { data: session } = useSession();
 
   const {
@@ -63,12 +74,7 @@ export default function PostCreatePage() {
       category: data.category,
     };
 
-    try {
-      postBlog(postJson);
-    } catch (err) {
-      console.error("게시글 작성 중 오류 발생:", err);
-      alert("게시글 작성 중 오류가 발생했습니다.");
-    }
+    postBlog(postJson);
   };
 
   useEffect(() => {
