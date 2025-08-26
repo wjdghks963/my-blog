@@ -1,9 +1,8 @@
 import { Category } from "@types";
-import React from "react";
 
 import CategoriesBoxClient from "./CategoriesBoxClient";
 
-export default async function CategoriesBox(): Promise<JSX.Element> {
+export default async function CategoriesBox() {
   const data: { categories: Category[] } = await fetchData();
 
   return <CategoriesBoxClient categories={data.categories} />;

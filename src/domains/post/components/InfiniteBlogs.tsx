@@ -33,7 +33,7 @@ export default function InfiniteBlogs() {
   });
 
   const allData: PostWithId[] = data
-    ? data.pages.reduce((prev, curr) => prev.concat(curr.data as PostWithId[]), [])
+    ? data.pages.reduce((prev, curr) => prev.concat(curr.data as PostWithId[]), [] as PostWithId[])
     : [];
 
   const handleObserver: IntersectionObserverCallback = useCallback(

@@ -11,7 +11,7 @@ export interface ThumbnailPostData {
   title: string;
   description: string;
   thumbnail?: string;
-  views: number;
+  views?: number;
 }
 
 export type Category = {
