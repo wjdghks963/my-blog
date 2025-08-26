@@ -1,7 +1,7 @@
 import { Tag } from "@prisma/client";
 import { PostPostJson } from "@types";
-import { NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
+import { NextResponse } from "next/server";
 
 import { checkOwner } from "@libs/server/checkOwner";
 import prismaclient from "@libs/server/prismaClient";
@@ -61,7 +61,15 @@ export async function POST(req: Request) {
 
   // 포스트 생성
   try {
-    const postData: any = {
+    const postData: {
+      title: string;
+      content: string;
+      views: number;
+      description: string;
+      category?: {
+        connect: { id: number };
+      };
+    } = {
       title,
       content: markdown ?? "",
       views: 0,
@@ -75,7 +83,6 @@ export async function POST(req: Request) {
     }
 
     const createdPost = await prismaclient.post.create({
-      // @ts-ignore
       data: postData,
     });
 

@@ -6,6 +6,7 @@ import LoadingSpinner from "@shared/components/LoadingSpinner";
 import { cls } from "@shared/utils/utils";
 import { useMutation } from "@tanstack/react-query";
 import { CommentPostJson, UserInfo } from "@types";
+import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
 import { FormEvent, useRef } from "react";
@@ -14,7 +15,7 @@ const commentService = CommentService.getInstance();
 
 export const dynamic = "force-dynamic";
 
-export default function CommentWriter({ className }: { session?: any; className?: string }) {
+export default function CommentWriter({ className }: { session?: Session | undefined; className?: string }) {
   const session = useSession();
   const router = useRouter();
   const { id: postId } = useParams();

@@ -99,7 +99,7 @@ const userTransaction = async ({ email, name, image, domain }: SessionData) => {
       }
     }
     return true;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[AuthOptions] userTransaction error:", error);
     return false;
   }

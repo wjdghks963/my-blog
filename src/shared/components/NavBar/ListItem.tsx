@@ -24,7 +24,7 @@ const variants: Variants = {
   },
 };
 
-export default function ListItem({ text, fn }: { text: string; fn: any }) {
+export default function ListItem({ text, fn }: { text: string; fn: () => void }) {
   return (
     <motion.li
       variants={variants}

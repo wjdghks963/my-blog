@@ -24,7 +24,7 @@ export default function InfiniteBlogs() {
       return httpService.get<{ hasNextPage: boolean; data: PostWithId[] }>(url);
     },
     initialPageParam: 1,
-    getNextPageParam<T extends { hasNextPage: boolean; data: any[] }>(
+    getNextPageParam<T extends { hasNextPage: boolean; data: PostWithId[] }>(
       lastPage: T,
       allPages: Array<T>
     ): number | undefined {
