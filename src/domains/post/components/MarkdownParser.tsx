@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { darcula } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -13,9 +13,25 @@ import remarkGfm from "remark-gfm";
 import remarkToc from "remark-toc";
 import { Url } from "url";
 
+import ImageLightbox from "../../../shared/components/ImageLightbox";
 import { Mermaid } from "./Mermaid";
 
 export default function MarkdownParser({ markdown }: any) {
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+  const [lightboxAlt, setLightboxAlt] = useState<string>("관련된 사진");
+
+  const openLightbox = useCallback((src: string, alt?: string) => {
+    setLightboxSrc(src);
+    if (alt) setLightboxAlt(alt);
+    setIsLightboxOpen(true);
+  }, []);
+
+  const closeLightbox = useCallback(() => {
+    setIsLightboxOpen(false);
+    setLightboxSrc(null);
+  }, []);
+
   return (
     <div className="w-[80vw] text-gray-900 dark:text-gray-100">
       <ReactMarkdown
@@ -73,15 +89,37 @@ export default function MarkdownParser({ markdown }: any) {
               );
             },
             img({ node, ...props }: any) {
+              const src = String(props?.src ?? "");
+              const alt = String(props?.alt ?? "관련된 사진");
               return (
-                <div className={"relative w-full h-80 my-10"}>
-                  <Image
-                    fill
-                    style={{ objectFit: "scale-down", objectPosition: "center" }}
-                    src={props?.src + ""}
-                    quality={100}
-                    alt="관련된 사진"
-                  />
+                <div className="my-10">
+                  <button
+                    type="button"
+                    onClick={() => openLightbox(src, alt)}
+                    className="group relative w-full h-80 cursor-zoom-in"
+                    aria-label="이미지 확대"
+                    title="이미지 클릭으로 확대"
+                  >
+                    <Image
+                      fill
+                      style={{ objectFit: "scale-down", objectPosition: "center" }}
+                      src={src}
+                      quality={100}
+                      alt={alt}
+                    />
+                    {/* affordance: magnifier icon */}
+                    <div className="pointer-events-none absolute top-2 right-2 opacity-60 md:opacity-0 md:group-hover:opacity-90 transition-opacity">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="w-6 h-6 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]"
+                        aria-hidden
+                      >
+                        <path d="M10.5 3a7.5 7.5 0 1 1 0 15 7.5 7.5 0 0 1 0-15Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Zm9.78 14.22-3.25-3.25a1 1 0 1 0-1.41 1.41l3.25 3.25a1 1 0 0 0 1.41-1.41Z" />
+                      </svg>
+                    </div>
+                  </button>
                 </div>
               );
             },
@@ -171,6 +209,15 @@ export default function MarkdownParser({ markdown }: any) {
       >
         {markdown}
       </ReactMarkdown>
+
+      {isLightboxOpen && lightboxSrc && (
+        <ImageLightbox
+          open={isLightboxOpen}
+          src={lightboxSrc}
+          alt={lightboxAlt}
+          onClose={closeLightbox}
+        />
+      )}
     </div>
   );
 }

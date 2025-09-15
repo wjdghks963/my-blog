@@ -72,7 +72,7 @@ export default function TableOfContents({ markdown }: { markdown: string }) {
       transition={spring}
       className={cls(
         isVisible ? "mobile:block" : "",
-        `fixed right-6 top-32 min-w-xs hidden bg-white p-6 rounded-lg shadow-lg border border-gray-200`
+        `fixed right-6 top-32 z-40 min-w-xs hidden bg-white p-6 rounded-lg shadow-lg border border-gray-200`
       )}
     >
       <h2 className="text-2xl font-bold text-gray-800 mb-4">Table of Contents</h2>
