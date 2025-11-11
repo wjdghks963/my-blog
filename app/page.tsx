@@ -36,7 +36,7 @@ async function fetchPostsByStatus(status: "recent" | "popular") {
     // 서버 컴포넌트에서는 절대 URL 사용
     const baseUrl = process.env.NEXT_PUBLIC_APIDOMAIN;
     const res = await fetch(`${baseUrl}/api/main/${status}`, { next: { tags: ["posts"] } });
-
+    console.log("APP MAIN RES", res);
     if (!res.ok) {
       return [];
     }
