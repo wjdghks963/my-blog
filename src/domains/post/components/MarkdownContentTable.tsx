@@ -10,13 +10,18 @@ enum HeaderLevel {
   H3 = 3,
 }
 
+const CODE_BLOCK_PATTERN = /```[\s\S]*?```/g;
+
+const stripCodeBlocks = (markdown: string) => markdown.replace(CODE_BLOCK_PATTERN, "");
+
 const createTableOfContents = (markdown: string) => {
-  const regex = /(#+)\s+(.*)/g;
+  const source = stripCodeBlocks(markdown);
+  const regex = /^(#{1,3})\s+(.*)$/gm;
   let match;
   const tableOfContents = [];
-  while ((match = regex.exec(markdown)) !== null) {
+  while ((match = regex.exec(source)) !== null) {
     const level = match[1].length;
-    const title = match[2];
+    const title = match[2].trim();
     const anchor = title
       .replace(/\.\s+/g, "-")
       .replace(/[^a-zA-Z0-9가-힣\s-]/g, "")
