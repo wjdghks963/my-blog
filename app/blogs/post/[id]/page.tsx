@@ -1,5 +1,6 @@
 import PostDetailPage from "@domains/post/pages/post-detail.page";
 import { IPost } from "@domains/post/types";
+import JsonLd, { getBlogPostingSchema, getBreadcrumbSchema, SITE_CONFIG } from "@shared/components/JsonLd";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import process from "process";
@@ -84,5 +85,37 @@ export default async function Page(props: Props) {
     notFound();
   }
 
-  return <PostDetailPage postData={postData} />;
+  const postUrl = `${SITE_CONFIG.url}/blogs/post/${id}`;
+  const imageSrc = RegImageSrc(postData.content);
+  const ogImageUrl = imageSrc
+    ? imageSrc.startsWith("http")
+      ? imageSrc
+      : `${process.env.NEXT_PUBLIC_APIDOMAIN}${imageSrc}`
+    : undefined;
+
+  const blogPostingSchema = getBlogPostingSchema({
+    title: postData.title,
+    description: postData.description,
+    content: postData.content,
+    datePublished: postData.createdAt,
+    dateModified: postData.updatedAt,
+    url: postUrl,
+    image: ogImageUrl,
+    category: postData.category?.name,
+    tags: postData.tags?.map((tag) => tag.tag.name),
+  });
+
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "홈", url: SITE_CONFIG.url },
+    { name: "블로그", url: `${SITE_CONFIG.url}/blogs` },
+    { name: postData.title, url: postUrl },
+  ]);
+
+  return (
+    <>
+      <JsonLd data={blogPostingSchema} />
+      <JsonLd data={breadcrumbSchema} />
+      <PostDetailPage postData={postData} />
+    </>
+  );
 }
