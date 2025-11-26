@@ -1,5 +1,6 @@
 import SlideHeaderNavBar from "@shared/components/NavBar/SlideHeaderNavBar";
 import Provider from "@shared/components/Provider";
+import JsonLd, { getOrganizationSchema, getWebSiteSchema } from "@shared/components/JsonLd";
 import { Metadata } from "next";
 import React from "react";
 
@@ -22,6 +23,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="ko"
       suppressHydrationWarning
     >
+      <head>
+        <JsonLd data={getWebSiteSchema()} />
+        <JsonLd data={getOrganizationSchema()} />
+      </head>
       <body>
         <Provider>
           <SlideHeaderNavBar />
