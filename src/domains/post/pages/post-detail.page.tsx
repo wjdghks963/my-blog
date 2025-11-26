@@ -4,6 +4,7 @@ import PostEditDeleteBox from "@domains/post/components/PostEditDeleteBox";
 import { IPost } from "@domains/post/types";
 import TagSpan from "@shared/components/TagSpan";
 import compareLocaleDate from "@shared/utils/CompareLocaleDate";
+import { getReadingTime } from "@shared/utils/utils";
 import { notFound } from "next/navigation";
 
 import { getAllPostId } from "@libs/server/getAllPostId";
@@ -19,6 +20,7 @@ export default function PostDetailPage({ postData }: Props) {
 
   const tags = postData.tags?.length !== 0 ? postData.tags?.map((tag) => tag.tag) : [];
   const date = compareLocaleDate(postData.createdAt!, postData.updatedAt!);
+  const readingTime = getReadingTime(postData.content);
 
   return (
     <div className="font-roboto-regular pb-16">
@@ -39,7 +41,17 @@ export default function PostDetailPage({ postData }: Props) {
           </div>
         </div>
         {postData.category ? <span className="">카테고리 : {postData.category}</span> : null}
-        <span className="my-3">조회 : {postData.views}</span>
+        <div className="flex items-center gap-4 my-3 text-gray-600 dark:text-gray-400">
+          <span>조회 : {postData.views}</span>
+          <span className="text-gray-400 dark:text-gray-500">|</span>
+          <span className="flex items-center gap-1">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" strokeWidth={2} />
+              <path strokeLinecap="round" strokeWidth={2} d="M12 6v6l4 2" />
+            </svg>
+            {readingTime}분 읽기
+          </span>
+        </div>
         <h1 className="font-bold text-5xl mt-10">{postData.title}</h1>
         <TableOfContents markdown={postData.content} />
 
