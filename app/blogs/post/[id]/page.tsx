@@ -101,8 +101,8 @@ export default async function Page(props: Props) {
     dateModified: new Date(postData.updatedAt).toISOString(),
     url: postUrl,
     image: ogImageUrl,
-    category: postData.category?.name,
-    tags: postData.tags?.map((tag) => tag.tag.name),
+    category: postData.category ?? undefined,
+    tags: postData.tags?.map((tag) => tag.tag),
   });
 
   const breadcrumbSchema = getBreadcrumbSchema([
