@@ -16,7 +16,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, error: "Invalid Post ID" }, { status: 400 });
     }
 
-    await prismaclient.$transaction(async (tx) => {
+    await prismaclient.$transaction(async (tx: typeof prismaclient) => {
       // 1. 게시물에 달린 댓글들 삭제
       await tx.comment.deleteMany({
         where: { postId: id },
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
         where: { postId: id },
       });
 
-      const tagIds = postTags.map((pt) => pt.tagId);
+      const tagIds = postTags.map((pt: { tagId: number }) => pt.tagId);
       for (const tagId of tagIds) {
         const count = await tx.postTag.count({
           where: { tagId: tagId },
