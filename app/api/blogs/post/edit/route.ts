@@ -14,7 +14,6 @@ export async function POST(req: Request) {
     const id = searchParams.get("id") ? parseInt(searchParams.get("id") + "") : 1;
     const { title, markdown, tags, description, category }: PostPostJson = await req.json();
 
-    // @ts-expect-error - Prisma transaction client type
     await prismaclient.$transaction(async (tx) => {
       // 게시글 업데이트
       await tx.$executeRaw`
