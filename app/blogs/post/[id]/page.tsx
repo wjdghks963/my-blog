@@ -61,10 +61,30 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     ];
   }
 
+  const canonicalUrl = `https://www.junglog.xyz/blogs/post/${id}`;
+
   return {
     title: data.title,
     description: data.description,
-    openGraph,
+    openGraph: {
+      ...openGraph,
+      url: canonicalUrl,
+      type: "article",
+    },
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
   };
 }
 

@@ -18,10 +18,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly", // 홈페이지는 주 단위 변경 가정
     },
     {
+      url: `${baseUrl}/blogs`,
+      lastModified: new Date().toISOString(),
+      priority: 0.9, // 블로그 목록 페이지는 높은 우선순위
+      changeFrequency: "daily", // 블로그 목록은 자주 변경됨
+    },
+    {
       url: `${baseUrl}/about-me`,
       lastModified: new Date().toISOString(),
       priority: 0.8,
       changeFrequency: "monthly", // About Me 페이지는 월 단위 변경 가정
+    },
+    {
+      url: `${baseUrl}/update-note`,
+      lastModified: new Date().toISOString(),
+      priority: 0.7,
+      changeFrequency: "monthly", // 업데이트 노트는 월 단위 변경 가정
     },
   ];
 

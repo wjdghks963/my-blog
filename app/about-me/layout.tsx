@@ -9,6 +9,21 @@ export const metadata: Metadata = {
     title: "About Me - 최정환",
     description: "새로운 도전과 내실 다지기를 즐기는 웹 개발자 최정환입니다.",
     url: `${SITE_CONFIG.url}/about-me`,
+    type: "website",
+  },
+  alternates: {
+    canonical: `${SITE_CONFIG.url}/about-me`,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
