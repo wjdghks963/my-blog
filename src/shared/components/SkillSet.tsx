@@ -157,18 +157,54 @@ const skills: Skill[] = [
     ),
     color: "text-gray-800 dark:text-gray-200",
   },
+  {
+    name: "Redis",
+    icon: (
+      <svg
+        className="w-6 h-6"
+        viewBox="0 0 24 24"
+        fill="none"
+      >
+        <path d="M3.5 7.2L12 4l8.5 3.2L12 10.4z" fill="#DC382D" />
+        <path d="M3.5 11.9L12 8.8l8.5 3.1L12 15z" fill="#C52A1F" />
+        <path d="M3.5 16.4L12 13.3l8.5 3.1L12 19.5z" fill="#A41E16" />
+        <circle cx="8.3" cy="7.25" r="0.9" fill="#FFF4D6" />
+        <circle cx="11.8" cy="6.05" r="0.75" fill="#FFF4D6" />
+        <circle cx="15.4" cy="7.25" r="0.9" fill="#FFF4D6" />
+      </svg>
+    ),
+    color: "text-red-500",
+  },
+  {
+    name: "Oracle",
+    icon: (
+      <svg
+        className="w-6 h-6"
+        viewBox="0 0 24 24"
+        fill="none"
+      >
+        <path
+          d="M5 12c0-2.761 2.239-5 5-5h4c2.761 0 5 2.239 5 5s-2.239 5-5 5h-4c-2.761 0-5-2.239-5-5z"
+          stroke="currentColor"
+          strokeWidth="2.6"
+          strokeLinecap="round"
+        />
+      </svg>
+    ),
+    color: "text-red-600",
+  },
 ];
 
 export default function SkillSet() {
   return (
-    <div className="flex justify-center items-center gap-3 mb-8">
+    <div className="flex flex-wrap justify-center items-center gap-3">
       {skills.map((skill, index) => (
         <div
           key={index}
-          className={`backdrop-blur-sm bg-white/5 dark:bg-gray-800/10 rounded-xl p-3 border border-white/10 dark:border-gray-700/20 hover:bg-white/10 dark:hover:bg-gray-800/20 transition-all duration-300 group ${skill.color}`}
+          className={`rounded-xl p-3 border border-soft bg-white/50 dark:bg-white/5 transition-transform duration-200 hover:-translate-y-1 group ${skill.color}`}
           title={skill.name}
         >
-          <div className="group-hover:scale-110 transition-transform duration-300">{skill.icon}</div>
+          <div className="group-hover:scale-110 transition-transform duration-200">{skill.icon}</div>
         </div>
       ))}
     </div>

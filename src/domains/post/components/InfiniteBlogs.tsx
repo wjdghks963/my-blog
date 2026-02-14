@@ -65,11 +65,10 @@ export default function InfiniteBlogs() {
 
   return (
     <div className="w-full">
-      {/* Posts Grid */}
       <div className="min-h-[400px]">
         {allData.length === 0 && !isLoading ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="backdrop-blur-xl bg-white/10 dark:bg-gray-900/20 border border-white/20 dark:border-gray-700/30 rounded-3xl p-12 shadow-2xl">
+            <div className="surface-card-soft p-12">
               <Image
                 className="w-32 h-32 mx-auto mb-6 opacity-70"
                 src="/searching_cat.png"
@@ -77,8 +76,8 @@ export default function InfiniteBlogs() {
                 width={128}
                 height={128}
               />
-              <h3 className="text-2xl font-bold mb-4 text-gray-700 dark:text-gray-200">검색 결과가 없습니다</h3>
-              <p className="text-gray-600 dark:text-gray-400 max-w-md">다른 키워드나 태그로 검색해보세요</p>
+              <h3 className="text-2xl font-bold mb-4 text-[var(--text-primary)]">검색 결과가 없습니다</h3>
+              <p className="text-muted max-w-md">다른 키워드나 태그로 검색해보세요</p>
             </div>
           </div>
         ) : (
@@ -95,12 +94,11 @@ export default function InfiniteBlogs() {
         )}
       </div>
 
-      {/* Loading Indicator */}
       {(hasNextPage || isLoading) && (
         <div className="flex justify-center py-12">
-          <div className="backdrop-blur-xl bg-white/10 dark:bg-gray-900/20 border border-white/20 dark:border-gray-700/30 rounded-2xl p-8 shadow-xl">
+          <div className="surface-card-soft p-8">
             <div
-              className={`flex flex-col items-center ${hasNextPage || isLoading ? "animate-bounce" : ""}`}
+              className={`flex flex-col items-center ${hasNextPage || isLoading ? "animate-pulse" : ""}`}
               ref={loadingRef}
             >
               <Image
@@ -110,9 +108,7 @@ export default function InfiniteBlogs() {
                 width={80}
                 height={80}
               />
-              <p className="mt-4 text-sm text-gray-600 dark:text-gray-400 font-medium">
-                더 많은 포스트를 찾고 있어요...
-              </p>
+              <p className="mt-4 text-sm text-muted font-medium">더 많은 포스트를 찾고 있어요...</p>
             </div>
           </div>
         </div>

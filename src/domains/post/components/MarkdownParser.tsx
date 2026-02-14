@@ -1,22 +1,53 @@
 "use client";
 
+import ImageLightbox from "@shared/components/ImageLightbox";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useCallback, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { darcula } from "react-syntax-highlighter/dist/esm/styles/prism";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 import remarkToc from "remark-toc";
-import { Url } from "url";
 
-import ImageLightbox from "../../../shared/components/ImageLightbox";
 import { Mermaid } from "./Mermaid";
 
-export default function MarkdownParser({ markdown }: any) {
+type MarkdownParserProps = {
+  markdown: string;
+};
+
+function extractCodeText(children: React.ReactNode): string {
+  if (typeof children === "string" || typeof children === "number") {
+    return String(children);
+  }
+
+  if (Array.isArray(children)) {
+    return children.map((child) => extractCodeText(child)).join("");
+  }
+
+  if (React.isValidElement(children)) {
+    const props = children.props as { children?: React.ReactNode } | undefined;
+    return extractCodeText(props?.children ?? "");
+  }
+
+  return "";
+}
+
+function extractLanguageFromPre(children: React.ReactNode): string {
+  const firstChild = Array.isArray(children) ? children[0] : children;
+
+  if (!React.isValidElement(firstChild)) {
+    return "text";
+  }
+
+  const className = ((firstChild.props as { className?: string } | undefined)?.className ?? "").toString();
+  const match = /language-([\w-]+)/.exec(className);
+  return match?.[1] ?? "text";
+}
+
+export default function MarkdownParser({ markdown }: MarkdownParserProps) {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [lightboxAlt, setLightboxAlt] = useState<string>("관련된 사진");
@@ -33,171 +64,184 @@ export default function MarkdownParser({ markdown }: any) {
   }, []);
 
   return (
-    <div className="w-[80vw] text-gray-900 dark:text-gray-100">
+    <div className="markdown-content w-full text-[var(--text-primary)]">
       <ReactMarkdown
-        components={
-          {
-            bdo: undefined,
-            h1({ node, children, ...props }: any) {
-              return (
-                <h1
-                  {...props}
-                  className="text-black dark:text-white"
-                >
-                  {children}
-                </h1>
-              );
-            },
-            h2({ node, children, ...props }: any) {
-              return (
-                <h2
-                  {...props}
-                  className="text-black dark:text-white"
-                >
-                  {children}
-                </h2>
-              );
-            },
-            h3({ node, children, ...props }: any) {
-              return (
-                <h3
-                  {...props}
-                  className="text-black dark:text-white"
-                >
-                  {children}
-                </h3>
-              );
-            },
-            h4({ node, children, ...props }: any) {
-              return (
-                <h4
-                  {...props}
-                  className="text-black dark:text-white"
-                >
-                  {children}
-                </h4>
-              );
-            },
-            th({ node, children, ...props }: any) {
-              return (
-                <th
-                  {...props}
-                  className="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-white font-semibold"
-                >
-                  {children}
-                </th>
-              );
-            },
-            img({ node, ...props }: any) {
-              const src = String(props?.src ?? "");
-              const alt = String(props?.alt ?? "관련된 사진");
-              return (
-                <div className="my-10">
-                  <button
-                    type="button"
-                    onClick={() => openLightbox(src, alt)}
-                    className="group relative w-full h-80 cursor-zoom-in"
-                    aria-label="이미지 확대"
-                    title="이미지 클릭으로 확대"
-                  >
-                    <Image
-                      fill
-                      style={{ objectFit: "scale-down", objectPosition: "center" }}
-                      src={src}
-                      quality={100}
-                      alt={alt}
-                    />
-                    {/* affordance: magnifier icon */}
-                    <div className="pointer-events-none absolute top-2 right-2 opacity-60 md:opacity-0 md:group-hover:opacity-90 transition-opacity">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="w-6 h-6 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]"
-                        aria-hidden
-                      >
-                        <path d="M10.5 3a7.5 7.5 0 1 1 0 15 7.5 7.5 0 0 1 0-15Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Zm9.78 14.22-3.25-3.25a1 1 0 1 0-1.41 1.41l3.25 3.25a1 1 0 0 0 1.41-1.41Z" />
-                      </svg>
-                    </div>
-                  </button>
-                </div>
-              );
-            },
-            p({ node, children, ...props }: any) {
-              return (
-                <div
-                  {...props}
-                  className="break-words my-4"
-                >
-                  {children}
-                </div>
-              );
-            },
-            a({ node, children, ...props }: any) {
-              return (
-                <Link href={props.href as unknown as Url}>
-                  <span className="dark:text-white break-words">{children}</span>
-                </Link>
-              );
-            },
-            li({ node, children }: any) {
-              return <li className="">{children}</li>;
-            },
-            span({ node, children, style }: any) {
-              return (
-                <span
-                  className="dark:text-black"
-                  style={{ color: style?.color, backgroundColor: style?.backgroundColor }}
-                >
-                  {children}
-                </span>
-              );
-            },
-            strong({ node, children }: any) {
-              return (
-                <strong
-                  className="font-bold"
-                  style={{ color: "inherit" }}
-                >
-                  {children}
-                </strong>
-              );
-            },
-            code({ node, className, children, ...props }: any) {
-              const match = /language-(\w+)/.exec(className || "");
-              const lang = match?.[1];
+        components={{
+          bdo: undefined,
+          h1({ children, ...props }) {
+            return (
+              <h1
+                {...props}
+                className="mt-8 text-3xl font-bold"
+              >
+                {children}
+              </h1>
+            );
+          },
+          h2({ children, ...props }) {
+            return (
+              <h2
+                {...props}
+                className="mt-8 text-2xl font-bold"
+              >
+                {children}
+              </h2>
+            );
+          },
+          h3({ children, ...props }) {
+            return (
+              <h3
+                {...props}
+                className="mt-6 text-xl font-bold"
+              >
+                {children}
+              </h3>
+            );
+          },
+          h4({ children, ...props }) {
+            return (
+              <h4
+                {...props}
+                className="mt-6 text-lg font-semibold"
+              >
+                {children}
+              </h4>
+            );
+          },
+          pre({ children }) {
+            const lang = extractLanguageFromPre(children);
 
-              if (lang === "mermaid") {
-                return <Mermaid chart={String(children).replace(/\n$/, "")} />;
-              }
+            if (lang === "mermaid") {
+              return <>{children}</>;
+            }
 
-              if (lang) {
-                return (
-                  <div>
-                    <div style={{ display: "flex", justifyContent: "flex-start" }}>
-                      <span className="bg-red-500 rounded-full w-3 h-3 mr-1"></span>
-                      <span className="bg-yellow-500 rounded-full w-3 h-3 mr-1"></span>
-                      <span className="bg-green-500 rounded-full w-3 h-3"></span>
-                      <span className={"ml-3"}>{match?.[1] ?? "text"}</span>
-                    </div>
-                    <SyntaxHighlighter
-                      style={darcula as Record<string, any>}
-                      language={match?.[1] ?? "plaintext"}
-                      showLineNumbers={true}
-                    >
-                      {String(children).replace(/\n$/, "")}
-                    </SyntaxHighlighter>
-                  </div>
-                );
-              } else {
-                return <span className="bg-amber-100 text-black">{children}</span>;
-              }
-            },
-          } as any
-        }
+            return (
+              <div className="my-6 overflow-hidden rounded-xl border border-soft">
+                <div className="flex items-center gap-2 border-b border-soft bg-[var(--bg-soft)] px-3 py-2">
+                  <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
+                  <span className="ml-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">
+                    {lang}
+                  </span>
+                </div>
+                <pre className="code-window-pre overflow-x-auto bg-slate-950 px-4 py-4 text-sm text-slate-100">
+                  {children}
+                </pre>
+              </div>
+            );
+          },
+          th({ children, ...props }) {
+            return (
+              <th
+                {...props}
+                className="border border-soft px-4 py-2 text-left font-semibold"
+              >
+                {children}
+              </th>
+            );
+          },
+          td({ children, ...props }) {
+            return (
+              <td
+                {...props}
+                className="border border-soft px-4 py-2"
+              >
+                {children}
+              </td>
+            );
+          },
+          img({ ...props }) {
+            const src = String(props?.src ?? "");
+            const alt = String(props?.alt ?? "관련된 사진");
+
+            return (
+              <div className="my-10">
+                <button
+                  type="button"
+                  onClick={() => openLightbox(src, alt)}
+                  className="group relative h-80 w-full cursor-zoom-in overflow-hidden rounded-xl border border-soft"
+                  aria-label="이미지 확대"
+                  title="이미지 클릭으로 확대"
+                >
+                  <Image
+                    fill
+                    style={{ objectFit: "contain", objectPosition: "center" }}
+                    src={src}
+                    quality={85}
+                    alt={alt}
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/10" />
+                </button>
+              </div>
+            );
+          },
+          p({ children, ...props }) {
+            return (
+              <p
+                {...props}
+                className="my-4 break-words leading-8"
+              >
+                {children}
+              </p>
+            );
+          },
+          a({ children, ...props }) {
+            const href = String(props.href ?? "#");
+            const isExternal = href.startsWith("http");
+
+            return (
+              <Link
+                href={href}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noreferrer" : undefined}
+                className="text-brand underline underline-offset-4"
+              >
+                {children}
+              </Link>
+            );
+          },
+          li({ children }) {
+            return <li className="my-1">{children}</li>;
+          },
+          span({ children, node: _node, ...props }) {
+            return <span {...props}>{children}</span>;
+          },
+          strong({ children }) {
+            return <strong className="font-bold">{children}</strong>;
+          },
+          code({ className, children }) {
+            const match = /language-(\w+)/.exec(className || "");
+            const lang = match?.[1];
+            const codeText = extractCodeText(children).replace(/\n$/, "");
+            const isBlockWithoutLang = !lang && codeText.includes("\n");
+
+            if (lang === "mermaid") {
+              return <Mermaid chart={codeText} />;
+            }
+
+            if (lang || isBlockWithoutLang) {
+              return (
+                <code
+                  className={`${className ?? ""} block whitespace-pre text-slate-100`}
+                  style={{ color: "#e2e8f0" }}
+                >
+                  {children}
+                </code>
+              );
+            }
+
+            return (
+              <code className="rounded bg-slate-200/70 px-1.5 py-0.5 text-[0.92em] text-slate-900 dark:bg-slate-700/60 dark:text-slate-100">
+                {children}
+              </code>
+            );
+          },
+        }}
         rehypePlugins={[
           rehypeSlug,
           rehypeRaw,
+          rehypeHighlight,
           [
             rehypeAutolinkHeadings,
             {

@@ -1,5 +1,7 @@
 import { Category } from "@types";
 
+import prismaclient from "@libs/server/prismaClient";
+
 import CategoriesBoxClient from "./CategoriesBoxClient";
 
 export default async function CategoriesBox() {
@@ -10,14 +12,25 @@ export default async function CategoriesBox() {
 
 async function fetchData() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_APIDOMAIN || "http://localhost:3000";
-    const res = await fetch(`${baseUrl}/api/categories/posts`, { next: { tags: ["categories"] } });
+    const categories = await prismaclient.category.findMany({
+      orderBy: { category: "desc" },
+      select: {
+        category: true,
+        posts: {
+          select: {
+            title: true,
+            id: true,
+          },
+        },
+      },
+    });
 
-    if (!res.ok) {
-      return { categories: [] }; // 빈 데이터를 반환
-    }
+    const sanitizedCategories: Category[] = categories.map((category) => ({
+      ...category,
+      posts: category.posts || [],
+    }));
 
-    return await res.json();
+    return { categories: sanitizedCategories };
   } catch (error) {
     return { categories: [] };
   }
