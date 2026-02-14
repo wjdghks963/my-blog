@@ -1,16 +1,10 @@
 "use client";
 
 import PostWithThumbnail from "@domains/home/components/PostWithThumbnail";
-
-interface PostSummary {
-  id: number;
-  title: string;
-  description: string;
-  tags: { tag: string }[];
-}
+import { ThumbnailPostData } from "@types";
 
 interface PostsByStatusProps {
-  posts: PostSummary[];
+  posts: ThumbnailPostData[];
   variant?: "main" | "modern" | "sidebar";
 }
 
