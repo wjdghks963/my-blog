@@ -18,7 +18,7 @@ export default function PostsByStatus({ posts = [], variant = "main" }: PostsByS
   if (variant === "modern") {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {posts.slice(0, 6).map((post, index) => (
+        {posts.slice(0, 6).map((post) => (
           <PostWithThumbnail
             key={post.id}
             data={post}
@@ -32,7 +32,7 @@ export default function PostsByStatus({ posts = [], variant = "main" }: PostsByS
   if (variant === "sidebar") {
     return (
       <div className="space-y-4">
-        {posts.slice(0, 5).map((post, index) => (
+        {posts.slice(0, 5).map((post) => (
           <PostWithThumbnail
             key={post.id}
             data={post}

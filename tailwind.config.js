@@ -16,8 +16,10 @@ module.exports = {
       },
 
       fontFamily: {
-        "roboto-regular": ["Roboto-Regular"],
-        "roboto-bold": ["Roboto-Bold"],
+        "roboto-regular": ["var(--font-sans)", "sans-serif"],
+        "roboto-bold": ["var(--font-display)", "var(--font-sans)", "sans-serif"],
+        display: ["var(--font-display)", "var(--font-sans)", "sans-serif"],
+        sans: ["var(--font-sans)", "sans-serif"],
       },
 
       screens: {

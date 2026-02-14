@@ -14,16 +14,16 @@ export default function Certificate({
   skills?: string[]; // 추가된 기술 스택 배열
 }) {
   return (
-    <div className="flex flex-col items-center justify-center w-full p-6 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-md">
-      <p className="mt-2 text-gray-700 dark:text-gray-300 text-lg font-semibold">📚 {course} 과정</p>
-      <p className="mt-1 text-gray-600 dark:text-gray-400 text-sm">📅 발급일: {date}</p>
+    <div className="surface-card-soft w-full rounded-xl p-5">
+      <p className="text-lg font-semibold text-[var(--text-primary)]">{course} 과정</p>
+      <p className="mt-1 text-sm text-muted">발급일: {date}</p>
 
       {skills && (
-        <div className="flex flex-wrap gap-2 mt-3">
+        <div className="mt-3 flex flex-wrap gap-2">
           {skills?.map((skill) => (
             <span
               key={skill}
-              className="px-3 py-1 rounded-full text-sm font-medium bg-blue-200 dark:bg-blue-700 text-blue-800 dark:text-white shadow-sm"
+              className="rounded-full border border-soft bg-[var(--bg-soft)] px-3 py-1 text-sm font-medium text-[var(--text-primary)]"
             >
               {skill}
             </span>
@@ -35,9 +35,9 @@ export default function Certificate({
         href={certificateUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-4 px-6 py-3 text-white bg-blue-600 dark:bg-blue-500 rounded-lg shadow-md hover:bg-blue-700 dark:hover:bg-blue-400 transition-all"
+        className="mt-4 inline-flex w-full items-center justify-center rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:brightness-110"
       >
-        🔗 수료증 확인하기
+        수료증 확인하기
       </Link>
     </div>
   );

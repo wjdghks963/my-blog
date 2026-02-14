@@ -2,9 +2,24 @@ import SlideHeaderNavBar from "@shared/components/NavBar/SlideHeaderNavBar";
 import Provider from "@shared/components/Provider";
 import JsonLd, { getOrganizationSchema, getWebSiteSchema } from "@shared/components/JsonLd";
 import { Metadata } from "next";
+import { Noto_Sans_KR, Space_Grotesk } from "next/font/google";
 import React from "react";
 
 import "@styles/globals.css";
+
+const bodyFont = Noto_Sans_KR({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["400", "500", "700"],
+  display: "swap",
+});
+
+const displayFont = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["500", "700"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Jung's Tech Blog: Web Dev & Beyond",
@@ -38,13 +53,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="ko"
+      className={`${bodyFont.variable} ${displayFont.variable}`}
       suppressHydrationWarning
     >
       <head>
         <JsonLd data={getWebSiteSchema()} />
         <JsonLd data={getOrganizationSchema()} />
       </head>
-      <body>
+      <body className="antialiased">
         <Provider>
           <SlideHeaderNavBar />
           {children}

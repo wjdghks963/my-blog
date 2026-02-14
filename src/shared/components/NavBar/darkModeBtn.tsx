@@ -1,7 +1,7 @@
 "use client";
 
 import { cls } from "@shared/utils/utils";
-import { Cycle, motion, Variants } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { useTheme } from "next-themes";
 import React, { useEffect, useState } from "react";
 
@@ -27,7 +27,7 @@ const variants: Variants = {
   },
 };
 
-export default function DarkModeBtn({ className, toggleOpen }: { className?: string; toggleOpen: Cycle }) {
+export default function DarkModeBtn({ className }: { className?: string }) {
   const { theme, setTheme } = useTheme();
   const [svgLoad, setSvgLoad] = useState<boolean>(true);
 
@@ -48,22 +48,23 @@ export default function DarkModeBtn({ className, toggleOpen }: { className?: str
       variants={variants}
       className={cls(
         className ?? "",
-        "flex m-auto p-2.5 cursor-pointer group hover:bg-gray-400 hover:rounded-xl dark:hover:bg-blue-300 hover:shadow-md hover:shadow-slate-300 "
+        "mx-auto mt-1 w-[190px]"
       )}
     >
-      <div
+      <button
+        type="button"
         onClick={() => {
           setTheme(theme === "dark" ? "light" : "dark");
-          toggleOpen();
         }}
-        className="m-auto text-gray-500 group-hover:animate-spin"
+        className="flex w-full items-center justify-between rounded-lg border border-soft bg-white px-3 py-2.5 transition-colors hover:bg-[#f3f7f5] dark:bg-[#13211f] dark:hover:bg-[#1a2d2a]"
       >
+        <span className="text-sm font-semibold text-[var(--text-primary)]">Theme</span>
         {svgLoad ? (
           ""
         ) : theme === "dark" ? (
           <svg
             id="sun"
-            className="w-6 h-6"
+            className="h-5 w-5"
             fill="none"
             stroke="yellow"
             viewBox="0 0 24 24"
@@ -79,7 +80,7 @@ export default function DarkModeBtn({ className, toggleOpen }: { className?: str
         ) : (
           <svg
             id="moon"
-            className="w-6 h-6 group-hover:text-white"
+            className="h-5 w-5 text-[var(--text-primary)]"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -93,7 +94,7 @@ export default function DarkModeBtn({ className, toggleOpen }: { className?: str
             ></path>
           </svg>
         )}
-      </div>
+      </button>
     </motion.li>
   );
 }

@@ -3,9 +3,10 @@ import { IPost } from "@domains/post/types";
 import JsonLd, { getBlogPostingSchema, getBreadcrumbSchema, SITE_CONFIG } from "@shared/components/JsonLd";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import process from "process";
+import { cache } from "react";
 
 import { RegImageSrc } from "@libs/server/RegImageSrc";
+import { getApiBaseUrl } from "@libs/server/getApiBaseUrl";
 import { getAllPostId } from "@libs/server/getAllPostId";
 
 export const revalidate = 60;
@@ -16,12 +17,10 @@ type Props = {
   }>;
 };
 
-async function fetchData(id: string): Promise<IPost | undefined> {
+const fetchData = cache(async (id: string): Promise<IPost | undefined> => {
   try {
-    // 서버에서는 절대 URL이 필요
-    const baseUrl = process.env.NEXT_PUBLIC_APIDOMAIN;
+    const baseUrl = getApiBaseUrl();
     const res = await fetch(`${baseUrl}/api/blogs/${id}`, { next: { tags: ["posts"] } });
-    console.log("BLOGS POST RES", res);
     if (!res.ok) {
       console.error("Failed to fetch data:", res.status, res.statusText);
       return undefined;
@@ -32,7 +31,7 @@ async function fetchData(id: string): Promise<IPost | undefined> {
     console.error("Error fetching data:", error);
     return undefined;
   }
-}
+});
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
@@ -52,7 +51,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   };
 
   if (ImageSrc) {
-    const ogImageUrl = ImageSrc.startsWith("http") ? ImageSrc : `${process.env.NEXT_PUBLIC_APIDOMAIN}${ImageSrc}`;
+    const ogImageUrl = ImageSrc.startsWith("http") ? ImageSrc : `${getApiBaseUrl()}${ImageSrc}`;
     openGraph.images = [
       {
         url: ogImageUrl,
@@ -110,7 +109,7 @@ export default async function Page(props: Props) {
   const ogImageUrl = imageSrc
     ? imageSrc.startsWith("http")
       ? imageSrc
-      : `${process.env.NEXT_PUBLIC_APIDOMAIN}${imageSrc}`
+      : `${getApiBaseUrl()}${imageSrc}`
     : undefined;
 
   const blogPostingSchema = getBlogPostingSchema({

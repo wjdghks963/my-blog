@@ -2,23 +2,165 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg-base: #f5f7f4;
+  --bg-elevated: rgba(255, 255, 255, 0.74);
+  --bg-soft: rgba(255, 255, 255, 0.44);
+  --line-strong: rgba(18, 34, 32, 0.2);
+  --line-soft: rgba(18, 34, 32, 0.12);
+  --text-primary: #1a2522;
+  --text-muted: #53645f;
+  --accent-primary: #087368;
+  --accent-secondary: #d16f31;
+}
+
+.dark {
+  --bg-base: #0f1b1a;
+  --bg-elevated: rgba(16, 29, 28, 0.78);
+  --bg-soft: rgba(16, 29, 28, 0.55);
+  --line-strong: rgba(178, 217, 210, 0.24);
+  --line-soft: rgba(178, 217, 210, 0.14);
+  --text-primary: #ecf4f1;
+  --text-muted: #b3c8c2;
+  --accent-primary: #35b7aa;
+  --accent-secondary: #f59d64;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  color: var(--text-primary);
+  font-family: var(--font-sans), sans-serif;
+  background-color: var(--bg-base);
+  background-image: radial-gradient(120% 85% at 100% 0%, rgba(8, 115, 104, 0.18), transparent 46%),
+    radial-gradient(100% 70% at 0% 90%, rgba(209, 111, 49, 0.16), transparent 48%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 36px 36px;
+  opacity: 0.32;
+  z-index: -1;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display), var(--font-sans), sans-serif;
+  letter-spacing: -0.01em;
+}
+
+@layer components {
+  .page-shell {
+    @apply relative z-10 mx-auto w-full max-w-7xl px-5 mobile:px-8;
+  }
+
+  .surface-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-strong);
+    box-shadow: 0 18px 45px rgba(13, 26, 24, 0.08);
+    backdrop-filter: blur(8px);
+    border-radius: 1.25rem;
+  }
+
+  .surface-card-soft {
+    background: var(--bg-soft);
+    border: 1px solid var(--line-soft);
+    border-radius: 1rem;
+    backdrop-filter: blur(6px);
+  }
+
+  .section-title {
+    @apply mb-6 text-2xl mobile:text-3xl font-bold;
+    color: var(--text-primary);
+  }
+}
 
 @layer utilities {
+  .thin-round-black-border {
+    @apply border-solid border-black rounded-md border-[1px] dark:border-white;
+  }
 
+  .text-muted {
+    color: var(--text-muted);
+  }
 
-    .thin-round-black-border {
-        @apply border-solid border-black rounded-md border-[1px] dark:border-white
+  .text-brand {
+    color: var(--accent-primary);
+  }
 
-    }
+  .bg-brand {
+    background-color: var(--accent-primary);
+  }
 
+  .border-soft {
+    border-color: var(--line-soft);
+  }
 }
 
-@font-face {
-    font-family: 'Roboto-Regular';
-    src: url('/fonts/Roboto-Regular.ttf') format('truetype');
+.markdown-content pre:not(.code-window-pre) {
+  background: #020617 !important;
+  color: #e2e8f0 !important;
+  border: 1px solid var(--line-soft);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  overflow-x: auto;
 }
 
-@font-face {
-    font-family: 'Roboto-Bold';
-    src: url('/fonts/Roboto-Bold.ttf') format('truetype');
+.markdown-content pre code {
+  background: transparent !important;
+  color: #e2e8f0 !important;
+}
+
+.markdown-content pre.code-window-pre {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #0b1220 !important;
+  color: #e5e7eb !important;
+}
+
+.markdown-content pre * {
+  background: transparent !important;
+  color: #e2e8f0 !important;
+}
+
+.markdown-content pre.code-window-pre,
+.markdown-content pre.code-window-pre > code,
+.markdown-content pre.code-window-pre > code.hljs,
+.markdown-content pre.code-window-pre > code.hljs * {
+  background-color: #0b1220 !important;
+  color: #e5e7eb !important;
+}
+
+.markdown-content pre.code-window-pre code,
+.markdown-content pre.code-window-pre .hljs,
+.markdown-content pre.code-window-pre .hljs * {
+  background-color: #0b1220 !important;
+  color: #e5e7eb !important;
+}
+
+.markdown-content code:not(pre code) {
+  background: rgba(148, 163, 184, 0.22);
+  color: #111827;
+  border-radius: 0.3rem;
+  padding: 0.08rem 0.35rem;
+}
+
+.dark .markdown-content code:not(pre code) {
+  background: rgba(100, 116, 139, 0.32);
+  color: #f8fafc;
+}
+
+.markdown-content .hljs {
+  background: transparent !important;
+  color: #e2e8f0 !important;
 }

@@ -7,7 +7,7 @@ const Path = (props: any) => (
   <motion.path
     fill="transparent"
     strokeWidth="3"
-    stroke="hsl(0, 0%, 18%)"
+    stroke="currentColor"
     strokeLinecap="round"
     {...props}
   />
@@ -17,7 +17,7 @@ export default function MenuToggle({ toggle }: { toggle: MouseEventHandler<HTMLB
   return (
     <button
       onClick={toggle}
-      className="absolute top-8 left-7"
+      className="rounded-full border border-soft bg-white p-2 text-[var(--text-primary)] shadow-sm transition-colors hover:bg-[#f3f7f5] dark:bg-[#13211f] dark:hover:bg-[#1a2d2a]"
       aria-label="메뉴 열기 또는 닫기"
     >
       <svg

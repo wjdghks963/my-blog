@@ -18,53 +18,55 @@ export default function PostDetailPage({ postData }: Props) {
     notFound();
   }
 
-  const tags = postData.tags?.length !== 0 ? postData.tags?.map((tag) => tag.tag) : [];
+  const tags = postData.tags?.map((tag) => tag.tag) ?? [];
   const date = compareLocaleDate(postData.createdAt!, postData.updatedAt!);
   const readingTime = getReadingTime(postData.content);
 
   return (
-    <div className="font-roboto-regular pb-16">
-      <div className="flex flex-col mx-3 mt-16 mobile:mx-10 p-5 border-2 border-gray-500 bg-gray-100 dark:border-gray-300 dark:bg-gray-800">
-        <div className="flex w-full">
-          <span className="w-1/2">{date}</span>
-          <div className="flex flex-row gap-4 w-1/2 justify-end">
-            {tags
-              ? tags.map((tag, index: number) => (
+    <main className="min-h-screen pb-16 pt-16">
+      <div className="page-shell">
+        <article className="surface-card p-5 mobile:p-8">
+          <header className="border-b border-soft pb-6">
+            <div className="flex flex-col gap-4 mobile:flex-row mobile:items-start mobile:justify-between">
+              <div className="space-y-3">
+                <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
+                  <span>{date}</span>
+                  <span className="h-1 w-1 rounded-full bg-[var(--text-muted)]" />
+                  <span>조회 {postData.views}</span>
+                  <span className="h-1 w-1 rounded-full bg-[var(--text-muted)]" />
+                  <span>{readingTime}분 읽기</span>
+                </div>
+                {postData.category ? <span className="text-sm text-muted">카테고리: {postData.category}</span> : null}
+              </div>
+
+              <div className="flex flex-row flex-wrap justify-start gap-2 mobile:max-w-[45%] mobile:justify-end">
+                {tags.map((tag, index: number) => (
                   <TagSpan
                     key={index}
                     tag={tag}
                     clickOk={true}
                     goBlog={true}
                   />
-                ))
-              : null}
-          </div>
-        </div>
-        {postData.category ? <span className="">카테고리 : {postData.category}</span> : null}
-        <div className="flex items-center gap-4 my-3 text-gray-600 dark:text-gray-400">
-          <span>조회 : {postData.views}</span>
-          <span className="text-gray-400 dark:text-gray-500">|</span>
-          <span className="flex items-center gap-1">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="10" strokeWidth={2} />
-              <path strokeLinecap="round" strokeWidth={2} d="M12 6v6l4 2" />
-            </svg>
-            {readingTime}분 읽기
-          </span>
-        </div>
-        <h1 className="font-bold text-5xl mt-10">{postData.title}</h1>
+                ))}
+              </div>
+            </div>
+
+            <h1 className="mt-6 text-3xl mobile:text-5xl font-bold leading-tight text-[var(--text-primary)]">{postData.title}</h1>
+          </header>
+
+          <section className="mt-10">
+            <MarkdownParser markdown={postData.content} />
+          </section>
+        </article>
+
         <TableOfContents markdown={postData.content} />
 
-        <div className="mt-20 prose h-full">
-          <MarkdownParser markdown={postData.content} />
-        </div>
+        <PostEditDeleteBox postData={postData} />
       </div>
-      <PostEditDeleteBox postData={postData} />
-    </div>
+    </main>
   );
 }
 
-// only run at build time
 export async function generateStaticParams() {
   const { postsId } = await getAllPostId();
   return postsId.map((item: { id: number }) => ({ id: item.id + "" }));
