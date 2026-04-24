@@ -4,26 +4,27 @@ import compareLocaleDate from "@shared/utils/CompareLocaleDate";
 import { getReadingTime } from "@shared/utils/utils";
 import { PostWithId } from "@types";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function MiniPost({ data }: { data: PostWithId }) {
-  const router = useRouter();
   const date = compareLocaleDate(data.updatedAt, data.createdAt);
   const readingTime = getReadingTime(data.content);
+  const href = `/blogs/post/${data.id}`;
 
   return (
     <motion.article
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
-      onMouseEnter={() => router.prefetch(`/blogs/post/${data.id}`)}
-      onFocus={() => router.prefetch(`/blogs/post/${data.id}`)}
-      onClick={() => router.push(`/blogs/post/${data.id}`)}
-      className="w-full max-w-2xl cursor-pointer"
+      className="w-full max-w-2xl"
     >
-      <div className="h-full rounded-2xl border border-soft bg-white/65 p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg dark:bg-white/5">
+      <Link
+        href={href}
+        prefetch={false}
+        className="group block h-full rounded-2xl border border-soft bg-white/65 p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 dark:bg-white/5 dark:focus-visible:ring-offset-slate-900"
+      >
         <div className="space-y-4">
-          <h3 className="text-2xl font-bold leading-tight text-[var(--text-primary)]">{data.title}</h3>
+          <h3 className="text-2xl font-bold leading-tight text-[var(--text-primary)] group-hover:text-brand">{data.title}</h3>
 
           <p className="line-clamp-3 leading-relaxed text-muted">{data?.description}</p>
 
@@ -51,7 +52,7 @@ export default function MiniPost({ data }: { data: PostWithId }) {
             )}
           </div>
         </div>
-      </div>
+      </Link>
     </motion.article>
   );
 }

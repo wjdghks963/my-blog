@@ -15,7 +15,7 @@ export default function InfiniteBlogs() {
   const { tag } = useTagSelector();
   const { query } = useQuerySelector();
 
-  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching, isFetchingNextPage } = useInfiniteQuery({
     queryKey: postQueryKeys.list({ tag, query }),
     queryFn: async ({ pageParam }) => {
       const url = `/api/blogs?query=${encodeURIComponent(query)}&tag=${encodeURIComponent(
@@ -31,6 +31,8 @@ export default function InfiniteBlogs() {
       return lastPage.hasNextPage ? allPages.length + 1 : undefined;
     },
   });
+
+  const isFilterLoading = isFetching && !isFetchingNextPage;
 
   const allData: PostWithId[] = data
     ? data.pages.reduce((prev, curr) => prev.concat(curr.data as PostWithId[]), [] as PostWithId[])
@@ -65,8 +67,33 @@ export default function InfiniteBlogs() {
 
   return (
     <div className="w-full">
+      <div
+        className="mb-6 flex items-center justify-between text-sm text-muted"
+        aria-live="polite"
+      >
+        <span>
+          {isFilterLoading ? (
+            "불러오는 중…"
+          ) : allData.length > 0 ? (
+            <>
+              총 <span className="font-semibold text-[var(--text-primary)]">{allData.length}</span>개 포스트
+              {hasNextPage ? " 표시 중" : ""}
+            </>
+          ) : null}
+        </span>
+      </div>
+
       <div className="min-h-[400px]">
-        {allData.length === 0 && !isLoading ? (
+        {isFilterLoading ? (
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {Array.from({ length: 4 }).map((_, idx) => (
+              <div
+                key={idx}
+                className="h-52 animate-pulse rounded-2xl border border-soft bg-white/40 dark:bg-white/5"
+              />
+            ))}
+          </div>
+        ) : allData.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <div className="surface-card-soft p-12">
               <Image
@@ -81,11 +108,11 @@ export default function InfiniteBlogs() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-            {allData?.map((data: PostWithId, index: number) => (
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
+            {allData?.map((data: PostWithId) => (
               <div
                 key={data.id}
-                className={`flex justify-center ${index % 2 === 0 ? "lg:mt-0" : "lg:mt-12"}`}
+                className="flex justify-center"
               >
                 <MiniPost data={data} />
               </div>
@@ -94,7 +121,7 @@ export default function InfiniteBlogs() {
         )}
       </div>
 
-      {(hasNextPage || isLoading) && (
+      {(hasNextPage || isLoading) && !isFilterLoading && (
         <div className="flex justify-center py-12">
           <div className="surface-card-soft p-8">
             <div
