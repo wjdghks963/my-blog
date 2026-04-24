@@ -3,7 +3,7 @@
 import ImageLightbox from "@shared/components/ImageLightbox";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeHighlight from "rehype-highlight";
@@ -45,6 +45,65 @@ function extractLanguageFromPre(children: React.ReactNode): string {
   const className = ((firstChild.props as { className?: string } | undefined)?.className ?? "").toString();
   const match = /language-([\w-]+)/.exec(className);
   return match?.[1] ?? "text";
+}
+
+function CodeBlock({ language, children }: { language: string; children: React.ReactNode }) {
+  const preRef = useRef<HTMLPreElement>(null);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (!copied) return;
+    const id = setTimeout(() => setCopied(false), 1500);
+    return () => clearTimeout(id);
+  }, [copied]);
+
+  const handleCopy = useCallback(async () => {
+    const text = preRef.current?.innerText ?? "";
+    if (!text) return;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "absolute";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+      }
+      setCopied(true);
+    } catch {
+      // noop
+    }
+  }, []);
+
+  return (
+    <div className="my-6 overflow-hidden rounded-xl border border-soft">
+      <div className="flex items-center gap-2 border-b border-soft bg-[var(--bg-soft)] px-3 py-2">
+        <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
+        <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
+        <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
+        <span className="ml-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">{language}</span>
+        <button
+          type="button"
+          onClick={handleCopy}
+          aria-label={copied ? "복사됨" : "코드 복사"}
+          className="ml-auto rounded-md border border-soft bg-white/60 px-2 py-1 text-[11px] font-semibold text-muted transition-colors hover:bg-white hover:text-[var(--text-primary)] dark:bg-white/5 dark:hover:bg-white/10"
+        >
+          {copied ? "복사됨" : "복사"}
+        </button>
+      </div>
+      <pre
+        ref={preRef}
+        className="code-window-pre overflow-x-auto bg-slate-950 px-4 py-4 text-sm text-slate-100"
+      >
+        {children}
+      </pre>
+    </div>
+  );
 }
 
 export default function MarkdownParser({ markdown }: MarkdownParserProps) {
@@ -115,21 +174,7 @@ export default function MarkdownParser({ markdown }: MarkdownParserProps) {
               return <>{children}</>;
             }
 
-            return (
-              <div className="my-6 overflow-hidden rounded-xl border border-soft">
-                <div className="flex items-center gap-2 border-b border-soft bg-[var(--bg-soft)] px-3 py-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
-                  <span className="ml-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">
-                    {lang}
-                  </span>
-                </div>
-                <pre className="code-window-pre overflow-x-auto bg-slate-950 px-4 py-4 text-sm text-slate-100">
-                  {children}
-                </pre>
-              </div>
-            );
+            return <CodeBlock language={lang}>{children}</CodeBlock>;
           },
           th({ children, ...props }) {
             return (
@@ -156,20 +201,27 @@ export default function MarkdownParser({ markdown }: MarkdownParserProps) {
             const alt = String(props?.alt ?? "관련된 사진");
 
             return (
-              <div className="my-10">
+              <div className="my-8">
                 <button
                   type="button"
                   onClick={() => openLightbox(src, alt)}
-                  className="group relative h-80 w-full cursor-zoom-in overflow-hidden rounded-xl border border-soft"
+                  className="group relative block w-full cursor-zoom-in overflow-hidden rounded-xl border border-soft bg-[var(--bg-soft)]"
                   aria-label="이미지 확대"
                   title="이미지 클릭으로 확대"
                 >
                   <Image
-                    fill
-                    style={{ objectFit: "contain", objectPosition: "center" }}
                     src={src}
-                    quality={85}
                     alt={alt}
+                    width={1280}
+                    height={720}
+                    quality={85}
+                    sizes="(max-width: 768px) 100vw, 720px"
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      maxHeight: "70vh",
+                      objectFit: "contain",
+                    }}
                   />
                   <div className="pointer-events-none absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/10" />
                 </button>
