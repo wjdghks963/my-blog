@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <title>Junglog UI Preview — Before / After</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Mirror real project's tailwind.config.js
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            screens: { mobile: "560px" },
+            colors: { brand: "var(--accent-primary)" },
+          },
+        },
+      };
+    </script>
+    <style>
+      /* -------- Tokens from styles/globals.css (exact copy) -------- */
+      :root {
+        --bg-base: #f5f7f4;
+        --bg-elevated: rgba(255, 255, 255, 0.74);
+        --bg-soft: rgba(255, 255, 255, 0.44);
+        --line-strong: rgba(18, 34, 32, 0.2);
+        --line-soft: rgba(18, 34, 32, 0.12);
+        --text-primary: #1a2522;
+        --text-muted: #53645f;
+        --accent-primary: #087368;
+        --accent-primary-aa: #065a50; /* proposed AA-compliant */
+        --accent-secondary: #d16f31;
+      }
+      .dark {
+        --bg-base: #0f1b1a;
+        --bg-elevated: rgba(16, 29, 28, 0.78);
+        --bg-soft: rgba(16, 29, 28, 0.55);
+        --line-strong: rgba(178, 217, 210, 0.24);
+        --line-soft: rgba(178, 217, 210, 0.14);
+        --text-primary: #ecf4f1;
+        --text-muted: #b3c8c2;
+        --accent-primary: #35b7aa;
+        --accent-primary-aa: #35b7aa;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+      }
+      body {
+        color: var(--text-primary);
+        background-color: var(--bg-base);
+        background-image:
+          radial-gradient(120% 85% at 100% 0%, rgba(8, 115, 104, 0.18), transparent 46%),
+          radial-gradient(100% 70% at 0% 90%, rgba(209, 111, 49, 0.16), transparent 48%);
+        font-family: ui-sans-serif, system-ui, -apple-system, "Noto Sans KR", sans-serif;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 36px 36px;
+        opacity: 0.32;
+        z-index: -1;
+      }
+
+      .surface-card {
+        background: var(--bg-elevated);
+        border: 1px solid var(--line-strong);
+        box-shadow: 0 18px 45px rgba(13, 26, 24, 0.08);
+        backdrop-filter: blur(8px);
+        border-radius: 1.25rem;
+      }
+      .dark .surface-card {
+        /* proposed dark shadow */
+        box-shadow:
+          0 18px 45px rgba(0, 0, 0, 0.45),
+          inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      }
+      .surface-card-soft {
+        background: var(--bg-soft);
+        border: 1px solid var(--line-soft);
+        border-radius: 1rem;
+        backdrop-filter: blur(6px);
+      }
+      .border-soft {
+        border-color: var(--line-soft);
+      }
+      .text-muted {
+        color: var(--text-muted);
+      }
+      .text-brand {
+        color: var(--accent-primary);
+      }
+      .text-brand-aa {
+        color: var(--accent-primary-aa);
+      }
+      .bg-brand {
+        background-color: var(--accent-primary);
+      }
+
+      /* Demo helpers */
+      .label-bad {
+        background: #fee2e2;
+        color: #991b1b;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .label-good {
+        background: #dcfce7;
+        color: #065f46;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .dark .label-bad {
+        background: #450a0a;
+        color: #fecaca;
+      }
+      .dark .label-good {
+        background: #052e1e;
+        color: #bbf7d0;
+      }
+
+      .panel {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+      @media (max-width: 900px) {
+        .panel {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* thumbnail gradient fallback (proposed) */
+      .thumb-fallback {
+        background: linear-gradient(135deg, #087368 0%, #3a9d8a 55%, #d16f31 100%);
+      }
+      .dark .thumb-fallback {
+        background: linear-gradient(135deg, #0b3e39 0%, #1a6b63 55%, #a14e1f 100%);
+      }
+    </style>
+  </head>
+  <body class="pb-24">
+    <!-- ================= HEADER + THEME TOGGLE ================= -->
+    <div class="fixed right-5 top-5 z-50 flex items-center gap-2">
+      <span
+        id="modeLabel"
+        class="rounded-md border border-soft bg-white/70 px-2 py-1 text-xs text-muted dark:bg-white/5"
+        >LIGHT</span
+      >
+      <button
+        id="themeToggle"
+        class="rounded-full border border-soft bg-white px-4 py-2 text-sm font-semibold shadow-sm hover:bg-[#f3f7f5] dark:bg-[#13211f] dark:hover:bg-[#1a2d2a]"
+      >
+        다크/라이트 전환
+      </button>
+    </div>
+
+    <main class="mx-auto w-full max-w-6xl px-5 pt-10 mobile:px-8">
+      <header class="surface-card mb-10 p-6 mobile:p-10">
+        <p class="text-brand mb-2 text-xs font-semibold uppercase tracking-[0.2em]">UI Preview</p>
+        <h1 class="text-3xl mobile:text-4xl font-bold leading-tight">Junglog UI — Before / After</h1>
+        <p class="mt-3 max-w-2xl text-muted">
+          실제 사이트의 CSS 토큰(<code>--bg-base</code>, <code>--accent-primary</code>
+          등)을 그대로 복제해서, 제안한 UI 변경을 적용하기 전/후를 나란히 보여줍니다. 우상단 버튼으로 다크/라이트 모드도
+          바로 비교할 수 있어요.
+        </p>
+      </header>
+
+      <!-- ================= 1. CATEGORY BOX ================= -->
+      <section class="mb-12">
+        <h2 class="mb-1 text-2xl font-bold">1. 홈 Category 박스 — 톤 통일</h2>
+        <p class="mb-6 text-sm text-muted">
+          현재는 indigo/purple 팔레트를 쓰는 유일한 컴포넌트 → 브랜드 emerald로 통일 + <code>surface-card-soft</code>
+          사용.
+        </p>
+
+        <div class="panel">
+          <div class="surface-card p-6">
+            <div class="mb-4 flex items-center gap-2">
+              <span class="label-bad">BEFORE</span>
+              <span class="text-xs text-muted">indigo/purple, 독자 스타일</span>
+            </div>
+
+            <div
+              class="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10 dark:border-gray-700/20 dark:bg-gray-900/10 dark:hover:bg-gray-900/20"
+            >
+              <button class="flex w-full items-center justify-between">
+                <span class="text-lg font-semibold text-gray-800 hover:text-indigo-600 dark:text-white"
+                  >Frontend</span
+                >
+                <svg
+                  class="h-5 w-5 text-gray-600 dark:text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+              <div class="mt-4 space-y-2">
+                <div
+                  class="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 p-3 hover:bg-white/15"
+                >
+                  <span class="h-2 w-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500"></span>
+                  <span class="text-sm text-gray-700 dark:text-gray-300">React Server Components</span>
+                </div>
+                <div
+                  class="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 p-3 hover:bg-white/15"
+                >
+                  <span class="h-2 w-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500"></span>
+                  <span class="text-sm text-gray-700 dark:text-gray-300">Tailwind 토큰 설계</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="surface-card p-6">
+            <div class="mb-4 flex items-center gap-2">
+              <span class="label-good">AFTER</span>
+              <span class="text-xs text-muted">브랜드 emerald + 공통 토큰</span>
+            </div>
+
+            <div class="surface-card-soft p-4 transition-colors hover:bg-white/70 dark:hover:bg-white/10">
+              <button class="group flex w-full items-center justify-between">
+                <span class="text-lg font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-primary)]"
+                  >Frontend</span
+                >
+                <svg
+                  class="h-5 w-5 text-muted group-hover:text-[var(--accent-primary)]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+              <div class="mt-4 space-y-2">
+                <div
+                  class="flex items-center gap-2 rounded-xl border border-soft bg-white/50 p-3 hover:bg-white/80 dark:bg-white/5 dark:hover:bg-white/10"
+                >
+                  <span
+                    class="h-1.5 w-1.5 rounded-full"
+                    style="background: var(--accent-primary)"
+                  ></span>
+                  <span class="text-sm text-[var(--text-primary)]">React Server Components</span>
+                </div>
+                <div
+                  class="flex items-center gap-2 rounded-xl border border-soft bg-white/50 p-3 hover:bg-white/80 dark:bg-white/5 dark:hover:bg-white/10"
+                >
+                  <span
+                    class="h-1.5 w-1.5 rounded-full"
+                    style="background: var(--accent-primary)"
+                  ></span>
+                  <span class="text-sm text-[var(--text-primary)]">Tailwind 토큰 설계</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. TAG NAVBAR — ACTIVE STATE ================= -->
+      <section class="mb-12">
+        <h2 class="mb-1 text-2xl font-bold">2. 태그 바 — 활성 태그 강조 + # 통일</h2>
+        <p class="mb-6 text-sm text-muted">
+          현재 선택된 태그가 시각적으로 구분 안 됨. 활성 pill을 brand 색으로 강조.
+        </p>
+
+        <div class="panel">
+          <div class="surface-card p-6">
+            <div class="mb-4 flex items-center gap-2">
+              <span class="label-bad">BEFORE</span>
+              <span class="text-xs text-muted">활성 표시 없음, 모두 동일</span>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="rounded-full border border-soft bg-white/60 px-3 py-1.5 text-sm dark:bg-white/5">ALL</span>
+              <span class="rounded-full border border-soft bg-white/60 px-3 py-1.5 text-sm dark:bg-white/5">react</span>
+              <span class="rounded-full border border-soft bg-white/60 px-3 py-1.5 text-sm dark:bg-white/5"
+                >typescript</span
+              >
+              <span class="rounded-full border border-soft bg-white/60 px-3 py-1.5 text-sm dark:bg-white/5"
+                >postgres</span
+              >
+              <span class="rounded-full border border-soft bg-white/60 px-3 py-1.5 text-sm dark:bg-white/5">nextjs</span>
+            </div>
+          </div>
+
+          <div class="surface-card p-6">
+            <div class="mb-4 flex items-center gap-2">
+              <span class="label-good">AFTER</span>
+              <span class="text-xs text-muted">활성 pill + # 접두사</span>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="rounded-full border border-soft bg-white/60 px-3 py-1.5 text-sm dark:bg-white/5">#all</span>
+              <span
+                class="rounded-full border px-3 py-1.5 text-sm font-semibold text-white shadow-sm"
+                style="background: var(--accent-primary); border-color: var(--accent-primary)"
+                >#react</span
+              >
+              <span class="rounded-full border border-soft bg-white/60 px-3 py-1.5 text-sm dark:bg-white/5"
+                >#typescript</span
+              >
+              <span class="rounded-full border border-soft bg-white/60 px-3 py-1.5 text-sm dark:bg-white/5"
+                >#postgres</span
+              >
+              <span class="rounded-full border border-soft bg-white/60 px-3 py-1.5 text-sm dark:bg-white/5"
+                >#nextjs</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 3. MINIPOST — HOVER + # prefix ================= -->
+      <section class="mb-12">
+        <h2 class="mb-1 text-2xl font-bold">3. 포스트 카드 — hover 강조 + category pill</h2>
+        <p class="mb-6 text-sm text-muted">
+          Link 래핑으로 키보드 포커스 링 + 제목 hover 색. 카테고리를 pill로 승격, 태그 # 통일.
+        </p>
+
+        <div class="panel">
+          <div>
+            <div class="mb-3 flex items-center gap-2">
+              <span class="label-bad">BEFORE</span>
+              <span class="text-xs text-muted">태그 # 없음, 카테고리 표시 없음</span>
+            </div>
+            <div
+              class="rounded-2xl border border-soft bg-white/65 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:bg-white/5"
+            >
+              <h3 class="text-2xl font-bold leading-tight">Next.js 15 캐싱 동작 정리</h3>
+              <p class="mt-3 line-clamp-3 leading-relaxed text-muted">
+                App Router의 fetch 캐싱이 바뀌면서 ISR/SSG 동작이 달라졌습니다. 실무에서 마주친 케이스 기준으로
+                설명합니다.
+              </p>
+              <div class="mt-4 flex flex-wrap items-center gap-3 text-sm text-muted">
+                <span>2일 전</span>
+                <span class="h-1 w-1 rounded-full bg-[var(--text-muted)]"></span>
+                <span>8분 읽기</span>
+                <span class="h-1 w-1 rounded-full bg-[var(--text-muted)]"></span>
+                <span>조회 324</span>
+              </div>
+              <div class="mt-3 flex flex-wrap gap-2">
+                <span
+                  class="rounded-full border border-soft bg-white/70 px-3 py-1 text-xs font-medium dark:bg-white/10"
+                  >react</span
+                >
+                <span
+                  class="rounded-full border border-soft bg-white/70 px-3 py-1 text-xs font-medium dark:bg-white/10"
+                  >nextjs</span
+                >
+                <span
+                  class="rounded-full border border-soft bg-white/70 px-3 py-1 text-xs font-medium dark:bg-white/10"
+                  >caching</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="mb-3 flex items-center gap-2">
+              <span class="label-good">AFTER</span>
+              <span class="text-xs text-muted">category pill + # 태그 + title hover</span>
+            </div>
+            <a
+              href="#"
+              class="group block rounded-2xl border border-soft bg-white/65 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 dark:bg-white/5"
+              style="--tw-ring-color: var(--accent-primary)"
+            >
+              <div class="mb-3 flex items-center gap-2">
+                <span
+                  class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-white"
+                  style="background: var(--accent-primary)"
+                  >Frontend</span
+                >
+              </div>
+              <h3
+                class="text-2xl font-bold leading-tight transition-colors group-hover:text-[var(--accent-primary)]"
+              >
+                Next.js 15 캐싱 동작 정리
+              </h3>
+              <p class="mt-3 line-clamp-3 leading-relaxed text-muted">
+                App Router의 fetch 캐싱이 바뀌면서 ISR/SSG 동작이 달라졌습니다. 실무에서 마주친 케이스 기준으로
+                설명합니다.
+              </p>
+              <div class="mt-4 flex flex-wrap items-center gap-3 text-sm text-muted">
+                <span>2일 전</span>
+                <span class="h-1 w-1 rounded-full bg-[var(--text-muted)]"></span>
+                <span>8분 읽기</span>
+                <span class="h-1 w-1 rounded-full bg-[var(--text-muted)]"></span>
+                <span>조회 324</span>
+              </div>
+              <div class="mt-3 flex flex-wrap gap-2">
+                <span
+                  class="rounded-full border border-soft bg-white/70 px-3 py-1 text-xs font-medium dark:bg-white/10"
+                  >#react</span
+                >
+                <span
+                  class="rounded-full border border-soft bg-white/70 px-3 py-1 text-xs font-medium dark:bg-white/10"
+                  >#nextjs</span
+                >
+                <span
+                  class="rounded-full border border-soft bg-white/70 px-3 py-1 text-xs font-medium dark:bg-white/10"
+                  >#caching</span
+                >
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 4. THUMBNAIL FALLBACK ================= -->
+      <section class="mb-12">
+        <h2 class="mb-1 text-2xl font-bold">4. 썸네일 없는 카드 — gradient fallback</h2>
+        <p class="mb-6 text-sm text-muted">
+          이미지가 없으면 현재는 카드 높이가 들쭉날쭉. 카테고리 initial이 있는 gradient placeholder로 대체.
+        </p>
+
+        <div class="panel">
+          <div>
+            <div class="mb-3 flex items-center gap-2">
+              <span class="label-bad">BEFORE</span>
+              <span class="text-xs text-muted">이미지 자리가 사라져 카드 크기 불일치</span>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="surface-card-soft p-4">
+                <div class="relative mb-3 h-32 overflow-hidden rounded-xl">
+                  <div
+                    class="absolute inset-0"
+                    style="background: linear-gradient(135deg, #94a3b8, #64748b)"
+                  ></div>
+                </div>
+                <h4 class="mb-2 line-clamp-2 text-base font-bold">썸네일 있는 글</h4>
+                <span class="text-xs text-muted">조회 124</span>
+              </div>
+              <div class="surface-card-soft p-4">
+                <!-- no thumbnail -->
+                <h4 class="mb-2 line-clamp-2 text-base font-bold">썸네일 없는 글</h4>
+                <span class="text-xs text-muted">조회 87</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="mb-3 flex items-center gap-2">
+              <span class="label-good">AFTER</span>
+              <span class="text-xs text-muted">카테고리 이니셜 + 브랜드 gradient</span>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="surface-card-soft p-4">
+                <div class="relative mb-3 h-32 overflow-hidden rounded-xl">
+                  <div
+                    class="absolute inset-0"
+                    style="background: linear-gradient(135deg, #94a3b8, #64748b)"
+                  ></div>
+                </div>
+                <h4 class="mb-2 line-clamp-2 text-base font-bold">썸네일 있는 글</h4>
+                <span class="text-xs text-muted">조회 124</span>
+              </div>
+              <div class="surface-card-soft p-4">
+                <div class="relative mb-3 flex h-32 items-center justify-center overflow-hidden rounded-xl thumb-fallback">
+                  <span class="text-4xl font-bold tracking-tight text-white/95 drop-shadow-sm">B</span>
+                  <span class="absolute bottom-2 right-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/80">Backend</span>
+                </div>
+                <h4 class="mb-2 line-clamp-2 text-base font-bold">썸네일 없는 글</h4>
+                <span class="text-xs text-muted">조회 87</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 5. NAV — ACTIVE LINK ================= -->
+      <section class="mb-12">
+        <h2 class="mb-1 text-2xl font-bold">5. 사이드 네비게이션 — 활성 메뉴 표시</h2>
+        <p class="mb-6 text-sm text-muted">
+          <code>usePathname()</code> 기반으로 현재 페이지 강조. 중복된 "닫기" 행도 제거하고 메뉴 헤더로 통합.
+        </p>
+
+        <div class="panel">
+          <div class="surface-card p-6">
+            <div class="mb-4 flex items-center gap-2">
+              <span class="label-bad">BEFORE</span>
+              <span class="text-xs text-muted">활성 표시 없음 + 닫기 바 중복</span>
+            </div>
+            <div class="w-[220px] space-y-3">
+              <div
+                class="flex items-center justify-between rounded-lg border border-soft bg-white px-3 py-2.5 dark:bg-[#13211f]"
+              >
+                <span class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Navigation</span>
+                <button class="rounded-md border border-soft px-2 py-1 text-xs font-medium">닫기</button>
+              </div>
+              <div class="rounded-lg border border-soft bg-white px-3 py-2.5 dark:bg-[#13211f]">
+                <span class="text-sm font-bold">Home</span>
+              </div>
+              <div class="rounded-lg border border-soft bg-white px-3 py-2.5 dark:bg-[#13211f]">
+                <span class="text-sm font-bold">Blogs</span>
+              </div>
+              <div class="rounded-lg border border-soft bg-white px-3 py-2.5 dark:bg-[#13211f]">
+                <span class="text-sm font-bold">3D Space</span>
+              </div>
+              <div class="rounded-lg border border-soft bg-white px-3 py-2.5 dark:bg-[#13211f]">
+                <span class="text-sm font-bold">About Me</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="surface-card p-6">
+            <div class="mb-4 flex items-center gap-2">
+              <span class="label-good">AFTER</span>
+              <span class="text-xs text-muted">활성 하이라이트 + 통합 헤더</span>
+            </div>
+            <div class="w-[220px] space-y-3">
+              <div class="flex items-center justify-between px-1">
+                <span class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Junglog</span>
+                <button
+                  class="rounded-md border border-soft bg-white/60 px-2 py-1 text-xs font-medium hover:bg-white dark:bg-white/5 dark:hover:bg-white/10"
+                  aria-label="메뉴 닫기"
+                >
+                  ×
+                </button>
+              </div>
+              <div class="rounded-lg border border-soft bg-white px-3 py-2.5 dark:bg-[#13211f]">
+                <span class="text-sm font-bold">Home</span>
+              </div>
+              <div
+                class="relative flex items-center rounded-lg border px-3 py-2.5 shadow-sm"
+                style="
+                  background: color-mix(in srgb, var(--accent-primary) 12%, transparent);
+                  border-color: color-mix(in srgb, var(--accent-primary) 35%, transparent);
+                "
+              >
+                <span
+                  class="absolute left-0 top-1/2 h-5 -translate-y-1/2 rounded-r"
+                  style="width: 3px; background: var(--accent-primary)"
+                ></span>
+                <span
+                  class="ml-1 text-sm font-bold"
+                  style="color: var(--accent-primary)"
+                  >Blogs</span
+                >
+                <span
+                  class="ml-auto rounded-full px-1.5 py-0.5 text-[10px] font-semibold text-white"
+                  style="background: var(--accent-primary)"
+                  >●</span
+                >
+              </div>
+              <div class="rounded-lg border border-soft bg-white px-3 py-2.5 dark:bg-[#13211f]">
+                <span class="text-sm font-bold">3D Space</span>
+              </div>
+              <div class="rounded-lg border border-soft bg-white px-3 py-2.5 dark:bg-[#13211f]">
+                <span class="text-sm font-bold">About Me</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 6. BRAND COLOR CONTRAST ================= -->
+      <section class="mb-12">
+        <h2 class="mb-1 text-2xl font-bold">6. 라이트 모드 브랜드 컬러 — WCAG AA</h2>
+        <p class="mb-6 text-sm text-muted">
+          <code>#087368</code> on <code>#f5f7f4</code> = 3.9:1 (AA 미달). <code>#065A50</code>로 내리면 4.7:1 통과.
+        </p>
+
+        <div class="panel">
+          <div class="surface-card p-6">
+            <div class="mb-4 flex items-center gap-2">
+              <span class="label-bad">BEFORE</span>
+              <span class="text-xs text-muted">contrast 3.9:1</span>
+            </div>
+            <p class="text-brand mb-2 text-sm font-semibold uppercase tracking-[0.2em]">Junglog Studio</p>
+            <h3 class="text-2xl font-bold">Build, Measure, Improve.</h3>
+            <p class="mt-3 text-muted">
+              블로그 본문에서 <a
+                href="#"
+                class="text-brand underline"
+                >이런 링크</a
+              >로 자주 등장합니다. 라이트 모드에서 흐릿하게 보임.
+            </p>
+          </div>
+
+          <div class="surface-card p-6">
+            <div class="mb-4 flex items-center gap-2">
+              <span class="label-good">AFTER</span>
+              <span class="text-xs text-muted">contrast 4.7:1</span>
+            </div>
+            <p class="text-brand-aa mb-2 text-sm font-semibold uppercase tracking-[0.2em]">Junglog Studio</p>
+            <h3 class="text-2xl font-bold">Build, Measure, Improve.</h3>
+            <p class="mt-3 text-muted">
+              블로그 본문에서 <a
+                href="#"
+                class="text-brand-aa underline"
+                >이런 링크</a
+              >로 자주 등장합니다. 명확하게 식별됨.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 7. DARK SHADOW ================= -->
+      <section class="mb-12">
+        <h2 class="mb-1 text-2xl font-bold">7. 다크 모드 그림자 — 카드 분리감</h2>
+        <p class="mb-6 text-sm text-muted">
+          현재는 shadow가 거의 투명이라 카드 경계가 배경에 묻힘. (다크 모드로 전환해서 비교해 보세요)
+        </p>
+
+        <div class="panel">
+          <div class="p-6">
+            <div class="mb-4 flex items-center gap-2">
+              <span class="label-bad">BEFORE</span>
+              <span class="text-xs text-muted">shadow rgba 0.08</span>
+            </div>
+            <div
+              class="rounded-2xl border border-[var(--line-strong)] p-6 backdrop-blur"
+              style="background: var(--bg-elevated); box-shadow: 0 18px 45px rgba(13, 26, 24, 0.08)"
+            >
+              <h4 class="text-lg font-bold">Sample Card</h4>
+              <p class="mt-2 text-sm text-muted">다크 모드에선 shadow가 배경에 묻혀서 카드 경계가 흐릿합니다.</p>
+            </div>
+          </div>
+
+          <div class="p-6">
+            <div class="mb-4 flex items-center gap-2">
+              <span class="label-good">AFTER</span>
+              <span class="text-xs text-muted">shadow rgba 0.45 + inset highlight</span>
+            </div>
+            <div class="surface-card p-6">
+              <h4 class="text-lg font-bold">Sample Card</h4>
+              <p class="mt-2 text-sm text-muted">더 뚜렷하게 카드가 떠 있는 느낌. 라이트 모드에선 기존 그대로.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 8. FLOATING TOP ================= -->
+      <section class="mb-12">
+        <h2 class="mb-1 text-2xl font-bold">8. 맨 위로 가기 — floating 버튼</h2>
+        <p class="mb-6 text-sm text-muted">
+          긴 글 읽다가 Footer까지 스크롤 할 필요 없이, 스크롤이 일정 이상일 때만 우하단에 등장.
+        </p>
+
+        <div class="surface-card relative h-[360px] overflow-hidden p-6">
+          <div class="space-y-3 text-muted">
+            <p>↓ 페이지를 스크롤 중인 상태를 시뮬레이션 …</p>
+            <p>본문 내용이 계속 이어지고 있습니다.</p>
+            <p>코드 예제, 이미지, 인용문이 섞여 있습니다.</p>
+            <p>스크롤이 600px 넘어가면 우하단에 버튼 표시.</p>
+          </div>
+          <button
+            class="absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-full text-white shadow-lg transition hover:-translate-y-0.5"
+            style="background: var(--accent-primary)"
+            aria-label="맨 위로 이동"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 19V5" />
+              <path d="M5 12l7-7 7 7" />
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= 9. CODE COPY — already committed ================= -->
+      <section class="mb-12">
+        <h2 class="mb-1 text-2xl font-bold">9. 코드 블록 복사 버튼 <span class="text-xs text-muted">(이미 커밋됨)</span></h2>
+        <p class="mb-6 text-sm text-muted">신호등 우측에 복사 버튼이 생깁니다.</p>
+
+        <div class="surface-card p-6">
+          <div class="overflow-hidden rounded-xl border border-soft">
+            <div class="flex items-center gap-2 border-b border-soft bg-[var(--bg-soft)] px-3 py-2">
+              <span class="h-2.5 w-2.5 rounded-full bg-red-400"></span>
+              <span class="h-2.5 w-2.5 rounded-full bg-amber-300"></span>
+              <span class="h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
+              <span class="ml-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">ts</span>
+              <button
+                class="ml-auto rounded-md border border-soft bg-white/60 px-2 py-1 text-[11px] font-semibold text-muted hover:bg-white hover:text-[var(--text-primary)] dark:bg-white/5 dark:hover:bg-white/10"
+              >
+                복사
+              </button>
+            </div>
+            <pre
+              class="overflow-x-auto px-4 py-4 text-sm text-slate-100"
+              style="background: #0b1220"
+            ><code>export async function fetchPost(id: string) {
+  const res = await fetch(`/api/blogs/${id}`);
+  return res.json();
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <footer class="surface-card-soft p-6 text-center text-sm text-muted">
+        이 프리뷰는 정적 파일입니다. 실제 구현 전에 디자인 방향을 합의하기 위한 목적이며, 선택된 항목만 골라서 반영하면
+        됩니다.
+      </footer>
+    </main>
+
+    <script>
+      const root = document.documentElement;
+      const btn = document.getElementById("themeToggle");
+      const label = document.getElementById("modeLabel");
+      const apply = (dark) => {
+        root.classList.toggle("dark", dark);
+        label.textContent = dark ? "DARK" : "LIGHT";
+      };
+      if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) apply(true);
+      btn.addEventListener("click", () => apply(!root.classList.contains("dark")));
+    </script>
+  </body>
+</html>
