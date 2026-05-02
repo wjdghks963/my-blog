@@ -75,19 +75,21 @@ export default function PostEditDeleteBox({ postData }: { postData: IPost }) {
   return (
     <>
       {blogOwner && (
-        <div className="flex w-full justify-center mt-10 gap-10 cursor-pointer">
-          <span
-            className="border-black border-2 rounded-xl p-2"
+        <div className="page-shell mt-10 flex flex-wrap items-center justify-center gap-3">
+          <button
+            type="button"
+            className="btn-ghost"
             onClick={editPost}
           >
-            수정
-          </span>
-          <span
-            className="border-black border-2 rounded-xl p-2"
+            Edit
+          </button>
+          <button
+            type="button"
+            className="btn-accent"
             onClick={onDeleteClick}
           >
-            삭제
-          </span>
+            Delete
+          </button>
         </div>
       )}
     </>

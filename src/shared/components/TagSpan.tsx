@@ -1,5 +1,6 @@
 "use client";
 
+import useTagSelector from "@shared/hooks/useTagSelector";
 import { cls } from "@shared/utils/utils";
 import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
@@ -23,9 +24,10 @@ export interface TagSpan {
 
 export default function TagSpan({ tag, tagName, className, clickOk, goBlog }: TagSpan) {
   const router = useRouter();
-  const hiddenFlex = className ?? "";
-
   const dispatch = useDispatch();
+  const { tag: activeTag } = useTagSelector();
+
+  const isActive = activeTag === tag || (tag === "all" && (!activeTag || activeTag === "all"));
 
   const filterTag = useCallback(() => {
     dispatch(
@@ -46,21 +48,25 @@ export default function TagSpan({ tag, tagName, className, clickOk, goBlog }: Ta
   };
 
   const clickFunction = () => {
-    clickOk ? (goBlog ? filterGoBlog() : filterMutate()) : null;
+    if (!clickOk) return;
+    goBlog ? filterGoBlog() : filterMutate();
   };
+
+  const usesPill = className?.includes("pill");
 
   return (
     <span
-      onClick={() => clickFunction()}
+      onClick={clickFunction}
+      data-active={isActive ? "true" : "false"}
       className={cls(
-        hiddenFlex,
-        "px-2 border rounded-md border-soft text-[var(--text-primary)] dark:text-[var(--text-primary)] font-roboto-regular",
-        clickOk
-          ? "cursor-pointer transition-colors hover:bg-white/80 dark:hover:bg-white/10"
-          : ""
+        className ?? "",
+        usesPill
+          ? ""
+          : "inline-flex items-center border border-ink px-2 py-0.5 font-display text-[10px] font-bold uppercase tracking-[0.22em] text-ink",
+        clickOk ? "cursor-pointer" : ""
       )}
     >
-      {tagName ? tagName : tag}
+      {tagName ?? tag}
     </span>
   );
 }

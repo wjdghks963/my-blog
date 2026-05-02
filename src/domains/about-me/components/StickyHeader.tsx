@@ -4,25 +4,29 @@ import Link from "next/link";
 
 export default function StickyHeader() {
   const items = [
-    { href: "#outcomes", label: "주요 성과" },
-    { href: "#career", label: "경력" },
-    { href: "#certifications", label: "자격증" },
-    { href: "#skills", label: "기술스택" },
-    { href: "#projects", label: "프로젝트" },
-    { href: "#courses", label: "수료증" },
+    { href: "#outcomes", label: "Outcomes" },
+    { href: "#career", label: "Career" },
+    { href: "#certifications", label: "Certs" },
+    { href: "#skills", label: "Skills" },
+    { href: "#projects", label: "Projects" },
+    { href: "#courses", label: "Courses" },
   ];
 
   return (
-    <aside className="sticky top-24 hidden h-fit rounded-xl border border-soft bg-[var(--bg-elevated)] p-5 shadow-md backdrop-blur lg:block">
-      <h2 className="mb-3 text-lg font-bold text-[var(--text-primary)]">About Me</h2>
-      <nav className="flex flex-col gap-2">
-        {items.map((item) => (
+    <aside className="sticky top-28 hidden h-fit border-l-[1.5px] border-ink pl-6 lg:block">
+      <p className="eyebrow">Index</p>
+      <hr className="rule-thick mt-2 mb-4" />
+      <nav className="flex flex-col">
+        {items.map((item, idx) => (
           <Link
             key={item.href}
             href={item.href}
-            className="rounded-lg px-3 py-2 text-sm font-medium text-[var(--text-primary)] transition-colors hover:bg-[var(--bg-soft)]"
+            className="flex items-baseline gap-3 border-b border-soft py-2.5 font-display text-sm font-bold uppercase tracking-[0.18em] hover:text-brand"
           >
-            {item.label}
+            <span className="font-display text-[10px] tabular-nums text-muted">
+              {String(idx + 1).padStart(2, "0")}
+            </span>
+            <span>{item.label}</span>
           </Link>
         ))}
       </nav>

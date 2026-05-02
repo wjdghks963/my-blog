@@ -3,56 +3,59 @@
 import compareLocaleDate from "@shared/utils/CompareLocaleDate";
 import { getReadingTime } from "@shared/utils/utils";
 import { PostWithId } from "@types";
-import { motion } from "framer-motion";
 import Link from "next/link";
+import React from "react";
 
-export default function MiniPost({ data }: { data: PostWithId }) {
+export default function MiniPost({ data, index }: { data: PostWithId; index?: number }) {
   const date = compareLocaleDate(data.updatedAt, data.createdAt);
   const readingTime = getReadingTime(data.content);
   const href = `/blogs/post/${data.id}`;
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 14 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35 }}
-      className="w-full max-w-2xl"
-    >
+    <article className="group">
       <Link
         href={href}
         prefetch={false}
-        className="group block h-full rounded-2xl border border-soft bg-white/65 p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 dark:bg-white/5 dark:focus-visible:ring-offset-slate-900"
+        className="grid items-baseline gap-4 border-b border-[var(--line-soft)] py-6 transition-colors hover:bg-paper-soft mobile:py-7"
+        style={{ gridTemplateColumns: "60px 1fr 110px" }}
       >
-        <div className="space-y-4">
-          <h3 className="text-2xl font-bold leading-tight text-[var(--text-primary)] group-hover:text-brand">{data.title}</h3>
+        <span className="font-display text-base font-bold tabular-nums text-muted mobile:text-lg">
+          {index !== undefined ? String(index).padStart(2, "0") : ""}
+        </span>
 
-          <p className="line-clamp-3 leading-relaxed text-muted">{data?.description}</p>
+        <div className="min-w-0">
+          <h3 className="font-display text-xl font-bold leading-snug tracking-[-0.01em] mobile:text-2xl">
+            <span className="bg-[length:0%_2px] bg-gradient-to-r from-current to-current bg-no-repeat transition-[background-size] duration-200 [background-position:0_100%] group-hover:bg-[length:100%_2px]">
+              {data.title}
+            </span>
+          </h3>
 
-          <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
+          {data?.description && (
+            <p className="mt-1 line-clamp-2 text-sm text-ink-soft mobile:text-base">{data.description}</p>
+          )}
+
+          <div className="mt-3 flex flex-wrap items-center gap-2 font-display text-[10px] font-bold uppercase tracking-[0.22em] text-muted">
             <span>{date}</span>
-            <span className="h-1 w-1 rounded-full bg-[var(--text-muted)]" />
-            <span>{readingTime}분 읽기</span>
-            <span className="h-1 w-1 rounded-full bg-[var(--text-muted)]" />
-            <span>조회 {data.views}</span>
-          </div>
-
-          <div className="flex flex-wrap gap-2 pt-1">
-            {data.tags.slice(0, 4).map((tag, index) => (
-              <span
-                key={index}
-                className="rounded-full border border-soft bg-white/70 px-3 py-1 text-xs font-medium text-[var(--text-primary)] dark:bg-white/10"
-              >
-                #{tag.tag}
-              </span>
+            <span aria-hidden>·</span>
+            <span>{readingTime} min read</span>
+            <span aria-hidden>·</span>
+            <span>{data.views.toLocaleString()} reads</span>
+            {data.tags.slice(0, 3).map((tag, i) => (
+              <React.Fragment key={i}>
+                <span aria-hidden>·</span>
+                <span>#{tag.tag}</span>
+              </React.Fragment>
             ))}
-            {data.tags.length > 4 && (
-              <span className="rounded-full border border-soft px-3 py-1 text-xs font-medium text-muted">
-                +{data.tags.length - 4}
-              </span>
-            )}
           </div>
         </div>
+
+        <span
+          aria-hidden
+          className="hidden text-right font-display text-xs font-bold uppercase tracking-[0.22em] text-muted transition-transform group-hover:translate-x-1 group-hover:text-ink mobile:inline"
+        >
+          Read →
+        </span>
       </Link>
-    </motion.article>
+    </article>
   );
 }

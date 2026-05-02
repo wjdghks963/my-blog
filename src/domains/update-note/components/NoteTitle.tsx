@@ -1,5 +1,11 @@
 import React from "react";
 
 export default function NoteTitle({ year, month }: { year: string; month: string }) {
-  return <h2 className="mb-4 text-2xl font-bold text-[var(--text-primary)]">{year}년 {month}월 업데이트</h2>;
+  return (
+    <h2 className="font-display text-3xl font-bold tabular-nums leading-none tracking-[-0.02em] mobile:text-4xl">
+      {year}
+      <span className="text-brand">.</span>
+      {month}
+    </h2>
+  );
 }

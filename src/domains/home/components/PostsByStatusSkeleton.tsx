@@ -1,20 +1,22 @@
 "use client";
 
-import { cls } from "@shared/utils/utils";
-
 export default function PostsByStatusSkeleton({ count }: { count: number }) {
   const arr = new Array(count).fill(1);
 
   return (
-    <div className={"flex gap-5"}>
+    <div className="divide-y divide-[var(--line-soft)] border-b border-[var(--line-soft)]">
       {arr.map((_, index) => (
         <div
           key={index}
-          className={cls(index === 4 ? "hidden mobile:flex" : "", "flex flex-col w-1/5 p-2 bg-gray-200")}
+          className="grid items-center gap-4 py-5"
+          style={{ gridTemplateColumns: "56px 1fr 80px" }}
         >
-          <span className={"font-semibold py-3 bg-gray-300 animate-pulse mb-1"} />
-          <div className={"w-full h-32 bg-gray-300 animate-pulse"}></div>
-          <span className={"py-2 text-center bg-gray-300 animate-pulse mt-1"} />
+          <div className="h-5 w-8 animate-pulse bg-paper-soft" />
+          <div className="space-y-2">
+            <div className="h-4 w-3/4 animate-pulse bg-paper-soft" />
+            <div className="h-3 w-1/2 animate-pulse bg-paper-soft" />
+          </div>
+          <div className="h-3 animate-pulse bg-paper-soft" />
         </div>
       ))}
     </div>

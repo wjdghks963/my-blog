@@ -75,27 +75,42 @@ const updateData = [
 
 export default function UpdateNote() {
   return (
-    <main className="min-h-screen pb-12 pt-20">
-      <div className="page-shell">
-        <section className="surface-card p-6 mobile:p-10">
-          <p className="text-brand text-sm font-semibold uppercase tracking-[0.18em]">Timeline</p>
-          <h1 className="mt-3 text-4xl font-bold mobile:text-5xl">Update Note</h1>
-          <p className="mt-4 max-w-3xl text-muted leading-relaxed">
-            기능 추가, 성능 개선, 구조 변경 기록을 월 단위로 관리합니다. 사용자 체감 품질에 영향을 주는 변경을 중심으로
-            남깁니다.
-          </p>
-        </section>
+    <main className="min-h-screen pb-16">
+      <section className="border-b-[1.5px] border-ink">
+        <div className="page-shell pt-10 mobile:pt-14">
+          <div className="flex items-baseline justify-between">
+            <span className="eyebrow">Section</span>
+            <span className="eyebrow">Changelog · {updateData.length} releases</span>
+          </div>
+          <hr className="rule-thick mt-3" />
+          <div className="grid gap-6 pt-8 lg:grid-cols-12">
+            <div className="lg:col-span-8">
+              <h1 className="display-headline text-5xl mobile:text-7xl lg:text-8xl">Notes.</h1>
+              <p className="mt-6 max-w-xl text-base text-ink-soft">
+                기능 추가, 성능 개선, 구조 변경 기록을 월 단위로 관리합니다. 사용자 체감 품질에 영향을 주는 변경을
+                중심으로 남깁니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <section className="mt-8 space-y-5">
-          {updateData.map((note) => (
+      <section>
+        <div className="page-shell pt-10">
+          {updateData.map((note, idx) => (
             <article
               key={`${note.year}-${note.month}`}
-              className="surface-card p-6"
+              className="grid gap-6 border-b border-soft py-10 lg:grid-cols-[200px_1fr]"
             >
-              <NoteTitle
-                year={note.year}
-                month={note.month}
-              />
+              <div>
+                <NoteTitle
+                  year={note.year}
+                  month={note.month}
+                />
+                <div className="mt-2 font-display text-[11px] font-bold uppercase tracking-[0.28em] text-muted">
+                  Release № {String(updateData.length - idx).padStart(2, "0")}
+                </div>
+              </div>
               <NoteLists>
                 {note.items.map((item) => (
                   <NoteList
@@ -106,8 +121,8 @@ export default function UpdateNote() {
               </NoteLists>
             </article>
           ))}
-        </section>
-      </div>
+        </div>
+      </section>
     </main>
   );
 }

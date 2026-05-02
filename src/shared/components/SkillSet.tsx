@@ -197,16 +197,21 @@ const skills: Skill[] = [
 
 export default function SkillSet() {
   return (
-    <div className="flex flex-wrap justify-center items-center gap-3">
+    <ul className="grid grid-cols-2 gap-0 border-y border-ink sm:grid-cols-3 lg:grid-cols-2">
       {skills.map((skill, index) => (
-        <div
+        <li
           key={index}
-          className={`rounded-xl p-3 border border-soft bg-white/50 dark:bg-white/5 transition-transform duration-200 hover:-translate-y-1 group ${skill.color}`}
+          className={`flex items-center gap-3 border-b border-soft px-3 py-3 last:border-b-0 sm:[&:nth-child(n+4)]:border-b-0 lg:[&:nth-child(n+4)]:border-b lg:[&:nth-last-child(-n+2)]:border-b-0 ${
+            index % 2 !== 0 ? "border-l border-soft" : ""
+          }`}
           title={skill.name}
         >
-          <div className="group-hover:scale-110 transition-transform duration-200">{skill.icon}</div>
-        </div>
+          <div className={`flex h-8 w-8 shrink-0 items-center justify-center ${skill.color}`}>
+            {skill.icon}
+          </div>
+          <span className="font-display text-[11px] font-bold uppercase tracking-[0.18em]">{skill.name}</span>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }

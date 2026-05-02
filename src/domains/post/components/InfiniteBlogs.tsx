@@ -7,7 +7,6 @@ import useQuerySelector from "@shared/hooks/useQuerySelector";
 import useTagSelector from "@shared/hooks/useTagSelector";
 import { httpService } from "@shared/services/http.service";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import Image from "next/image";
 import React, { useCallback, useEffect, useRef } from "react";
 
 export default function InfiniteBlogs() {
@@ -49,7 +48,6 @@ export default function InfiniteBlogs() {
   );
 
   useEffect(() => {
-    // 브라우저 환경 체크
     if (typeof window === "undefined" || typeof IntersectionObserver === "undefined") {
       return;
     }
@@ -68,76 +66,62 @@ export default function InfiniteBlogs() {
   return (
     <div className="w-full">
       <div
-        className="mb-6 flex items-center justify-between text-sm text-muted"
+        className="flex items-baseline justify-between border-b-[1.5px] border-ink pb-3 font-display text-[11px] font-bold uppercase tracking-[0.28em] text-muted"
         aria-live="polite"
       >
         <span>
-          {isFilterLoading ? (
-            "불러오는 중…"
-          ) : allData.length > 0 ? (
-            <>
-              총 <span className="font-semibold text-[var(--text-primary)]">{allData.length}</span>개 포스트
-              {hasNextPage ? " 표시 중" : ""}
-            </>
-          ) : null}
+          {isFilterLoading
+            ? "Loading…"
+            : allData.length > 0
+            ? `${String(allData.length).padStart(2, "0")} entries${hasNextPage ? " shown" : ""}`
+            : "No entries"}
         </span>
+        <span>{tag && tag !== "all" ? `#${tag}` : "All topics"}</span>
       </div>
 
       <div className="min-h-[400px]">
         {isFilterLoading ? (
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className="divide-y divide-[var(--line-soft)] border-b border-[var(--line-soft)]">
             {Array.from({ length: 4 }).map((_, idx) => (
               <div
                 key={idx}
-                className="h-52 animate-pulse rounded-2xl border border-soft bg-white/40 dark:bg-white/5"
-              />
-            ))}
-          </div>
-        ) : allData.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="surface-card-soft p-12">
-              <Image
-                className="w-32 h-32 mx-auto mb-6 opacity-70"
-                src="/searching_cat.png"
-                alt={"검색 결과 없음"}
-                width={128}
-                height={128}
-              />
-              <h3 className="text-2xl font-bold mb-4 text-[var(--text-primary)]">검색 결과가 없습니다</h3>
-              <p className="text-muted max-w-md">다른 키워드나 태그로 검색해보세요</p>
-            </div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
-            {allData?.map((data: PostWithId) => (
-              <div
-                key={data.id}
-                className="flex justify-center"
+                className="grid items-center gap-4 py-6"
+                style={{ gridTemplateColumns: "60px 1fr 100px" }}
               >
-                <MiniPost data={data} />
+                <div className="h-5 w-10 animate-pulse bg-paper-soft" />
+                <div className="space-y-2">
+                  <div className="h-5 w-3/4 animate-pulse bg-paper-soft" />
+                  <div className="h-3 w-1/2 animate-pulse bg-paper-soft" />
+                </div>
+                <div className="h-3 animate-pulse bg-paper-soft" />
               </div>
             ))}
           </div>
+        ) : allData.length === 0 ? (
+          <div className="border-b border-soft py-20 text-center">
+            <p className="font-display text-2xl font-bold tracking-[-0.02em] mobile:text-3xl">No matches.</p>
+            <p className="mt-2 text-sm text-muted">다른 키워드나 태그로 검색해보세요.</p>
+          </div>
+        ) : (
+          <ol className="m-0 list-none p-0">
+            {allData.map((data: PostWithId, index: number) => (
+              <li key={data.id}>
+                <MiniPost
+                  data={data}
+                  index={index + 1}
+                />
+              </li>
+            ))}
+          </ol>
         )}
       </div>
 
       {(hasNextPage || isLoading) && !isFilterLoading && (
-        <div className="flex justify-center py-12">
-          <div className="surface-card-soft p-8">
-            <div
-              className={`flex flex-col items-center ${hasNextPage || isLoading ? "animate-pulse" : ""}`}
-              ref={loadingRef}
-            >
-              <Image
-                className="w-20 h-20 opacity-80"
-                src="/searching_cat.png"
-                alt={"다음 페이지를 찾고 있는 고양이"}
-                width={80}
-                height={80}
-              />
-              <p className="mt-4 text-sm text-muted font-medium">더 많은 포스트를 찾고 있어요...</p>
-            </div>
-          </div>
+        <div
+          className="flex items-center justify-center py-10 font-display text-[11px] font-bold uppercase tracking-[0.32em] text-muted"
+          ref={loadingRef}
+        >
+          <span className="animate-pulse">Loading more entries…</span>
         </div>
       )}
     </div>

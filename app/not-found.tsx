@@ -2,27 +2,33 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="h-screen w-screen flex flex-col justify-center items-center px-4">
-      <div className="text-center">
-        <h1 className="text-6xl font-bold text-gray-900 dark:text-gray-100 mb-4">404</h1>
-        <p className="text-center font-bold text-xl mb-8 text-gray-700 dark:text-gray-300">
-          찾으시는 포스트가 존재하지 않습니다.
-        </p>
-        <div className="flex flex-col gap-4 sm:flex-row sm:gap-6 sm:justify-center">
-          <Link
-            href="/"
-            className="text-center font-semibold text-md text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 underline underline-offset-4"
-          >
-            메인 페이지로 돌아가기
-          </Link>
-          <Link
-            href="/blogs"
-            className="text-center font-semibold text-md text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 underline underline-offset-4"
-          >
-            검색 페이지로 가기
-          </Link>
+    <main className="flex min-h-screen items-center justify-center px-4 py-20">
+      <div className="page-shell">
+        <div className="border-y-[1.5px] border-ink py-10">
+          <span className="eyebrow">Page № 404</span>
+          <h1 className="mt-4 display-headline text-[28vw] leading-[0.85] mobile:text-[200px]">
+            404.
+          </h1>
+          <p className="mt-2 font-display text-lg font-bold uppercase tracking-[-0.01em] mobile:text-2xl">
+            찾으시는 포스트가 존재하지 않습니다.
+          </p>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href="/"
+              className="btn-ink"
+            >
+              Index
+            </Link>
+            <Link
+              href="/blogs"
+              className="btn-ghost"
+            >
+              Archive
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

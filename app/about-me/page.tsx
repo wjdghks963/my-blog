@@ -27,89 +27,90 @@ const NpmDownloads: React.FC = () => {
     staleTime: Infinity,
   });
 
-  if (isLoading) return <p className="text-sm text-muted">Total Downloads 로딩 중...</p>;
-  if (error) return <p className="text-sm text-muted">다운로드 수를 불러오지 못했습니다.</p>;
+  if (isLoading) return <span className="font-display text-[11px] font-bold uppercase tracking-[0.24em] text-muted">Loading downloads…</span>;
+  if (error) return <span className="font-display text-[11px] font-bold uppercase tracking-[0.24em] text-muted">Failed to load downloads</span>;
 
   return (
-    <div className="inline-flex items-center justify-center rounded-lg bg-[#c84e3e] px-4 py-2.5 text-sm font-semibold text-white">
-      Total Downloads: {data?.downloads?.toLocaleString() ?? "N/A"}
-    </div>
+    <span className="inline-flex items-center gap-2 border border-ink bg-paper-soft px-3 py-1 font-display text-[11px] font-bold uppercase tracking-[0.24em]">
+      Total Downloads · <span className="tabular-nums text-brand">{data?.downloads?.toLocaleString() ?? "N/A"}</span>
+    </span>
   );
 };
 
+const ProjectImage = ({ src, alt }: { src: string; alt: string }) => (
+  <Image
+    className="mt-6 w-full max-w-3xl border-[1.5px] border-ink"
+    src={src}
+    alt={alt}
+    width={1200}
+    height={900}
+  />
+);
+
 export default function Blogs() {
-  const sectionClass = "border-b border-soft pb-10 last:border-b-0";
-  const sectionTitleClass = "text-2xl font-semibold text-[var(--text-primary)]";
-  const textClass = "text-base mobile:text-lg text-[var(--text-primary)]";
-  const actionBaseClass =
-    "inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold text-white transition-colors";
-  const githubButtonClass = `${actionBaseClass} bg-[#1f2b38] hover:bg-[#16202b]`;
-  const linkedinButtonClass = `${actionBaseClass} bg-[#1f6fbb] hover:bg-[#195e9f]`;
-  const appStoreButtonClass = `${actionBaseClass} bg-[#2f6db2] hover:bg-[#245a94]`;
-  const playStoreButtonClass = `${actionBaseClass} bg-[#2c8f63] hover:bg-[#247953]`;
-  const npmButtonClass = `${actionBaseClass} bg-[#c84e3e] hover:bg-[#b24031]`;
-  const projectCardClass = "surface-card-soft rounded-xl p-5 mobile:p-6";
-  const imageClass = "mt-6 w-full max-w-3xl rounded-xl border border-soft bg-[var(--bg-soft)] p-2";
+  const sectionClass = "border-t border-soft pt-10";
+  const sectionTitleClass = "font-display text-3xl font-bold tracking-[-0.02em] mobile:text-4xl";
+  const sectionEyebrow = "eyebrow";
+  const textClass = "text-base mobile:text-lg text-ink-soft";
+  const linkBtn = "btn-ghost";
+  const projectClass = "border-t-[1.5px] border-ink pt-8 mt-10";
 
   return (
-    <main className="min-h-screen pb-16 pt-16">
-      <div className="page-shell">
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_260px]">
-          <article className="surface-card p-6 mobile:p-8">
-            <div className="space-y-10">
-            <section className={sectionClass}>
-                <div className="flex flex-col gap-4">
-                  <p className={textClass}>문제를 빠르게 해결하면서도 구조적 개선까지 설계하는 개발자입니다.</p>
-                  <p className={textClass}>서비스 안정성과 팀 생산성을 함께 높이는 개발 경험을 쌓아가고 있습니다.</p>
-                </div>
+    <main className="min-h-screen pb-20">
+      <section className="border-b-[1.5px] border-ink">
+        <div className="page-shell pt-10 mobile:pt-14">
+          <div className="flex items-baseline justify-between">
+            <span className="eyebrow">Section</span>
+            <span className="eyebrow">Colophon</span>
+          </div>
+          <hr className="rule-thick mt-3" />
+          <div className="grid gap-8 pt-8 lg:grid-cols-12">
+            <div className="lg:col-span-8">
+              <h1 className="display-headline text-5xl mobile:text-7xl lg:text-8xl">About.</h1>
+              <p className="mt-6 max-w-2xl text-lg text-ink-soft">
+                문제를 빠르게 해결하면서도 구조적 개선까지 설계하는 개발자입니다.
+                서비스 안정성과 팀 생산성을 함께 높이는 개발 경험을 쌓아가고 있습니다.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  href="https://github.com/wjdghks963"
+                  className={linkBtn}
+                >
+                  GitHub ↗
+                </Link>
+                <Link
+                  href="https://www.linkedin.com/in/junghwan-choi-a238b1228"
+                  className={linkBtn}
+                >
+                  LinkedIn ↗
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <Link
-                    href="https://github.com/wjdghks963"
-                    className={githubButtonClass}
-                  >
-                    <Image
-                      src="/me/github_img.png"
-                      className="mr-2 h-5 w-5"
-                      alt="GitHub"
-                      width={24}
-                      height={24}
-                    />
-                    GitHub
-                  </Link>
-                  <Link
-                    href="https://www.linkedin.com/in/junghwan-choi-a238b1228"
-                    className={linkedinButtonClass}
-                  >
-                    <Image
-                      src="/me/linkedin_img.png"
-                      className="mr-2 h-5 w-5"
-                      alt="LinkedIn"
-                      width={24}
-                      height={24}
-                    />
-                    LinkedIn
-                  </Link>
-                </div>
-              </section>
-
+      <div className="page-shell pt-10">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_240px]">
+          <article>
             <section
               className={sectionClass}
               id="outcomes"
             >
-              <h2 className={sectionTitleClass}>주요 성과</h2>
-              <div className="mt-4 grid gap-2 sm:grid-cols-3">
-                <div className="rounded-lg border border-soft bg-white/60 px-3 py-2 text-sm dark:bg-white/5">
-                  런타임 오류 개선
-                  <span className="ml-2 font-bold text-brand">-90%</span>
+              <span className={sectionEyebrow}>01 · Outcomes</span>
+              <h2 className={`mt-2 ${sectionTitleClass}`}>주요 성과</h2>
+              <div className="mt-6 grid gap-0 border-y-[1.5px] border-ink sm:grid-cols-3">
+                <div className="border-r border-soft px-4 py-5">
+                  <span className="font-display text-[10px] font-bold uppercase tracking-[0.28em] text-muted">런타임 오류</span>
+                  <p className="mt-2 font-display text-3xl font-bold text-brand">−90%</p>
                 </div>
-                <div className="rounded-lg border border-soft bg-white/60 px-3 py-2 text-sm dark:bg-white/5">
-                  이벤트 리드타임
-                  <span className="ml-2 font-bold text-brand">7일→3일</span>
+                <div className="border-r border-soft px-4 py-5">
+                  <span className="font-display text-[10px] font-bold uppercase tracking-[0.28em] text-muted">이벤트 리드타임</span>
+                  <p className="mt-2 font-display text-3xl font-bold text-brand">7→3 days</p>
                 </div>
-                <div className="rounded-lg border border-soft bg-white/60 px-3 py-2 text-sm dark:bg-white/5">
-                  메시지 비용 절감
-                  <span className="ml-2 font-bold text-brand">-80%</span>
+                <div className="px-4 py-5">
+                  <span className="font-display text-[10px] font-bold uppercase tracking-[0.28em] text-muted">메시지 비용</span>
+                  <p className="mt-2 font-display text-3xl font-bold text-brand">−80%</p>
                 </div>
               </div>
             </section>
@@ -118,11 +119,25 @@ export default function Blogs() {
               className={sectionClass}
               id="career"
             >
-              <h2 className={sectionTitleClass}>경력</h2>
-              <div className="mt-4 space-y-2">
-                <p className={textClass}>프리텔레콤 - 웹 개발자(spring&jquery) | 2024.02 - 현재</p>
-                <p className={textClass}>해커스 홀딩스 - 프론트엔드 개발자 | 2023.05 - 2023.09</p>
-                <p className={textClass}>코인 고스트(인턴) - 안드로이드 개발자 | 2022.06 - 2022.08</p>
+              <span className={sectionEyebrow}>02 · Career</span>
+              <h2 className={`mt-2 ${sectionTitleClass}`}>경력</h2>
+              <div className="mt-4 divide-y divide-[var(--line-soft)] border-y border-[var(--line-soft)]">
+                {[
+                  { title: "프리텔레콤", role: "웹 개발자 (Spring & jQuery)", period: "2024.02 – 현재" },
+                  { title: "해커스 홀딩스", role: "프론트엔드 개발자", period: "2023.05 – 2023.09" },
+                  { title: "코인 고스트 (인턴)", role: "안드로이드 개발자", period: "2022.06 – 2022.08" },
+                ].map((c) => (
+                  <div
+                    key={c.title}
+                    className="grid gap-2 py-4 mobile:grid-cols-[1fr_auto]"
+                  >
+                    <div>
+                      <p className="font-display text-lg font-bold tracking-[-0.01em]">{c.title}</p>
+                      <p className="text-sm text-ink-soft">{c.role}</p>
+                    </div>
+                    <p className="font-display text-[11px] font-bold uppercase tracking-[0.22em] text-muted">{c.period}</p>
+                  </div>
+                ))}
               </div>
             </section>
 
@@ -130,25 +145,46 @@ export default function Blogs() {
               className={sectionClass}
               id="certifications"
             >
-              <h2 className={sectionTitleClass}>자격증</h2>
-              <div className="mt-4 space-y-2">
-                <p className={textClass}>정보처리기사 - 2023.09</p>
-                <Link href="https://www.credly.com/badges/5a24b923-2e52-413e-ab41-0e2fe7b21846/linked_in_profile">
-                  <p className={`${textClass} text-brand`}>AWS Certified Solutions Architect - Associate (SAA-C03) - 2024.06</p>
-                </Link>
-                <p className={textClass}>SQLD - 2025.06</p>
-                <p className={textClass}>투자자산운용사 - 2026.01</p>
-              </div>
+              <span className={sectionEyebrow}>03 · Certifications</span>
+              <h2 className={`mt-2 ${sectionTitleClass}`}>자격증</h2>
+              <ul className="mt-4 divide-y divide-[var(--line-soft)] border-y border-[var(--line-soft)]">
+                <li className="grid gap-2 py-3 mobile:grid-cols-[1fr_auto]">
+                  <span className={textClass}>정보처리기사</span>
+                  <span className="font-display text-[11px] font-bold uppercase tracking-[0.22em] text-muted">2023.09</span>
+                </li>
+                <li className="grid gap-2 py-3 mobile:grid-cols-[1fr_auto]">
+                  <Link
+                    href="https://www.credly.com/badges/5a24b923-2e52-413e-ab41-0e2fe7b21846/linked_in_profile"
+                    className={`${textClass} text-brand underline underline-offset-[6px] decoration-[1.5px]`}
+                  >
+                    AWS Certified Solutions Architect – Associate (SAA-C03)
+                  </Link>
+                  <span className="font-display text-[11px] font-bold uppercase tracking-[0.22em] text-muted">2024.06</span>
+                </li>
+                <li className="grid gap-2 py-3 mobile:grid-cols-[1fr_auto]">
+                  <span className={textClass}>SQLD</span>
+                  <span className="font-display text-[11px] font-bold uppercase tracking-[0.22em] text-muted">2025.06</span>
+                </li>
+                <li className="grid gap-2 py-3 mobile:grid-cols-[1fr_auto]">
+                  <span className={textClass}>투자자산운용사</span>
+                  <span className="font-display text-[11px] font-bold uppercase tracking-[0.22em] text-muted">2026.01</span>
+                </li>
+              </ul>
             </section>
 
             <section
               className={sectionClass}
               id="skills"
             >
-              <h2 className={sectionTitleClass}>기술스택</h2>
-              <div className="mt-4 space-y-2">
-                <p className={textClass}>익숙함 : Next.js, RN, TailwindCSS, Redux toolkit, React Query, Spring boot</p>
-                <p className={textClass}>배우는 중 : Docker, SQL</p>
+              <span className={sectionEyebrow}>04 · Skills</span>
+              <h2 className={`mt-2 ${sectionTitleClass}`}>기술스택</h2>
+              <div className="mt-4 grid gap-4 border-y border-[var(--line-soft)] py-4 mobile:grid-cols-[140px_1fr]">
+                <span className="font-display text-[11px] font-bold uppercase tracking-[0.24em] text-muted">Comfortable</span>
+                <p className={textClass}>Next.js, React Native, TailwindCSS, Redux toolkit, React Query, Spring Boot</p>
+              </div>
+              <div className="grid gap-4 border-b border-[var(--line-soft)] py-4 mobile:grid-cols-[140px_1fr]">
+                <span className="font-display text-[11px] font-bold uppercase tracking-[0.24em] text-muted">Learning</span>
+                <p className={textClass}>Docker, SQL</p>
               </div>
             </section>
 
@@ -156,210 +192,158 @@ export default function Blogs() {
               id="projects"
               className={sectionClass}
             >
-              <h2 className={sectionTitleClass}>프로젝트</h2>
-              <div className="mt-7 flex flex-col gap-6">
-                <section className={projectCardClass}>
-                  <h3 className="text-2xl font-semibold text-[var(--text-primary)]">Flow5</h3>
-                  <p className={`mt-2 ${textClass}`}>사용한 기술 : flutter, i18n</p>
-                  <p className={`mt-1 ${textClass}`}>설명 : flutter를 사용한 타이머 앱</p>
-                  <div className="mt-3">
-                    <Link
-                      href="https://apps.apple.com/us/app/flow5/id6689514669"
-                      className={appStoreButtonClass}
-                    >
-                      <Image
-                        src="/me/apple_store_img.png"
-                        className="mr-2 h-5 w-5"
-                        alt="Apple Store"
-                        width={24}
-                        height={24}
-                      />
-                      애플 스토어
-                    </Link>
-                  </div>
-                  <Image
-                    className={imageClass}
-                    src="/me/flow5_img.png"
-                    alt="앱 홍보 이미지"
-                    width={400}
-                    height={300}
-                  />
-                </section>
+              <span className={sectionEyebrow}>05 · Projects</span>
+              <h2 className={`mt-2 ${sectionTitleClass}`}>프로젝트</h2>
 
-                <section className={projectCardClass}>
-                  <h3 className="text-2xl font-semibold text-[var(--text-primary)]">Planet Diary</h3>
-                  <p className={`mt-2 ${textClass}`}>사용한 기술 : flutter, spring boot, aws, cloudflare, open ai </p>
-                  <p className={`mt-1 ${textClass}`}>
-                    설명 : 식물 일지를 작성하며 유저들과 소통하고 AI를 통해 식물에 대한 정보나 도움을 받을 수 있습니다.
-                    <br />
-                    디자인부터 배포까지 풀사이클 개인 프로젝트
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-3">
-                    <Link
-                      href="https://apps.apple.com/kr/app/planet-diary/id6473107463"
-                      className={appStoreButtonClass}
-                    >
-                      <Image
-                        src="/me/apple_store_img.png"
-                        className="mr-2 h-5 w-5"
-                        alt="Apple Store"
-                        width={24}
-                        height={24}
-                      />
-                      애플 스토어
-                    </Link>
-                    <Link
-                      href="https://play.google.com/store/apps/details?id=com.jung.planet"
-                      className={playStoreButtonClass}
-                    >
-                      <Image
-                        src="/me/google_store_img.png"
-                        className="mr-2 h-5 w-5"
-                        alt="Google Play"
-                        width={24}
-                        height={24}
-                      />
-                      구글 스토어
-                    </Link>
-                  </div>
-                  <Image
-                    className={imageClass}
-                    src="/me/planet_img.png"
-                    alt="앱 홍보 이미지"
-                    width={400}
-                    height={300}
-                  />
-                </section>
+              <section className={projectClass}>
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="font-display text-2xl font-bold tracking-[-0.02em]">Flow5</h3>
+                  <span className="font-display text-[11px] font-bold uppercase tracking-[0.22em] text-muted">flutter · i18n</span>
+                </div>
+                <p className={`mt-2 ${textClass}`}>flutter를 사용한 타이머 앱.</p>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <Link
+                    href="https://apps.apple.com/us/app/flow5/id6689514669"
+                    className={linkBtn}
+                  >
+                    App Store ↗
+                  </Link>
+                </div>
+                <ProjectImage
+                  src="/me/flow5_img.png"
+                  alt="Flow5 promotional image"
+                />
+              </section>
 
-                <section className={projectCardClass}>
-                  <h3 className="text-2xl font-semibold text-[var(--text-primary)]">개인 블로그</h3>
-                  <p className={`mt-2 ${textClass}`}>사용한 기술 : Next.js, TailwindCSS, Redux tool kit, React-Query, Prisma</p>
-                  <p className={`mt-1 ${textClass}`}>설명 : Next를 사용해 만든 풀스택 개인 블로그. 이 블로그입니다.</p>
-                  <p className={`mt-1 ${textClass}`}>성과 : FCP 0.6s, LCP 1s, SEO 100점</p>
-                </section>
+              <section className={projectClass}>
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="font-display text-2xl font-bold tracking-[-0.02em]">Planet Diary</h3>
+                  <span className="font-display text-[11px] font-bold uppercase tracking-[0.22em] text-muted">flutter · spring · aws · openai</span>
+                </div>
+                <p className={`mt-2 ${textClass}`}>
+                  식물 일지를 작성하며 유저들과 소통하고 AI를 통해 식물에 대한 정보나 도움을 받을 수 있습니다.
+                  디자인부터 배포까지 풀사이클 개인 프로젝트.
+                </p>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <Link
+                    href="https://apps.apple.com/kr/app/planet-diary/id6473107463"
+                    className={linkBtn}
+                  >
+                    App Store ↗
+                  </Link>
+                  <Link
+                    href="https://play.google.com/store/apps/details?id=com.jung.planet"
+                    className={linkBtn}
+                  >
+                    Google Play ↗
+                  </Link>
+                </div>
+                <ProjectImage
+                  src="/me/planet_img.png"
+                  alt="Planet Diary promotional image"
+                />
+              </section>
 
-                <section className={projectCardClass}>
-                  <h3 className="text-2xl font-semibold text-[var(--text-primary)]">OA</h3>
-                  <p className={`mt-2 ${textClass}`}>사용한 기술 : Next.js, TailwindCSS, Redux tool kit, flutter, firebase</p>
-                  <p className={`mt-1 ${textClass}`}>설명 : Next를 사용해 웹을 만들고 flutter의 웹뷰를 사용해 표현한 AI 설정 앱입니다.</p>
-                  <div className="mt-3">
-                    <Link
-                      href="https://play.google.com/store/apps/details?id=com.jung.oa"
-                      className={playStoreButtonClass}
-                    >
-                      <Image
-                        src="/me/google_store_img.png"
-                        className="mr-2 h-5 w-5"
-                        alt="Google Play"
-                        width={24}
-                        height={24}
-                      />
-                      구글 스토어
-                    </Link>
-                  </div>
-                  <Image
-                    className={imageClass}
-                    src="/me/oa_img.png"
-                    alt="앱 홍보 이미지"
-                    width={400}
-                    height={300}
-                  />
-                </section>
+              <section className={projectClass}>
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="font-display text-2xl font-bold tracking-[-0.02em]">개인 블로그</h3>
+                  <span className="font-display text-[11px] font-bold uppercase tracking-[0.22em] text-muted">next · tailwind · prisma</span>
+                </div>
+                <p className={`mt-2 ${textClass}`}>Next로 만든 풀스택 개인 블로그. 이 블로그입니다.</p>
+                <p className={`mt-1 ${textClass}`}>성과: FCP 0.6s · LCP 1s · SEO 100점</p>
+              </section>
 
-                <section className={projectCardClass}>
-                  <h3 className="text-2xl font-semibold text-[var(--text-primary)]">Picka</h3>
-                  <p className={`mt-2 ${textClass}`}>사용한 기술 : flutter</p>
-                  <p className={`mt-1 ${textClass}`}>설명 : 직접 만든 루틴들을 `카드` 로 저장하고 매일 한 장을 랜덤으로 뽑아 실행하는 루틴 앱</p>
-                  <div className="mt-3 flex flex-wrap gap-3">
-                    <Link
-                      href="https://apps.apple.com/kr/app/picka/id6744289311"
-                      className={appStoreButtonClass}
-                    >
-                      <Image
-                        src="/me/apple_store_img.png"
-                        className="mr-2 h-5 w-5"
-                        alt="Apple Store"
-                        width={24}
-                        height={24}
-                      />
-                      애플 스토어
-                    </Link>
-                    <Link
-                      href="https://play.google.com/store/apps/details?id=com.jung.picka"
-                      className={playStoreButtonClass}
-                    >
-                      <Image
-                        src="/me/google_store_img.png"
-                        className="mr-2 h-5 w-5"
-                        alt="Google Play"
-                        width={24}
-                        height={24}
-                      />
-                      구글 스토어
-                    </Link>
-                  </div>
-                  <Image
-                    className={imageClass}
-                    src="/me/picka_img.png"
-                    alt="앱 홍보 이미지"
-                    width={400}
-                    height={300}
-                  />
-                </section>
+              <section className={projectClass}>
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="font-display text-2xl font-bold tracking-[-0.02em]">OA</h3>
+                  <span className="font-display text-[11px] font-bold uppercase tracking-[0.22em] text-muted">next · flutter · firebase</span>
+                </div>
+                <p className={`mt-2 ${textClass}`}>Next로 웹을 만들고 flutter 웹뷰로 표현한 AI 설정 앱.</p>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <Link
+                    href="https://play.google.com/store/apps/details?id=com.jung.oa"
+                    className={linkBtn}
+                  >
+                    Google Play ↗
+                  </Link>
+                </div>
+                <ProjectImage
+                  src="/me/oa_img.png"
+                  alt="OA promotional image"
+                />
+              </section>
 
-                <section className={projectCardClass}>
-                  <h3 className="text-2xl font-semibold text-[var(--text-primary)]">Timbie</h3>
-                  <p className={`mt-2 ${textClass}`}>사용한 기술 : flutter</p>
-                  <p className={`mt-1 ${textClass}`}>설명 : 타임스탬프 카메라</p>
-                  <div className="mt-3">
-                    <Link
-                      href="https://apps.apple.com/us/app/timbie/id6744580069"
-                      className={appStoreButtonClass}
-                    >
-                      <Image
-                        src="/me/apple_store_img.png"
-                        className="mr-2 h-5 w-5"
-                        alt="Apple Store"
-                        width={24}
-                        height={24}
-                      />
-                      애플 스토어
-                    </Link>
-                  </div>
-                  <Image
-                    className={imageClass}
-                    src="/me/timbie_img.png"
-                    alt="앱 홍보 이미지"
-                    width={400}
-                    height={300}
-                  />
-                </section>
+              <section className={projectClass}>
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="font-display text-2xl font-bold tracking-[-0.02em]">Picka</h3>
+                  <span className="font-display text-[11px] font-bold uppercase tracking-[0.22em] text-muted">flutter</span>
+                </div>
+                <p className={`mt-2 ${textClass}`}>직접 만든 루틴들을 카드로 저장하고 매일 한 장을 랜덤으로 뽑아 실행하는 루틴 앱.</p>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <Link
+                    href="https://apps.apple.com/kr/app/picka/id6744289311"
+                    className={linkBtn}
+                  >
+                    App Store ↗
+                  </Link>
+                  <Link
+                    href="https://play.google.com/store/apps/details?id=com.jung.picka"
+                    className={linkBtn}
+                  >
+                    Google Play ↗
+                  </Link>
+                </div>
+                <ProjectImage
+                  src="/me/picka_img.png"
+                  alt="Picka promotional image"
+                />
+              </section>
 
-                <section className={projectCardClass}>
-                  <h3 className="text-2xl font-semibold text-[var(--text-primary)]">RN-shuffle-pincode</h3>
-                  <p className={`mt-2 ${textClass}`}>사용한 기술 : React Native</p>
-                  <p className={`mt-1 ${textClass}`}>설명 : 키패드를 섞는 기능 RN UI 라이브러리</p>
-                  <div className="mt-3">
-                    <Link
-                      href="https://www.npmjs.com/package/@wjdghks963/react-native-shuffle-pincode"
-                      className={npmButtonClass}
-                    >
-                      NPM 주소
-                    </Link>
-                  </div>
-                  <div className="mt-3">
-                    <NpmDownloads />
-                  </div>
-                </section>
-              </div>
+              <section className={projectClass}>
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="font-display text-2xl font-bold tracking-[-0.02em]">Timbie</h3>
+                  <span className="font-display text-[11px] font-bold uppercase tracking-[0.22em] text-muted">flutter</span>
+                </div>
+                <p className={`mt-2 ${textClass}`}>타임스탬프 카메라.</p>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <Link
+                    href="https://apps.apple.com/us/app/timbie/id6744580069"
+                    className={linkBtn}
+                  >
+                    App Store ↗
+                  </Link>
+                </div>
+                <ProjectImage
+                  src="/me/timbie_img.png"
+                  alt="Timbie promotional image"
+                />
+              </section>
+
+              <section className={projectClass}>
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="font-display text-2xl font-bold tracking-[-0.02em]">RN-shuffle-pincode</h3>
+                  <span className="font-display text-[11px] font-bold uppercase tracking-[0.22em] text-muted">react native</span>
+                </div>
+                <p className={`mt-2 ${textClass}`}>키패드를 섞는 기능 RN UI 라이브러리.</p>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <Link
+                    href="https://www.npmjs.com/package/@wjdghks963/react-native-shuffle-pincode"
+                    className={linkBtn}
+                  >
+                    NPM ↗
+                  </Link>
+                  <NpmDownloads />
+                </div>
+              </section>
             </section>
 
             <section
               className={sectionClass}
               id="courses"
             >
-              <h2 className={sectionTitleClass}>수료증</h2>
-              <div className="mt-4 space-y-4">
+              <span className={sectionEyebrow}>06 · Courses</span>
+              <h2 className={`mt-2 ${sectionTitleClass}`}>수료증</h2>
+              <div className="mt-4">
                 <Certificate
                   course="실전! 스프링 부트와 JPA 활용1 - 웹 애플리케이션 개발"
                   date="2023년 10월 13일"
@@ -416,7 +400,6 @@ export default function Blogs() {
                 />
               </div>
             </section>
-            </div>
           </article>
 
           <StickyHeader />

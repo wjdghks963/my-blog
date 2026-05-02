@@ -2,96 +2,96 @@
 
 import { cls } from "@shared/utils/utils";
 import { ThumbnailPostData } from "@types";
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-export default function PostWithThumbnail({ data, className }: { data: ThumbnailPostData; className?: string }) {
+export default function PostWithThumbnail({
+  data,
+  className,
+}: {
+  data: ThumbnailPostData;
+  className?: string;
+}) {
   const router = useRouter();
 
   const moveToPost = (id: number) => {
     router.push(`/blogs/post/${id}`);
   };
 
-  if (className?.includes("modern-card")) {
+  if (className?.includes("feature-card")) {
     return (
-      <motion.article
-        initial={{ opacity: 0, y: 14 }}
-        animate={{ opacity: 1, y: 0 }}
-        whileHover={{ y: -4 }}
-        className="group cursor-pointer"
+      <article
+        className={cls(
+          className ?? "",
+          "group flex h-full cursor-pointer flex-col p-6 transition-colors hover:bg-paper-soft"
+        )}
         onClick={() => moveToPost(data.id)}
       >
-        <div className="h-full rounded-2xl border border-soft bg-white/65 p-4 shadow-sm transition-all duration-200 hover:shadow-lg dark:bg-white/5">
-          {data.thumbnail && (
-            <div className="relative mb-4 h-44 w-full overflow-hidden rounded-xl">
-              <Image
-                src={data.thumbnail}
-                alt="Thumbnail"
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-                quality={75}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
-            </div>
-          )}
-
-          <h3 className="mb-2 line-clamp-2 text-lg font-bold text-[var(--text-primary)]">{data.title}</h3>
-
-          {data.description && <p className="mb-4 line-clamp-3 text-sm text-muted">{data.description}</p>}
-
-          <div className="flex items-center justify-between text-xs text-muted">
-            <span>조회 {data.views}</span>
-            <span className="rounded-full border border-soft px-2 py-1">Read</span>
+        {data.thumbnail ? (
+          <div className="relative mb-5 h-44 w-full overflow-hidden border-[1.5px] border-ink">
+            <Image
+              src={data.thumbnail}
+              alt="Thumbnail"
+              className="object-cover transition-transform duration-300 group-hover:scale-[1.04]"
+              quality={75}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
           </div>
+        ) : (
+          <div className="mb-5 flex h-44 w-full items-center justify-center border-[1.5px] border-ink bg-paper-soft">
+            <span className="font-display text-[10px] font-bold uppercase tracking-[0.32em] text-muted">No image</span>
+          </div>
+        )}
+
+        <h3 className="mb-2 line-clamp-2 font-display text-xl font-bold leading-tight tracking-[-0.01em]">
+          {data.title}
+        </h3>
+
+        {data.description && <p className="mb-5 line-clamp-3 text-sm text-muted">{data.description}</p>}
+
+        <div className="mt-auto flex items-center justify-between border-t border-soft pt-3 font-display text-[10px] font-bold uppercase tracking-[0.28em] text-muted">
+          <span>{(data.views ?? 0).toLocaleString()} reads</span>
+          <span className="transition-transform group-hover:translate-x-1">Read →</span>
         </div>
-      </motion.article>
+      </article>
     );
   }
 
   if (className?.includes("sidebar-card")) {
     return (
-      <motion.article
-        initial={{ opacity: 0, x: 12 }}
-        animate={{ opacity: 1, x: 0 }}
-        whileHover={{ x: 2 }}
-        className="group cursor-pointer"
+      <article
+        className="group flex cursor-pointer items-start gap-3 border-b border-soft py-3 transition-colors hover:bg-paper-soft"
         onClick={() => moveToPost(data.id)}
       >
-        <div className="rounded-xl border border-soft bg-white/55 p-3 transition-colors duration-200 hover:bg-white dark:bg-white/5 dark:hover:bg-white/10">
-          <div className="flex gap-3">
-            {data.thumbnail && (
-              <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg">
-                <Image
-                  src={data.thumbnail}
-                  alt="Thumbnail"
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  quality={60}
-                  fill
-                  sizes="64px"
-                />
-              </div>
-            )}
-
-            <div className="min-w-0 flex-1">
-              <h4 className="mb-1 line-clamp-2 text-sm font-semibold text-[var(--text-primary)]">{data.title}</h4>
-              <span className="text-xs text-muted">조회 {data.views}</span>
-            </div>
+        {data.thumbnail && (
+          <div className="relative h-14 w-14 flex-shrink-0 overflow-hidden border border-ink">
+            <Image
+              src={data.thumbnail}
+              alt="Thumbnail"
+              className="object-cover"
+              quality={60}
+              fill
+              sizes="56px"
+            />
           </div>
+        )}
+        <div className="min-w-0 flex-1">
+          <h4 className="line-clamp-2 font-display text-sm font-bold leading-snug">{data.title}</h4>
+          <span className="mt-1 block font-display text-[10px] font-bold uppercase tracking-[0.24em] text-muted">
+            {(data.views ?? 0).toLocaleString()} reads
+          </span>
         </div>
-      </motion.article>
+      </article>
     );
   }
 
+  // legacy fallback
   return (
-    <motion.article
-      initial={false}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -3 }}
-      transition={{ duration: 0.2 }}
+    <article
       className={cls(
         className ?? "",
-        "group w-full mobile:w-1/5 cursor-pointer overflow-hidden rounded-xl border border-soft bg-white/60 transition-all duration-200 dark:bg-white/5"
+        "group w-full cursor-pointer overflow-hidden border-[1.5px] border-ink mobile:w-1/5"
       )}
       onClick={() => moveToPost(data.id)}
     >
@@ -107,17 +107,12 @@ export default function PostWithThumbnail({ data, className }: { data: Thumbnail
           />
         </div>
       )}
-
       <div className="flex flex-1 flex-col justify-between p-4">
-        <div>
-          <h3 className="mb-2 line-clamp-3 text-base font-bold text-[var(--text-primary)] mobile:text-lg">{data.title}</h3>
-          {data.description && <p className="mb-3 hidden line-clamp-2 text-sm text-muted mobile:block">{data.description}</p>}
-        </div>
-        <div className="flex items-center justify-between text-xs text-muted">
-          <span>조회 {data.views}</span>
-          <span className="opacity-0 transition-opacity duration-300 group-hover:opacity-100">→</span>
+        <h3 className="mb-2 line-clamp-3 font-display text-base font-bold mobile:text-lg">{data.title}</h3>
+        <div className="flex items-center justify-between font-display text-[10px] font-bold uppercase tracking-[0.24em] text-muted">
+          <span>{(data.views ?? 0).toLocaleString()} reads</span>
         </div>
       </div>
-    </motion.article>
+    </article>
   );
 }

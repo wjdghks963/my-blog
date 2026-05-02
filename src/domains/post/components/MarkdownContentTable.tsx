@@ -114,28 +114,29 @@ export default function TableOfContents({ markdown }: { markdown: string }) {
         layout
         transition={spring}
         className={cls(
-          "fixed right-6 top-28 z-[80] hidden w-[280px] max-h-[calc(100vh-8rem)] overflow-y-auto rounded-xl border border-soft bg-[var(--bg-elevated)] p-4 shadow-xl backdrop-blur lg:block",
+          "fixed right-6 top-32 z-[80] hidden w-[260px] max-h-[calc(100vh-10rem)] overflow-y-auto border-[1.5px] border-ink bg-paper p-4 shadow-press-sm lg:block",
           isVisible ? "pointer-events-auto" : "pointer-events-none"
         )}
       >
-        <h2 className="mb-3 text-lg font-bold text-[var(--text-primary)]">On this page</h2>
-        <ul className="space-y-1.5">
+        <h2 className="mb-3 font-display text-[11px] font-bold uppercase tracking-[0.28em] text-muted">
+          On this page
+        </h2>
+        <hr className="rule mb-3" />
+        <ul className="space-y-1">
           {toc.map((item, index) => (
-            <motion.li
-              whileHover={{ x: 2 }}
-              transition={{ duration: 0.15 }}
+            <li
               key={index}
-              className="cursor-pointer text-[var(--text-primary)]"
+              className="cursor-pointer"
             >
               <button
-                className={`${fontByLevel(item.level)} block w-full truncate rounded px-2 py-1 text-left hover:bg-white/60 dark:hover:bg-white/10`}
+                className={`${fontByLevel(item.level)} block w-full truncate px-1 py-0.5 text-left transition-colors hover:text-brand`}
                 onClick={() => scrollTo(item.anchor)}
-                style={{ paddingLeft: `${item.level * 10}px` }}
+                style={{ paddingLeft: `${(item.level - 1) * 12}px` }}
                 type="button"
               >
                 {item.title}
               </button>
-            </motion.li>
+            </li>
           ))}
         </ul>
       </motion.aside>
@@ -144,7 +145,7 @@ export default function TableOfContents({ markdown }: { markdown: string }) {
         <button
           type="button"
           onClick={() => setIsVisible(true)}
-          className="fixed right-5 top-1/2 z-[79] hidden -translate-y-1/2 rounded-full border border-soft bg-[var(--bg-elevated)] px-3 py-2 text-xs font-semibold text-[var(--text-primary)] shadow-lg backdrop-blur transition-colors hover:bg-[var(--bg-soft)] lg:block"
+          className="fixed right-5 top-1/2 z-[79] hidden -translate-y-1/2 border-[1.5px] border-ink bg-paper px-3 py-2 font-display text-[11px] font-bold uppercase tracking-[0.28em] shadow-press-sm transition-colors hover:bg-ink hover:text-paper lg:block"
           aria-label="On this page 열기"
         >
           TOC

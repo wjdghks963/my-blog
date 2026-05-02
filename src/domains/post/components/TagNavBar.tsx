@@ -22,14 +22,12 @@ export default function TagNavBar() {
 
   return (
     <div className="w-full">
-      <h3 className="section-title mb-4 text-center">Tags</h3>
-
-      <div className="flex flex-wrap justify-center gap-2">
+      <div className="flex flex-wrap gap-2">
         <TagSpan
           tag="all"
           tagName="ALL"
           clickOk={true}
-          className="!rounded-full !border !border-soft !bg-white/60 !px-3 !py-1.5 text-sm dark:!bg-white/5"
+          className="pill"
         />
 
         {tagsData.tags.map((item: { tag: string }, index: number) => (
@@ -37,7 +35,7 @@ export default function TagNavBar() {
             key={index}
             tag={item?.tag}
             clickOk={true}
-            className="!rounded-full !border !border-soft !bg-white/60 !px-3 !py-1.5 text-sm dark:!bg-white/5"
+            className="pill"
           />
         ))}
       </div>

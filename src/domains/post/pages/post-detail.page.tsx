@@ -5,6 +5,7 @@ import { IPost } from "@domains/post/types";
 import TagSpan from "@shared/components/TagSpan";
 import compareLocaleDate from "@shared/utils/CompareLocaleDate";
 import { getReadingTime } from "@shared/utils/utils";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { getAllPostId } from "@libs/server/getAllPostId";
@@ -23,46 +24,68 @@ export default function PostDetailPage({ postData }: Props) {
   const readingTime = getReadingTime(postData.content);
 
   return (
-    <main className="min-h-screen pb-16 pt-16">
-      <div className="page-shell">
-        <article className="surface-card p-5 mobile:p-8">
-          <header className="border-b border-soft pb-6">
-            <div className="flex flex-col gap-4 mobile:flex-row mobile:items-start mobile:justify-between">
-              <div className="space-y-3">
-                <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
-                  <span>{date}</span>
-                  <span className="h-1 w-1 rounded-full bg-[var(--text-muted)]" />
-                  <span>조회 {postData.views}</span>
-                  <span className="h-1 w-1 rounded-full bg-[var(--text-muted)]" />
-                  <span>{readingTime}분 읽기</span>
-                </div>
-                {postData.category ? <span className="text-sm text-muted">카테고리: {postData.category}</span> : null}
-              </div>
-
-              <div className="flex flex-row flex-wrap justify-start gap-2 mobile:max-w-[45%] mobile:justify-end">
-                {tags.map((tag, index: number) => (
-                  <TagSpan
-                    key={index}
-                    tag={tag}
-                    clickOk={true}
-                    goBlog={true}
-                  />
-                ))}
-              </div>
+    <main className="min-h-screen pb-20">
+      <article>
+        <header className="border-b-[1.5px] border-ink">
+          <div className="page-shell pt-10 mobile:pt-14">
+            <div className="flex items-baseline justify-between gap-4 font-display text-[11px] font-bold uppercase tracking-[0.28em] text-muted">
+              <Link
+                href="/blogs"
+                className="underline underline-offset-[6px] decoration-[1.5px]"
+              >
+                ← Archive
+              </Link>
+              <span>
+                {postData.category ? `${postData.category} · ` : ""}
+                {date}
+              </span>
             </div>
 
-            <h1 className="mt-6 text-3xl mobile:text-5xl font-bold leading-tight text-[var(--text-primary)]">{postData.title}</h1>
-          </header>
+            <hr className="rule-thick mt-3" />
 
-          <section className="mt-10">
+            <h1 className="mt-8 display-headline text-3xl font-bold leading-[0.96] mobile:text-5xl lg:text-6xl">
+              {postData.title}
+            </h1>
+
+            {postData.description && (
+              <p className="mt-6 max-w-3xl text-base text-ink-soft mobile:text-lg">
+                {postData.description}
+              </p>
+            )}
+
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-soft pt-4 pb-8">
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 font-display text-[11px] font-bold uppercase tracking-[0.28em] text-muted">
+                <span>{readingTime} min read</span>
+                <span>{postData.views.toLocaleString()} reads</span>
+              </div>
+
+              {tags.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {tags.map((tag, index: number) => (
+                    <TagSpan
+                      key={index}
+                      tag={tag}
+                      clickOk={true}
+                      goBlog={true}
+                      className="pill"
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </header>
+
+        <div className="page-shell pt-10">
+          <section className="mx-auto max-w-3xl">
             <MarkdownParser markdown={postData.content} />
           </section>
-        </article>
+        </div>
+      </article>
 
-        <TableOfContents markdown={postData.content} />
+      <TableOfContents markdown={postData.content} />
 
-        <PostEditDeleteBox postData={postData} />
-      </div>
+      <PostEditDeleteBox postData={postData} />
     </main>
   );
 }
