@@ -1,0 +1,986 @@
+<!doctype html>
+<html lang="ko" data-palette="paper">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Junglog · Layout Redesign Preview</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: { extend: { screens: { mobile: '560px' } } }
+  };
+</script>
+<style>
+  /* ---------- Palette tokens ---------- */
+  /* Paper & Copper (light) — default */
+  :root {
+    --bg: #f7f3ec;
+    --bg-elev: #fdfaf3;
+    --bg-frame: #efe9df;
+    --text: #1f1813;
+    --text-muted: #6f5d4f;
+    --accent: #a04920;
+    --accent-soft: rgba(160, 73, 32, 0.10);
+    --accent-fg: #ffffff;
+    --secondary: #6b1f4d;
+    --line-soft: rgba(31, 24, 19, 0.09);
+    --line-strong: rgba(31, 24, 19, 0.18);
+    --glow: radial-gradient(ellipse at 20% 0%, rgba(160, 73, 32, 0.07), transparent 55%),
+            radial-gradient(ellipse at 90% 10%, rgba(107, 31, 77, 0.05), transparent 55%);
+  }
+  html.dark[data-palette="paper"] {
+    --bg: #16110d;
+    --bg-elev: #1f1812;
+    --bg-frame: #0f0b08;
+    --text: #f2ece1;
+    --text-muted: #b3a797;
+    --accent: #d49258;
+    --accent-soft: rgba(212, 146, 88, 0.14);
+    --accent-fg: #16110d;
+    --secondary: #c98aae;
+    --line-soft: rgba(242, 236, 225, 0.09);
+    --line-strong: rgba(242, 236, 225, 0.18);
+    --glow: radial-gradient(ellipse at 20% 0%, rgba(212, 146, 88, 0.10), transparent 55%),
+            radial-gradient(ellipse at 90% 10%, rgba(201, 138, 174, 0.07), transparent 55%);
+  }
+  /* Linen & Wine */
+  html[data-palette="linen"] {
+    --bg: #f3eeea;
+    --bg-elev: #faf6f2;
+    --bg-frame: #ebe4dd;
+    --text: #2a201a;
+    --text-muted: #756357;
+    --accent: #8a2727;
+    --accent-soft: rgba(138, 39, 39, 0.10);
+    --accent-fg: #ffffff;
+    --secondary: #4a3826;
+    --line-soft: rgba(42, 32, 26, 0.09);
+    --line-strong: rgba(42, 32, 26, 0.18);
+    --glow: radial-gradient(ellipse at 20% 0%, rgba(138, 39, 39, 0.06), transparent 55%),
+            radial-gradient(ellipse at 90% 10%, rgba(74, 56, 38, 0.05), transparent 55%);
+  }
+  html.dark[data-palette="linen"] {
+    --bg: #14110e;
+    --bg-elev: #1d1916;
+    --bg-frame: #0d0b09;
+    --text: #ece5db;
+    --text-muted: #b0a395;
+    --accent: #d97a7a;
+    --accent-soft: rgba(217, 122, 122, 0.14);
+    --accent-fg: #14110e;
+    --secondary: #c4a87d;
+    --line-soft: rgba(236, 229, 219, 0.09);
+    --line-strong: rgba(236, 229, 219, 0.18);
+    --glow: radial-gradient(ellipse at 20% 0%, rgba(217, 122, 122, 0.10), transparent 55%),
+            radial-gradient(ellipse at 90% 10%, rgba(196, 168, 125, 0.07), transparent 55%);
+  }
+  /* Slate & Indigo */
+  html[data-palette="slate"] {
+    --bg: #f8f8fa;
+    --bg-elev: #ffffff;
+    --bg-frame: #eeeef2;
+    --text: #161821;
+    --text-muted: #5a6072;
+    --accent: #3730a3;
+    --accent-soft: rgba(55, 48, 163, 0.10);
+    --accent-fg: #ffffff;
+    --secondary: #be185d;
+    --line-soft: rgba(22, 24, 33, 0.09);
+    --line-strong: rgba(22, 24, 33, 0.16);
+    --glow: radial-gradient(ellipse at 20% 0%, rgba(55, 48, 163, 0.05), transparent 55%),
+            radial-gradient(ellipse at 90% 10%, rgba(190, 24, 93, 0.04), transparent 55%);
+  }
+  html.dark[data-palette="slate"] {
+    --bg: #0a0a12;
+    --bg-elev: #14141f;
+    --bg-frame: #06060d;
+    --text: #e6e7ed;
+    --text-muted: #9499a8;
+    --accent: #818cf8;
+    --accent-soft: rgba(129, 140, 248, 0.14);
+    --accent-fg: #0a0a12;
+    --secondary: #f9a8d4;
+    --line-soft: rgba(230, 231, 237, 0.09);
+    --line-strong: rgba(230, 231, 237, 0.20);
+    --glow: radial-gradient(ellipse at 20% 0%, rgba(129, 140, 248, 0.10), transparent 55%),
+            radial-gradient(ellipse at 90% 10%, rgba(249, 168, 212, 0.07), transparent 55%);
+  }
+
+  html, body { background: var(--bg-frame); color: var(--text); }
+  body {
+    font-family: ui-sans-serif, system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    background-image: var(--glow);
+    background-attachment: fixed;
+    line-height: 1.65;
+  }
+  .display { font-family: "Space Grotesk", ui-sans-serif, sans-serif; letter-spacing: -0.02em; }
+  .eyebrow { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+  .divider-soft { border-color: var(--line-soft); }
+  .divider-strong { border-color: var(--line-strong); }
+  .surface { background: var(--bg); color: var(--text); }
+  .surface-elev { background: var(--bg-elev); }
+  .text-muted { color: var(--text-muted); }
+  .accent { color: var(--accent); }
+  .bg-accent { background: var(--accent); color: var(--accent-fg); }
+  .bg-accent-soft { background: var(--accent-soft); color: var(--accent); }
+  .border-soft { border-color: var(--line-soft); }
+  .border-strong { border-color: var(--line-strong); }
+
+  /* Device frames */
+  .device-desktop {
+    width: 1180px; max-width: calc(100vw - 32px);
+    border-radius: 18px; overflow: hidden;
+    background: var(--bg);
+    border: 1px solid var(--line-strong);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 24px 60px -30px rgba(0,0,0,0.18);
+  }
+  .device-desktop-bar {
+    background: var(--bg-elev);
+    border-bottom: 1px solid var(--line-soft);
+    padding: 10px 14px; display: flex; align-items: center; gap: 12px;
+  }
+  .traffic { display: flex; gap: 7px; }
+  .traffic span { width: 11px; height: 11px; border-radius: 50%; }
+  .traffic .r { background: #ff5f57; }
+  .traffic .y { background: #febc2e; }
+  .traffic .g { background: #28c840; }
+  .url-pill {
+    flex: 1; max-width: 520px;
+    background: var(--bg);
+    border: 1px solid var(--line-soft);
+    border-radius: 999px;
+    padding: 4px 14px; font-size: 12px; color: var(--text-muted);
+    text-align: center;
+  }
+  .device-frame-scroll {
+    max-height: 760px; overflow-y: auto;
+  }
+
+  .device-mobile {
+    width: 360px;
+    border-radius: 36px; overflow: hidden;
+    background: var(--bg);
+    border: 8px solid var(--line-strong);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 24px 60px -30px rgba(0,0,0,0.18);
+    position: relative;
+  }
+  .notch {
+    position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+    width: 110px; height: 22px; background: #000; border-radius: 0 0 14px 14px; z-index: 5;
+  }
+  .device-mobile .device-frame-scroll { max-height: 720px; }
+
+  /* Misc */
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 10px; border-radius: 999px; font-size: 11px;
+    border: 1px solid var(--line-strong);
+    color: var(--text-muted);
+  }
+  .pill-accent { background: var(--accent-soft); color: var(--accent); border-color: transparent; font-weight: 600; }
+  .btn-primary {
+    background: var(--accent); color: var(--accent-fg);
+    padding: 10px 18px; border-radius: 10px; font-weight: 600; font-size: 14px;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-ghost {
+    border: 1px solid var(--line-strong); color: var(--text);
+    padding: 10px 18px; border-radius: 10px; font-weight: 600; font-size: 14px;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .thumb {
+    aspect-ratio: 16 / 10; border-radius: 12px; position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Space Grotesk", sans-serif; font-weight: 700;
+    font-size: 64px; color: rgba(255,255,255,0.85);
+    border: 1px solid var(--line-soft);
+  }
+  .thumb.frontend { background: linear-gradient(135deg, #4f46e5, #2563eb 60%, #06b6d4); }
+  .thumb.backend  { background: linear-gradient(135deg, #b45309, #dc2626 60%, #7f1d1d); }
+  .thumb.devops   { background: linear-gradient(135deg, #059669, #14b8a6 60%, #0ea5e9); }
+  .thumb.react    { background: linear-gradient(135deg, #0891b2, #4f46e5 60%, #7c3aed); }
+  .thumb.product  { background: linear-gradient(135deg, #db2777, #f59e0b); }
+  .thumb-pill {
+    position: absolute; top: 12px; left: 12px;
+    background: rgba(0,0,0,0.45); color: #fff; backdrop-filter: blur(6px);
+    padding: 4px 10px; border-radius: 999px; font-size: 10px; letter-spacing: 0.14em;
+  }
+  .toc-active-bar { box-shadow: inset 2px 0 0 var(--accent); }
+
+  /* TOC floats in right margin; article column unchanged */
+  .toc-floating {
+    position: absolute;
+    right: 24px;
+    top: 100px;
+    width: 220px;
+  }
+
+  /* Code block */
+  pre.code {
+    background: var(--bg-elev);
+    border: 1px solid var(--line-soft);
+    border-radius: 12px; overflow: hidden;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12.5px; line-height: 1.65;
+  }
+  pre.code .head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px; border-bottom: 1px solid var(--line-soft);
+    background: var(--bg);
+  }
+  pre.code .head .lang { font-size: 10px; letter-spacing: 0.16em; color: var(--text-muted); text-transform: uppercase; }
+  pre.code code { display: block; padding: 14px 16px; white-space: pre; overflow-x: auto; }
+  .tk-key { color: var(--accent); }
+  .tk-str { color: var(--secondary); }
+  .tk-cmt { color: var(--text-muted); font-style: italic; }
+  .tk-fn  { color: var(--text); font-weight: 600; }
+
+  /* Toolbar */
+  .toolbar {
+    position: fixed; top: 16px; right: 16px; z-index: 50;
+    display: flex; gap: 6px; align-items: center;
+    padding: 8px; border-radius: 14px;
+    background: var(--bg-elev);
+    border: 1px solid var(--line-strong);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 12px 28px -16px rgba(0,0,0,0.20);
+  }
+  .toolbar button {
+    font-size: 11px; padding: 6px 10px; border-radius: 8px; font-weight: 600;
+    color: var(--text-muted); border: 1px solid transparent;
+  }
+  .toolbar button.active {
+    background: var(--accent); color: var(--accent-fg);
+  }
+  .toolbar .sep { width: 1px; height: 22px; background: var(--line-strong); }
+  .swatch { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 4px; vertical-align: -1px; }
+  .swatch.paper { background: #a04920; }
+  .swatch.linen { background: #8a2727; }
+  .swatch.slate { background: #3730a3; }
+
+  .label-tag {
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--text-muted); font-weight: 600;
+  }
+
+  /* Floating TOP */
+  .fab-top {
+    position: absolute; right: 18px; bottom: 18px;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--accent); color: var(--accent-fg);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 18px -6px rgba(0,0,0,0.30);
+  }
+</style>
+</head>
+<body>
+
+<!-- ============= TOOLBAR ============= -->
+<div class="toolbar">
+  <button data-pal="paper" class="palette-btn"><span class="swatch paper"></span>Paper</button>
+  <button data-pal="linen" class="palette-btn"><span class="swatch linen"></span>Linen</button>
+  <button data-pal="slate" class="palette-btn"><span class="swatch slate"></span>Slate</button>
+  <span class="sep"></span>
+  <button id="theme-btn">
+    <span id="theme-icon">◐</span>
+    <span id="theme-label" class="ml-1">Auto</span>
+  </button>
+</div>
+
+<main class="max-w-[1240px] mx-auto px-4 py-12">
+
+<!-- ============= INTRO CARD ============= -->
+<section class="surface border border-strong rounded-2xl p-7 mb-12">
+  <p class="eyebrow">JUNGLOG · DESIGN REVIEW</p>
+  <h1 class="display text-3xl mt-3" style="line-height:1.15;">Layout Redesign Preview</h1>
+  <p class="text-muted mt-3 max-w-2xl text-[14.5px]">
+    이 문서는 Next.js 15 / React 19 기반 개인 블로그 <b>Junglog</b>의 레이아웃 전면 리디자인을 검토하기 위한 정적 mockup입니다.
+    실제 React 구현 단계 전, 컨텐츠 구조 · 페이지 골격 · 색 시스템을 먼저 확정하기 위한 자료입니다.
+    오른쪽 상단 툴바에서 팔레트 3종(Paper / Linen / Slate)과 라이트/다크 모드를 즉시 전환해 보실 수 있습니다.
+  </p>
+  <div class="mt-5 flex flex-wrap gap-2">
+    <span class="pill">데스크톱 1180px</span>
+    <span class="pill">모바일 360px</span>
+    <span class="pill">WCAG AA</span>
+    <span class="pill">Tailwind CDN, self-contained</span>
+  </div>
+</section>
+
+<!-- ============= MOCKUPS ============= -->
+<!-- ============= 1. DESKTOP · HOME ============= -->
+<p class="label-tag mb-3">01 · Desktop · Home</p>
+<div class="device-desktop mb-16">
+  <div class="device-desktop-bar">
+    <div class="traffic"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <div class="url-pill">junglog.xyz/</div>
+    <div class="text-muted text-xs">1180 × 760</div>
+  </div>
+  <div class="device-frame-scroll surface">
+    <!-- top nav -->
+    <nav class="sticky top-0 z-10 surface border-b border-soft px-8 h-14 flex items-center gap-8">
+      <a class="display text-[15px] font-bold flex items-center gap-2"><span class="accent">◆</span>Junglog</a>
+      <ul class="flex gap-6 text-[13px] text-muted">
+        <li class="text-[var(--text)] font-semibold">Home</li>
+        <li>Blogs</li><li>Tags</li><li>About</li>
+      </ul>
+      <div class="ml-auto flex items-center gap-3 text-muted">
+        <span class="text-[14px]">🔍</span>
+        <span class="text-[14px]">◐</span>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="px-12 pt-16 pb-14 max-w-5xl">
+      <p class="eyebrow">JUNGLOG STUDIO</p>
+      <h1 class="display text-[56px] mt-4" style="line-height:1.05;">Build, Measure,<br/>Improve.</h1>
+      <p class="text-muted mt-6 text-[16px] max-w-2xl">
+        백엔드 안정화부터 프론트 사용자 경험까지, 운영 지표로 성과를 증명해 온
+        제품 개발 기록을 남깁니다.
+      </p>
+      <div class="mt-8 flex gap-3">
+        <a class="btn-primary">글 보러가기 →</a>
+        <a class="btn-ghost">프로필 보기</a>
+      </div>
+    </section>
+
+    <!-- STATS strip -->
+    <section class="px-12 py-8 border-t border-b border-soft grid grid-cols-4 divide-x" style="border-color: var(--line-soft);">
+      <div class="pr-6">
+        <div class="display text-3xl">128</div>
+        <div class="eyebrow mt-1">POSTS</div>
+      </div>
+      <div class="px-6" style="border-color: var(--line-soft);">
+        <div class="display text-3xl">47</div>
+        <div class="eyebrow mt-1">TAGS</div>
+      </div>
+      <div class="px-6" style="border-color: var(--line-soft);">
+        <div class="display text-3xl">3년+</div>
+        <div class="eyebrow mt-1">RUNNING</div>
+      </div>
+      <div class="pl-6" style="border-color: var(--line-soft);">
+        <div class="display text-3xl">12.4k</div>
+        <div class="eyebrow mt-1">MONTHLY READERS</div>
+      </div>
+    </section>
+
+    <!-- FEATURED -->
+    <section class="px-12 pt-16">
+      <div class="flex items-end justify-between">
+        <div>
+          <p class="eyebrow">FEATURED</p>
+          <h2 class="display text-2xl mt-2">이번 달 추천 글</h2>
+        </div>
+      </div>
+      <div class="mt-8 grid grid-cols-3 gap-7">
+        <article>
+          <div class="thumb frontend"><span class="thumb-pill">FRONTEND</span>F</div>
+          <h3 class="display text-[18px] mt-4 leading-snug">Next.js 15 캐싱 동작 정리</h3>
+          <p class="text-muted text-[13.5px] mt-2 leading-relaxed">fetch · Route Handler · Server Component 가 각각 어떤 캐시 계층에 올라가는지 실측으로 검증합니다.</p>
+          <div class="text-[12px] text-muted mt-3 flex gap-3">
+            <span>2026.04.18</span><span>·</span><span>8분</span><span>·</span><span>324회</span>
+          </div>
+        </article>
+        <article>
+          <div class="thumb backend"><span class="thumb-pill">BACKEND</span>B</div>
+          <h3 class="display text-[18px] mt-4 leading-snug">Postgres 인덱스 튜닝 사례</h3>
+          <p class="text-muted text-[13.5px] mt-2 leading-relaxed">EXPLAIN 결과만 보고 끝내지 않습니다. 실제 트래픽에서 P99 가 어떻게 변했는지를 함께 봅니다.</p>
+          <div class="text-[12px] text-muted mt-3 flex gap-3">
+            <span>2026.04.10</span><span>·</span><span>12분</span><span>·</span><span>287회</span>
+          </div>
+        </article>
+        <article>
+          <div class="thumb devops"><span class="thumb-pill">DEVOPS</span>D</div>
+          <h3 class="display text-[18px] mt-4 leading-snug">Docker 다층 캐시로 빌드 5배</h3>
+          <p class="text-muted text-[13.5px] mt-2 leading-relaxed">monorepo CI 빌드 시간을 9분에서 1분 50초까지 줄인 캐시 전략의 디테일을 공유합니다.</p>
+          <div class="text-[12px] text-muted mt-3 flex gap-3">
+            <span>2026.03.30</span><span>·</span><span>6분</span><span>·</span><span>198회</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- LATEST -->
+    <section class="px-12 mt-20 pb-20">
+      <div class="flex items-end justify-between border-b border-soft pb-3">
+        <div>
+          <p class="eyebrow">LATEST</p>
+          <h2 class="display text-2xl mt-2">최근 글</h2>
+        </div>
+        <a class="text-[13px] accent font-semibold">See all →</a>
+      </div>
+
+      <p class="eyebrow mt-8 mb-3">2026 · 04</p>
+      <ul class="divide-y" style="border-color: var(--line-soft);">
+        <li class="py-5 grid grid-cols-[1fr_auto] gap-8 items-baseline border-b border-soft">
+          <div>
+            <p class="eyebrow text-[10px]">FRONTEND</p>
+            <h3 class="display text-[17px] mt-1">React 19 use 훅 정리</h3>
+            <p class="text-muted text-[13.5px] mt-1">Promise / Context 를 동기 코드처럼 풀어내는 use 훅의 동작 모델과 함정.</p>
+          </div>
+          <div class="text-[12px] text-muted whitespace-nowrap">04.22 · 10분 · 156회</div>
+        </li>
+        <li class="py-5 grid grid-cols-[1fr_auto] gap-8 items-baseline border-b border-soft">
+          <div>
+            <p class="eyebrow text-[10px]">PRODUCT</p>
+            <h3 class="display text-[17px] mt-1">기능 출시 전 · 후 회고 템플릿</h3>
+            <p class="text-muted text-[13.5px] mt-1">3개월 동안 6번 출시하면서 정착한 사후 회고 포맷을 공유합니다.</p>
+          </div>
+          <div class="text-[12px] text-muted whitespace-nowrap">04.15 · 5분 · 92회</div>
+        </li>
+      </ul>
+
+      <p class="eyebrow mt-10 mb-3">2026 · 03</p>
+      <ul class="divide-y" style="border-color: var(--line-soft);">
+        <li class="py-5 grid grid-cols-[1fr_auto] gap-8 items-baseline border-b border-soft">
+          <div>
+            <p class="eyebrow text-[10px]">BACKEND</p>
+            <h3 class="display text-[17px] mt-1">멱등 키 설계 다섯 가지 실수</h3>
+            <p class="text-muted text-[13.5px] mt-1">결제 / 외부 호출 재시도 시 가장 자주 마주치는 함정과 그 해결.</p>
+          </div>
+          <div class="text-[12px] text-muted whitespace-nowrap">03.28 · 9분 · 211회</div>
+        </li>
+        <li class="py-5 grid grid-cols-[1fr_auto] gap-8 items-baseline border-b border-soft">
+          <div>
+            <p class="eyebrow text-[10px]">DEVOPS</p>
+            <h3 class="display text-[17px] mt-1">k8s HPA 메트릭 잘못 고른 이야기</h3>
+            <p class="text-muted text-[13.5px] mt-1">CPU 기반 오토스케일이 왜 한밤중 트래픽에는 무용지물이었는가.</p>
+          </div>
+          <div class="text-[12px] text-muted whitespace-nowrap">03.21 · 7분 · 178회</div>
+        </li>
+      </ul>
+    </section>
+  </div>
+</div>
+
+<!-- ============= 2. MOBILE · HOME ============= -->
+<p class="label-tag mb-3">02 · Mobile · Home</p>
+<div class="device-mobile mb-16">
+  <div class="notch"></div>
+  <div class="device-frame-scroll surface" style="padding-top: 32px;">
+
+    <!-- mobile nav -->
+    <nav class="sticky top-0 z-10 surface border-b border-soft px-4 h-12 flex items-center justify-between">
+      <a class="display text-[14px] font-bold flex items-center gap-1.5"><span class="accent">◆</span>Junglog</a>
+      <div class="flex items-center gap-3 text-muted text-[14px]">
+        <span>🔍</span><span>☰</span>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="px-5 pt-8 pb-8">
+      <p class="eyebrow text-[10px]">JUNGLOG STUDIO</p>
+      <h1 class="display text-[32px] mt-3" style="line-height:1.10;">Build, Measure, Improve.</h1>
+      <p class="text-muted mt-4 text-[14px]">백엔드 안정화부터 프론트 사용자 경험까지, 운영 지표로 성과를 증명해 온 제품 개발 기록입니다.</p>
+      <div class="mt-5 flex flex-col gap-2">
+        <a class="btn-primary justify-center">글 보러가기 →</a>
+        <a class="btn-ghost justify-center">프로필 보기</a>
+      </div>
+    </section>
+
+    <!-- STATS 2x2 -->
+    <section class="mx-5 my-2 border border-soft rounded-xl grid grid-cols-2">
+      <div class="p-4 border-r border-b border-soft"><div class="display text-xl">128</div><div class="eyebrow text-[10px] mt-0.5">POSTS</div></div>
+      <div class="p-4 border-b border-soft"><div class="display text-xl">47</div><div class="eyebrow text-[10px] mt-0.5">TAGS</div></div>
+      <div class="p-4 border-r border-soft"><div class="display text-xl">3년+</div><div class="eyebrow text-[10px] mt-0.5">RUNNING</div></div>
+      <div class="p-4"><div class="display text-xl">12.4k</div><div class="eyebrow text-[10px] mt-0.5">READERS</div></div>
+    </section>
+
+    <!-- FEATURED -->
+    <section class="px-5 mt-10">
+      <p class="eyebrow">FEATURED</p>
+      <h2 class="display text-xl mt-1">이번 달 추천 글</h2>
+      <div class="mt-5 space-y-7">
+        <article>
+          <div class="thumb frontend"><span class="thumb-pill">FRONTEND</span>F</div>
+          <h3 class="display text-[16px] mt-3 leading-snug">Next.js 15 캐싱 동작 정리</h3>
+          <p class="text-muted text-[13px] mt-1.5 leading-relaxed">fetch · Route Handler · Server Component 가 어떤 캐시 계층에 올라가는지 실측합니다.</p>
+          <div class="text-[11px] text-muted mt-2">04.18 · 8분 · 324회</div>
+        </article>
+        <article>
+          <div class="thumb backend"><span class="thumb-pill">BACKEND</span>B</div>
+          <h3 class="display text-[16px] mt-3 leading-snug">Postgres 인덱스 튜닝 사례</h3>
+          <p class="text-muted text-[13px] mt-1.5 leading-relaxed">EXPLAIN 결과만 보고 끝내지 않습니다. P99 가 어떻게 변했는지 함께 봅니다.</p>
+          <div class="text-[11px] text-muted mt-2">04.10 · 12분 · 287회</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- LATEST -->
+    <section class="px-5 mt-12 pb-14">
+      <div class="flex items-end justify-between border-b border-soft pb-2">
+        <div><p class="eyebrow">LATEST</p><h2 class="display text-xl mt-1">최근 글</h2></div>
+        <a class="text-[12px] accent font-semibold">See all →</a>
+      </div>
+      <p class="eyebrow text-[10px] mt-6 mb-2">2026 · 04</p>
+      <ul>
+        <li class="py-4 border-b border-soft">
+          <p class="eyebrow text-[10px]">FRONTEND</p>
+          <h3 class="display text-[15px] mt-1">React 19 use 훅 정리</h3>
+          <div class="text-[11px] text-muted mt-1.5">04.22 · 10분 · 156회</div>
+        </li>
+        <li class="py-4 border-b border-soft">
+          <p class="eyebrow text-[10px]">PRODUCT</p>
+          <h3 class="display text-[15px] mt-1">기능 출시 전 · 후 회고 템플릿</h3>
+          <div class="text-[11px] text-muted mt-1.5">04.15 · 5분 · 92회</div>
+        </li>
+      </ul>
+      <p class="eyebrow text-[10px] mt-6 mb-2">2026 · 03</p>
+      <ul>
+        <li class="py-4 border-b border-soft">
+          <p class="eyebrow text-[10px]">BACKEND</p>
+          <h3 class="display text-[15px] mt-1">멱등 키 설계 다섯 가지 실수</h3>
+          <div class="text-[11px] text-muted mt-1.5">03.28 · 9분 · 211회</div>
+        </li>
+      </ul>
+    </section>
+  </div>
+</div>
+
+<!-- ============= 3. DESKTOP · BLOG LIST ============= -->
+<p class="label-tag mb-3">03 · Desktop · Blog list</p>
+<div class="device-desktop mb-16">
+  <div class="device-desktop-bar">
+    <div class="traffic"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <div class="url-pill">junglog.xyz/blogs</div>
+    <div class="text-muted text-xs">1180 × 760</div>
+  </div>
+  <div class="device-frame-scroll surface">
+    <nav class="sticky top-0 z-10 surface border-b border-soft px-8 h-14 flex items-center gap-8">
+      <a class="display text-[15px] font-bold flex items-center gap-2"><span class="accent">◆</span>Junglog</a>
+      <ul class="flex gap-6 text-[13px] text-muted">
+        <li>Home</li><li class="text-[var(--text)] font-semibold">Blogs</li><li>Tags</li><li>About</li>
+      </ul>
+      <div class="ml-auto flex items-center gap-3 text-muted">
+        <span class="text-[14px]">🔍</span>
+        <span class="text-[14px]">◐</span>
+      </div>
+    </nav>
+
+    <section class="px-12 pt-10 pb-6">
+      <a class="text-muted text-[12.5px]">← Home</a>
+      <div class="mt-4 flex items-end justify-between gap-6">
+        <div>
+          <h1 class="display text-4xl">글 모음</h1>
+          <p class="text-muted mt-2 text-[14px]">총 128개 포스트 · 운영 4년차</p>
+        </div>
+        <div class="flex items-center gap-2 surface-elev border border-soft rounded-xl px-4 py-2 w-[320px]">
+          <span class="text-muted">🔍</span>
+          <input class="bg-transparent flex-1 outline-none text-[13.5px] placeholder:text-[var(--text-muted)]" placeholder="검색어를 입력하세요" />
+          <span class="pill text-[10px]">⌘K</span>
+        </div>
+      </div>
+
+      <!-- tag bar -->
+      <div class="mt-7 flex gap-2 overflow-x-auto py-1" style="scrollbar-width: thin;">
+        <span class="pill">#all</span>
+        <span class="pill pill-accent">#react</span>
+        <span class="pill">#nextjs</span>
+        <span class="pill">#postgres</span>
+        <span class="pill">#k8s</span>
+        <span class="pill">#docker</span>
+        <span class="pill">#observability</span>
+        <span class="pill">#typescript</span>
+        <span class="pill">#testing</span>
+        <span class="pill">#performance</span>
+        <span class="pill">#career</span>
+      </div>
+    </section>
+
+    <section class="px-12 pb-20">
+      <div class="text-[12px] text-muted mb-2">12개 결과 · 최근 작성순</div>
+      <ul>
+        <li class="py-7 border-b border-soft grid grid-cols-[1fr_auto] gap-8 items-baseline">
+          <div>
+            <p class="eyebrow text-[10px]">FRONTEND · #react · #nextjs</p>
+            <h3 class="display text-[20px] mt-1.5">Next.js 15 캐싱 동작 정리</h3>
+            <p class="text-muted text-[14px] mt-2 leading-relaxed max-w-3xl">
+              fetch · Route Handler · Server Component 가 각각 어떤 캐시 계층에 올라가는지 실제 트래픽으로 검증합니다.
+            </p>
+          </div>
+          <div class="text-[12px] text-muted whitespace-nowrap text-right">2026.04.18<br/>8분 · 324회</div>
+        </li>
+        <li class="py-7 border-b border-soft grid grid-cols-[1fr_auto] gap-8 items-baseline">
+          <div>
+            <p class="eyebrow text-[10px]">FRONTEND · #react</p>
+            <h3 class="display text-[20px] mt-1.5">React 19 use 훅 정리</h3>
+            <p class="text-muted text-[14px] mt-2 leading-relaxed max-w-3xl">
+              Promise / Context 를 동기 코드처럼 풀어내는 use 훅의 동작 모델과, 실전에서 자주 마주치는 함정.
+            </p>
+          </div>
+          <div class="text-[12px] text-muted whitespace-nowrap text-right">2026.04.22<br/>10분 · 156회</div>
+        </li>
+        <li class="py-7 border-b border-soft grid grid-cols-[1fr_auto] gap-8 items-baseline">
+          <div>
+            <p class="eyebrow text-[10px]">BACKEND · #postgres</p>
+            <h3 class="display text-[20px] mt-1.5">Postgres 인덱스 튜닝 사례</h3>
+            <p class="text-muted text-[14px] mt-2 leading-relaxed max-w-3xl">
+              EXPLAIN 결과만 보고 끝내지 않습니다. 실제 트래픽에서 P99 가 어떻게 변했는지를 함께 봅니다.
+            </p>
+          </div>
+          <div class="text-[12px] text-muted whitespace-nowrap text-right">2026.04.10<br/>12분 · 287회</div>
+        </li>
+        <li class="py-7 border-b border-soft grid grid-cols-[1fr_auto] gap-8 items-baseline">
+          <div>
+            <p class="eyebrow text-[10px]">DEVOPS · #docker · #ci</p>
+            <h3 class="display text-[20px] mt-1.5">Docker 다층 캐시로 빌드 5배</h3>
+            <p class="text-muted text-[14px] mt-2 leading-relaxed max-w-3xl">
+              monorepo CI 빌드 시간을 9분에서 1분 50초까지 줄인 캐시 전략의 디테일을 공유합니다.
+            </p>
+          </div>
+          <div class="text-[12px] text-muted whitespace-nowrap text-right">2026.03.30<br/>6분 · 198회</div>
+        </li>
+        <li class="py-7 border-b border-soft grid grid-cols-[1fr_auto] gap-8 items-baseline">
+          <div>
+            <p class="eyebrow text-[10px]">BACKEND · #api</p>
+            <h3 class="display text-[20px] mt-1.5">멱등 키 설계 다섯 가지 실수</h3>
+            <p class="text-muted text-[14px] mt-2 leading-relaxed max-w-3xl">
+              결제 / 외부 호출 재시도 시 가장 자주 마주치는 함정과 그 해결.
+            </p>
+          </div>
+          <div class="text-[12px] text-muted whitespace-nowrap text-right">2026.03.28<br/>9분 · 211회</div>
+        </li>
+      </ul>
+
+      <div class="mt-10 flex items-center justify-center gap-2">
+        <span class="pill">←</span>
+        <span class="pill pill-accent">1</span>
+        <span class="pill">2</span>
+        <span class="pill">3</span>
+        <span class="pill">→</span>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ============= 4. MOBILE · BLOG LIST ============= -->
+<p class="label-tag mb-3">04 · Mobile · Blog list</p>
+<div class="device-mobile mb-16">
+  <div class="notch"></div>
+  <div class="device-frame-scroll surface" style="padding-top: 32px;">
+    <nav class="sticky top-0 z-10 surface border-b border-soft px-4 h-12 flex items-center justify-between">
+      <a class="display text-[14px] font-bold flex items-center gap-1.5"><span class="accent">◆</span>Junglog</a>
+      <div class="flex items-center gap-3 text-muted text-[14px]"><span>🔍</span><span>☰</span></div>
+    </nav>
+
+    <section class="px-5 pt-6 pb-4">
+      <a class="text-muted text-[12px]">← Home</a>
+      <h1 class="display text-2xl mt-3">글 모음</h1>
+      <p class="text-muted text-[12.5px] mt-1">총 128개 포스트 · 운영 4년차</p>
+
+      <div class="mt-5 flex items-center gap-2 surface-elev border border-soft rounded-xl px-3 py-2">
+        <span class="text-muted text-[13px]">🔍</span>
+        <input class="bg-transparent flex-1 outline-none text-[13px] placeholder:text-[var(--text-muted)]" placeholder="검색어를 입력하세요" />
+      </div>
+
+      <div class="mt-4 flex gap-2 overflow-x-auto py-1" style="scrollbar-width: none;">
+        <span class="pill">#all</span>
+        <span class="pill pill-accent">#react</span>
+        <span class="pill">#nextjs</span>
+        <span class="pill">#postgres</span>
+        <span class="pill">#k8s</span>
+        <span class="pill">#docker</span>
+      </div>
+    </section>
+
+    <section class="px-5 pb-14">
+      <div class="text-[11px] text-muted mb-1">12개 결과</div>
+      <ul>
+        <li class="py-5 border-b border-soft">
+          <p class="eyebrow text-[10px]">FRONTEND · #react</p>
+          <h3 class="display text-[16px] mt-1">Next.js 15 캐싱 동작 정리</h3>
+          <p class="text-muted text-[12.5px] mt-1.5 leading-relaxed">fetch · Route Handler · Server Component 가 어떤 캐시 계층에 올라가는지 실측합니다.</p>
+          <div class="text-[11px] text-muted mt-2">04.18 · 8분 · 324회</div>
+        </li>
+        <li class="py-5 border-b border-soft">
+          <p class="eyebrow text-[10px]">FRONTEND · #react</p>
+          <h3 class="display text-[16px] mt-1">React 19 use 훅 정리</h3>
+          <p class="text-muted text-[12.5px] mt-1.5 leading-relaxed">Promise · Context 를 동기 코드처럼 풀어내는 use 훅의 동작 모델.</p>
+          <div class="text-[11px] text-muted mt-2">04.22 · 10분 · 156회</div>
+        </li>
+        <li class="py-5 border-b border-soft">
+          <p class="eyebrow text-[10px]">BACKEND · #postgres</p>
+          <h3 class="display text-[16px] mt-1">Postgres 인덱스 튜닝 사례</h3>
+          <p class="text-muted text-[12.5px] mt-1.5 leading-relaxed">EXPLAIN 결과만 보고 끝내지 않습니다. P99 가 어떻게 변했는지를 함께 봅니다.</p>
+          <div class="text-[11px] text-muted mt-2">04.10 · 12분 · 287회</div>
+        </li>
+        <li class="py-5 border-b border-soft">
+          <p class="eyebrow text-[10px]">DEVOPS · #docker</p>
+          <h3 class="display text-[16px] mt-1">Docker 다층 캐시로 빌드 5배</h3>
+          <p class="text-muted text-[12.5px] mt-1.5 leading-relaxed">CI 빌드 시간을 9분에서 1분 50초까지 줄인 캐시 전략.</p>
+          <div class="text-[11px] text-muted mt-2">03.30 · 6분 · 198회</div>
+        </li>
+      </ul>
+      <div class="mt-8 flex items-center justify-center gap-2">
+        <span class="pill">←</span>
+        <span class="pill pill-accent">1</span>
+        <span class="pill">2</span>
+        <span class="pill">3</span>
+        <span class="pill">→</span>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ============= 5. DESKTOP · POST DETAIL ============= -->
+<p class="label-tag mb-3">05 · Desktop · Post detail</p>
+<div class="device-desktop mb-16">
+  <div class="device-desktop-bar">
+    <div class="traffic"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <div class="url-pill">junglog.xyz/posts/nextjs-15-caching</div>
+    <div class="text-muted text-xs">1180 × 760</div>
+  </div>
+  <div class="device-frame-scroll surface" style="position: relative;">
+    <nav class="sticky top-0 z-10 surface border-b border-soft px-8 h-14 flex items-center gap-8">
+      <a class="display text-[15px] font-bold flex items-center gap-2"><span class="accent">◆</span>Junglog</a>
+      <ul class="flex gap-6 text-[13px] text-muted">
+        <li>Home</li><li class="text-[var(--text)] font-semibold">Blogs</li><li>Tags</li><li>About</li>
+      </ul>
+      <div class="ml-auto flex items-center gap-3 text-muted">
+        <span class="text-[14px]">🔍</span>
+        <span class="text-[14px]">◐</span>
+      </div>
+    </nav>
+
+    <!-- TOC floats in right margin; article column unchanged -->
+    <aside class="toc-floating hidden lg:block" style="position: absolute;">
+      <p class="eyebrow text-[10px] mb-3">ON THIS PAGE</p>
+      <ul class="text-[12.5px] space-y-2">
+        <li class="pl-3 toc-active-bar accent font-semibold">캐싱 모델 한눈에</li>
+        <li class="pl-3 text-muted">Route Handler 의 함정</li>
+        <li class="pl-3 text-muted">Server Component 캐시 키</li>
+        <li class="pl-3 text-muted">실측 데이터 정리</li>
+      </ul>
+      <div class="mt-6 pt-4 border-t border-soft">
+        <p class="eyebrow text-[10px] mb-2">공유</p>
+        <div class="flex gap-2 text-muted">
+          <a class="pill" title="X (Twitter)">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21l-6.52 7.45L22 22h-6.93l-4.83-6.1L4.65 22H2l7.02-8.02L1.5 2h7.05l4.36 5.6L18.244 2zm-2.43 18h1.74L7.27 4H5.45l10.36 16z"/></svg>X
+          </a>
+          <a class="pill" title="GitHub">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.92.58.1.79-.25.79-.56v-2.13c-3.2.7-3.87-1.37-3.87-1.37-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.35.95.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.93 10.93 0 015.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.41-5.27 5.69.41.36.78 1.05.78 2.12v3.14c0 .31.21.67.8.55C20.22 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>GitHub
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <article class="mx-auto max-w-prose px-8 pt-12 pb-16">
+      <a class="text-muted text-[12.5px]">← 글 목록으로</a>
+
+      <div class="mt-6">
+        <span class="pill pill-accent">FRONTEND</span>
+      </div>
+      <h1 class="display text-[40px] mt-4" style="line-height:1.15;">Next.js 15 캐싱 동작 정리</h1>
+      <div class="mt-5 flex items-center gap-3 text-[12.5px] text-muted">
+        <span>2026.04.18</span><span>·</span><span>8분 분량</span><span>·</span><span>324회 조회</span>
+      </div>
+      <div class="mt-3 flex gap-2">
+        <span class="pill">#nextjs</span><span class="pill">#caching</span><span class="pill">#performance</span>
+      </div>
+
+      <hr class="divider-soft my-8 border-t" />
+
+      <p class="text-[15.5px]" style="line-height:1.75;">
+        Next.js 15 의 캐싱 동작은 14 와 비교했을 때 기본값이 꽤 달라졌습니다.
+        그 동안 <em>"왜 새로고침해도 데이터가 안 바뀌지?"</em> 라는 질문에 흐릿하게 답해 왔다면,
+        이번 글은 그 흐릿함을 걷어내기 위한 정리입니다.
+      </p>
+      <p class="text-[15.5px] mt-5" style="line-height:1.75;">
+        결론부터 말하면 fetch · Route Handler · Server Component 는 서로 다른 캐시 계층에 얹혀 있고,
+        이걸 머릿속에 정확히 그릴 수 있느냐가 곧 디버깅 속도를 결정합니다.
+      </p>
+
+      <h2 id="cache-model" class="display text-[24px] mt-12 mb-3">캐싱 모델 한눈에</h2>
+      <p class="text-[15.5px]" style="line-height:1.75;">
+        먼저 가장 많이 헷갈리는 fetch 부터 봅니다. App Router 에서 fetch 는 <code class="text-[13px] px-1.5 py-0.5 rounded surface-elev border border-soft">cache: 'force-cache'</code>
+        를 명시적으로 주지 않는 한, 기본은 dynamic 입니다.
+      </p>
+
+      <pre class="code mt-6"><div class="head">
+        <div class="traffic"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+        <span class="lang">TypeScript</span>
+        <button class="text-[11px] text-muted px-2 py-0.5 rounded border border-soft hover:bg-accent-soft">📋 복사</button>
+      </div><code><span class="tk-cmt">// app/posts/[slug]/page.tsx</span>
+<span class="tk-key">export async function</span> <span class="tk-fn">generateStaticParams</span>() {
+  <span class="tk-key">const</span> posts = <span class="tk-key">await</span> <span class="tk-fn">fetch</span>(<span class="tk-str">'https://api/posts'</span>, {
+    next: { revalidate: <span class="tk-str">3600</span> },
+  }).<span class="tk-fn">then</span>(r =&gt; r.<span class="tk-fn">json</span>());
+
+  <span class="tk-key">return</span> posts.<span class="tk-fn">map</span>((p) =&gt; ({ slug: p.slug }));
+}</code></pre>
+
+      <p class="text-[15.5px] mt-6" style="line-height:1.75;">
+        <code class="text-[13px] px-1.5 py-0.5 rounded surface-elev border border-soft">revalidate</code>
+        는 ISR 의 갱신 주기로 동작하지만, 동시에 같은 호출이 여러 컴포넌트에서 일어났을 때
+        하나의 in-flight 요청으로 묶이는 dedupe 기능도 함께 켜집니다.
+      </p>
+      <p class="text-[15.5px] mt-5" style="line-height:1.75;">
+        다음 섹션에서는 같은 fetch 가 Route Handler 안에서 호출됐을 때 동작이 어떻게 달라지는지 살펴봅니다.
+      </p>
+
+      <hr class="divider-soft my-12 border-t" />
+
+      <!-- prev / next -->
+      <div class="grid grid-cols-2 gap-4">
+        <a class="surface-elev border border-soft rounded-xl p-5 block">
+          <div class="eyebrow text-[10px]">← 이전 글</div>
+          <div class="display text-[15px] mt-2">React 19 use 훅 정리</div>
+          <div class="text-[11.5px] text-muted mt-1">FRONTEND · 10분</div>
+        </a>
+        <a class="surface-elev border border-soft rounded-xl p-5 block text-right">
+          <div class="eyebrow text-[10px]">다음 글 →</div>
+          <div class="display text-[15px] mt-2">Postgres 인덱스 튜닝 사례</div>
+          <div class="text-[11.5px] text-muted mt-1">BACKEND · 12분</div>
+        </a>
+      </div>
+    </article>
+
+    <a class="fab-top" title="맨 위로">↑</a>
+  </div>
+</div>
+
+<!-- ============= 6. MOBILE · POST DETAIL ============= -->
+<p class="label-tag mb-3">06 · Mobile · Post detail</p>
+<div class="device-mobile mb-12">
+  <div class="notch"></div>
+  <div class="device-frame-scroll surface" style="padding-top: 32px; position: relative;">
+    <nav class="sticky top-0 z-10 surface border-b border-soft px-4 h-12 flex items-center justify-between">
+      <a class="display text-[14px] font-bold flex items-center gap-1.5"><span class="accent">◆</span>Junglog</a>
+      <div class="flex items-center gap-3 text-muted text-[14px]"><span>🔍</span><span>☰</span></div>
+    </nav>
+
+    <article class="px-5 pt-6 pb-16">
+      <a class="text-muted text-[12px]">← 글 목록으로</a>
+
+      <div class="mt-4"><span class="pill pill-accent">FRONTEND</span></div>
+      <h1 class="display text-[26px] mt-3" style="line-height:1.20;">Next.js 15 캐싱 동작 정리</h1>
+      <div class="mt-3 text-[12px] text-muted">2026.04.18 · 8분 분량 · 324회</div>
+      <div class="mt-2 flex flex-wrap gap-1.5">
+        <span class="pill text-[10px]">#nextjs</span>
+        <span class="pill text-[10px]">#caching</span>
+        <span class="pill text-[10px]">#performance</span>
+      </div>
+
+      <!-- Mobile TOC: collapsible accordion (NOT sidebar) -->
+      <button data-toggle-toc="#mobile-toc-list"
+              class="mt-5 w-full flex items-center justify-between surface-elev border border-soft rounded-xl px-4 py-3 text-[13px]">
+        <span><span class="text-muted">⌄</span> 목차 <span class="text-muted">(4)</span></span>
+        <span class="text-muted text-[11px]">펼치기</span>
+      </button>
+      <ul id="mobile-toc-list" class="hidden mt-2 surface-elev border border-soft rounded-xl px-4 py-3 text-[13px] space-y-2">
+        <li class="pl-3 toc-active-bar accent font-semibold">캐싱 모델 한눈에</li>
+        <li class="pl-3 text-muted">Route Handler 의 함정</li>
+        <li class="pl-3 text-muted">Server Component 캐시 키</li>
+        <li class="pl-3 text-muted">실측 데이터 정리</li>
+      </ul>
+
+      <hr class="divider-soft my-6 border-t" />
+
+      <p class="text-[14.5px]" style="line-height:1.75;">
+        Next.js 15 의 캐싱 동작은 14 와 비교했을 때 기본값이 꽤 달라졌습니다.
+        그 동안 흐릿하게 답해 왔다면, 이번 글은 그 흐릿함을 걷어내기 위한 정리입니다.
+      </p>
+      <p class="text-[14.5px] mt-4" style="line-height:1.75;">
+        결론부터 말하면 fetch · Route Handler · Server Component 는 서로 다른 캐시 계층에 얹혀 있습니다.
+      </p>
+
+      <h2 class="display text-[20px] mt-9 mb-2">캐싱 모델 한눈에</h2>
+      <p class="text-[14.5px]" style="line-height:1.75;">
+        가장 헷갈리는 fetch 부터 봅니다. App Router 에서 fetch 는 명시적으로
+        <code class="text-[12px] px-1 rounded surface-elev border border-soft">force-cache</code>
+        를 주지 않는 한, 기본은 dynamic 입니다.
+      </p>
+
+      <pre class="code mt-5"><div class="head">
+        <div class="traffic"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+        <span class="lang">TypeScript</span>
+        <button class="text-[11px] text-muted px-2 py-0.5 rounded border border-soft">📋</button>
+      </div><code><span class="tk-cmt">// app/posts/[slug]/page.tsx</span>
+<span class="tk-key">await</span> <span class="tk-fn">fetch</span>(<span class="tk-str">'https://api/posts'</span>, {
+  next: { revalidate: <span class="tk-str">3600</span> },
+});</code></pre>
+
+      <p class="text-[14.5px] mt-5" style="line-height:1.75;">
+        <code class="text-[12px] px-1 rounded surface-elev border border-soft">revalidate</code>
+        는 ISR 갱신 주기로 동작하면서, 동시에 dedupe 도 함께 켭니다.
+      </p>
+
+      <hr class="divider-soft my-8 border-t" />
+
+      <!-- prev / next stacked -->
+      <div class="space-y-3">
+        <a class="surface-elev border border-soft rounded-xl p-4 block">
+          <div class="eyebrow text-[10px]">← 이전 글</div>
+          <div class="display text-[14px] mt-1.5">React 19 use 훅 정리</div>
+          <div class="text-[11px] text-muted mt-1">FRONTEND · 10분</div>
+        </a>
+        <a class="surface-elev border border-soft rounded-xl p-4 block">
+          <div class="eyebrow text-[10px]">다음 글 →</div>
+          <div class="display text-[14px] mt-1.5">Postgres 인덱스 튜닝 사례</div>
+          <div class="text-[11px] text-muted mt-1">BACKEND · 12분</div>
+        </a>
+      </div>
+    </article>
+
+    <a class="fab-top" title="맨 위로">↑</a>
+  </div>
+</div>
+
+<p class="text-center text-muted text-[12px] mt-4 mb-2">— end of preview —</p>
+
+</main>
+
+<script>
+  // ----- palette + theme persistence -----
+  const root = document.documentElement;
+  const STORE_PAL = 'junglog.preview.palette';
+  const STORE_MODE = 'junglog.preview.mode'; // 'light' | 'dark' | 'auto'
+
+  function applyPalette(p) {
+    root.setAttribute('data-palette', p);
+    document.querySelectorAll('.palette-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.pal === p);
+    });
+  }
+  function applyMode(m) {
+    let isDark;
+    if (m === 'dark') isDark = true;
+    else if (m === 'light') isDark = false;
+    else isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    root.classList.toggle('dark', isDark);
+    const icon = document.getElementById('theme-icon');
+    const label = document.getElementById('theme-label');
+    icon.textContent = m === 'dark' ? '●' : m === 'light' ? '○' : '◐';
+    label.textContent = m === 'dark' ? 'Dark' : m === 'light' ? 'Light' : 'Auto';
+  }
+
+  const savedPal = localStorage.getItem(STORE_PAL) || 'paper';
+  const savedMode = localStorage.getItem(STORE_MODE) || 'auto';
+  applyPalette(savedPal);
+  applyMode(savedMode);
+
+  document.querySelectorAll('.palette-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      localStorage.setItem(STORE_PAL, b.dataset.pal);
+      applyPalette(b.dataset.pal);
+    });
+  });
+  document.getElementById('theme-btn').addEventListener('click', () => {
+    const cur = localStorage.getItem(STORE_MODE) || 'auto';
+    const next = cur === 'auto' ? 'light' : cur === 'light' ? 'dark' : 'auto';
+    localStorage.setItem(STORE_MODE, next);
+    applyMode(next);
+  });
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if ((localStorage.getItem(STORE_MODE) || 'auto') === 'auto') applyMode('auto');
+  });
+
+  // mobile TOC accordion
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('[data-toggle-toc]');
+    if (!t) return;
+    const target = document.querySelector(t.dataset.toggleToc);
+    if (target) target.classList.toggle('hidden');
+  });
+</script>
+</body>
+</html>
