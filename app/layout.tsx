@@ -1,8 +1,8 @@
-import SlideHeaderNavBar from "@shared/components/NavBar/SlideHeaderNavBar";
+import ChromeBar from "@shared/components/NavBar/ChromeBar";
 import Provider from "@shared/components/Provider";
 import JsonLd, { getOrganizationSchema, getWebSiteSchema } from "@shared/components/JsonLd";
 import { Metadata } from "next";
-import { Noto_Sans_KR, Space_Grotesk } from "next/font/google";
+import { Inter_Tight, JetBrains_Mono, Noto_Sans_KR, Source_Serif_4 } from "next/font/google";
 import React from "react";
 
 import "@styles/globals.css";
@@ -14,10 +14,25 @@ const bodyFont = Noto_Sans_KR({
   display: "swap",
 });
 
-const displayFont = Space_Grotesk({
+const displayFont = Inter_Tight({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["500", "700"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const serifFont = Source_Serif_4({
+  subsets: ["latin"],
+  variable: "--font-serif-face",
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
+const monoFont = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono-face",
+  weight: ["400", "500"],
   display: "swap",
 });
 
@@ -53,7 +68,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="ko"
-      className={`${bodyFont.variable} ${displayFont.variable}`}
+      className={`${bodyFont.variable} ${displayFont.variable} ${serifFont.variable} ${monoFont.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -62,7 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="antialiased">
         <Provider>
-          <SlideHeaderNavBar />
+          <ChromeBar />
           {children}
         </Provider>
       </body>

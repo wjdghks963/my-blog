@@ -57,53 +57,63 @@ export function SearchBar() {
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto">
-      <h3 className="section-title mb-4 text-center">Search Posts</h3>
+    <div className="w-full">
+      <div className="tiny-label" style={{ color: "var(--ink-3)", marginBottom: 10 }}>
+        SEARCH
+      </div>
+      <div
+        className="flex items-center gap-3"
+        style={{ borderBottom: "2px solid var(--ink)", paddingBottom: 10 }}
+      >
+        <svg
+          className="h-5 w-5"
+          fill="none"
+          stroke="var(--ink-3)"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
 
-      <div className="surface-card-soft p-2">
-        <div className="flex items-center gap-2">
-          <label
-            htmlFor="post-search"
-            className="flex flex-1 items-center px-3 py-2"
+        <input
+          id="post-search"
+          type="search"
+          value={text}
+          onChange={(e) => setText(e.currentTarget.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="제목 또는 내용으로 검색"
+          autoComplete="off"
+          className="font-serif flex-1 bg-transparent focus:outline-none"
+          style={{
+            fontSize: 22,
+            fontStyle: "italic",
+            fontWeight: 500,
+            color: "var(--ink)",
+          }}
+        />
+
+        {text && (
+          <button
+            type="button"
+            onClick={clearInput}
+            aria-label="검색어 지우기"
+            style={{
+              border: "1px solid var(--rule)",
+              color: "var(--ink-3)",
+              padding: "5px 10px",
+              borderRadius: 4,
+              fontSize: 12,
+              background: "transparent",
+            }}
           >
-            <svg
-              className="mr-3 h-5 w-5 text-muted"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-
-            <input
-              id="post-search"
-              type="search"
-              value={text}
-              onChange={(e) => setText(e.currentTarget.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="제목 또는 내용으로 검색"
-              autoComplete="off"
-              className="flex-1 bg-transparent text-base text-[var(--text-primary)] placeholder:text-muted focus:outline-none"
-            />
-          </label>
-
-          {text && (
-            <button
-              type="button"
-              onClick={clearInput}
-              className="rounded-lg px-3 py-2 text-sm text-muted transition-colors hover:bg-white/60 dark:hover:bg-white/10"
-              aria-label="검색어 지우기"
-            >
-              초기화
-            </button>
-          )}
-        </div>
+            지우기 ✕
+          </button>
+        )}
       </div>
     </div>
   );

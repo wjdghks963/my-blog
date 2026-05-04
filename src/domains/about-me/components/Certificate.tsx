@@ -11,21 +11,45 @@ export default function Certificate({
   course: string;
   date: string;
   certificateUrl: string;
-  skills?: string[]; // 추가된 기술 스택 배열
+  skills?: string[];
 }) {
   return (
-    <div className="surface-card-soft w-full rounded-xl p-5">
-      <p className="text-lg font-semibold text-[var(--text-primary)]">{course} 과정</p>
-      <p className="mt-1 text-sm text-muted">발급일: {date}</p>
+    <div
+      className="w-full p-5"
+      style={{
+        background: "var(--paper-2)",
+        border: "1px solid var(--rule)",
+        borderRadius: 6,
+      }}
+    >
+      <p
+        className="font-serif"
+        style={{ fontSize: 18, fontWeight: 500, color: "var(--ink)", margin: 0 }}
+      >
+        {course}
+      </p>
+      <p
+        className="tiny-label"
+        style={{ marginTop: 4, color: "var(--ink-3)", fontWeight: 500 }}
+      >
+        발급일 · {date}
+      </p>
 
       {skills && (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {skills?.map((skill) => (
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {skills.map((skill) => (
             <span
               key={skill}
-              className="rounded-full border border-soft bg-[var(--bg-soft)] px-3 py-1 text-sm font-medium text-[var(--text-primary)]"
+              className="font-mono"
+              style={{
+                fontSize: 10.5,
+                color: "var(--ink-3)",
+                padding: "2px 6px",
+                border: "1px solid var(--rule)",
+                borderRadius: 2,
+              }}
             >
-              {skill}
+              #{skill}
             </span>
           ))}
         </div>
@@ -35,9 +59,14 @@ export default function Certificate({
         href={certificateUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-4 inline-flex w-full items-center justify-center rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:brightness-110"
+        className="tiny-label mt-4 inline-block"
+        style={{
+          color: "var(--ink-2)",
+          borderBottom: "1px solid var(--ink-2)",
+          paddingBottom: 1,
+        }}
       >
-        수료증 확인하기
+        수료증 확인하기 →
       </Link>
     </div>
   );

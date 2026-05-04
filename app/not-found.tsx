@@ -2,27 +2,61 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="h-screen w-screen flex flex-col justify-center items-center px-4">
-      <div className="text-center">
-        <h1 className="text-6xl font-bold text-gray-900 dark:text-gray-100 mb-4">404</h1>
-        <p className="text-center font-bold text-xl mb-8 text-gray-700 dark:text-gray-300">
-          찾으시는 포스트가 존재하지 않습니다.
-        </p>
-        <div className="flex flex-col gap-4 sm:flex-row sm:gap-6 sm:justify-center">
-          <Link
-            href="/"
-            className="text-center font-semibold text-md text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 underline underline-offset-4"
-          >
-            메인 페이지로 돌아가기
-          </Link>
-          <Link
-            href="/blogs"
-            className="text-center font-semibold text-md text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 underline underline-offset-4"
-          >
-            검색 페이지로 가기
-          </Link>
-        </div>
+    <main
+      className="flex min-h-[calc(100vh-64px)] flex-col items-center justify-center px-6 text-center"
+      style={{ background: "var(--paper)", color: "var(--ink)" }}
+    >
+      <div className="tiny-label" style={{ color: "var(--accent)", marginBottom: 14 }}>
+        ERROR · 404
       </div>
-    </div>
+      <h1
+        className="font-serif"
+        style={{
+          margin: 0,
+          fontSize: "clamp(64px, 10vw, 120px)",
+          lineHeight: 1,
+          fontWeight: 500,
+          fontStyle: "italic",
+          letterSpacing: "-0.02em",
+        }}
+      >
+        Not Found<span style={{ color: "var(--accent)" }}>.</span>
+      </h1>
+      <p
+        style={{
+          margin: "20px 0 28px",
+          fontSize: 15,
+          lineHeight: 1.6,
+          color: "var(--ink-2)",
+          maxWidth: 480,
+        }}
+      >
+        찾으시는 페이지나 글이 존재하지 않습니다. 메인이나 글 목록으로 돌아가 보세요.
+      </p>
+      <div className="flex flex-wrap justify-center gap-6">
+        <Link
+          href="/"
+          className="tiny-label"
+          style={{
+            color: "var(--ink)",
+            borderBottom: "1px solid var(--ink)",
+            paddingBottom: 1,
+          }}
+        >
+          메인으로 →
+        </Link>
+        <Link
+          href="/blogs"
+          className="tiny-label"
+          style={{
+            color: "var(--ink-2)",
+            borderBottom: "1px solid var(--ink-2)",
+            paddingBottom: 1,
+          }}
+        >
+          글 목록 →
+        </Link>
+      </div>
+    </main>
   );
 }

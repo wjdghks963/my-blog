@@ -13,14 +13,28 @@ export default function StickyHeader() {
   ];
 
   return (
-    <aside className="sticky top-24 hidden h-fit rounded-xl border border-soft bg-[var(--bg-elevated)] p-5 shadow-md backdrop-blur lg:block">
-      <h2 className="mb-3 text-lg font-bold text-[var(--text-primary)]">About Me</h2>
-      <nav className="flex flex-col gap-2">
+    <aside
+      className="hidden h-fit lg:block"
+      style={{ position: "sticky", top: 88, alignSelf: "start" }}
+    >
+      <div className="tiny-label" style={{ color: "var(--ink-3)", marginBottom: 12 }}>
+        목차
+      </div>
+      <nav
+        className="flex flex-col"
+        style={{ borderLeft: "2px solid var(--rule)", gap: 4, fontSize: 12.5 }}
+      >
         {items.map((item) => (
           <Link
             key={item.href}
             href={item.href}
-            className="rounded-lg px-3 py-2 text-sm font-medium text-[var(--text-primary)] transition-colors hover:bg-[var(--bg-soft)]"
+            style={{
+              padding: "5px 14px",
+              marginLeft: -2,
+              borderLeft: "2px solid transparent",
+              color: "var(--ink-3)",
+              lineHeight: 1.4,
+            }}
           >
             {item.label}
           </Link>

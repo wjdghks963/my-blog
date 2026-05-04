@@ -20,27 +20,15 @@ export default function TagNavBar() {
     staleTime: Infinity,
   });
 
+  const chip =
+    "!rounded-full !border !px-2.5 !py-1 !font-mono !text-[11px] !text-[var(--ink-2)] !border-[var(--rule)] !bg-transparent hover:!bg-[var(--paper-2)]";
+
   return (
-    <div className="w-full">
-      <h3 className="section-title mb-4 text-center">Tags</h3>
-
-      <div className="flex flex-wrap justify-center gap-2">
-        <TagSpan
-          tag="all"
-          tagName="ALL"
-          clickOk={true}
-          className="!rounded-full !border !border-soft !bg-white/60 !px-3 !py-1.5 text-sm dark:!bg-white/5"
-        />
-
-        {tagsData.tags.map((item: { tag: string }, index: number) => (
-          <TagSpan
-            key={index}
-            tag={item?.tag}
-            clickOk={true}
-            className="!rounded-full !border !border-soft !bg-white/60 !px-3 !py-1.5 text-sm dark:!bg-white/5"
-          />
-        ))}
-      </div>
+    <div className="flex flex-wrap gap-1.5">
+      <TagSpan tag="all" tagName="#all" clickOk={true} className={chip} />
+      {tagsData.tags.map((item: { tag: string }, index: number) => (
+        <TagSpan key={index} tag={item?.tag} tagName={`#${item?.tag}`} clickOk={true} className={chip} />
+      ))}
     </div>
   );
 }
