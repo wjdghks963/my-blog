@@ -1,15 +1,20 @@
 "use client";
 
+import { FooterStrip } from "@domains/home/components/editorial/Editorial";
 import dynamic from "next/dynamic";
 
-// Three.js 컴포넌트를 클라이언트 사이드에서만 렌더링하도록 동적 임포트
 const ThreeDModel = dynamic(() => import("@domains/3d/components/ThreeDModel"), {
   ssr: false,
   loading: () => (
-    <div className="flex items-center justify-center h-full">
+    <div className="flex h-full items-center justify-center">
       <div className="text-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto mb-4"></div>
-        <p className="text-white">3D 모델을 로딩 중입니다...</p>
+        <div
+          className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full"
+          style={{ borderBottom: "2px solid var(--accent)" }}
+        />
+        <p style={{ color: "var(--ink-3)" }} className="font-mono text-sm">
+          3D 모델 로딩 중…
+        </p>
       </div>
     </div>
   ),
@@ -17,17 +22,61 @@ const ThreeDModel = dynamic(() => import("@domains/3d/components/ThreeDModel"), 
 
 export default function ThreeDSpacePage() {
   return (
-    <div className="min-h-screen bg-gray-900">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold text-white mb-8 text-center">3D Space</h1>
-        <div className="w-full h-[80vh] bg-black rounded-lg overflow-hidden">
+    <main
+      className="min-h-screen"
+      style={{ background: "var(--paper)", color: "var(--ink)" }}
+    >
+      <header
+        className="px-6 mobile:px-14"
+        style={{
+          paddingTop: 44,
+          paddingBottom: 28,
+          borderBottom: "2px solid var(--ink)",
+        }}
+      >
+        <div className="tiny-label" style={{ color: "var(--accent)", marginBottom: 14 }}>
+          INTERACTIVE
+        </div>
+        <h1
+          className="font-serif"
+          style={{
+            margin: 0,
+            fontSize: "clamp(40px, 6vw, 64px)",
+            lineHeight: 1,
+            fontWeight: 500,
+            fontStyle: "italic",
+            letterSpacing: "-0.02em",
+          }}
+        >
+          3D Space<span style={{ color: "var(--accent)" }}>.</span>
+        </h1>
+        <p
+          style={{
+            margin: "14px 0 0",
+            maxWidth: 580,
+            fontSize: 14.5,
+            lineHeight: 1.6,
+            color: "var(--ink-2)",
+          }}
+        >
+          마우스로 드래그해 회전, 스크롤로 확대/축소.
+        </p>
+      </header>
+
+      <section className="px-6 mobile:px-14" style={{ paddingTop: 32, paddingBottom: 48 }}>
+        <div
+          className="h-[78vh] w-full overflow-hidden"
+          style={{
+            border: "1px solid var(--rule)",
+            borderRadius: 6,
+            background: "var(--paper-2)",
+          }}
+        >
           <ThreeDModel />
         </div>
-        <div className="mt-8 text-center text-gray-300">
-          <p>마우스로 드래그하여 모델을 회전시킬 수 있습니다.</p>
-          <p>스크롤로 확대/축소가 가능합니다.</p>
-        </div>
-      </div>
-    </div>
+      </section>
+
+      <FooterStrip />
+    </main>
   );
 }

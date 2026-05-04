@@ -1,199 +1,131 @@
-import CategoriesBox from "@domains/home/components/CategoriesBox";
-import CategoriesBoxSkeleton from "@domains/home/components/CategoriesBoxSkeleton";
-import PostsByStatus from "@domains/home/components/PostsByStatus";
-import PostsByStatusSkeleton from "@domains/home/components/PostsByStatusSkeleton";
-import Footer from "@shared/components/Footer";
-import SkillSet from "@shared/components/SkillSet";
-import { ThumbnailPostData } from "@types";
-import Link from "next/link";
-import React, { Suspense } from "react";
+import {
+  EditorialPost,
+  EditorialStats,
+  FeatureLead,
+  FeatureSide,
+  FooterStrip,
+  ListItemEditorial,
+  Masthead,
+  SectionHeader,
+} from "@domains/home/components/editorial/Editorial";
+import React from "react";
 
-import { RegImageSrc } from "@libs/server/RegImageSrc";
 import prismaclient from "@libs/server/prismaClient";
 
 export const revalidate = 60;
 
-async function fetchStats() {
-  try {
-    const [views, totalPosts, totalCategories] = await Promise.all([
-      prismaclient.post.aggregate({
-        _sum: {
-          views: true,
-        },
-      }),
-      prismaclient.post.count(),
-      prismaclient.category.count(),
-    ]);
+const WORDS_PER_MINUTE = 350;
 
-    return {
-      totalViews: views._sum.views || 0,
-      totalPosts,
-      totalCategories,
-    };
-  } catch (error) {
-    // ignore
-  }
-
-  return {
-    totalViews: 0,
-    totalPosts: 0,
-    totalCategories: 0,
-  };
+function readMinutes(content: string) {
+  const len = content?.length ?? 0;
+  return Math.max(1, Math.round(len / WORDS_PER_MINUTE));
 }
 
-async function fetchPostsByStatus(status: "recent" | "popular") {
+function plainExcerpt(content: string, max = 180) {
+  if (!content) return "";
+  const stripped = content
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, "")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[#>*_`~\-]/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return stripped.length > max ? `${stripped.slice(0, max).trim()}…` : stripped;
+}
+
+async function fetchHomeData() {
   try {
-    const posts = await prismaclient.post.findMany({
-      take: 5,
-      orderBy: status === "popular" ? { views: "desc" } : { createdAt: "desc" },
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        content: true,
-        views: true,
-      },
-    });
+    const [stats, recent] = await Promise.all([
+      Promise.all([
+        prismaclient.post.aggregate({ _sum: { views: true } }),
+        prismaclient.post.count(),
+        prismaclient.category.count(),
+      ]),
+      prismaclient.post.findMany({
+        take: 11,
+        orderBy: { createdAt: "desc" },
+        include: {
+          category: { select: { category: true } },
+          tags: { include: { tag: true } },
+        },
+      }),
+    ]);
 
-    const postsJson: ThumbnailPostData[] = posts.map((post) => {
-      const thumbnailFromContent = RegImageSrc(post.content);
-      return {
-        id: post.id,
-        title: post.title,
-        description: post.description,
-        thumbnail: thumbnailFromContent || undefined,
-        views: post.views,
-      };
-    });
+    const editorialPosts: EditorialPost[] = recent.map((p) => ({
+      id: p.id,
+      title: p.title,
+      subtitle: undefined,
+      excerpt: plainExcerpt(p.description || p.content),
+      category: p.category?.category ?? null,
+      tags: p.tags.map((pt) => pt.tag.tag),
+      date: p.createdAt.toISOString(),
+      read: readMinutes(p.content),
+      views: p.views ?? 0,
+    }));
 
-    return postsJson;
-  } catch (error) {
-    return [];
+    const editorialStats: EditorialStats = {
+      posts: stats[1],
+      categories: stats[2],
+      views: stats[0]._sum.views || 0,
+      years: Math.max(1, new Date().getFullYear() - 2024 + 1),
+    };
+
+    return { posts: editorialPosts, stats: editorialStats };
+  } catch {
+    return {
+      posts: [] as EditorialPost[],
+      stats: { posts: 0, categories: 0, views: 0, years: 1 } as EditorialStats,
+    };
   }
+}
+
+function issueLabel(date = new Date()) {
+  const start = new Date(2024, 0, 1).getTime();
+  const weeks = Math.max(1, Math.floor((date.getTime() - start) / (7 * 86400000)));
+  const vol = String(Math.floor(weeks / 52) + 1).padStart(2, "0");
+  const issue = String((weeks % 52) + 1).padStart(2, "0");
+  const today = date.toLocaleDateString("ko-KR", { year: "numeric", month: "short", day: "numeric" });
+  return `Vol. ${vol} · Issue ${issue} · ${today}`;
 }
 
 export default async function Page() {
-  const [stats, recentPosts, popularPosts] = await Promise.all([
-    fetchStats(),
-    fetchPostsByStatus("recent"),
-    fetchPostsByStatus("popular"),
-  ]);
+  const { posts, stats } = await fetchHomeData();
+
+  const lead = posts[0];
+  const sideA = posts[1];
+  const sideB = posts[2];
+  const recent = posts.slice(3, 11);
 
   return (
-    <main className="min-h-screen pb-14">
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute -top-24 right-[-10%] h-72 w-72 rounded-full bg-emerald-400/20 blur-3xl animate-[pulse_7s_ease-in-out_infinite]" />
-        <div className="absolute top-56 -left-14 h-80 w-80 rounded-full bg-orange-400/20 blur-3xl animate-[pulse_9s_ease-in-out_infinite]" />
-      </div>
+    <main className="min-h-screen" style={{ background: "var(--paper)", color: "var(--ink)" }}>
+      <Masthead stats={stats} issue={issueLabel()} />
 
-      <div className="page-shell pt-24">
-        <section className="surface-card p-6 mobile:p-10">
-          <div className="grid gap-10 lg:grid-cols-[1.25fr_0.75fr]">
-            <div>
-              <p className="text-brand mb-3 text-sm font-semibold uppercase tracking-[0.2em]">Junglog Studio</p>
-              <h1 className="text-4xl mobile:text-5xl font-bold leading-tight">Build, Measure, Improve.</h1>
-              <p className="mt-4 max-w-2xl text-muted text-lg leading-relaxed">
-                백엔드 안정화부터 프론트 사용자 경험까지, 운영 지표로 성과를 증명해 온 제품 개발 기록을 남깁니다.
-              </p>
+      {lead && (
+        <div
+          className="grid gap-8 px-6 mobile:px-14 lg:grid-cols-[2fr_1fr_1fr]"
+          style={{ paddingTop: 32, paddingBottom: 32, borderBottom: "1px solid var(--rule)" }}
+        >
+          <FeatureLead post={lead} />
+          {sideA && <FeatureSide post={sideA} />}
+          {sideB && <FeatureSide post={sideB} />}
+        </div>
+      )}
 
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link
-                  href="/blogs"
-                  className="rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5"
-                >
-                  글 보러가기
-                </Link>
-                <Link
-                  href="/about-me"
-                  className="rounded-xl border border-soft bg-white/40 px-6 py-3 text-sm font-semibold transition-colors duration-200 hover:bg-white/70 dark:bg-transparent dark:hover:bg-white/5"
-                >
-                  프로필 보기
-                </Link>
-              </div>
-
-              <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                <div className="surface-card-soft p-4">
-                  <div className="text-2xl font-bold">{stats.totalPosts}+</div>
-                  <p className="text-xs text-muted">POSTS</p>
-                </div>
-                <div className="surface-card-soft p-4">
-                  <div className="text-2xl font-bold">{stats.totalCategories}</div>
-                  <p className="text-xs text-muted">CATEGORIES</p>
-                </div>
-                <div className="surface-card-soft p-4">
-                  <div className="text-2xl font-bold">
-                    {stats.totalViews >= 1000 ? `${(stats.totalViews / 1000).toFixed(1)}K+` : `${stats.totalViews}+`}
-                  </div>
-                  <p className="text-xs text-muted">TOTAL VIEWS</p>
-                </div>
-                <div className="surface-card-soft p-4">
-                  <div className="text-2xl font-bold">2+</div>
-                  <p className="text-xs text-muted">YEARS</p>
-                </div>
-              </div>
-
-            </div>
-
-            <aside className="flex flex-col gap-4">
-              <div className="surface-card-soft p-5">
-                <p className="text-xs text-muted uppercase tracking-[0.16em]">Tech Stack</p>
-                <div className="mt-4">
-                  <SkillSet />
-                </div>
-              </div>
-
-              <div className="surface-card-soft p-5">
-                <p className="text-xs text-muted uppercase tracking-[0.16em]">Quick Links</p>
-                <div className="mt-4 grid grid-cols-2 gap-3">
-                  <Link
-                    href="https://github.com/wjdghks963"
-                    className="rounded-xl border border-soft bg-white/50 py-3 text-center text-sm font-medium transition-colors hover:bg-white dark:bg-white/5 dark:hover:bg-white/10"
-                  >
-                    GitHub
-                  </Link>
-                  <Link
-                    href="https://www.linkedin.com/in/junghwan-choi-a238b1228"
-                    className="rounded-xl border border-soft bg-white/50 py-3 text-center text-sm font-medium transition-colors hover:bg-white dark:bg-white/5 dark:hover:bg-white/10"
-                  >
-                    LinkedIn
-                  </Link>
-                </div>
-              </div>
-            </aside>
+      {recent.length > 0 && (
+        <div className="px-6 mobile:px-14" style={{ paddingTop: 32, paddingBottom: 48 }}>
+          <SectionHeader title="Recent" subtitle="최근 작성한 글" href="/blogs" />
+          <div
+            className="grid gap-x-12"
+            style={{ gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))" }}
+          >
+            {recent.map((p, i) => (
+              <ListItemEditorial key={p.id} post={p} num={i + 4} />
+            ))}
           </div>
-        </section>
+        </div>
+      )}
 
-        <section className="mt-12 surface-card p-6 mobile:p-8">
-          <h2 className="section-title">Popular Posts</h2>
-          <Suspense fallback={<PostsByStatusSkeleton count={5} />}>
-            <PostsByStatus
-              posts={popularPosts}
-              variant="modern"
-            />
-          </Suspense>
-        </section>
-
-        <section className="mt-8 grid gap-8 lg:grid-cols-[1.9fr_1fr]">
-          <div className="surface-card p-6 mobile:p-8">
-            <h2 className="section-title">Recent Posts</h2>
-            <Suspense fallback={<PostsByStatusSkeleton count={5} />}>
-              <PostsByStatus
-                posts={recentPosts}
-                variant="modern"
-              />
-            </Suspense>
-          </div>
-
-          <div className="surface-card p-6">
-            <h3 className="section-title">Categories</h3>
-            <Suspense fallback={<CategoriesBoxSkeleton />}>
-              <CategoriesBox />
-            </Suspense>
-          </div>
-        </section>
-      </div>
-
-      <Footer />
+      <FooterStrip />
     </main>
   );
 }

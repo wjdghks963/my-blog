@@ -85,59 +85,81 @@ export default function InfiniteBlogs() {
 
       <div className="min-h-[400px]">
         {isFilterLoading ? (
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-x-12 lg:grid-cols-2">
             {Array.from({ length: 4 }).map((_, idx) => (
               <div
                 key={idx}
-                className="h-52 animate-pulse rounded-2xl border border-soft bg-white/40 dark:bg-white/5"
+                className="animate-pulse"
+                style={{
+                  height: 110,
+                  borderBottom: "1px solid var(--rule-2)",
+                  background:
+                    "linear-gradient(90deg, var(--paper-2) 0%, transparent 60%)",
+                }}
               />
             ))}
           </div>
         ) : allData.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="surface-card-soft p-12">
-              <Image
-                className="w-32 h-32 mx-auto mb-6 opacity-70"
-                src="/searching_cat.png"
-                alt={"검색 결과 없음"}
-                width={128}
-                height={128}
-              />
-              <h3 className="text-2xl font-bold mb-4 text-[var(--text-primary)]">검색 결과가 없습니다</h3>
-              <p className="text-muted max-w-md">다른 키워드나 태그로 검색해보세요</p>
-            </div>
+          <div
+            className="flex flex-col items-center justify-center py-16 text-center"
+            style={{ borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)" }}
+          >
+            <Image
+              className="mx-auto mb-6 opacity-60"
+              src="/searching_cat.png"
+              alt="검색 결과 없음"
+              width={96}
+              height={96}
+            />
+            <h3
+              className="font-serif"
+              style={{
+                fontSize: 28,
+                fontStyle: "italic",
+                fontWeight: 500,
+                color: "var(--ink)",
+                margin: 0,
+              }}
+            >
+              검색 결과가 없습니다
+            </h3>
+            <p style={{ marginTop: 8, fontSize: 13, color: "var(--ink-3)", maxWidth: 360 }}>
+              다른 키워드나 태그로 다시 시도해보세요.
+            </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
+          <div className="grid grid-cols-1 gap-x-12 lg:grid-cols-2">
             {allData?.map((data: PostWithId) => (
-              <div
-                key={data.id}
-                className="flex justify-center"
-              >
-                <MiniPost data={data} />
-              </div>
+              <MiniPost key={data.id} data={data} />
             ))}
           </div>
         )}
       </div>
 
       {(hasNextPage || isLoading) && !isFilterLoading && (
-        <div className="flex justify-center py-12">
-          <div className="surface-card-soft p-8">
-            <div
-              className={`flex flex-col items-center ${hasNextPage || isLoading ? "animate-pulse" : ""}`}
-              ref={loadingRef}
-            >
-              <Image
-                className="w-20 h-20 opacity-80"
-                src="/searching_cat.png"
-                alt={"다음 페이지를 찾고 있는 고양이"}
-                width={80}
-                height={80}
-              />
-              <p className="mt-4 text-sm text-muted font-medium">더 많은 포스트를 찾고 있어요...</p>
-            </div>
-          </div>
+        <div
+          ref={loadingRef}
+          className="flex justify-center py-10"
+          style={{
+            fontSize: 12,
+            color: "var(--ink-3)",
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+          }}
+        >
+          <span className="inline-flex items-center gap-2">
+            <span
+              style={{
+                display: "inline-block",
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                background: "var(--accent)",
+              }}
+              className="animate-pulse"
+            />
+            계속 불러오는 중…
+          </span>
         </div>
       )}
     </div>

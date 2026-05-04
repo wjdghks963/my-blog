@@ -1,3 +1,4 @@
+import { FooterStrip } from "@domains/home/components/editorial/Editorial";
 import NoteList from "@domains/update-note/components/NoteList";
 import NoteLists from "@domains/update-note/components/NoteLists";
 import NoteTitle from "@domains/update-note/components/NoteTitle";
@@ -75,39 +76,74 @@ const updateData = [
 
 export default function UpdateNote() {
   return (
-    <main className="min-h-screen pb-12 pt-20">
-      <div className="page-shell">
-        <section className="surface-card p-6 mobile:p-10">
-          <p className="text-brand text-sm font-semibold uppercase tracking-[0.18em]">Timeline</p>
-          <h1 className="mt-3 text-4xl font-bold mobile:text-5xl">Update Note</h1>
-          <p className="mt-4 max-w-3xl text-muted leading-relaxed">
-            기능 추가, 성능 개선, 구조 변경 기록을 월 단위로 관리합니다. 사용자 체감 품질에 영향을 주는 변경을 중심으로
-            남깁니다.
-          </p>
-        </section>
+    <main
+      className="min-h-screen"
+      style={{ background: "var(--paper)", color: "var(--ink)" }}
+    >
+      <header
+        className="px-6 mobile:px-14"
+        style={{
+          paddingTop: 44,
+          paddingBottom: 28,
+          borderBottom: "2px solid var(--ink)",
+        }}
+      >
+        <div className="tiny-label" style={{ color: "var(--accent)", marginBottom: 14 }}>
+          TIMELINE
+        </div>
+        <h1
+          className="font-serif"
+          style={{
+            margin: 0,
+            fontSize: "clamp(40px, 6vw, 64px)",
+            lineHeight: 1,
+            fontWeight: 500,
+            fontStyle: "italic",
+            letterSpacing: "-0.02em",
+            color: "var(--ink)",
+          }}
+        >
+          Update Note<span style={{ color: "var(--accent)" }}>.</span>
+        </h1>
+        <p
+          style={{
+            margin: "14px 0 0",
+            maxWidth: 580,
+            fontSize: 14.5,
+            lineHeight: 1.6,
+            color: "var(--ink-2)",
+          }}
+        >
+          기능 추가, 성능 개선, 구조 변경 기록을 월 단위로 남깁니다. 사용자 체감 품질에 영향을 주는 변경 중심.
+        </p>
+      </header>
 
-        <section className="mt-8 space-y-5">
+      <section
+        className="px-6 mobile:px-14"
+        style={{ paddingTop: 32, paddingBottom: 48 }}
+      >
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-x-16">
           {updateData.map((note) => (
             <article
               key={`${note.year}-${note.month}`}
-              className="surface-card p-6"
+              style={{
+                paddingTop: 20,
+                paddingBottom: 20,
+                borderTop: "1px solid var(--rule)",
+              }}
             >
-              <NoteTitle
-                year={note.year}
-                month={note.month}
-              />
+              <NoteTitle year={note.year} month={note.month} />
               <NoteLists>
                 {note.items.map((item) => (
-                  <NoteList
-                    key={item}
-                    content={item}
-                  />
+                  <NoteList key={item} content={item} />
                 ))}
               </NoteLists>
             </article>
           ))}
-        </section>
-      </div>
+        </div>
+      </section>
+
+      <FooterStrip />
     </main>
   );
 }
