@@ -32,6 +32,10 @@ export default function InfiniteBlogs() {
     },
     // 검색어·태그를 바꾸는 동안 이전 결과를 유지해 스켈레톤 깜빡임을 막는다.
     placeholderData: keepPreviousData,
+    // 글 목록은 자주 바뀌지 않으므로 캐시를 길게 잡아, 같은 검색어·태그 재요청 시
+    // 네트워크 호출(=Vercel 함수 실행) 없이 캐시에서 즉시 응답한다.
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
   });
 
   // 최초 로딩(보여줄 데이터가 전혀 없을 때)에만 스켈레톤을 노출한다.
