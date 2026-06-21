@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 
 import { setSearchQuery } from "@store/modules/searchQuery";
 
-const DEBOUNCE_MS = 400;
+const DEBOUNCE_MS = 500;
 // 1글자 검색은 매칭 범위가 지나치게 넓고 호출만 낭비하므로 최소 길이를 둔다.
 const MIN_QUERY_LENGTH = 2;
 
