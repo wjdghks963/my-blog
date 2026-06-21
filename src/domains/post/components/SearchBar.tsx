@@ -6,7 +6,9 @@ import { useDispatch } from "react-redux";
 
 import { setSearchQuery } from "@store/modules/searchQuery";
 
-const DEBOUNCE_MS = 300;
+const DEBOUNCE_MS = 500;
+// 1글자 검색은 매칭 범위가 지나치게 넓고 호출만 낭비하므로 최소 길이를 둔다.
+const MIN_QUERY_LENGTH = 2;
 
 export function SearchBar() {
   const dispatch = useDispatch();
@@ -30,6 +32,8 @@ export function SearchBar() {
   // 입력값을 디바운스해 검색 쿼리에 반영한다.
   useEffect(() => {
     if (text === query) return;
+    // 빈 문자열(전체 보기)은 허용하고, 1글자처럼 너무 짧은 검색어는 요청을 보내지 않는다.
+    if (text.length > 0 && text.length < MIN_QUERY_LENGTH) return;
 
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
