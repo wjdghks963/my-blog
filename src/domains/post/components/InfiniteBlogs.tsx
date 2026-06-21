@@ -6,7 +6,7 @@ import { PostWithId } from "@domains/post/types";
 import useQuerySelector from "@shared/hooks/useQuerySelector";
 import useTagSelector from "@shared/hooks/useTagSelector";
 import { httpService } from "@shared/services/http.service";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import React, { useCallback, useEffect, useRef } from "react";
 
@@ -30,9 +30,14 @@ export default function InfiniteBlogs() {
     ): number | undefined {
       return lastPage.hasNextPage ? allPages.length + 1 : undefined;
     },
+    // 검색어·태그를 바꾸는 동안 이전 결과를 유지해 스켈레톤 깜빡임을 막는다.
+    placeholderData: keepPreviousData,
   });
 
-  const isFilterLoading = isFetching && !isFetchingNextPage;
+  // 최초 로딩(보여줄 데이터가 전혀 없을 때)에만 스켈레톤을 노출한다.
+  const showSkeleton = isLoading;
+  // 필터를 바꾸는 동안에는 기존 목록을 살짝 흐리게 처리한다.
+  const isRefreshing = isFetching && !isFetchingNextPage && !isLoading;
 
   const allData: PostWithId[] = data
     ? data.pages.reduce((prev, curr) => prev.concat(curr.data as PostWithId[]), [] as PostWithId[])
@@ -72,9 +77,7 @@ export default function InfiniteBlogs() {
         aria-live="polite"
       >
         <span>
-          {isFilterLoading ? (
-            "불러오는 중…"
-          ) : allData.length > 0 ? (
+          {!showSkeleton && allData.length > 0 ? (
             <>
               총 <span className="font-semibold text-[var(--text-primary)]">{allData.length}</span>개 포스트
               {hasNextPage ? " 표시 중" : ""}
@@ -84,7 +87,7 @@ export default function InfiniteBlogs() {
       </div>
 
       <div className="min-h-[400px]">
-        {isFilterLoading ? (
+        {showSkeleton ? (
           <div className="grid grid-cols-1 gap-x-12 lg:grid-cols-2">
             {Array.from({ length: 4 }).map((_, idx) => (
               <div
@@ -128,7 +131,13 @@ export default function InfiniteBlogs() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-x-12 lg:grid-cols-2">
+          <div
+            className="grid grid-cols-1 gap-x-12 lg:grid-cols-2"
+            style={{
+              opacity: isRefreshing ? 0.5 : 1,
+              transition: "opacity 150ms ease",
+            }}
+          >
             {allData?.map((data: PostWithId) => (
               <MiniPost key={data.id} data={data} />
             ))}
@@ -136,7 +145,7 @@ export default function InfiniteBlogs() {
         )}
       </div>
 
-      {(hasNextPage || isLoading) && !isFilterLoading && (
+      {(hasNextPage || isLoading) && !isRefreshing && (
         <div
           ref={loadingRef}
           className="flex justify-center py-10"

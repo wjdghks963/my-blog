@@ -22,10 +22,18 @@ export function SearchBar() {
     [dispatch]
   );
 
+  // 외부(예: 태그 선택)에서 검색어가 바뀌거나 초기화되면 입력창도 동기화한다.
   useEffect(() => {
+    setText(query ?? "");
+  }, [query]);
+
+  // 입력값을 디바운스해 검색 쿼리에 반영한다.
+  useEffect(() => {
+    if (text === query) return;
+
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
-      if (text !== query) dispatchQuery(text);
+      dispatchQuery(text);
     }, DEBOUNCE_MS);
 
     return () => {

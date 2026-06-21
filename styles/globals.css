@@ -275,3 +275,16 @@ h4 {
   background: transparent !important;
   color: #e2e8f0 !important;
 }
+
+/* 검색 인풋의 브라우저 기본 지우기(X) 버튼 숨기기 — 커스텀 "지우기" 버튼만 사용 */
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type="search"]::-ms-clear {
+  display: none;
+  width: 0;
+  height: 0;
+}
