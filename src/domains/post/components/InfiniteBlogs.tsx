@@ -72,9 +72,7 @@ export default function InfiniteBlogs() {
         aria-live="polite"
       >
         <span>
-          {isFilterLoading ? (
-            "불러오는 중…"
-          ) : allData.length > 0 ? (
+          {!isFilterLoading && allData.length > 0 ? (
             <>
               총 <span className="font-semibold text-[var(--text-primary)]">{allData.length}</span>개 포스트
               {hasNextPage ? " 표시 중" : ""}
