@@ -159,7 +159,7 @@ export default function PostDetailPage({ postData }: Props) {
         </div>
       </div>
 
-      <PostEditDeleteBox postData={postData} />
+      <PostEditDeleteBox />
     </main>
   );
 }

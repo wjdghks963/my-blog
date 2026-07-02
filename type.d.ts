@@ -68,13 +68,6 @@ export interface IPost {
 
 export type CommentWithUser = { id: number; content: string; user: UserInfo };
 
-export interface EditPost extends Omit<Post, "tags" | "comments" | "createdAt" | "updatedAt" | "views" | "content"> {
-  id: number;
-  markdown: string;
-  tags: string[];
-  category?: string[];
-}
-
 export interface PostPostJson {
   title: string;
   markdown: string | undefined;

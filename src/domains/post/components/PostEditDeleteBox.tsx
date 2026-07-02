@@ -2,19 +2,15 @@
 
 import { PostService } from "@domains/post/services/post.service";
 import { postQueryKeys } from "@domains/post/services/post.service";
-import { IPost } from "@domains/post/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
-
-import { setPostJson } from "@store/modules/editPost";
 
 export const dynamic = "force-dynamic";
 
 const postService = PostService.getInstance();
 
-export default function PostEditDeleteBox({ postData }: { postData: IPost }) {
+export default function PostEditDeleteBox() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { id } = useParams();
@@ -53,21 +49,10 @@ export default function PostEditDeleteBox({ postData }: { postData: IPost }) {
     }
   };
 
-  const dispatch = useDispatch();
   const editPost = () => {
     if (!id || Array.isArray(id)) return;
 
-    dispatch(
-      setPostJson({
-        id: +id,
-        title: postData.title,
-        category: postData.category ? [postData.category] : [],
-        description: postData.description,
-        markdown: postData.content,
-        tags: postData.tags?.map((item) => item.tag) || [],
-      })
-    );
-    return router.push("/blogs/post/edit");
+    return router.push(`/blogs/post/edit?id=${id}`);
   };
 
   const blogOwner = session?.user?.email === process.env.MY_EMAIL;

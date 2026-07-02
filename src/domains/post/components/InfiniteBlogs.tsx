@@ -3,17 +3,17 @@
 import MiniPost from "@domains/post/components/MiniPost";
 import { postQueryKeys } from "@domains/post/services/post.service";
 import { PostWithId } from "@domains/post/types";
-import useQuerySelector from "@shared/hooks/useQuerySelector";
-import useTagSelector from "@shared/hooks/useTagSelector";
 import { httpService } from "@shared/services/http.service";
 import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useRef } from "react";
 
 export default function InfiniteBlogs() {
   const loadingRef = useRef<HTMLDivElement>(null);
-  const { tag } = useTagSelector();
-  const { query } = useQuerySelector();
+  const searchParams = useSearchParams();
+  const tag = searchParams.get("tag") ?? "all";
+  const query = searchParams.get("query") ?? "";
 
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching, isFetchingNextPage } = useInfiniteQuery({
     queryKey: postQueryKeys.list({ tag, query }),

@@ -3,21 +3,18 @@
 import CategoryInput from "@domains/post/components/CategoryInput";
 import TagInput from "@domains/post/components/TagInput";
 import { postQueryKeys } from "@domains/post/services/post.service";
-import { PostPostJson } from "@domains/post/types";
+import { IPost, PostPostJson } from "@domains/post/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { httpService } from "@shared/services/http.service";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import "@uiw/react-markdown-preview/markdown.css";
 import "@uiw/react-md-editor/markdown-editor.css";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import * as z from "zod";
-
-import { ReduxSliceState } from "@store/modules";
 
 import { Mermaid } from "../components/Mermaid";
 
@@ -33,18 +30,70 @@ const postFormSchema = z.object({
 
 type PostFormData = z.infer<typeof postFormSchema>;
 
+function EditPageSkeleton() {
+  return (
+    <div className="flex w-full flex-col items-center justify-center px-4 py-20 md:px-0">
+      <div
+        className="h-8 w-64 animate-pulse rounded-md"
+        style={{ background: "var(--paper-2, #e5e5e5)" }}
+      />
+    </div>
+  );
+}
+
 export default function PostEditPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const idParam = searchParams.get("id");
+  const postId = idParam && !Number.isNaN(Number(idParam)) ? Number(idParam) : undefined;
+
+  const {
+    data: postData,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: postQueryKeys.detail(postId ?? -1),
+    queryFn: () => httpService.get<IPost>(`/api/blogs/${postId}`),
+    enabled: postId !== undefined,
+  });
+
+  useEffect(() => {
+    // id가 없거나 숫자가 아니면 목록으로 되돌린다.
+    if (!idParam || postId === undefined) {
+      router.replace("/blogs");
+    }
+  }, [idParam, postId, router]);
+
+  if (postId === undefined) {
+    return null;
+  }
+
+  if (isLoading) {
+    return <EditPageSkeleton />;
+  }
+
+  if (isError || !postData) {
+    return (
+      <div className="flex w-full flex-col items-center justify-center px-4 py-20 text-center md:px-0">
+        <p className="text-gray-700 dark:text-gray-300">게시글을 찾을 수 없습니다.</p>
+      </div>
+    );
+  }
+
+  return <PostEditForm postId={postId} postData={postData} />;
+}
+
+function PostEditForm({ postId, postData }: { postId: number; postData: IPost }) {
+  const router = useRouter();
   const queryClient = useQueryClient();
-  const editPostData = useSelector((state: ReduxSliceState) => state.editPostReducer);
   const { data: session } = useSession();
   const { mutate: editPost, data: mutationData } = useMutation({
     mutationFn: (payload: PostPostJson) =>
-      httpService.post<{ ok: boolean }>(`/api/blogs/post/edit?id=${editPostData.id}`, payload),
+      httpService.post<{ ok: boolean }>(`/api/blogs/post/edit?id=${postId}`, payload),
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: postQueryKeys.all }),
-        queryClient.invalidateQueries({ queryKey: postQueryKeys.detail(editPostData.id) }),
+        queryClient.invalidateQueries({ queryKey: postQueryKeys.detail(postId) }),
       ]);
     },
   });
@@ -56,11 +105,11 @@ export default function PostEditPage() {
   } = useForm<PostFormData>({
     resolver: zodResolver(postFormSchema),
     defaultValues: {
-      title: editPostData.title || "",
-      description: editPostData.description || "",
-      markdown: editPostData.markdown || "",
-      tags: editPostData.tags || [],
-      category: editPostData.category || [],
+      title: postData.title || "",
+      description: postData.description || "",
+      markdown: postData.content || "",
+      tags: postData.tags?.map((item) => item.tag) || [],
+      category: postData.category ? [postData.category] : [],
     },
   });
 

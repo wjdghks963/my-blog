@@ -1,12 +1,8 @@
 "use client";
 
 import { cls } from "@shared/utils/utils";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useCallback } from "react";
-import { useDispatch } from "react-redux";
-
-import { setSearchQuery } from "@store/modules/searchQuery";
-import { setFilterTag } from "@store/modules/tagFilter";
 
 export interface TagSpan {
   /** 데이터로 받은 태그 이름 */
@@ -23,27 +19,27 @@ export interface TagSpan {
 
 export default function TagSpan({ tag, tagName, className, clickOk, goBlog }: TagSpan) {
   const router = useRouter();
+  const pathname = usePathname();
   const hiddenFlex = className ?? "";
 
-  const dispatch = useDispatch();
+  const buildTagParams = useCallback(() => {
+    // 태그를 바꿀 때는 검색어를 함께 초기화한다.
+    const params = new URLSearchParams();
+    if (tag && tag !== "all") {
+      params.set("tag", tag);
+    }
+    return params.toString();
+  }, [tag]);
 
-  const filterTag = useCallback(() => {
-    dispatch(
-      setFilterTag({
-        tag,
-      })
-    );
-    dispatch(setSearchQuery({ query: "" }));
-  }, [dispatch, tag]);
+  const filterMutate = useCallback(() => {
+    const queryString = buildTagParams();
+    router.push(queryString ? `${pathname}?${queryString}` : pathname);
+  }, [buildTagParams, router, pathname]);
 
-  const filterMutate = () => {
-    filterTag();
-  };
-
-  const filterGoBlog = () => {
-    filterTag();
-    router.push("/blogs");
-  };
+  const filterGoBlog = useCallback(() => {
+    const queryString = buildTagParams();
+    router.push(queryString ? `/blogs?${queryString}` : "/blogs");
+  }, [buildTagParams, router]);
 
   const clickFunction = () => {
     clickOk ? (goBlog ? filterGoBlog() : filterMutate()) : null;

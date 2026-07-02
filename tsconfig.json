@@ -23,7 +23,6 @@
       "@styles/*": ["styles/*"],
       "@types": ["type.d.ts"],
       "@public/*": ["public/*"],
-      "@store/*": ["store/*"],
       "@core/*": ["src/core/*"]
     },
     "downlevelIteration": true,

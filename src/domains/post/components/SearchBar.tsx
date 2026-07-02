@@ -1,32 +1,38 @@
 "use client";
 
-import useQuerySelector from "@shared/hooks/useQuerySelector";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-
-import { setSearchQuery } from "@store/modules/searchQuery";
 
 const DEBOUNCE_MS = 500;
 // 1글자 검색은 매칭 범위가 지나치게 넓고 호출만 낭비하므로 최소 길이를 둔다.
 const MIN_QUERY_LENGTH = 2;
 
 export function SearchBar() {
-  const dispatch = useDispatch();
-  const { query } = useQuerySelector();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const query = searchParams.get("query") ?? "";
 
-  const [text, setText] = useState(query ?? "");
+  const [text, setText] = useState(query);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const dispatchQuery = useCallback(
+  const applyQuery = useCallback(
     (value: string) => {
-      dispatch(setSearchQuery({ query: value }));
+      const params = new URLSearchParams(searchParams.toString());
+      if (value) {
+        params.set("query", value);
+      } else {
+        params.delete("query");
+      }
+      const queryString = params.toString();
+      router.replace(queryString ? `${pathname}?${queryString}` : pathname, { scroll: false });
     },
-    [dispatch]
+    [router, pathname, searchParams]
   );
 
   // 외부(예: 태그 선택)에서 검색어가 바뀌거나 초기화되면 입력창도 동기화한다.
   useEffect(() => {
-    setText(query ?? "");
+    setText(query);
   }, [query]);
 
   // 입력값을 디바운스해 검색 쿼리에 반영한다.
@@ -37,17 +43,17 @@ export function SearchBar() {
 
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
-      dispatchQuery(text);
+      applyQuery(text);
     }, DEBOUNCE_MS);
 
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [text, query, dispatchQuery]);
+  }, [text, query, applyQuery]);
 
   const commitNow = () => {
     if (timerRef.current) clearTimeout(timerRef.current);
-    dispatchQuery(text);
+    applyQuery(text);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -58,14 +64,14 @@ export function SearchBar() {
     if (e.code === "Escape" && text) {
       setText("");
       if (timerRef.current) clearTimeout(timerRef.current);
-      dispatchQuery("");
+      applyQuery("");
     }
   };
 
   const clearInput = () => {
     setText("");
     if (timerRef.current) clearTimeout(timerRef.current);
-    dispatchQuery("");
+    applyQuery("");
   };
 
   return (

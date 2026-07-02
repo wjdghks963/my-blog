@@ -67,11 +67,38 @@ export default function PostListPage() {
         className="px-6 mobile:px-14"
         style={{ paddingTop: 24, paddingBottom: 24, borderBottom: "1px solid var(--rule)" }}
       >
-        <SearchBar />
+        <Suspense
+          fallback={
+            <div
+              className="h-10 w-full animate-pulse"
+              style={{ background: "var(--paper-2)", borderRadius: 4 }}
+            />
+          }
+        >
+          <SearchBar />
+        </Suspense>
       </section>
 
       <section className="px-6 mobile:px-14" style={{ paddingTop: 32, paddingBottom: 48 }}>
-        <InfiniteBlogs />
+        <Suspense
+          fallback={
+            <div className="grid grid-cols-1 gap-x-12 lg:grid-cols-2">
+              {Array.from({ length: 4 }).map((_, idx) => (
+                <div
+                  key={idx}
+                  className="animate-pulse"
+                  style={{
+                    height: 110,
+                    borderBottom: "1px solid var(--rule-2)",
+                    background: "linear-gradient(90deg, var(--paper-2) 0%, transparent 60%)",
+                  }}
+                />
+              ))}
+            </div>
+          }
+        >
+          <InfiniteBlogs />
+        </Suspense>
       </section>
 
       <FooterStrip />
