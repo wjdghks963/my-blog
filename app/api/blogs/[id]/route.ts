@@ -1,6 +1,5 @@
 import { IPost, UserInfo } from "@types";
 import { NextResponse } from "next/server";
-import { revalidateTag } from "next/cache";
 
 import prismaclient from "@libs/server/prismaClient";
 
@@ -19,10 +18,7 @@ export async function GET(request: Request) {
     const postId = +id!;
 
     const query = prismaclient.$queryRaw`
-                UPDATE "Post"
-                SET views = views + 1
-                WHERE id = ${postId}
-                RETURNING
+                SELECT
                   title,
                   content,
                   views,
@@ -57,15 +53,18 @@ export async function GET(request: Request) {
                     JOIN "PostTag" pt ON t.id = pt."tagId"
                     WHERE pt."postId" = "Post".id
                   ) AS tags
+                FROM "Post"
+                WHERE id = ${postId}
 `;
 
     // @ts-ignore
     let postResult: [IPost] = await query;
 
-    const post: IPost = postResult[0];
+    const post: IPost | undefined = postResult[0];
 
-    // increase views affects stats
-    revalidateTag("stats");
+    if (!post) {
+      return NextResponse.json({ ok: false, message: "Post not found" }, { status: 404 });
+    }
 
     return NextResponse.json({
       title: post?.title,

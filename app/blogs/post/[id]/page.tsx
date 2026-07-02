@@ -1,3 +1,4 @@
+import ViewTracker from "@domains/post/components/ViewTracker";
 import PostDetailPage from "@domains/post/pages/post-detail.page";
 import { IPost } from "@domains/post/types";
 import JsonLd, { getBlogPostingSchema, getBreadcrumbSchema, SITE_CONFIG } from "@shared/components/JsonLd";
@@ -134,6 +135,7 @@ export default async function Page(props: Props) {
     <>
       <JsonLd data={blogPostingSchema} />
       <JsonLd data={breadcrumbSchema} />
+      <ViewTracker postId={+id} />
       <PostDetailPage postData={postData} />
     </>
   );
