@@ -3,11 +3,14 @@
 import InfiniteBlogs from "@domains/post/components/InfiniteBlogs";
 import { SearchBar } from "@domains/post/components/SearchBar";
 import TagNavBar from "@domains/post/components/TagNavBar";
-import TagNavBarSkeleton from "@domains/post/components/TagNavBarSkeleton";
 import { FooterStrip } from "@domains/home/components/editorial/Editorial";
 import React, { Suspense } from "react";
 
-export default function PostListPage() {
+interface PostListPageProps {
+  tags: { tag: string }[];
+}
+
+export default function PostListPage({ tags }: PostListPageProps) {
   return (
     <main
       className="min-h-screen"
@@ -58,9 +61,7 @@ export default function PostListPage() {
         <div className="tiny-label" style={{ color: "var(--ink-3)", marginBottom: 10 }}>
           태그로 좁히기
         </div>
-        <Suspense fallback={<TagNavBarSkeleton />}>
-          <TagNavBar />
-        </Suspense>
+        <TagNavBar tags={tags} />
       </section>
 
       <section
