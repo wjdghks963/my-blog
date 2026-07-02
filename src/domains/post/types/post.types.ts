@@ -1,4 +1,4 @@
-import { Post, Tag } from "@prisma/client";
+import { Tag } from "@prisma/client";
 import { Comment } from "@prisma/client";
 
 export type PostStatus = "popular" | "recent";
@@ -41,9 +41,3 @@ export interface IPost {
   comments: (Comment | null)[];
 }
 
-export interface EditPost extends Omit<Post, "tags" | "comments" | "createdAt" | "updatedAt" | "views" | "content"> {
-  id: number;
-  markdown: string;
-  tags: string[];
-  category?: { category: string };
-}

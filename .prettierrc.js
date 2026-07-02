@@ -5,7 +5,6 @@ module.exports = {
     "^@utils/(.*)$",
     "^@libs/(.*)$",
     "^@public/(.*)$",
-    "^@store/(.*)$",
     "^@components/(.*)$",
     "^@base/(.*)$",
     "^@common/(.*)$",
