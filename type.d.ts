@@ -54,6 +54,12 @@ export interface CommentEditJson {
   content: string;
 }
 
+export interface IAdjacentPost {
+  id: number;
+  title: string;
+  createdAt: string;
+}
+
 export interface IPost {
   title: string;
   content: string;
@@ -64,6 +70,8 @@ export interface IPost {
   createdAt: Date;
   updatedAt: Date;
   comments: (Comment | null)[];
+  prevPost?: IAdjacentPost | null;
+  nextPost?: IAdjacentPost | null;
 }
 
 export type CommentWithUser = { id: number; content: string; user: UserInfo };
