@@ -54,7 +54,13 @@ export default function PostDetailPage({ postData }: Props) {
               <MetaRow
                 k="카테고리"
                 v={
-                  <span style={{ color: catColor, fontWeight: 600 }}>{postData.category}</span>
+                  <Link
+                    href={`/blogs?category=${encodeURIComponent(postData.category)}`}
+                    className="hover:underline"
+                    style={{ color: catColor, fontWeight: 600 }}
+                  >
+                    {postData.category}
+                  </Link>
                 }
               />
             )}
@@ -93,11 +99,14 @@ export default function PostDetailPage({ postData }: Props) {
         {/* Article body */}
         <article style={{ minWidth: 0 }}>
           {postData.category && (
-            <div
-              className="tiny-label"
-              style={{ color: catColor, fontWeight: 600, marginBottom: 14 }}
-            >
-              {postData.category}
+            <div style={{ marginBottom: 14 }}>
+              <Link
+                href={`/blogs?category=${encodeURIComponent(postData.category)}`}
+                className="tiny-label hover:underline"
+                style={{ color: catColor, fontWeight: 600 }}
+              >
+                {postData.category}
+              </Link>
             </div>
           )}
           <h1

@@ -1,5 +1,6 @@
 "use client";
 
+import CategoryNavBar from "@domains/post/components/CategoryNavBar";
 import InfiniteBlogs from "@domains/post/components/InfiniteBlogs";
 import { SearchBar } from "@domains/post/components/SearchBar";
 import TagNavBar from "@domains/post/components/TagNavBar";
@@ -8,9 +9,10 @@ import React, { Suspense } from "react";
 
 interface PostListPageProps {
   tags: { tag: string }[];
+  categories: { category: string }[];
 }
 
-export default function PostListPage({ tags }: PostListPageProps) {
+export default function PostListPage({ tags, categories }: PostListPageProps) {
   return (
     <main
       className="min-h-screen"
@@ -50,9 +52,21 @@ export default function PostListPage({ tags }: PostListPageProps) {
             color: "var(--ink-2)",
           }}
         >
-          태그·키워드로 글을 좁혀 봅니다. 카테고리는 좌측 상단 네비게이션에서.
+          카테고리·태그·키워드로 글을 좁혀 봅니다.
         </p>
       </header>
+
+      <section
+        className="px-6 mobile:px-14"
+        style={{ paddingTop: 20, paddingBottom: 20, borderBottom: "1px solid var(--rule)" }}
+      >
+        <div className="tiny-label" style={{ color: "var(--ink-3)", marginBottom: 10 }}>
+          카테고리로 좁히기
+        </div>
+        <Suspense fallback={<div className="h-7" />}>
+          <CategoryNavBar categories={categories} />
+        </Suspense>
+      </section>
 
       <section
         className="px-6 mobile:px-14"

@@ -11,5 +11,14 @@ export default async function BlogsPage() {
     },
   });
 
-  return <PostListPage tags={tags} />;
+  const categories = await prismaclient.category.findMany({
+    select: {
+      category: true,
+    },
+    orderBy: {
+      category: "asc",
+    },
+  });
+
+  return <PostListPage tags={tags} categories={categories} />;
 }

@@ -10,7 +10,7 @@ export default function MiniPost({ data }: { data: PostWithId }) {
   const date = compareLocaleDate(data.updatedAt, data.createdAt);
   const readingTime = getReadingTime(data.content);
   const href = `/blogs/post/${data.id}`;
-  const cat = (data as PostWithId & { category?: string | null }).category ?? null;
+  const cat = data.category ?? null;
   const color = categoryColor(cat);
 
   return (

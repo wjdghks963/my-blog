@@ -53,7 +53,7 @@ export class PostService {
 
 export const postQueryKeys = {
   all: ["posts"] as const,
-  list: (filter: { tag: string; query: string }) => ["posts", filter] as const,
+  list: (filter: { tag: string; query: string; category: string }) => ["posts", filter] as const,
   detail: (id: number) => ["post", id] as const,
 };
 

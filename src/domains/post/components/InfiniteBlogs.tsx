@@ -13,14 +13,15 @@ export default function InfiniteBlogs() {
   const loadingRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const tag = searchParams.get("tag") ?? "all";
+  const category = searchParams.get("category") ?? "all";
   const query = searchParams.get("query") ?? "";
 
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching, isFetchingNextPage } = useInfiniteQuery({
-    queryKey: postQueryKeys.list({ tag, query }),
+    queryKey: postQueryKeys.list({ tag, query, category }),
     queryFn: async ({ pageParam }) => {
       const url = `/api/blogs?query=${encodeURIComponent(query)}&tag=${encodeURIComponent(
         tag
-      )}&page=${pageParam}&limit=5`;
+      )}&category=${encodeURIComponent(category)}&page=${pageParam}&limit=5`;
       return httpService.get<{ hasNextPage: boolean; data: PostWithId[] }>(url);
     },
     initialPageParam: 1,
