@@ -29,6 +29,12 @@ export interface InfinitePostArr {
 
 export type PostsIds = [{ id: number }];
 
+export interface IAdjacentPost {
+  id: number;
+  title: string;
+  createdAt: string;
+}
+
 export interface IPost {
   title: string;
   content: string;
@@ -39,5 +45,7 @@ export interface IPost {
   createdAt: Date;
   updatedAt: Date;
   comments: (Comment | null)[];
+  prevPost?: IAdjacentPost | null;
+  nextPost?: IAdjacentPost | null;
 }
 

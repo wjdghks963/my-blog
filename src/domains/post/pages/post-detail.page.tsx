@@ -1,6 +1,7 @@
 import EditorialToc from "@domains/post/components/EditorialToc";
 import MarkdownParser from "@domains/post/components/MarkdownParser";
 import PostEditDeleteBox from "@domains/post/components/PostEditDeleteBox";
+import PostNeighborNav from "@domains/post/components/PostNeighborNav";
 import ReadingProgressBar from "@domains/post/components/ReadingProgressBar";
 import { IPost } from "@domains/post/types";
 import { categoryColor } from "@domains/home/utils/categoryColor";
@@ -151,6 +152,8 @@ export default function PostDetailPage({ postData }: Props) {
           <div className="markdown-content editorial-body">
             <MarkdownParser markdown={postData.content} />
           </div>
+
+          <PostNeighborNav prevPost={postData.prevPost} nextPost={postData.nextPost} />
         </article>
 
         {/* Right TOC column */}

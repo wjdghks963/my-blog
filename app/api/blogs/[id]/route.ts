@@ -52,7 +52,23 @@ export async function GET(request: Request) {
                     FROM "Tag" t
                     JOIN "PostTag" pt ON t.id = pt."tagId"
                     WHERE pt."postId" = "Post".id
-                  ) AS tags
+                  ) AS tags,
+                  (
+                    SELECT json_build_object('id', p.id, 'title', p.title, 'createdAt', p."createdAt")
+                    FROM "Post" p
+                    WHERE p."categoryId" = "Post"."categoryId"
+                      AND (p."createdAt", p.id) < ("Post"."createdAt", "Post".id)
+                    ORDER BY p."createdAt" DESC, p.id DESC
+                    LIMIT 1
+                  ) AS "prevPost",
+                  (
+                    SELECT json_build_object('id', p.id, 'title', p.title, 'createdAt', p."createdAt")
+                    FROM "Post" p
+                    WHERE p."categoryId" = "Post"."categoryId"
+                      AND (p."createdAt", p.id) > ("Post"."createdAt", "Post".id)
+                    ORDER BY p."createdAt" ASC, p.id ASC
+                    LIMIT 1
+                  ) AS "nextPost"
                 FROM "Post"
                 WHERE id = ${postId}
 `;
@@ -76,6 +92,8 @@ export async function GET(request: Request) {
       category: post?.category,
       createdAt: post?.createdAt,
       updatedAt: post?.updatedAt,
+      prevPost: post?.prevPost ?? null,
+      nextPost: post?.nextPost ?? null,
     });
   } catch (err) {
     console.error(err);
