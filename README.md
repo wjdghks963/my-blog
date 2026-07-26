@@ -49,6 +49,10 @@ libs/server/          # 서버 헬퍼 (prismaClient, checkOwner, ...)
 prisma/schema.prisma  # Post · Category · Tag · Comment · User
 ```
 
+## Architecture
+
+![Architecture of my_blog](./docs/architecture.svg)
+
 ## 실행 방법
 
 ```bash
