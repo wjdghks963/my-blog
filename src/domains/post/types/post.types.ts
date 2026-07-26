@@ -17,6 +17,7 @@ export type PostWithId = {
   content: string;
   views: number;
   description: string;
+  category?: string | null;
   createdAt: Date;
   updatedAt: Date;
   tags: Tag[];

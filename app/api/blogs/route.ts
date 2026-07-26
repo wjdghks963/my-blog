@@ -8,17 +8,20 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
   const rawTag = searchParams.get("tag");
+  const rawCategory = searchParams.get("category");
   const rawQuery = searchParams.get("query");
   const rawPage = searchParams.get("page");
   const rawLimit = searchParams.get("limit");
 
   const tag = rawTag && rawTag !== "undefined" ? rawTag : "all";
+  const category = rawCategory && rawCategory !== "undefined" ? rawCategory : "all";
   const query = rawQuery && rawQuery !== "undefined" ? rawQuery.trim() : "";
   const page = rawPage && rawPage !== "undefined" ? +rawPage : 1;
   const limit = rawLimit && rawLimit !== "undefined" ? +rawLimit : 5;
 
   const offset = (page - 1) * limit;
   const hasTag = tag !== "all" && tag !== "";
+  const hasCategory = category !== "all" && category !== "";
   const hasQuery = query !== "";
 
   // 검색어와 태그 조건을 조합해 동적으로 WHERE 절을 구성한다.
@@ -42,6 +45,16 @@ export async function GET(request: Request) {
     );
   }
 
+  if (hasCategory) {
+    conditions.push(
+      Prisma.sql`EXISTS (
+        SELECT 1
+        FROM "Category" c2
+        WHERE c2.id = p."categoryId" AND c2.category = ${category}
+      )`
+    );
+  }
+
   const whereClause = conditions.length
     ? Prisma.sql`WHERE ${Prisma.join(conditions, " AND ")}`
     : Prisma.empty;
@@ -49,6 +62,7 @@ export async function GET(request: Request) {
   const posts: PostWithId[] = await prismaclient.$queryRaw<PostWithId[]>`
       SELECT
             p.*,
+            (SELECT c.category FROM "Category" c WHERE c.id = p."categoryId") AS category,
             COALESCE(json_agg(json_build_object('tag', t.tag)) FILTER (WHERE t.tag IS NOT NULL), '[]'::json) AS tags
       FROM "Post" p
       LEFT JOIN "PostTag" pt ON p.id = pt."postId"

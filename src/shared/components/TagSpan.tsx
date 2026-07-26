@@ -23,8 +23,15 @@ export default function TagSpan({ tag, tagName, className, clickOk, goBlog }: Ta
   const hiddenFlex = className ?? "";
 
   const buildTagParams = useCallback(() => {
-    // 태그를 바꿀 때는 검색어를 함께 초기화한다.
+    // 태그를 바꿀 때는 검색어를 초기화하되, 카테고리 선택은 유지한다.
     const params = new URLSearchParams();
+    const category =
+      typeof window !== "undefined"
+        ? new URLSearchParams(window.location.search).get("category")
+        : null;
+    if (category) {
+      params.set("category", category);
+    }
     if (tag && tag !== "all") {
       params.set("tag", tag);
     }
