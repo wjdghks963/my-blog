@@ -144,28 +144,30 @@ export default function Blogs() {
                   </Link>
                 </div>
               </section>
-
-            <section
-              className={sectionClass}
-              id="outcomes"
-            >
-              <h2 className={sectionTitleClass} style={sectionTitleStyle}>주요 성과</h2>
-              <div className="mt-4 grid gap-2 sm:grid-cols-3">
-                <div className="rounded-lg border border-soft bg-white/60 px-3 py-2 text-sm dark:bg-white/5">
-                  런타임 오류 개선
-                  <span className="ml-2 font-bold text-brand">-90%</span>
+              <section className={sectionClass} id="outcomes">
+                <h2 className={sectionTitleClass} style={sectionTitleStyle}>
+                  주요 성과
+                </h2>
+              
+                <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                  {[
+                    { label: "가입 전환율", value: "약 +5%p" },
+                    { label: "백오피스 API 응답", value: "30초 → 10초" },
+                    { label: "주간 런타임 오류", value: "약 90%↓" },
+                    { label: "메시지 발송 비용", value: "약 80%↓" },
+                    { label: "이벤트 기능 대응", value: "7일 → 3일" },
+                    { label: "ISMS 보안 통제", value: "인증·접근·로그 개선" },
+                  ].map(({ label, value }) => (
+                    <div
+                      key={label}
+                      className="flex items-center justify-between gap-3 rounded-lg border border-soft bg-white/60 px-3 py-2 text-sm dark:bg-white/5"
+                    >
+                      <span>{label}</span>
+                      <span className="shrink-0 font-bold text-brand">{value}</span>
+                    </div>
+                  ))}
                 </div>
-                <div className="rounded-lg border border-soft bg-white/60 px-3 py-2 text-sm dark:bg-white/5">
-                  이벤트 리드타임
-                  <span className="ml-2 font-bold text-brand">7일→3일</span>
-                </div>
-                <div className="rounded-lg border border-soft bg-white/60 px-3 py-2 text-sm dark:bg-white/5">
-                  메시지 비용 절감
-                  <span className="ml-2 font-bold text-brand">-80%</span>
-                </div>
-              </div>
-            </section>
-
+              </section>
             <section
               className={sectionClass}
               id="career"
