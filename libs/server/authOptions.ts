@@ -10,6 +10,9 @@ export const authOptions: NextAuthOptions = {
     GitHubProvider({
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
+      // GitHub이 RFC 9207 롤아웃으로 콜백에 iss 파라미터를 보내기 시작해
+      // issuer 미설정 시 openid-client 검증이 실패한다 (OAUTH_CALLBACK_ERROR).
+      issuer: "https://github.com/login/oauth",
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
