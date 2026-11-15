@@ -8,7 +8,7 @@ export default function ImageForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (session?.user?.email === process.env.MY_EMAIL) return;
+    if (session?.user?.isOwner) return;
     const form = new FormData();
     if (image) {
       form.append("file", image);

@@ -16,7 +16,7 @@ export default function CommentBox({ content, userInfo }: { content: CommentWith
   const commentRef = useRef<HTMLTextAreaElement>(null);
 
   const isMine = session?.user?.email === userInfo?.email;
-  const blogOwner = session?.user?.email === process.env.MY_EMAIL;
+  const blogOwner = session?.user?.isOwner === true;
 
   const editCommentMutation = useMutation({
     mutationFn: (formData: CommentEditJson) => commentService.updateComment(formData),

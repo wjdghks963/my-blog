@@ -62,7 +62,7 @@ export default function Profile() {
               로그인 해주세요
             </p>
             <button
-              onClick={() => signIn()}
+              onClick={() => signIn("github")}
               style={{
                 background: "var(--ink)",
                 color: "var(--paper)",

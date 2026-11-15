@@ -1,11 +1,15 @@
 import { NextAuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
-import GoogleProvider from "next-auth/providers/google";
-import KakaoProvider from "next-auth/providers/kakao";
 
 import prismaclient from "@libs/server/prismaClient";
 
+function isOwnerEmail(email?: string | null) {
+  const ownerEmail = process.env.MY_EMAIL;
+  return !!email && !!ownerEmail && email.toLowerCase() === ownerEmail.toLowerCase();
+}
+
 export const authOptions: NextAuthOptions = {
+  // 로그인은 GitHub 한 곳, 그리고 블로그 주인(MY_EMAIL) 계정만 허용한다.
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_ID as string,
@@ -14,19 +18,6 @@ export const authOptions: NextAuthOptions = {
       // issuer 미설정 시 openid-client 검증이 실패한다 (OAUTH_CALLBACK_ERROR).
       issuer: "https://github.com/login/oauth",
     }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_ID as string,
-      clientSecret: process.env.GOOGLE_SECRET as string,
-    }),
-    KakaoProvider({
-      clientId: process.env.KAKAO_ID as string,
-      clientSecret: process.env.KAKAO_SECRET as string,
-    }),
-    // TwitterProvider({
-    //     clientId: process.env.TWITTER_ID as string,
-    //     clientSecret: process.env.TWITTER_SECRET as string,
-    //     version:"2.0"
-    // })
   ],
   session: { strategy: "jwt", maxAge: 14 * 24 * 60 * 60 },
   secret: process.env.SECRET,
@@ -42,15 +33,24 @@ export const authOptions: NextAuthOptions = {
       return baseUrl;
     },
     async signIn({ user, account }) {
-      if (user) {
-        return await userTransaction({
-          email: user.email!,
-          name: user.name!,
-          image: user.image!,
-          domain: account?.provider,
-        });
+      // 주인 이메일의 GitHub 계정이 아니면 전부 거부
+      if (account?.provider !== "github" || !isOwnerEmail(user?.email)) {
+        return false;
       }
-      return true;
+
+      return await userTransaction({
+        email: user.email!,
+        name: user.name ?? "",
+        image: user.image ?? "",
+        domain: account.provider,
+      });
+    },
+    async session({ session }) {
+      // 주인 여부는 서버에서만 판단해 내려준다 (이메일을 클라이언트 번들에 넣지 않기 위함)
+      if (session.user) {
+        session.user.isOwner = isOwnerEmail(session.user.email);
+      }
+      return session;
     },
   },
 };

@@ -1,12 +1,10 @@
-import { PostStatus } from "@types";
-import { Request } from "next/dist/compiled/@edge-runtime/primitives/fetch";
 import { NextResponse } from "next/server";
 
 import { RegImageSrc } from "@libs/server/RegImageSrc";
 import prismaclient from "@libs/server/prismaClient";
 
 interface Params {
-  status: PostStatus;
+  status: string;
 }
 
 export async function GET(_: Request, context: { params: Promise<Params> }) {

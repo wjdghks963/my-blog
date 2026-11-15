@@ -263,6 +263,16 @@ h4 {
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
 }
+/* 제목 자동 링크(rehype-autolink-headings)는 링크처럼 보이지 않게 */
+.editorial-body :is(h1, h2, h3, h4) a {
+  color: inherit;
+  text-decoration: none;
+}
+.editorial-body :is(h1, h2, h3, h4) a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
 .editorial-body ul,
 .editorial-body ol {
   margin: 0 0 20px;

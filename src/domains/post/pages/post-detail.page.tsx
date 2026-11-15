@@ -121,11 +121,10 @@ export default function PostDetailPage({ postData }: Props) {
           </h1>
           {postData.description && (
             <p
-              className="font-display"
               style={{
                 margin: "16px 0 28px",
-                fontSize: 21,
-                lineHeight: 1.4,
+                fontSize: 19,
+                lineHeight: 1.55,
                 color: "var(--ink-2)",
               }}
             >
