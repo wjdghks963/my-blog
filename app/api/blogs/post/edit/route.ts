@@ -11,7 +11,12 @@ export async function POST(req: Request) {
 
   try {
     const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id") ? parseInt(searchParams.get("id") + "") : 1;
+    const id = Number(searchParams.get("id"));
+
+    if (!Number.isInteger(id) || id <= 0) {
+      return NextResponse.json({ ok: false, error: "Invalid Post ID" }, { status: 400 });
+    }
+
     const { title, markdown, tags, description, category }: PostPostJson = await req.json();
 
     await prismaclient.$transaction(async (tx) => {
@@ -104,6 +109,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ ok: false, error: `Error occurred: ${err}` }, { status: 500 });
+    return NextResponse.json({ ok: false, error: "Internal Server Error" }, { status: 500 });
   }
 }

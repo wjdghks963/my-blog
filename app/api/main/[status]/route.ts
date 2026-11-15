@@ -42,7 +42,7 @@ export async function GET(_: Request, context: { params: Promise<Params> }) {
 
         return NextResponse.json({ json: popularPostsJson });
       } catch (e) {
-        return NextResponse.json({ err: e });
+        return NextResponse.json({ err: "Internal Server Error" }, { status: 500 });
       }
     }
 
@@ -76,7 +76,7 @@ export async function GET(_: Request, context: { params: Promise<Params> }) {
 
         return NextResponse.json({ json: recentPostsJson });
       } catch (e) {
-        return NextResponse.json({ err: e });
+        return NextResponse.json({ err: "Internal Server Error" }, { status: 500 });
       }
     }
     default: {

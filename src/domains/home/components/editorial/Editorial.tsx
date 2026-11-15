@@ -62,9 +62,9 @@ export function Masthead({ stats, issue }: { stats: EditorialStats; issue: strin
               color: "var(--ink)",
             }}
           >
-            어제 만든 코드,
+            삽질은 짧게,
             <br />
-            오늘 읽는 기록.
+            기록은 길게<span style={{ color: "var(--accent)" }}>.</span>
           </h1>
           <p
             style={{
@@ -75,7 +75,7 @@ export function Masthead({ stats, issue }: { stats: EditorialStats; issue: strin
               color: "var(--ink-2)",
             }}
           >
-            운영하다 막힌 자리, 다시 짜본 구조, 한참 뒤에야 보이는 것들. 잊어버리기 전에 적어두는 작업 일지.
+            프론트엔드부터 서버 인프라까지, 직접 부딪힌 문제와 풀어낸 과정을 남깁니다.
           </p>
         </div>
 
@@ -110,7 +110,7 @@ export function FeatureLead({ post, author = "최정환" }: { post: EditorialPos
     <article className="flex flex-col">
       <div className="flex items-center gap-3" style={{ marginBottom: 18 }}>
         <span className="tiny-label" style={{ color, fontWeight: 700, letterSpacing: "0.14em" }}>
-          이번 주 글
+          최신 글
         </span>
         <span style={{ flex: 1, height: 1, background: "var(--ink)" }} />
         <span className="tiny-label" style={{ color: "var(--ink-3)" }}>

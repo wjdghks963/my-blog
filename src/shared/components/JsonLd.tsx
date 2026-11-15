@@ -8,7 +8,8 @@ export default function JsonLd({ data }: JsonLdProps) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      // "</script>" 가 본문/제목에 들어 있어도 스크립트 블록을 벗어나지 못하게 < 를 이스케이프한다
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }}
     />
   );
 }

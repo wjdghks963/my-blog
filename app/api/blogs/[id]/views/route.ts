@@ -30,6 +30,6 @@ export async function POST(request: Request) {
     if (err instanceof Error && "code" in err && (err as any).code === "P2025") {
       return NextResponse.json({ ok: false, message: "Post not found" }, { status: 404 });
     }
-    return NextResponse.json({ ok: false, message: `error occurred ${err}` }, { status: 500 });
+    return NextResponse.json({ ok: false, message: "Internal Server Error" }, { status: 500 });
   }
 }

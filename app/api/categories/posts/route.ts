@@ -26,6 +26,6 @@ export async function GET(_: Request) {
     return NextResponse.json({ categories: sanitizedCategories });
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ ok: false, error_message: err });
+    return NextResponse.json({ ok: false, error_message: "Internal Server Error" }, { status: 500 });
   }
 }

@@ -78,15 +78,6 @@ async function fetchHomeData() {
   }
 }
 
-function issueLabel(date = new Date()) {
-  const start = new Date(2024, 0, 1).getTime();
-  const weeks = Math.max(1, Math.floor((date.getTime() - start) / (7 * 86400000)));
-  const vol = String(Math.floor(weeks / 52) + 1).padStart(2, "0");
-  const issue = String((weeks % 52) + 1).padStart(2, "0");
-  const today = date.toLocaleDateString("ko-KR", { year: "numeric", month: "short", day: "numeric" });
-  return `Vol. ${vol} · Issue ${issue} · ${today}`;
-}
-
 export default async function Page() {
   const { posts, stats } = await fetchHomeData();
 
@@ -97,7 +88,7 @@ export default async function Page() {
 
   return (
     <main style={{ background: "var(--paper)", color: "var(--ink)" }}>
-      <Masthead stats={stats} issue={issueLabel()} />
+      <Masthead stats={stats} issue="Junglog · Web Dev & Beyond" />
 
       {lead && (
         <div

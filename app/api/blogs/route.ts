@@ -4,6 +4,14 @@ import { NextResponse } from "next/server";
 
 import prismaclient from "@libs/server/prismaClient";
 
+const MAX_LIMIT = 30;
+
+function clampInt(raw: string | null, fallback: number, min: number, max: number) {
+  const n = Number(raw);
+  if (!raw || !Number.isInteger(n)) return fallback;
+  return Math.min(max, Math.max(min, n));
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
@@ -16,8 +24,9 @@ export async function GET(request: Request) {
   const tag = rawTag && rawTag !== "undefined" ? rawTag : "all";
   const category = rawCategory && rawCategory !== "undefined" ? rawCategory : "all";
   const query = rawQuery && rawQuery !== "undefined" ? rawQuery.trim() : "";
-  const page = rawPage && rawPage !== "undefined" ? +rawPage : 1;
-  const limit = rawLimit && rawLimit !== "undefined" ? +rawLimit : 5;
+  // 숫자가 아니거나 범위를 벗어난 값은 기본값/상한으로 고정한다 (전체 본문 덤프·쿼리 오류 방지)
+  const page = clampInt(rawPage, 1, 1, 10000);
+  const limit = clampInt(rawLimit, 5, 1, MAX_LIMIT);
 
   const offset = (page - 1) * limit;
   const hasTag = tag !== "all" && tag !== "";

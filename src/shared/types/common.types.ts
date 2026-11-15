@@ -1,7 +1,7 @@
 import { Tag } from "@prisma/client";
 
 export interface UserInfo {
-  email: string;
+  email?: string;
   name: string;
   image: string;
 }

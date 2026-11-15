@@ -31,14 +31,15 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt", maxAge: 14 * 24 * 60 * 60 },
   secret: process.env.SECRET,
   callbacks: {
-    async jwt({ token, account }) {
-      if (account) {
-        token.accessToken = account.access_token;
-      }
-      return token;
-    },
     async redirect({ url, baseUrl }) {
-      return url;
+      // 같은 출처로만 리다이렉트 (callbackUrl 을 이용한 오픈 리다이렉트 방지)
+      if (url.startsWith("/") && !url.startsWith("//")) return `${baseUrl}${url}`;
+      try {
+        if (new URL(url).origin === baseUrl) return url;
+      } catch {
+        // 잘못된 URL 은 무시
+      }
+      return baseUrl;
     },
     async signIn({ user, account }) {
       if (user) {

@@ -28,6 +28,6 @@ export async function GET(req: Request, props: { params: Promise<{ categoryId: s
     return NextResponse.json({ category: categoryWithPosts });
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ ok: false, error_message: err });
+    return NextResponse.json({ ok: false, error_message: "Internal Server Error" }, { status: 500 });
   }
 }
