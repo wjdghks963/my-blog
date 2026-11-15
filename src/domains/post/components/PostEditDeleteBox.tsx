@@ -55,7 +55,7 @@ export default function PostEditDeleteBox() {
     return router.push(`/blogs/post/edit?id=${id}`);
   };
 
-  const blogOwner = session?.user?.email === process.env.MY_EMAIL;
+  const blogOwner = session?.user?.isOwner === true;
 
   return (
     <>

@@ -4,7 +4,6 @@ const nextConfig = {
   env: {
     CLOUD_NAME: process.env.CLOUD_NAME,
     CLOUD_PRESET_NAME: process.env.CLOUD_PRESET_NAME,
-    MY_EMAIL: process.env.MY_EMAIL,
   },
   serverExternalPackages: ["prisma", "@prisma/client"],
   transpilePackages: ["lottie-react"],
@@ -68,6 +67,19 @@ const nextConfig = {
     }
 
     return config;
+  },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+        ],
+      },
+    ];
   },
   async rewrites() {
     return [

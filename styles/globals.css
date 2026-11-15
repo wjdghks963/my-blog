@@ -3,29 +3,39 @@
 @tailwind utilities;
 
 :root {
-  /* ===== Editorial (Variation A) tokens ===== */
-  --font-serif: var(--font-serif-face), "Source Serif 4", "Iowan Old Style", Georgia, serif;
-  --font-mono: var(--font-mono-face), "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  /* ===== Typeface ===== */
+  --font-stack-sans: var(--font-sans), "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+  --font-mono: var(--font-mono-face), "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
-  --paper: #f6f1e8;
-  --paper-2: #efe8db;
-  --ink: #1a1815;
-  --ink-2: #3a342c;
-  --ink-3: #6a6358;
-  --ink-4: #98907f;
-  --rule: #c9bfae;
-  --rule-2: #ddd3bf;
-  --highlight: #f9f0d8;
+  /* ===== Color: cool slate + cobalt ===== */
+  --paper: #f6f7f9;
+  --paper-2: #eceef2;
+  --ink: #0e1217;
+  --ink-2: #2a323d;
+  --ink-3: #5b6572;
+  --ink-4: #98a1ad;
+  --rule: #d5dae2;
+  --rule-2: #e4e7ec;
+  --highlight: #e9edff;
 
-  --accent: #b54d2a;
-  --accent-2: #2c5f4e;
-  --accent-3: #1f4a8a;
-  --accent-4: #8a6d2f;
-  --accent-5: #6a3475;
-  --accent-6: #a83247;
+  --accent: #2f4ff5;
+  --accent-2: #0b8463;
+  --accent-3: #7440e8;
+  --accent-4: #a8660c;
+  --accent-5: #c92a66;
+  --accent-6: #0a7890;
+  --accent-7: #b3471d;
+  --accent-8: #4a5a70;
 
   --gutter: 24px;
   --gutter-lg: 48px;
+
+  /* ===== Site shell ===== */
+  --sidebar-w: 232px;
+  --topbar-h: 56px; /* lg 이상에서는 상단 바가 없으므로 0 */
+  --content-max: 1120px;
+  --shell-gutter: 20px;
 
   /* ===== Legacy aliases (keep existing pages working) ===== */
   --bg-base: var(--paper);
@@ -36,26 +46,28 @@
   --text-primary: var(--ink);
   --text-muted: var(--ink-3);
   --accent-primary: var(--accent);
-  --accent-secondary: var(--accent-4);
+  --accent-secondary: var(--accent-3);
 }
 
 .dark {
-  --paper: #15140f;
-  --paper-2: #1f1d17;
-  --ink: #f1ead9;
-  --ink-2: #d8d0bd;
-  --ink-3: #948c7a;
-  --ink-4: #61594b;
-  --rule: #2e2a22;
-  --rule-2: #3a352b;
-  --highlight: #2a2415;
+  --paper: #0b0e13;
+  --paper-2: #141921;
+  --ink: #e9edf2;
+  --ink-2: #c2c9d3;
+  --ink-3: #8891a0;
+  --ink-4: #566070;
+  --rule: #252c38;
+  --rule-2: #1b212b;
+  --highlight: #171f3d;
 
-  --accent: #d97553;
-  --accent-2: #6db89a;
-  --accent-3: #6e9bd9;
-  --accent-4: #d4ad55;
-  --accent-5: #b27dc2;
-  --accent-6: #d56579;
+  --accent: #8098ff;
+  --accent-2: #4fd1a5;
+  --accent-3: #b294ff;
+  --accent-4: #edb458;
+  --accent-5: #ff7dab;
+  --accent-6: #5fcbe0;
+  --accent-7: #f08a5d;
+  --accent-8: #9fb0c8;
 
   --bg-base: var(--paper);
   --bg-elevated: var(--paper);
@@ -65,7 +77,7 @@
   --text-primary: var(--ink);
   --text-muted: var(--ink-3);
   --accent-primary: var(--accent);
-  --accent-secondary: var(--accent-4);
+  --accent-secondary: var(--accent-3);
 }
 
 html,
@@ -73,23 +85,125 @@ body {
   min-height: 100%;
 }
 
+html {
+  scroll-padding-top: calc(var(--topbar-h) + 16px);
+}
+
+@media (min-width: 560px) {
+  :root {
+    --shell-gutter: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --topbar-h: 0px;
+    --shell-gutter: 48px;
+  }
+}
+
+/* ===== Site shell: 사이드바(lg+) / 상단 바(<lg) + 본문 ===== */
+.site-shell {
+  min-height: 100vh;
+}
+
+.site-main {
+  display: flex;
+  min-width: 0;
+  min-height: calc(100vh - var(--topbar-h));
+  flex-direction: column;
+}
+
+.site-content {
+  flex: 1 0 auto;
+}
+
+.site-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  flex-direction: column;
+  padding: 28px 24px 24px;
+  border-right: 1px solid var(--rule);
+  background: var(--paper);
+  overflow-y: auto;
+}
+
+.site-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--topbar-h);
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+}
+
+.site-drawer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding-top: 4px;
+  padding-bottom: 16px;
+  background: var(--paper);
+  border-bottom: 2px solid var(--ink);
+}
+
+.site-drawer-backdrop {
+  position: fixed;
+  inset: var(--topbar-h) 0 0 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.site-nav-link:hover {
+  color: var(--ink) !important;
+}
+
+@media (min-width: 1024px) {
+  .site-shell {
+    display: grid;
+    grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  }
+}
+
+/*
+ * 섹션 좌우 여백. 구분선은 본문 컬럼 끝까지 가고,
+ * 내용만 --content-max 폭으로 가운데 정렬된다.
+ */
+.shell-x {
+  padding-left: max(var(--shell-gutter), calc((100% - var(--content-max)) / 2));
+  padding-right: max(var(--shell-gutter), calc((100% - var(--content-max)) / 2));
+}
+
 body {
   color: var(--ink);
-  font-family: var(--font-sans), sans-serif;
+  font-family: var(--font-stack-sans);
   background-color: var(--paper);
   transition: background-color 200ms ease, color 200ms ease;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
 }
 
 h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-display), var(--font-sans), sans-serif;
-  letter-spacing: -0.01em;
+  font-family: var(--font-stack-sans);
+  letter-spacing: -0.02em;
 }
 
-.font-serif {
-  font-family: var(--font-serif);
+/* 제목용: 굵고 촘촘한 산세리프 */
+.font-display {
+  font-family: var(--font-stack-sans);
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
 
 .font-mono {
@@ -97,68 +211,71 @@ h4 {
 }
 
 .tiny-label {
+  font-family: var(--font-mono);
   font-size: 11px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 500;
 }
 
-/* ===== Editorial article body ===== */
+/* ===== Article body ===== */
 .editorial-body {
-  font-family: var(--font-serif);
-  font-size: 17px;
-  line-height: 1.7;
+  font-size: 16.5px;
+  line-height: 1.8;
   color: var(--ink-2);
 }
-.editorial-body > p:first-of-type::first-letter {
-  float: left;
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 4em;
-  line-height: 0.85;
-  padding: 6px 10px 0 0;
-  color: var(--accent);
-}
 .editorial-body p {
-  margin: 0 0 18px;
+  margin: 0 0 20px;
 }
+.editorial-body h1,
 .editorial-body h2 {
-  font-family: var(--font-serif);
-  font-size: 28px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  margin: 36px 0 16px;
+  font-size: 26px;
+  font-weight: 700;
+  margin: 44px 0 16px;
   color: var(--ink);
-  line-height: 1.2;
+  line-height: 1.3;
 }
 .editorial-body h3 {
-  font-family: var(--font-serif);
-  font-size: 22px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  margin: 28px 0 12px;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 32px 0 12px;
   color: var(--ink);
-  line-height: 1.25;
+  line-height: 1.35;
+}
+.editorial-body strong {
+  color: var(--ink);
+  font-weight: 700;
 }
 .editorial-body blockquote {
   margin: 24px 0;
-  padding: 12px 20px;
+  padding: 14px 20px;
   border-left: 3px solid var(--accent);
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 20px;
+  background: var(--highlight);
+  border-radius: 0 6px 6px 0;
   color: var(--ink-2);
-  line-height: 1.5;
+}
+.editorial-body blockquote > :last-child {
+  margin-bottom: 0;
 }
 .editorial-body a {
   color: var(--accent);
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
+  text-underline-offset: 3px;
+}
+/* 제목 자동 링크(rehype-autolink-headings)는 링크처럼 보이지 않게 */
+.editorial-body :is(h1, h2, h3, h4) a {
+  color: inherit;
+  text-decoration: none;
+}
+.editorial-body :is(h1, h2, h3, h4) a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
 }
 .editorial-body ul,
 .editorial-body ol {
-  margin: 0 0 18px;
+  margin: 0 0 20px;
   padding-left: 1.4em;
 }
 .editorial-body li {
@@ -167,7 +284,7 @@ h4 {
 .editorial-body hr {
   border: 0;
   border-top: 1px solid var(--rule);
-  margin: 32px 0;
+  margin: 36px 0;
 }
 
 @layer components {

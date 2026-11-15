@@ -2,7 +2,6 @@
 
 import Certificate from "@domains/about-me/components/Certificate";
 import StickyHeader from "@domains/about-me/components/StickyHeader";
-import { FooterStrip } from "@domains/home/components/editorial/Editorial";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
@@ -40,10 +39,9 @@ const NpmDownloads: React.FC = () => {
 
 export default function Blogs() {
   const sectionClass = "border-b border-soft pb-10 last:border-b-0";
-  const sectionTitleClass = "font-serif italic";
+  const sectionTitleClass = "font-display";
   const sectionTitleStyle = {
     fontSize: 28,
-    fontWeight: 500,
     letterSpacing: "-0.01em",
     color: "var(--ink)",
     margin: 0,
@@ -67,9 +65,9 @@ export default function Blogs() {
   const imageStyle = { border: "1px solid var(--rule)", borderRadius: 4, padding: 8 } as const;
 
   return (
-    <main className="min-h-screen" style={{ background: "var(--paper)", color: "var(--ink)" }}>
+    <main style={{ background: "var(--paper)", color: "var(--ink)" }}>
       <header
-        className="px-6 mobile:px-14"
+        className="shell-x"
         style={{
           paddingTop: 44,
           paddingBottom: 28,
@@ -80,13 +78,11 @@ export default function Blogs() {
           ABOUT
         </div>
         <h1
-          className="font-serif"
+          className="font-display"
           style={{
             margin: 0,
             fontSize: "clamp(40px, 6vw, 64px)",
             lineHeight: 1,
-            fontWeight: 500,
-            fontStyle: "italic",
             letterSpacing: "-0.02em",
           }}
         >
@@ -105,7 +101,7 @@ export default function Blogs() {
         </p>
       </header>
 
-      <div className="px-6 mobile:px-14" style={{ paddingTop: 40, paddingBottom: 48 }}>
+      <div className="shell-x" style={{ paddingTop: 40, paddingBottom: 48 }}>
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_220px]">
           <article style={{ minWidth: 0 }}>
             <div className="space-y-10">
@@ -481,7 +477,6 @@ export default function Blogs() {
           <StickyHeader />
         </div>
       </div>
-      <FooterStrip />
     </main>
   );
 }

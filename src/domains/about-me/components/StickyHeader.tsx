@@ -15,7 +15,7 @@ export default function StickyHeader() {
   return (
     <aside
       className="hidden h-fit lg:block"
-      style={{ position: "sticky", top: 88, alignSelf: "start" }}
+      style={{ position: "sticky", top: "calc(var(--topbar-h) + 24px)", alignSelf: "start" }}
     >
       <div className="tiny-label" style={{ color: "var(--ink-3)", marginBottom: 12 }}>
         목차

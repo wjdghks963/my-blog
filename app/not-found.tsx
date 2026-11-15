@@ -3,20 +3,18 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <main
-      className="flex min-h-[calc(100vh-64px)] flex-col items-center justify-center px-6 text-center"
+      className="flex min-h-[70vh] flex-col items-center justify-center px-6 text-center"
       style={{ background: "var(--paper)", color: "var(--ink)" }}
     >
       <div className="tiny-label" style={{ color: "var(--accent)", marginBottom: 14 }}>
         ERROR · 404
       </div>
       <h1
-        className="font-serif"
+        className="font-display"
         style={{
           margin: 0,
           fontSize: "clamp(64px, 10vw, 120px)",
           lineHeight: 1,
-          fontWeight: 500,
-          fontStyle: "italic",
           letterSpacing: "-0.02em",
         }}
       >

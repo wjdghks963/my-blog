@@ -114,7 +114,7 @@ function PostEditForm({ postId, postData }: { postId: number; postData: IPost })
   });
 
   const onSubmit = async (data: PostFormData) => {
-    if (session?.user?.email !== process.env.MY_EMAIL) {
+    if (!session?.user?.isOwner) {
       if (process.env.NODE_ENV === "production") {
         return alert("email 확인해주세요");
       }

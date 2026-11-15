@@ -39,7 +39,7 @@ export interface InfinitePostArr {
 export type PostsIds = [{ id: number }];
 
 export interface UserInfo {
-  email: string;
+  email?: string;
   name: string;
   image: string;
 }

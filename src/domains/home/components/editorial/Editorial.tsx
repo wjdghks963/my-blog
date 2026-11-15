@@ -44,7 +44,7 @@ function shortViews(n: number) {
 export function Masthead({ stats, issue }: { stats: EditorialStats; issue: string }) {
   return (
     <div
-      className="px-6 mobile:px-14"
+      className="shell-x"
       style={{ paddingTop: 44, paddingBottom: 28, borderBottom: "2px solid var(--ink)" }}
     >
       <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
@@ -53,20 +53,18 @@ export function Masthead({ stats, issue }: { stats: EditorialStats; issue: strin
             {issue}
           </div>
           <h1
-            className="font-serif"
+            className="font-display"
             style={{
               margin: 0,
               fontSize: "clamp(44px, 6vw, 78px)",
-              lineHeight: 0.96,
+              lineHeight: 1.08,
               letterSpacing: "-0.02em",
-              fontWeight: 500,
-              fontStyle: "italic",
               color: "var(--ink)",
             }}
           >
-            어제 만든 코드,
+            삽질은 짧게,
             <br />
-            오늘 읽는 기록.
+            기록은 길게<span style={{ color: "var(--accent)" }}>.</span>
           </h1>
           <p
             style={{
@@ -77,12 +75,12 @@ export function Masthead({ stats, issue }: { stats: EditorialStats; issue: strin
               color: "var(--ink-2)",
             }}
           >
-            운영하다 막힌 자리, 다시 짜본 구조, 한참 뒤에야 보이는 것들. 잊어버리기 전에 적어두는 작업 일지.
+            프론트엔드부터 서버 인프라까지, 직접 부딪힌 문제와 풀어낸 과정을 남깁니다.
           </p>
         </div>
 
         <div
-          className="font-serif grid grid-cols-4 gap-6 lg:flex lg:gap-8 lg:text-right"
+          className="font-display grid grid-cols-4 gap-6 lg:flex lg:gap-8 lg:text-right"
           style={{ color: "var(--ink)" }}
         >
           {(
@@ -94,7 +92,7 @@ export function Masthead({ stats, issue }: { stats: EditorialStats; issue: strin
             ] as const
           ).map(([k, v]) => (
             <div key={k}>
-              <div style={{ fontSize: 32, fontWeight: 500 }}>{v}</div>
+              <div style={{ fontSize: 32, letterSpacing: "-0.03em" }}>{v}</div>
               <div className="tiny-label" style={{ color: "var(--ink-3)", marginTop: 4 }}>
                 {k}
               </div>
@@ -112,7 +110,7 @@ export function FeatureLead({ post, author = "최정환" }: { post: EditorialPos
     <article className="flex flex-col">
       <div className="flex items-center gap-3" style={{ marginBottom: 18 }}>
         <span className="tiny-label" style={{ color, fontWeight: 700, letterSpacing: "0.14em" }}>
-          이번 주 글
+          최신 글
         </span>
         <span style={{ flex: 1, height: 1, background: "var(--ink)" }} />
         <span className="tiny-label" style={{ color: "var(--ink-3)" }}>
@@ -146,13 +144,12 @@ export function FeatureLead({ post, author = "최정환" }: { post: EditorialPos
 
       <Link href={`/blogs/post/${post.id}`} className="group">
         <h2
-          className="font-serif group-hover:underline"
+          className="font-display group-hover:underline"
           style={{
             margin: "0 0 14px",
             fontSize: "clamp(30px, 3.6vw, 46px)",
             lineHeight: 1.04,
             letterSpacing: "-0.02em",
-            fontWeight: 500,
             color: "var(--ink)",
             textDecorationThickness: 1,
           }}
@@ -163,14 +160,12 @@ export function FeatureLead({ post, author = "최정환" }: { post: EditorialPos
 
       {post.subtitle && (
         <p
-          className="font-serif"
+          className="font-display"
           style={{
             margin: "0 0 22px",
             fontSize: 19,
             lineHeight: 1.45,
             color: "var(--ink-2)",
-            fontStyle: "italic",
-            fontWeight: 300,
           }}
         >
           {post.subtitle}
@@ -214,13 +209,12 @@ export function FeatureSide({ post }: { post: EditorialPost }) {
       </span>
       <Link href={`/blogs/post/${post.id}`} className="group block">
         <h3
-          className="font-serif group-hover:underline"
+          className="font-display group-hover:underline"
           style={{
             margin: "10px 0 8px",
             fontSize: 22,
             lineHeight: 1.15,
             letterSpacing: "-0.01em",
-            fontWeight: 500,
             color: "var(--ink)",
           }}
         >
@@ -251,8 +245,8 @@ export function ListItemEditorial({ post, num }: { post: EditorialPost; num: num
       }}
     >
       <div
-        className="font-serif"
-        style={{ fontSize: 22, color: "var(--ink-4)", fontStyle: "italic" }}
+        className="font-display"
+        style={{ fontSize: 22, color: "var(--ink-4)" }}
       >
         {String(num).padStart(2, "0")}
       </div>
@@ -268,12 +262,11 @@ export function ListItemEditorial({ post, num }: { post: EditorialPost; num: num
         </div>
         <Link href={`/blogs/post/${post.id}`} className="group block">
           <h3
-            className="font-serif group-hover:underline"
+            className="font-display group-hover:underline"
             style={{
               margin: "0 0 6px",
               fontSize: 19,
               lineHeight: 1.2,
-              fontWeight: 500,
               color: "var(--ink)",
             }}
           >
@@ -325,12 +318,10 @@ export function SectionHeader({
     <div className="flex items-baseline justify-between gap-6" style={{ marginBottom: 24 }}>
       <div>
         <h2
-          className="font-serif"
+          className="font-display"
           style={{
             margin: 0,
             fontSize: 28,
-            fontWeight: 500,
-            fontStyle: "italic",
             letterSpacing: "-0.01em",
             color: "var(--ink)",
           }}
@@ -357,23 +348,6 @@ export function SectionHeader({
           {ctaLabel}
         </Link>
       )}
-    </div>
-  );
-}
-
-export function FooterStrip() {
-  return (
-    <div
-      className="flex flex-col gap-2 px-6 py-5 mobile:flex-row mobile:items-center mobile:justify-between mobile:px-14"
-      style={{
-        borderTop: "1px solid var(--rule)",
-        fontSize: 11.5,
-        color: "var(--ink-3)",
-        letterSpacing: "0.04em",
-      }}
-    >
-      <span>© {new Date().getFullYear()} Junglog · Practical notes for web engineering</span>
-      <span>RSS · GitHub · LinkedIn</span>
     </div>
   );
 }

@@ -10,8 +10,8 @@ const MAP: Record<string, string> = {
   Backend: "var(--accent-2)",
   AWS: "var(--accent-4)",
   OS: "var(--accent-5)",
-  DB: "#7a4f2e",
-  DevOps: "#3d6f7a",
+  DB: "var(--accent-7)",
+  DevOps: "var(--accent-8)",
 };
 
 export function categoryColor(name?: string | null): string {

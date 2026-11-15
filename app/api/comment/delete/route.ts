@@ -1,22 +1,20 @@
-import { Request } from "next/dist/compiled/@edge-runtime/primitives/fetch";
 import { NextResponse } from "next/server";
 
+import { authorizeComment } from "@libs/server/authorizeComment";
 import prismaclient from "@libs/server/prismaClient";
 
 export async function POST(req: Request) {
-  const { id } = await req.json();
+  const body = await req.json().catch(() => null);
+  const id = Number(body?.id);
 
   try {
-    if (id) {
-      const comment = await prismaclient.comment.delete({
-        where: { id: +id },
-      });
-      return NextResponse.json(comment);
-    } else {
-      return NextResponse.json({ message: "Comment Not Found" });
-    }
+    const denied = await authorizeComment(id);
+    if (denied) return denied;
+
+    await prismaclient.comment.delete({ where: { id } });
+    return NextResponse.json({ ok: true });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ message: "Failed to delete comment." });
+    return NextResponse.json({ message: "Failed to delete comment." }, { status: 500 });
   }
 }

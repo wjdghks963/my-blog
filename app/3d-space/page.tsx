@@ -1,6 +1,5 @@
 "use client";
 
-import { FooterStrip } from "@domains/home/components/editorial/Editorial";
 import dynamic from "next/dynamic";
 
 const ThreeDModel = dynamic(() => import("@domains/3d/components/ThreeDModel"), {
@@ -22,12 +21,10 @@ const ThreeDModel = dynamic(() => import("@domains/3d/components/ThreeDModel"), 
 
 export default function ThreeDSpacePage() {
   return (
-    <main
-      className="min-h-screen"
-      style={{ background: "var(--paper)", color: "var(--ink)" }}
+    <main style={{ background: "var(--paper)", color: "var(--ink)" }}
     >
       <header
-        className="px-6 mobile:px-14"
+        className="shell-x"
         style={{
           paddingTop: 44,
           paddingBottom: 28,
@@ -38,13 +35,11 @@ export default function ThreeDSpacePage() {
           INTERACTIVE
         </div>
         <h1
-          className="font-serif"
+          className="font-display"
           style={{
             margin: 0,
             fontSize: "clamp(40px, 6vw, 64px)",
             lineHeight: 1,
-            fontWeight: 500,
-            fontStyle: "italic",
             letterSpacing: "-0.02em",
           }}
         >
@@ -63,7 +58,7 @@ export default function ThreeDSpacePage() {
         </p>
       </header>
 
-      <section className="px-6 mobile:px-14" style={{ paddingTop: 32, paddingBottom: 48 }}>
+      <section className="shell-x" style={{ paddingTop: 32, paddingBottom: 48 }}>
         <div
           className="h-[78vh] w-full overflow-hidden"
           style={{
@@ -75,8 +70,6 @@ export default function ThreeDSpacePage() {
           <ThreeDModel />
         </div>
       </section>
-
-      <FooterStrip />
     </main>
   );
 }

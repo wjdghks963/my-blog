@@ -12,7 +12,7 @@ export async function checkOwner() {
 
   const blogOwnerEmail = process.env.MY_EMAIL;
 
-  if (session.user.email !== blogOwnerEmail) {
+  if (!blogOwnerEmail || session.user.email.toLowerCase() !== blogOwnerEmail.toLowerCase()) {
     return NextResponse.json({ ok: false, error: "Forbidden" }, { status: 403 });
   }
 

@@ -3,7 +3,6 @@ import {
   EditorialStats,
   FeatureLead,
   FeatureSide,
-  FooterStrip,
   ListItemEditorial,
   Masthead,
   SectionHeader,
@@ -79,15 +78,6 @@ async function fetchHomeData() {
   }
 }
 
-function issueLabel(date = new Date()) {
-  const start = new Date(2024, 0, 1).getTime();
-  const weeks = Math.max(1, Math.floor((date.getTime() - start) / (7 * 86400000)));
-  const vol = String(Math.floor(weeks / 52) + 1).padStart(2, "0");
-  const issue = String((weeks % 52) + 1).padStart(2, "0");
-  const today = date.toLocaleDateString("ko-KR", { year: "numeric", month: "short", day: "numeric" });
-  return `Vol. ${vol} · Issue ${issue} · ${today}`;
-}
-
 export default async function Page() {
   const { posts, stats } = await fetchHomeData();
 
@@ -97,12 +87,12 @@ export default async function Page() {
   const recent = posts.slice(3, 11);
 
   return (
-    <main className="min-h-screen" style={{ background: "var(--paper)", color: "var(--ink)" }}>
-      <Masthead stats={stats} issue={issueLabel()} />
+    <main style={{ background: "var(--paper)", color: "var(--ink)" }}>
+      <Masthead stats={stats} issue="Junglog · Web Dev & Beyond" />
 
       {lead && (
         <div
-          className="grid gap-8 px-6 mobile:px-14 lg:grid-cols-[2fr_1fr_1fr]"
+          className="grid gap-8 shell-x lg:grid-cols-[2fr_1fr_1fr]"
           style={{ paddingTop: 32, paddingBottom: 32, borderBottom: "1px solid var(--rule)" }}
         >
           <FeatureLead post={lead} />
@@ -112,7 +102,7 @@ export default async function Page() {
       )}
 
       {recent.length > 0 && (
-        <div className="px-6 mobile:px-14" style={{ paddingTop: 32, paddingBottom: 48 }}>
+        <div className="shell-x" style={{ paddingTop: 32, paddingBottom: 48 }}>
           <SectionHeader title="Recent" subtitle="최근 작성한 글" href="/blogs" />
           <div
             className="grid gap-x-12"
@@ -124,8 +114,6 @@ export default async function Page() {
           </div>
         </div>
       )}
-
-      <FooterStrip />
     </main>
   );
 }

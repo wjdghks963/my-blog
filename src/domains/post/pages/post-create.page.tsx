@@ -62,7 +62,7 @@ export default function PostCreatePage() {
   });
 
   const onSubmit = (data: PostFormData) => {
-    if (session?.user?.email !== process.env.MY_EMAIL) {
+    if (!session?.user?.isOwner) {
       if (process.env.NODE_ENV === "production") {
         alert("이메일을 확인해주세요.");
         return;
@@ -199,7 +199,7 @@ export default function PostCreatePage() {
         </button>
       </form>
 
-      {session?.user?.email === process.env.MY_EMAIL && <ImageForm />}
+      {session?.user?.isOwner && <ImageForm />}
     </>
   );
 }

@@ -1,38 +1,25 @@
-import ChromeBar from "@shared/components/NavBar/ChromeBar";
+import SiteShell from "@shared/components/shell/SiteShell";
 import Provider from "@shared/components/Provider";
 import JsonLd, { getOrganizationSchema, getWebSiteSchema } from "@shared/components/JsonLd";
 import { Metadata } from "next";
-import { Inter_Tight, JetBrains_Mono, Noto_Sans_KR, Source_Serif_4 } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import React from "react";
 
 import "@styles/globals.css";
 
-const bodyFont = Noto_Sans_KR({
-  subsets: ["latin"],
+// 본문·제목 공용: Pretendard Variable (한글/라틴 한 벌)
+const sansFont = localFont({
+  src: "../node_modules/pretendard/dist/web/variable/woff2/PretendardVariable.woff2",
   variable: "--font-sans",
-  weight: ["400", "500", "700"],
+  weight: "45 920",
   display: "swap",
 });
 
-const displayFont = Inter_Tight({
-  subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-const serifFont = Source_Serif_4({
-  subsets: ["latin"],
-  variable: "--font-serif-face",
-  weight: ["300", "400", "500", "600"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
-
-const monoFont = JetBrains_Mono({
+// 라벨·코드·숫자: Geist Mono
+const monoFont = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono-face",
-  weight: ["400", "500"],
   display: "swap",
 });
 
@@ -68,17 +55,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="ko"
-      className={`${bodyFont.variable} ${displayFont.variable} ${serifFont.variable} ${monoFont.variable}`}
+      className={`${sansFont.variable} ${monoFont.variable}`}
       suppressHydrationWarning
     >
       <head>
         <JsonLd data={getWebSiteSchema()} />
         <JsonLd data={getOrganizationSchema()} />
       </head>
-      <body className="antialiased">
+      <body id="top" className="antialiased">
         <Provider>
-          <ChromeBar />
-          {children}
+          <SiteShell>{children}</SiteShell>
         </Provider>
       </body>
     </html>

@@ -9,7 +9,7 @@ export default function Profile() {
 
   return (
     <main
-      className="flex min-h-[calc(100vh-64px)] items-center justify-center px-6"
+      className="flex min-h-[70vh] items-center justify-center px-6"
       style={{ background: "var(--paper)", color: "var(--ink)" }}
     >
       <div
@@ -29,10 +29,9 @@ export default function Profile() {
           <div className="flex flex-col items-center gap-5">
             <UserImageBox src={`${session.user?.image}`} />
             <span
-              className="font-serif"
+              className="font-display"
               style={{
                 fontSize: 22,
-                fontWeight: 500,
                 letterSpacing: "-0.01em",
                 color: "var(--ink)",
               }}
@@ -54,18 +53,16 @@ export default function Profile() {
         ) : (
           <div className="flex flex-col items-center gap-4">
             <p
-              className="font-serif"
+              className="font-display"
               style={{
                 fontSize: 22,
-                fontStyle: "italic",
-                fontWeight: 500,
                 color: "var(--ink)",
               }}
             >
               로그인 해주세요
             </p>
             <button
-              onClick={() => signIn()}
+              onClick={() => signIn("github")}
               style={{
                 background: "var(--ink)",
                 color: "var(--paper)",

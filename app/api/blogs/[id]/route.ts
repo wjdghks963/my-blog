@@ -15,7 +15,11 @@ export async function GET(request: Request) {
   const id = params[params.length - 1];
 
   try {
-    const postId = +id!;
+    const postId = Number(id);
+
+    if (!Number.isInteger(postId) || postId <= 0) {
+      return NextResponse.json({ ok: false, message: "Invalid Post ID" }, { status: 400 });
+    }
 
     const query = prismaclient.$queryRaw`
                 SELECT
@@ -35,7 +39,6 @@ export async function GET(request: Request) {
                       'id', c.id,
                       'content', c.content,
                       'user', json_build_object(
-                        'email', u.email,
                         'name', u.name,
                         'image', u.image
                       )
@@ -97,6 +100,6 @@ export async function GET(request: Request) {
     });
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ ok: false, message: `error occurred ${err}` });
+    return NextResponse.json({ ok: false, message: "Internal Server Error" }, { status: 500 });
   }
 }

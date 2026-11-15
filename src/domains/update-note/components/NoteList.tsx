@@ -21,7 +21,6 @@ export default function NoteList({ content }: { content: string }) {
         }}
       />
       <span
-        className="font-serif"
         style={{ fontSize: 15, lineHeight: 1.6, color: "var(--ink-2)" }}
       >
         {content}

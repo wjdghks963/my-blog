@@ -1,12 +1,10 @@
-import { PostStatus } from "@types";
-import { Request } from "next/dist/compiled/@edge-runtime/primitives/fetch";
 import { NextResponse } from "next/server";
 
 import { RegImageSrc } from "@libs/server/RegImageSrc";
 import prismaclient from "@libs/server/prismaClient";
 
 interface Params {
-  status: PostStatus;
+  status: string;
 }
 
 export async function GET(_: Request, context: { params: Promise<Params> }) {
@@ -42,7 +40,7 @@ export async function GET(_: Request, context: { params: Promise<Params> }) {
 
         return NextResponse.json({ json: popularPostsJson });
       } catch (e) {
-        return NextResponse.json({ err: e });
+        return NextResponse.json({ err: "Internal Server Error" }, { status: 500 });
       }
     }
 
@@ -76,7 +74,7 @@ export async function GET(_: Request, context: { params: Promise<Params> }) {
 
         return NextResponse.json({ json: recentPostsJson });
       } catch (e) {
-        return NextResponse.json({ err: e });
+        return NextResponse.json({ err: "Internal Server Error" }, { status: 500 });
       }
     }
     default: {

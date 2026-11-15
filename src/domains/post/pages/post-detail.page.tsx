@@ -27,17 +27,15 @@ export default function PostDetailPage({ postData }: Props) {
   const catColor = categoryColor(postData.category);
 
   return (
-    <main
-      className="min-h-screen"
-      style={{ background: "var(--paper)", color: "var(--ink)" }}
+    <main style={{ background: "var(--paper)", color: "var(--ink)" }}
     >
       <ReadingProgressBar />
 
       <div
-        className="mx-auto grid gap-8 px-6 py-12 mobile:px-14 lg:grid-cols-[200px_minmax(0,680px)_220px] lg:justify-center"
+        className="shell-x grid gap-8 py-12 xl:grid-cols-[minmax(0,680px)_220px] xl:justify-center 2xl:grid-cols-[200px_minmax(0,680px)_220px]"
       >
         {/* Left meta column */}
-        <aside style={{ alignSelf: "start" }} className="hidden lg:block">
+        <aside style={{ alignSelf: "start" }} className="hidden 2xl:block">
           <div className="tiny-label" style={{ color: "var(--ink-3)", marginBottom: 8 }}>
             이 글
           </div>
@@ -110,13 +108,12 @@ export default function PostDetailPage({ postData }: Props) {
             </div>
           )}
           <h1
-            className="font-serif"
+            className="font-display"
             style={{
               margin: 0,
               fontSize: "clamp(32px, 5vw, 48px)",
               lineHeight: 1.05,
               letterSpacing: "-0.02em",
-              fontWeight: 500,
               color: "var(--ink)",
             }}
           >
@@ -124,14 +121,11 @@ export default function PostDetailPage({ postData }: Props) {
           </h1>
           {postData.description && (
             <p
-              className="font-serif"
               style={{
                 margin: "16px 0 28px",
-                fontSize: 21,
-                lineHeight: 1.4,
-                fontStyle: "italic",
+                fontSize: 19,
+                lineHeight: 1.55,
                 color: "var(--ink-2)",
-                fontWeight: 300,
               }}
             >
               {postData.description}
@@ -166,7 +160,7 @@ export default function PostDetailPage({ postData }: Props) {
         </article>
 
         {/* Right TOC column */}
-        <div className="hidden lg:block">
+        <div className="hidden xl:block">
           <EditorialToc markdown={postData.content} />
         </div>
       </div>
