@@ -10,5 +10,5 @@ export async function getSessionEmail(): Promise<string | null> {
 
 export function isOwnerEmail(email: string | null): boolean {
   const ownerEmail = process.env.MY_EMAIL;
-  return !!email && !!ownerEmail && email.toLowerCase() === ownerEmail.toLowerCase();
+  return !!email && !!ownerEmail && email.trim().toLowerCase() === ownerEmail.trim().toLowerCase();
 }
