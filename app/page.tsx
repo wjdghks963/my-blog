@@ -3,7 +3,6 @@ import {
   EditorialStats,
   FeatureLead,
   FeatureSide,
-  FooterStrip,
   ListItemEditorial,
   Masthead,
   SectionHeader,
@@ -97,12 +96,12 @@ export default async function Page() {
   const recent = posts.slice(3, 11);
 
   return (
-    <main className="min-h-screen" style={{ background: "var(--paper)", color: "var(--ink)" }}>
+    <main style={{ background: "var(--paper)", color: "var(--ink)" }}>
       <Masthead stats={stats} issue={issueLabel()} />
 
       {lead && (
         <div
-          className="grid gap-8 px-6 mobile:px-14 lg:grid-cols-[2fr_1fr_1fr]"
+          className="grid gap-8 shell-x lg:grid-cols-[2fr_1fr_1fr]"
           style={{ paddingTop: 32, paddingBottom: 32, borderBottom: "1px solid var(--rule)" }}
         >
           <FeatureLead post={lead} />
@@ -112,7 +111,7 @@ export default async function Page() {
       )}
 
       {recent.length > 0 && (
-        <div className="px-6 mobile:px-14" style={{ paddingTop: 32, paddingBottom: 48 }}>
+        <div className="shell-x" style={{ paddingTop: 32, paddingBottom: 48 }}>
           <SectionHeader title="Recent" subtitle="최근 작성한 글" href="/blogs" />
           <div
             className="grid gap-x-12"
@@ -124,8 +123,6 @@ export default async function Page() {
           </div>
         </div>
       )}
-
-      <FooterStrip />
     </main>
   );
 }

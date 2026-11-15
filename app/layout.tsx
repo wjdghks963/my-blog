@@ -1,4 +1,4 @@
-import ChromeBar from "@shared/components/NavBar/ChromeBar";
+import SiteShell from "@shared/components/shell/SiteShell";
 import Provider from "@shared/components/Provider";
 import JsonLd, { getOrganizationSchema, getWebSiteSchema } from "@shared/components/JsonLd";
 import { Metadata } from "next";
@@ -75,10 +75,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd data={getWebSiteSchema()} />
         <JsonLd data={getOrganizationSchema()} />
       </head>
-      <body className="antialiased">
+      <body id="top" className="antialiased">
         <Provider>
-          <ChromeBar />
-          {children}
+          <SiteShell>{children}</SiteShell>
         </Provider>
       </body>
     </html>

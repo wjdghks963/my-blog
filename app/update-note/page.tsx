@@ -1,4 +1,3 @@
-import { FooterStrip } from "@domains/home/components/editorial/Editorial";
 import NoteList from "@domains/update-note/components/NoteList";
 import NoteLists from "@domains/update-note/components/NoteLists";
 import NoteTitle from "@domains/update-note/components/NoteTitle";
@@ -76,12 +75,10 @@ const updateData = [
 
 export default function UpdateNote() {
   return (
-    <main
-      className="min-h-screen"
-      style={{ background: "var(--paper)", color: "var(--ink)" }}
+    <main style={{ background: "var(--paper)", color: "var(--ink)" }}
     >
       <header
-        className="px-6 mobile:px-14"
+        className="shell-x"
         style={{
           paddingTop: 44,
           paddingBottom: 28,
@@ -119,7 +116,7 @@ export default function UpdateNote() {
       </header>
 
       <section
-        className="px-6 mobile:px-14"
+        className="shell-x"
         style={{ paddingTop: 32, paddingBottom: 48 }}
       >
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-x-16">
@@ -142,8 +139,6 @@ export default function UpdateNote() {
           ))}
         </div>
       </section>
-
-      <FooterStrip />
     </main>
   );
 }

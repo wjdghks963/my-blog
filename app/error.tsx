@@ -10,7 +10,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
 
   return (
     <main
-      className="flex min-h-[calc(100vh-64px)] items-center justify-center px-6"
+      className="flex min-h-[70vh] items-center justify-center px-6"
       style={{ background: "var(--paper)", color: "var(--ink)" }}
     >
       <div className="w-full max-w-xl text-center">

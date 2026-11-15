@@ -4,7 +4,6 @@ import CategoryNavBar from "@domains/post/components/CategoryNavBar";
 import InfiniteBlogs from "@domains/post/components/InfiniteBlogs";
 import { SearchBar } from "@domains/post/components/SearchBar";
 import TagNavBar from "@domains/post/components/TagNavBar";
-import { FooterStrip } from "@domains/home/components/editorial/Editorial";
 import React, { Suspense } from "react";
 
 interface PostListPageProps {
@@ -14,12 +13,10 @@ interface PostListPageProps {
 
 export default function PostListPage({ tags, categories }: PostListPageProps) {
   return (
-    <main
-      className="min-h-screen"
-      style={{ background: "var(--paper)", color: "var(--ink)" }}
+    <main style={{ background: "var(--paper)", color: "var(--ink)" }}
     >
       <header
-        className="px-6 mobile:px-14"
+        className="shell-x"
         style={{
           paddingTop: 44,
           paddingBottom: 28,
@@ -57,7 +54,7 @@ export default function PostListPage({ tags, categories }: PostListPageProps) {
       </header>
 
       <section
-        className="px-6 mobile:px-14"
+        className="shell-x"
         style={{ paddingTop: 20, paddingBottom: 20, borderBottom: "1px solid var(--rule)" }}
       >
         <div className="tiny-label" style={{ color: "var(--ink-3)", marginBottom: 10 }}>
@@ -69,7 +66,7 @@ export default function PostListPage({ tags, categories }: PostListPageProps) {
       </section>
 
       <section
-        className="px-6 mobile:px-14"
+        className="shell-x"
         style={{ paddingTop: 20, paddingBottom: 20, borderBottom: "1px solid var(--rule)" }}
       >
         <div className="tiny-label" style={{ color: "var(--ink-3)", marginBottom: 10 }}>
@@ -79,7 +76,7 @@ export default function PostListPage({ tags, categories }: PostListPageProps) {
       </section>
 
       <section
-        className="px-6 mobile:px-14"
+        className="shell-x"
         style={{ paddingTop: 24, paddingBottom: 24, borderBottom: "1px solid var(--rule)" }}
       >
         <Suspense
@@ -94,7 +91,7 @@ export default function PostListPage({ tags, categories }: PostListPageProps) {
         </Suspense>
       </section>
 
-      <section className="px-6 mobile:px-14" style={{ paddingTop: 32, paddingBottom: 48 }}>
+      <section className="shell-x" style={{ paddingTop: 32, paddingBottom: 48 }}>
         <Suspense
           fallback={
             <div className="grid grid-cols-1 gap-x-12 lg:grid-cols-2">
@@ -115,8 +112,6 @@ export default function PostListPage({ tags, categories }: PostListPageProps) {
           <InfiniteBlogs />
         </Suspense>
       </section>
-
-      <FooterStrip />
     </main>
   );
 }

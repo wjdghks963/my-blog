@@ -44,7 +44,7 @@ function shortViews(n: number) {
 export function Masthead({ stats, issue }: { stats: EditorialStats; issue: string }) {
   return (
     <div
-      className="px-6 mobile:px-14"
+      className="shell-x"
       style={{ paddingTop: 44, paddingBottom: 28, borderBottom: "2px solid var(--ink)" }}
     >
       <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
@@ -357,23 +357,6 @@ export function SectionHeader({
           {ctaLabel}
         </Link>
       )}
-    </div>
-  );
-}
-
-export function FooterStrip() {
-  return (
-    <div
-      className="flex flex-col gap-2 px-6 py-5 mobile:flex-row mobile:items-center mobile:justify-between mobile:px-14"
-      style={{
-        borderTop: "1px solid var(--rule)",
-        fontSize: 11.5,
-        color: "var(--ink-3)",
-        letterSpacing: "0.04em",
-      }}
-    >
-      <span>© {new Date().getFullYear()} Junglog · Practical notes for web engineering</span>
-      <span>RSS · GitHub · LinkedIn</span>
     </div>
   );
 }

@@ -51,7 +51,7 @@ export default function EditorialToc({ markdown }: { markdown: string }) {
   if (toc.length === 0) return null;
 
   return (
-    <aside style={{ alignSelf: "start", position: "sticky", top: 88 }}>
+    <aside style={{ alignSelf: "start", position: "sticky", top: "calc(var(--topbar-h) + 24px)" }}>
       <div className="tiny-label" style={{ color: "var(--ink-3)", marginBottom: 12 }}>
         목차
       </div>

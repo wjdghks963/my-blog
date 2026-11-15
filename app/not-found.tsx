@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <main
-      className="flex min-h-[calc(100vh-64px)] flex-col items-center justify-center px-6 text-center"
+      className="flex min-h-[70vh] flex-col items-center justify-center px-6 text-center"
       style={{ background: "var(--paper)", color: "var(--ink)" }}
     >
       <div className="tiny-label" style={{ color: "var(--accent)", marginBottom: 14 }}>

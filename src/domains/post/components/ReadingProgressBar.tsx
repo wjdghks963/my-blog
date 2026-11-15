@@ -20,7 +20,7 @@ export default function ReadingProgressBar() {
     <div
       style={{
         position: "sticky",
-        top: 0,
+        top: "var(--topbar-h)",
         height: 2,
         background: "var(--rule-2)",
         zIndex: 4,

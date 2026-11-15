@@ -27,6 +27,12 @@
   --gutter: 24px;
   --gutter-lg: 48px;
 
+  /* ===== Site shell ===== */
+  --sidebar-w: 232px;
+  --topbar-h: 56px; /* lg 이상에서는 상단 바가 없으므로 0 */
+  --content-max: 1120px;
+  --shell-gutter: 20px;
+
   /* ===== Legacy aliases (keep existing pages working) ===== */
   --bg-base: var(--paper);
   --bg-elevated: var(--paper);
@@ -71,6 +77,98 @@
 html,
 body {
   min-height: 100%;
+}
+
+html {
+  scroll-padding-top: calc(var(--topbar-h) + 16px);
+}
+
+@media (min-width: 560px) {
+  :root {
+    --shell-gutter: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --topbar-h: 0px;
+    --shell-gutter: 48px;
+  }
+}
+
+/* ===== Site shell: 사이드바(lg+) / 상단 바(<lg) + 본문 ===== */
+.site-shell {
+  min-height: 100vh;
+}
+
+.site-main {
+  display: flex;
+  min-width: 0;
+  min-height: calc(100vh - var(--topbar-h));
+  flex-direction: column;
+}
+
+.site-content {
+  flex: 1 0 auto;
+}
+
+.site-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  flex-direction: column;
+  padding: 28px 24px 24px;
+  border-right: 1px solid var(--rule);
+  background: var(--paper);
+  overflow-y: auto;
+}
+
+.site-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--topbar-h);
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+}
+
+.site-drawer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding-top: 4px;
+  padding-bottom: 16px;
+  background: var(--paper);
+  border-bottom: 2px solid var(--ink);
+}
+
+.site-drawer-backdrop {
+  position: fixed;
+  inset: var(--topbar-h) 0 0 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.site-nav-link:hover {
+  color: var(--ink) !important;
+}
+
+@media (min-width: 1024px) {
+  .site-shell {
+    display: grid;
+    grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  }
+}
+
+/*
+ * 섹션 좌우 여백. 구분선은 본문 컬럼 끝까지 가고,
+ * 내용만 --content-max 폭으로 가운데 정렬된다.
+ */
+.shell-x {
+  padding-left: max(var(--shell-gutter), calc((100% - var(--content-max)) / 2));
+  padding-right: max(var(--shell-gutter), calc((100% - var(--content-max)) / 2));
 }
 
 body {
