@@ -29,10 +29,9 @@ export default function Profile() {
           <div className="flex flex-col items-center gap-5">
             <UserImageBox src={`${session.user?.image}`} />
             <span
-              className="font-serif"
+              className="font-display"
               style={{
                 fontSize: 22,
-                fontWeight: 500,
                 letterSpacing: "-0.01em",
                 color: "var(--ink)",
               }}
@@ -54,11 +53,9 @@ export default function Profile() {
         ) : (
           <div className="flex flex-col items-center gap-4">
             <p
-              className="font-serif"
+              className="font-display"
               style={{
                 fontSize: 22,
-                fontStyle: "italic",
-                fontWeight: 500,
                 color: "var(--ink)",
               }}
             >

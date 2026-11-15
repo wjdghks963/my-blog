@@ -23,8 +23,8 @@ export default function Certificate({
       }}
     >
       <p
-        className="font-serif"
-        style={{ fontSize: 18, fontWeight: 500, color: "var(--ink)", margin: 0 }}
+        className="font-display"
+        style={{ fontSize: 18, color: "var(--ink)", margin: 0 }}
       >
         {course}
       </p>

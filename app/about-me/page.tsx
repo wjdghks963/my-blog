@@ -39,10 +39,9 @@ const NpmDownloads: React.FC = () => {
 
 export default function Blogs() {
   const sectionClass = "border-b border-soft pb-10 last:border-b-0";
-  const sectionTitleClass = "font-serif italic";
+  const sectionTitleClass = "font-display";
   const sectionTitleStyle = {
     fontSize: 28,
-    fontWeight: 500,
     letterSpacing: "-0.01em",
     color: "var(--ink)",
     margin: 0,
@@ -79,13 +78,11 @@ export default function Blogs() {
           ABOUT
         </div>
         <h1
-          className="font-serif"
+          className="font-display"
           style={{
             margin: 0,
             fontSize: "clamp(40px, 6vw, 64px)",
             lineHeight: 1,
-            fontWeight: 500,
-            fontStyle: "italic",
             letterSpacing: "-0.02em",
           }}
         >

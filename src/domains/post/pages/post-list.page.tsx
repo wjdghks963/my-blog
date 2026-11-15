@@ -27,13 +27,11 @@ export default function PostListPage({ tags, categories }: PostListPageProps) {
           ARCHIVE
         </div>
         <h1
-          className="font-serif"
+          className="font-display"
           style={{
             margin: 0,
             fontSize: "clamp(40px, 6vw, 64px)",
             lineHeight: 1,
-            fontWeight: 500,
-            fontStyle: "italic",
             letterSpacing: "-0.02em",
             color: "var(--ink)",
           }}

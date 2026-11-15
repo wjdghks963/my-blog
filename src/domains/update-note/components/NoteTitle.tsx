@@ -4,11 +4,9 @@ export default function NoteTitle({ year, month }: { year: string; month: string
   return (
     <div className="flex items-baseline gap-3" style={{ marginBottom: 14 }}>
       <span
-        className="font-serif"
+        className="font-display"
         style={{
           fontSize: 28,
-          fontStyle: "italic",
-          fontWeight: 500,
           letterSpacing: "-0.01em",
           color: "var(--ink)",
         }}

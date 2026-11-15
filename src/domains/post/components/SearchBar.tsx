@@ -106,10 +106,9 @@ export function SearchBar() {
           onKeyDown={handleKeyDown}
           placeholder="제목 또는 내용으로 검색"
           autoComplete="off"
-          className="font-serif flex-1 bg-transparent focus:outline-none"
+          className="flex-1 bg-transparent focus:outline-none"
           style={{
             fontSize: 22,
-            fontStyle: "italic",
             fontWeight: 500,
             color: "var(--ink)",
           }}

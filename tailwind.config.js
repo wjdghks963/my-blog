@@ -16,10 +16,11 @@ module.exports = {
       },
 
       fontFamily: {
-        "roboto-regular": ["var(--font-sans)", "sans-serif"],
-        "roboto-bold": ["var(--font-display)", "var(--font-sans)", "sans-serif"],
-        display: ["var(--font-display)", "var(--font-sans)", "sans-serif"],
-        sans: ["var(--font-sans)", "sans-serif"],
+        "roboto-regular": ["var(--font-stack-sans)"],
+        "roboto-bold": ["var(--font-stack-sans)"],
+        display: ["var(--font-stack-sans)"],
+        sans: ["var(--font-stack-sans)"],
+        mono: ["var(--font-mono)"],
       },
 
       screens: {

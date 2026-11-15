@@ -108,13 +108,12 @@ export default function PostDetailPage({ postData }: Props) {
             </div>
           )}
           <h1
-            className="font-serif"
+            className="font-display"
             style={{
               margin: 0,
               fontSize: "clamp(32px, 5vw, 48px)",
               lineHeight: 1.05,
               letterSpacing: "-0.02em",
-              fontWeight: 500,
               color: "var(--ink)",
             }}
           >
@@ -122,14 +121,12 @@ export default function PostDetailPage({ postData }: Props) {
           </h1>
           {postData.description && (
             <p
-              className="font-serif"
+              className="font-display"
               style={{
                 margin: "16px 0 28px",
                 fontSize: 21,
                 lineHeight: 1.4,
-                fontStyle: "italic",
                 color: "var(--ink-2)",
-                fontWeight: 300,
               }}
             >
               {postData.description}

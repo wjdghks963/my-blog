@@ -36,13 +36,12 @@ export default function MiniPost({ data }: { data: PostWithId }) {
 
       <Link href={href} prefetch={false} className="group block">
         <h3
-          className="font-serif group-hover:underline"
+          className="font-display group-hover:underline"
           style={{
             margin: "0 0 8px",
             fontSize: 22,
             lineHeight: 1.18,
             letterSpacing: "-0.01em",
-            fontWeight: 500,
             color: "var(--ink)",
             textDecorationThickness: 1,
           }}

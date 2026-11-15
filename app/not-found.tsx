@@ -10,13 +10,11 @@ export default function NotFound() {
         ERROR · 404
       </div>
       <h1
-        className="font-serif"
+        className="font-display"
         style={{
           margin: 0,
           fontSize: "clamp(64px, 10vw, 120px)",
           lineHeight: 1,
-          fontWeight: 500,
-          fontStyle: "italic",
           letterSpacing: "-0.02em",
         }}
       >

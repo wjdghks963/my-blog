@@ -120,11 +120,9 @@ export default function InfiniteBlogs() {
               height={96}
             />
             <h3
-              className="font-serif"
+              className="font-display"
               style={{
                 fontSize: 28,
-                fontStyle: "italic",
-                fontWeight: 500,
                 color: "var(--ink)",
                 margin: 0,
               }}

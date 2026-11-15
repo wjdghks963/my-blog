@@ -40,12 +40,11 @@ function NeighborLink({
         {label}
       </div>
       <div
-        className="font-serif group-hover:underline"
+        className="font-display group-hover:underline"
         style={{
           fontSize: 18,
           lineHeight: 1.25,
           letterSpacing: "-0.01em",
-          fontWeight: 500,
           color: "var(--ink)",
           textDecorationThickness: 1,
         }}

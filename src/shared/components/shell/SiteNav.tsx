@@ -55,8 +55,8 @@ function Brand() {
   return (
     <Link
       href="/"
-      className="font-serif"
-      style={{ fontSize: 21, fontWeight: 600, letterSpacing: "-0.01em", color: "var(--ink)" }}
+      className="font-display"
+      style={{ fontSize: 21, letterSpacing: "-0.01em", color: "var(--ink)" }}
     >
       Junglog<span style={{ color: "var(--accent)" }}>.</span>
     </Link>
